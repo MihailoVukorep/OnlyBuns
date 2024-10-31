@@ -1,0 +1,5 @@
+psql
+CREATE USER postgres WITH PASSWORD 'root'; 
+CREATE DATABASE jpa OWNER postgres; 
+GRANT ALL PRIVILEGES ON DATABASE jpa TO postgres; 
+\du
