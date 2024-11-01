@@ -23,11 +23,11 @@ public class AccountController {
     @GetMapping(value = "/all")
     public ResponseEntity<List<AccountDTO>> getAllAccounts() {
 
-        List<Account> students = accountService.findAll();
+        List<Account> accounts = accountService.findAll();
 
         // convert students to DTOs
         List<AccountDTO> accountDTOS = new ArrayList<>();
-        for (Account account : students) {
+        for (Account account : accounts) {
             accountDTOS.add(new AccountDTO(account));
         }
 
