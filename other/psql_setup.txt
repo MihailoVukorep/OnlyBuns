@@ -1,3 +1,4 @@
+sudo -iu postgres
 psql
 CREATE USER postgres WITH PASSWORD 'root'; 
 CREATE DATABASE jpa OWNER postgres; 
