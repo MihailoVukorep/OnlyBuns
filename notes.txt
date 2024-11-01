@@ -1,0 +1,16 @@
+# create user & database
+sudo -iu postgres
+psql
+CREATE USER postgres WITH PASSWORD 'root'; 
+CREATE DATABASE jpa OWNER postgres; 
+GRANT ALL PRIVILEGES ON DATABASE jpa TO postgres; 
+\du
+
+
+# list database
+sudo -iu postgres
+psql
+\l              # list databases
+\c <dbname>     # switch context to database
+\dt             # list tables
+SELECT * FROM table;
