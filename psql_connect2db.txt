@@ -1,0 +1,6 @@
+sudo -iu postgres
+psql
+\l              # list databases
+\c <dbname>     # switch context to database
+\dt             # list tables
+SELECT * FROM table;
