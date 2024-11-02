@@ -30,13 +30,12 @@
 }
 
 .account table {
-    
     display: inline-block;
     overflow: auto;
-    width: 350px;
-    height: 180px;
+    width: 290px;
+    height: 160px;
     max-width: 290px;
-    max-height: 155px;
+    max-height: 160px;
     font-size: medium;
     border: 1px dashed white;
     padding: 3px;
