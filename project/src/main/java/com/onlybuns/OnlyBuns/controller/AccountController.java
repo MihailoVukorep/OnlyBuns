@@ -14,13 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "api/accounts")
 public class AccountController {
 
     @Autowired
     private AccountService accountService;
 
-    @GetMapping(value = "/all")
+    @GetMapping(value = "api/accounts/all")
     public ResponseEntity<List<AccountDTO>> getAllAccounts() {
 
         List<Account> accounts = accountService.findAll();
@@ -32,15 +31,5 @@ public class AccountController {
         }
 
         return new ResponseEntity<>(accountDTOS, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/create")
-    public ResponseEntity<Account> createAccount() {
-
-        Account account = new Account("pera", "peric", "peraperic123");
-
-        accountService.save(account);
-
-        return new ResponseEntity<>(account, HttpStatus.OK);
     }
 }

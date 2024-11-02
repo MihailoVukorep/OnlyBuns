@@ -1,11 +1,13 @@
 package com.onlybuns.OnlyBuns.configuration;
 
 import com.onlybuns.OnlyBuns.model.Account;
+import com.onlybuns.OnlyBuns.model.AccountRole;
 import com.onlybuns.OnlyBuns.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Configuration
@@ -17,7 +19,17 @@ public class DatabaseConfiguration {
     @Bean
     public boolean instantiate() {
 
-        Account account = new Account("peraperic", "pera", "peric");
+        Account account = new Account(
+                "rope",
+                "pera@gmail.com",
+                "123",
+                "pera",
+                "peric",
+                LocalDate.now(),
+                "/avatars/default.jpg",
+                "test account",
+                AccountRole.USER
+        );
 
         repositoryAccount.save(account);
 

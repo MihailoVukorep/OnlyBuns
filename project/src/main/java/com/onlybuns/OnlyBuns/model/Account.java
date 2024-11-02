@@ -1,21 +1,33 @@
 package com.onlybuns.OnlyBuns.model;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import java.time.LocalDate;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Table(name = "accounts")
 public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "userName", nullable = false)
+    @Column(name = "userName", nullable = false, unique = true)
     private String userName;
+
+    @Column(unique = true)
+    private String mailAddress;
+
+    @Column
+    private String password;
 
     @Column(name = "firstName", nullable = false)
     private String firstName;
@@ -23,55 +35,28 @@ public class Account {
     @Column(name = "lastName", nullable = false)
     private String lastName;
 
-    public Account() {
+    @Temporal(TemporalType.DATE)
+    @Column
+    private LocalDate dateOfBirth;
 
-    }
+    @Column
+    private String profilePicture;
 
-    public Account(String userName, String firstName, String lastName) {
+    @Column
+    private String description;
+
+    @Column
+    private AccountRole accountRole;
+
+    public Account(String userName, String mailAddress, String password, String firstName, String lastName, LocalDate dateOfBirth, String profilePicture, String description, AccountRole accountRole) {
         this.userName = userName;
+        this.mailAddress = mailAddress;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    @Override
-    public String toString() {
-        return "Account{" +
-                "id=" + id +
-                ", userName='" + userName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
+        this.dateOfBirth = dateOfBirth;
+        this.profilePicture = profilePicture;
+        this.description = description;
+        this.accountRole = accountRole;
     }
 }
