@@ -33,7 +33,7 @@ async function load_dynamic() {
         }
 
         div2.append(createLink("👤", "/myaccount"));
-        div2.append(createLink("⚙", "/update"));
+        div2.append(createLink("⚙️", "/update"));
         div2.append(createLink("🚪 Log out (" + json.userName + ")", "/logout"));
         
     }
