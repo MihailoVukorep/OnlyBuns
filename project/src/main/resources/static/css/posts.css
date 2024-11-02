@@ -1,0 +1,20 @@
+.post {
+    border: 1px solid white;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 3px;
+    margin: 10px;
+}
+
+.post_title {
+    font-size: x-large;
+    border-bottom: 1px dashed white;
+    padding: 3px;
+    margin: 3px;
+}
+
+.post_text {
+    font-size: small;
+    color: orange;
+    padding: 3px;
+    margin: 3px;
+}
