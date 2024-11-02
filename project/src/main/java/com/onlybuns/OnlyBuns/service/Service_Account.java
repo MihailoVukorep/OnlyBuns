@@ -55,7 +55,7 @@ public class Service_Account {
         Account sessionAccount = (Account) session.getAttribute("account");
         if (sessionAccount != null) { return new ResponseEntity<>("already logged in", HttpStatus.BAD_REQUEST); }
 
-        if (dto_post_accountLogin.getEmail().isEmpty() || dto_post_accountLogin.getPassword().isEmpty()) { return new ResponseEntity<>("invlaid login data", HttpStatus.BAD_REQUEST); }
+        if (dto_post_accountLogin.getEmail().isEmpty() || dto_post_accountLogin.getPassword().isEmpty()) { return new ResponseEntity<>("invalid login data", HttpStatus.BAD_REQUEST); }
 
         Optional<Account> foundAccount = accountRepository.findByEmail(dto_post_accountLogin.getEmail());
         if (foundAccount.isEmpty()) {
