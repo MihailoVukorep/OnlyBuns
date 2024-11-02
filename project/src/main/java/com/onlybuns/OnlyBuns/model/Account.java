@@ -2,16 +2,17 @@ package com.onlybuns.OnlyBuns.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Entity
 @Table(name = "accounts")
-@ToString
 public class Account {
 
     @Id
@@ -44,6 +45,9 @@ public class Account {
 
     @Column
     private AccountRole accountRole;
+
+    @CreationTimestamp
+    private LocalDateTime createdDate;
 
     public Account(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio, AccountRole accountRole) {
         this.email = email;

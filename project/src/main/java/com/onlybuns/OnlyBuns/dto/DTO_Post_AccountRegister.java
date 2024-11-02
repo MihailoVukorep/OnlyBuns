@@ -1,19 +1,17 @@
 package com.onlybuns.OnlyBuns.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class DTO_Post_AccountRegister {
-    private String email;
-    private String userName;
-    private String password;
-    private String firstName;
-    private String lastName;
-    private String address;
+    public String email;
+    public String userName;
+    public String password;
+    public String firstName;
+    public String lastName;
+    public String address;
 }

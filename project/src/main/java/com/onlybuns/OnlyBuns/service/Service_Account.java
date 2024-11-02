@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
@@ -25,17 +23,17 @@ import java.util.Optional;
 public class Service_Account {
 
     @Autowired
-    private Repository_Account accountRepository;
+    private Repository_Account repositoryAccount;
 
     public ResponseEntity<List<DTO_View_Account>> api_accounts() {
-        List<Account> accounts = accountRepository.findAll();
+        List<Account> accounts = repositoryAccount.findAll();
         List<DTO_View_Account> accountDTOS = new ArrayList<>();
         for (Account account : accounts) { accountDTOS.add(new DTO_View_Account(account)); }
         return new ResponseEntity<>(accountDTOS, HttpStatus.OK);
     }
 
     public ResponseEntity<DTO_View_Account> api_accounts_id(@PathVariable(name = "id") Integer id, HttpSession session) {
-        Optional<Account> foundAccount = accountRepository.findById(id);
+        Optional<Account> foundAccount = repositoryAccount.findById(id);
         if (foundAccount.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
 
         return new ResponseEntity<>(new DTO_View_Account(foundAccount.get()), HttpStatus.OK);
@@ -45,7 +43,7 @@ public class Service_Account {
         Account sessionAccount = (Account) session.getAttribute("account");
         if (sessionAccount == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); }
 
-        Optional<Account> foundAccount = accountRepository.findById(sessionAccount.getId());
+        Optional<Account> foundAccount = repositoryAccount.findById(sessionAccount.getId());
         if (foundAccount.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
 
         return new ResponseEntity<>(new DTO_View_Account(foundAccount.get()), HttpStatus.OK);
@@ -57,9 +55,9 @@ public class Service_Account {
 
         if (dto_post_accountLogin.getEmail().isEmpty() || dto_post_accountLogin.getPassword().isEmpty()) { return new ResponseEntity<>("invalid login data", HttpStatus.BAD_REQUEST); }
 
-        Optional<Account> foundAccount = accountRepository.findByEmail(dto_post_accountLogin.getEmail());
+        Optional<Account> foundAccount = repositoryAccount.findByEmail(dto_post_accountLogin.getEmail());
         if (foundAccount.isEmpty()) {
-            foundAccount = accountRepository.findByUserName(dto_post_accountLogin.getEmail());
+            foundAccount = repositoryAccount.findByUserName(dto_post_accountLogin.getEmail());
         }
 
         if (foundAccount.isEmpty()) {
@@ -78,10 +76,10 @@ public class Service_Account {
         Account sessionAccount = (Account) session.getAttribute("account");
         if (sessionAccount != null) { return new ResponseEntity<>("already logged in", HttpStatus.BAD_REQUEST); }
 
-        Optional<Account> foundAccount = accountRepository.findByEmail(dto_post_accountRegister.getEmail());
+        Optional<Account> foundAccount = repositoryAccount.findByEmail(dto_post_accountRegister.getEmail());
         if (!foundAccount.isEmpty()) { return new ResponseEntity<>("email exists: " + dto_post_accountRegister.getEmail(), HttpStatus.CONFLICT); }
 
-        foundAccount = accountRepository.findByUserName(dto_post_accountRegister.getUserName());
+        foundAccount = repositoryAccount.findByUserName(dto_post_accountRegister.getUserName());
         if (!foundAccount.isEmpty()) { return new ResponseEntity<>("username exists: " + dto_post_accountRegister.getUserName(), HttpStatus.CONFLICT); }
 
         Account newAccount = new Account(
@@ -95,7 +93,7 @@ public class Service_Account {
                 "...",
                 AccountRole.USER
         );
-        accountRepository.save(newAccount);
+        repositoryAccount.save(newAccount);
         session.setAttribute("account", newAccount);
         return new ResponseEntity<>("registered: " + newAccount, HttpStatus.OK);
     }

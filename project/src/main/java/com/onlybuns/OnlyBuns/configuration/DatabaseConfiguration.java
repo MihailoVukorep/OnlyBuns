@@ -2,7 +2,10 @@ package com.onlybuns.OnlyBuns.configuration;
 
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.AccountRole;
+import com.onlybuns.OnlyBuns.model.Post;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
+import com.onlybuns.OnlyBuns.repository.Repository_Post;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +19,20 @@ public class DatabaseConfiguration {
     @Autowired
     private Repository_Account repositoryAccount;
 
-    public void CreateAccount(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio, AccountRole accountRole) {
+    @Autowired
+    private Repository_Post repositoryPost;
 
+    public void printAll_accounts() {
+        List<Account> accounts = repositoryAccount.findAll();
+        for (Account i : accounts) { System.out.println(i.toString()); }
+    }
+
+    public void printAll_posts() {
+        List<Post> posts = repositoryPost.findAll();
+        for (Post i : posts) { System.out.println(i.toString()); }
+    }
+
+    public Account CreateAccount(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio, AccountRole accountRole) {
         Account account = new Account(
                 email,
                 userName,
@@ -29,17 +44,21 @@ public class DatabaseConfiguration {
                 bio,
                 AccountRole.USER
         );
-
         repositoryAccount.save(account);
+        return account;
+    }
+
+    public void CreatePost(String title, String text, Account account) {
+        Post post = new Post(title, text, account);
+        repositoryPost.save(post);
     }
 
 
     @Bean
+    @Transactional
     public boolean instantiate() {
 
-
-
-        CreateAccount(
+        Account account1 = CreateAccount(
                 "pera@gmail.com",
                 "rope",
                 "123",
@@ -50,6 +69,10 @@ public class DatabaseConfiguration {
                 "veoma ozbiljan lik",
                 AccountRole.USER
         );
+
+        CreatePost("Hello World 1", "Hello evereeehboodyyy!!!! 1 :^)", account1);
+        CreatePost("Hello World 2", "Hello evereeehboodyyy!!!! 2 :^)", account1);
+        CreatePost("Hello World 3", "Hello evereeehboodyyy!!!! 3 :^)", account1);
 
         CreateAccount(
                 "bibi@gmail.com",
@@ -75,12 +98,8 @@ public class DatabaseConfiguration {
                 AccountRole.ADMIN
         );
 
-
-        List<Account> accounts = repositoryAccount.findAll();
-
-        for (Account s : accounts) {
-            System.out.println(s.toString());
-        }
+        printAll_accounts();
+        printAll_posts();
 
         return true;
     }
