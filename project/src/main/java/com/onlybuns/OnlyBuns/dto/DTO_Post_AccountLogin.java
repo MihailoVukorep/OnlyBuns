@@ -11,12 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DTO_Post_AccountLogin {
-    private Long id;
     private String email;
     private String password;
-
-    public DTO_Post_AccountLogin(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
 }

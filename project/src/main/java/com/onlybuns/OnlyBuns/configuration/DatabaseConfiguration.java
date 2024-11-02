@@ -20,15 +20,14 @@ public class DatabaseConfiguration {
     public boolean instantiate() {
 
         Account account = new Account(
-                "rope",
                 "pera@gmail.com",
-                "na vasaru kod perice",
+                "rope",
                 "123",
                 "pera",
                 "peric",
-                LocalDate.now(),
+                "bulevar 22",
                 "/avatars/default.jpg",
-                "test account",
+                "veoma ozbiljan lik",
                 AccountRole.USER
         );
 

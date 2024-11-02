@@ -20,47 +20,42 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "userName", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false, unique = true)
     private String userName;
 
-    @Column(unique = true)
-    private String email;
+    @Column
+    private String password;
+
+    @Column
+    private String firstName;
+
+    @Column
+    private String lastName;
 
     @Column
     private String address;
 
     @Column
-    private String password;
-
-    @Column(name = "firstName", nullable = false)
-    private String firstName;
-
-    @Column(name = "lastName", nullable = false)
-    private String lastName;
-
-    @Temporal(TemporalType.DATE)
-    @Column
-    private LocalDate dateOfBirth;
+    private String avatar;
 
     @Column
-    private String profilePicture;
-
-    @Column
-    private String description;
+    private String bio;
 
     @Column
     private AccountRole accountRole;
 
-    public Account(String userName, String email, String address, String password, String firstName, String lastName, LocalDate dateOfBirth, String profilePicture, String description, AccountRole accountRole) {
-        this.userName = userName;
+    public Account(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio, AccountRole accountRole) {
         this.email = email;
-        this.address = address;
+        this.userName = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
-        this.profilePicture = profilePicture;
-        this.description = description;
+        this.address = address;
+        this.avatar = avatar;
+        this.bio = bio;
         this.accountRole = accountRole;
     }
 }

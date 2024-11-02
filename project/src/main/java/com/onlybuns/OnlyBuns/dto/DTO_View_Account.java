@@ -1,0 +1,45 @@
+package com.onlybuns.OnlyBuns.dto;
+
+import com.onlybuns.OnlyBuns.model.Account;
+import com.onlybuns.OnlyBuns.model.AccountRole;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDate;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class DTO_View_Account {
+
+    public Integer id;
+    public String email;
+    public String userName;
+    //public String password;
+    public String firstName;
+    public String lastName;
+    public String address;
+    public String avatar;
+    public String bio;
+    public AccountRole accountRole;
+
+    public DTO_View_Account(Account account) {
+        this.id = account.getId();
+        this.email = account.getEmail();
+        this.userName = account.getUserName();
+        //this.password = account.getPassword();
+        this.firstName = account.getFirstName();
+        this.lastName = account.getLastName();
+        this.address = account.getAddress();
+        this.avatar = account.getAvatar();
+        this.bio = account.getBio();
+        this.accountRole = account.getAccountRole();
+    }
+}
