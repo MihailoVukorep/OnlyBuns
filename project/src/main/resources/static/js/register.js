@@ -36,7 +36,7 @@ async function api_register() {
     }
 }
 
-btn_register.onclick = register;
+btn_register.onclick = api_register;
 
 
 // TODO: auto focus
