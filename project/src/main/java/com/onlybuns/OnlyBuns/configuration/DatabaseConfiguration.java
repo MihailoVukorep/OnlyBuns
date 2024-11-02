@@ -16,10 +16,30 @@ public class DatabaseConfiguration {
     @Autowired
     private Repository_Account repositoryAccount;
 
+    public void CreateAccount(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio, AccountRole accountRole) {
+
+        Account account = new Account(
+                email,
+                userName,
+                password,
+                firstName,
+                lastName,
+                address,
+                avatar,
+                bio,
+                AccountRole.USER
+        );
+
+        repositoryAccount.save(account);
+    }
+
+
     @Bean
     public boolean instantiate() {
 
-        Account account = new Account(
+
+
+        CreateAccount(
                 "pera@gmail.com",
                 "rope",
                 "123",
@@ -31,7 +51,30 @@ public class DatabaseConfiguration {
                 AccountRole.USER
         );
 
-        repositoryAccount.save(account);
+        CreateAccount(
+                "bibi@gmail.com",
+                "bibi",
+                "123",
+                "bibi",
+                "patak",
+                "sutjeska 13",
+                "/avatars/default.jpg",
+                "veoma kul lik",
+                AccountRole.USER
+        );
+
+        CreateAccount(
+                "bigboss@gmail.com",
+                "snake",
+                "123",
+                "Big",
+                "Boss",
+                "motherbase",
+                "/avatars/default.jpg",
+                "big scary admin guy",
+                AccountRole.ADMIN
+        );
+
 
         List<Account> accounts = repositoryAccount.findAll();
 
