@@ -16,10 +16,11 @@
     border: 1px solid white;
     padding: 3px;
     border-radius: 10px;
+    margin: 5px;
 }
 
 .account img {
-    display: block;
+    display: inline-block;
     width: 200px;
     height: 200px;
     object-fit: contain;
@@ -29,12 +30,14 @@
 }
 
 .account table {
+    
+    display: inline-block;
     overflow: auto;
     width: 350px;
     height: 180px;
-    max-width: 500px;
-    max-height: 300px;
-    font-size: large;
+    max-width: 290px;
+    max-height: 155px;
+    font-size: medium;
     border: 1px dashed white;
     padding: 3px;
     margin: 10px;
@@ -42,7 +45,8 @@
 }
 
 .account table th {
-    width: 120px;
+    width: auto;
+    text-align: right;
 }
 
 .account table td {

@@ -1,7 +1,7 @@
 .dataform {
-    border-radius: 30px;
+    border-radius: 5px;
     border: solid rgb(64, 68, 75) 1px;
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.5);
     margin: 30px auto;
     width: fit-content;
     padding: 5px;
@@ -23,7 +23,7 @@
     border-style: solid;
     border-width: 2px;
     border-color: rgb(64, 68, 75);
-    border-radius: 25px;
+    border-radius: 10px;
     display: block;
     padding: 10px;
 }
