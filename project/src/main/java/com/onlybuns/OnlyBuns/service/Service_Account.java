@@ -5,6 +5,7 @@ import com.onlybuns.OnlyBuns.dto.DTO_Post_AccountLogin;
 import com.onlybuns.OnlyBuns.dto.DTO_Post_AccountRegister;
 import com.onlybuns.OnlyBuns.dto.DTO_View_Account;
 import com.onlybuns.OnlyBuns.model.Account;
+import com.onlybuns.OnlyBuns.model.AccountRole;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,19 +74,30 @@ public class Service_Account {
         return new ResponseEntity<>("logged in as: " + account.getUserName(), HttpStatus.OK);
     }
 
-    public ResponseEntity<String> api_register(@RequestBody DTO_Post_AccountRegister accountRequest, HttpSession session) {
+    public ResponseEntity<String> api_register(@RequestBody DTO_Post_AccountRegister dto_post_accountRegister, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("account");
         if (sessionAccount != null) { return new ResponseEntity<>("already logged in", HttpStatus.BAD_REQUEST); }
 
-        Optional<Account> foundAccount = accountRepository.findByEmail(accountRequest.getEmail());
-        if (!foundAccount.isEmpty()) { return new ResponseEntity<>("email exists: " + accountRequest.getEmail(), HttpStatus.CONFLICT); }
+        Optional<Account> foundAccount = accountRepository.findByEmail(dto_post_accountRegister.getEmail());
+        if (!foundAccount.isEmpty()) { return new ResponseEntity<>("email exists: " + dto_post_accountRegister.getEmail(), HttpStatus.CONFLICT); }
 
-        foundAccount = accountRepository.findByUserName(accountRequest.getUserName());
-        if (!foundAccount.isEmpty()) { return new ResponseEntity<>("username exists: " + accountRequest.getUserName(), HttpStatus.CONFLICT); }
+        foundAccount = accountRepository.findByUserName(dto_post_accountRegister.getUserName());
+        if (!foundAccount.isEmpty()) { return new ResponseEntity<>("username exists: " + dto_post_accountRegister.getUserName(), HttpStatus.CONFLICT); }
 
-        Account account = foundAccount.get();
-        session.setAttribute("account", account);
-        return new ResponseEntity<>("registered", HttpStatus.OK);
+        Account newAccount = new Account(
+                dto_post_accountRegister.getEmail(),
+                dto_post_accountRegister.getUserName(),
+                dto_post_accountRegister.getPassword(),
+                dto_post_accountRegister.getFirstName(),
+                dto_post_accountRegister.getLastName(),
+                dto_post_accountRegister.getAddress(),
+                "/avatars/default.jpg",
+                "...",
+                AccountRole.USER
+        );
+        accountRepository.save(newAccount);
+        session.setAttribute("account", newAccount);
+        return new ResponseEntity<>("registered: " + newAccount, HttpStatus.OK);
     }
 
     public ResponseEntity<String> logout(HttpSession session) {
