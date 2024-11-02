@@ -32,7 +32,7 @@ public class Controller_Account {
     }
 
     @GetMapping("/accounts/{id}")
-    public String users_id(@PathVariable(name = "id") Long id, Model model) {
+    public String accounts_id(@PathVariable(name = "id") Long id, Model model) {
         model.addAttribute("account_id", id);
         return "account.html";
     }

@@ -39,5 +39,5 @@ public class RestController_Account {
     }
 
     @PostMapping("/api/logout")
-    public ResponseEntity<String> logout(HttpSession session) { return accountService.logout(session); }
+    public ResponseEntity<String> api_logout(HttpSession session) { return accountService.logout(session); }
 }
