@@ -2,7 +2,7 @@ package com.onlybuns.OnlyBuns.configuration;
 
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.AccountRole;
-import com.onlybuns.OnlyBuns.repository.AccountRepository;
+import com.onlybuns.OnlyBuns.repository.Repository_Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ import java.util.List;
 public class DatabaseConfiguration {
 
     @Autowired
-    private AccountRepository repositoryAccount;
+    private Repository_Account repositoryAccount;
 
     @Bean
     public boolean instantiate() {
@@ -22,6 +22,7 @@ public class DatabaseConfiguration {
         Account account = new Account(
                 "rope",
                 "pera@gmail.com",
+                "na vasaru kod perice",
                 "123",
                 "pera",
                 "peric",

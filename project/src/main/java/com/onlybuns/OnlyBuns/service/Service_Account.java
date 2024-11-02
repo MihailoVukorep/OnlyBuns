@@ -2,17 +2,17 @@ package com.onlybuns.OnlyBuns.service;
 
 
 import com.onlybuns.OnlyBuns.model.Account;
-import com.onlybuns.OnlyBuns.repository.AccountRepository;
+import com.onlybuns.OnlyBuns.repository.Repository_Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class AccountService {
+public class Service_Account {
 
     @Autowired
-    private AccountRepository accountRepository;
+    private Repository_Account accountRepository;
 
     public List<Account> findAll() {
         return accountRepository.findAll();

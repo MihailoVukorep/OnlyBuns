@@ -2,16 +2,16 @@ package com.onlybuns.OnlyBuns.dto;
 
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.AccountRole;
-import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
 
-public class AccountDTO {
+public class DTO_Post_Account {
 
     public Integer id;
     public String userName;
-    public String mailAddress;
+    public String email;
+    public String address;
     //public String password;
     public String firstName;
     public String lastName;
@@ -20,14 +20,15 @@ public class AccountDTO {
     public String description;
     public AccountRole accountRole;
 
-    public AccountDTO() {
+    public DTO_Post_Account() {
 
     }
 
-    public AccountDTO(Account account) {
+    public DTO_Post_Account(Account account) {
         this.id = account.getId();
         this.userName = account.getUserName();
-        this.mailAddress = account.getMailAddress();
+        this.email = account.getEmail();
+        this.address = account.getAddress();
         this.firstName = account.getFirstName();
         this.lastName = account.getLastName();
         this.dateOfBirth = account.getDateOfBirth();

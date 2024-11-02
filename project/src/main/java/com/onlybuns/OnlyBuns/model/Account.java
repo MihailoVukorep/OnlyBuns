@@ -24,7 +24,10 @@ public class Account {
     private String userName;
 
     @Column(unique = true)
-    private String mailAddress;
+    private String email;
+
+    @Column
+    private String address;
 
     @Column
     private String password;
@@ -48,9 +51,10 @@ public class Account {
     @Column
     private AccountRole accountRole;
 
-    public Account(String userName, String mailAddress, String password, String firstName, String lastName, LocalDate dateOfBirth, String profilePicture, String description, AccountRole accountRole) {
+    public Account(String userName, String email, String address, String password, String firstName, String lastName, LocalDate dateOfBirth, String profilePicture, String description, AccountRole accountRole) {
         this.userName = userName;
-        this.mailAddress = mailAddress;
+        this.email = email;
+        this.address = address;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
