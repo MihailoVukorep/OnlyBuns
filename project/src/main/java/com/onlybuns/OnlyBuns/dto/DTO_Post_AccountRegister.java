@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DTO_Post_AccountRegister {
     private String email;
-    private String username;
+    private String userName;
     private String password;
     private String firstName;
     private String lastName;

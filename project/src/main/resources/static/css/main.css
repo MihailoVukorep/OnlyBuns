@@ -23,40 +23,32 @@ body {
 }
 
 #navbar {
-    list-style-type: none;
     margin: 0;
-    padding: 5px;
-    padding-bottom: 10px;
-    box-shadow: 1px black;
-    border: 1px #404040 solid;
-    background-color: transparent;
+    padding: 0;
 }
 
-#navbar li {
-    display: inline;
-    border: #505050 1px solid;
-    padding: 5px;
-    border-radius: 2px;
-    margin: 0 3px;
-    background-color: rgba(61, 89, 122, 0.372);
-}
-
-#navbar li:hover {
+#navbar a:hover {
     background-color: transparent
 }
 
-#navbar_dynamic {
-    float: right;
+#navbar_left, #navbar_right {
+    display: inline;
 }
 
-#navbar li a {
+#navbar_left { float: left; }
+#navbar_right { float: right; }
+
+#navbar a {
     text-decoration: none;
     font-weight: bolder;
     color: white;
     padding: 3px;
-    background-color: transparent;
     font-size: larger;
-    border-color: transparent;
+    display: inline;
+    border: #505050 1px solid;
+    border-radius: 2px;
+    margin: 0 3px;
+    background-color: rgba(61, 89, 122, 0.372);
 }
 
 h1 {

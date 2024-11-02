@@ -1,50 +1,45 @@
 let navbar = document.getElementById("navbar");
 
 // STATIC BUTTONS
-let span1 = document.createElement("span");
-span1.id = "navbar_static";
+let div1 = document.createElement("div");
+div1.id = "navbar_left";
 
-function createLi(text, link) {
-    let li = document.createElement("li");
+function createLink(text, link) {
     let a = document.createElement("a");
     a.innerHTML = text;
     a.href = link;
-    li.append(a);
-    return li;
+    return a;
 }
 
-span1.append(createLi("🏠 Home",     "/home"));
-span1.append(createLi("📰 Posts",    "/posts"));
-span1.append(createLi("👥 Accounts", "/accounts"));
+div1.append(createLink("🏠 Home",     "/home"));
+div1.append(createLink("📰 Posts",    "/posts"));
+div1.append(createLink("👥 Accounts", "/accounts"));
 
-navbar.append(span1);
+navbar.append(div1);
 
-// DYNAMIC BUTTONS
-let span2 = document.createElement("span");
-span2.id = "navbar_dynamic";
-navbar.append(span2);
+let div2 = document.createElement("div");
+div2.id = "navbar_right";
+navbar.append(div2);
 
 async function load_dynamic() {
     const response = await fetch("/api/myaccount");
 
     if (response.ok) {
-        const myaccountjson = await response.json();
+        const json = await response.json();
+        console.log(json);
         
-        if (myaccountjson.accountRole == "ADMINISTRATOR") {
-            // span2.append(createLi("🚨", "/activations"));
-            span2.append(createLi("➕ Management", "/manage"));
-        } else if (myaccountjson.accountRole == "AUTHOR") {
-            span2.append(createLi("➕ Management", "/manage_author"))
+        if (json.accountRole == "ADMIN") {
+
         }
 
-        span2.append(createLi("👤",                                 "/myaccount"));
-        span2.append(createLi("⚙",                                 "/update"));
-        span2.append(createLi("🚪 Log out (" + myaccountjson.username + ")", "/logout"));
+        div2.append(createLink("👤", "/myaccount"));
+        div2.append(createLink("⚙", "/update"));
+        div2.append(createLink("🚪 Log out (" + json.userName + ")", "/logout"));
         
     }
     else {
-        span2.append(createLi("🔑 Log in", "/login"));
-        span2.append(createLi("📝 Register", "/register"));
+        div2.append(createLink("🔑 Log in", "/login"));
+        div2.append(createLink("📝 Register", "/register"));
     }
 }
 

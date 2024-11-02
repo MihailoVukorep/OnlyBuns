@@ -1,4 +1,4 @@
-#user {
+#account {
     margin: 10px auto;
     display: block;
     width: fit-content;
@@ -7,7 +7,7 @@
     background: #151515;
 }
 
-#user img {
+#account img {
     width: 300px;
     height: 300px;
     object-fit: cover;
@@ -25,39 +25,10 @@
     background: #050505;
 }
 
-#user table {
+#account table {
     display: inline-block;
     background: #101010;
     border: 3px dotted;
     padding: 10px;
     margin: 30px;
-}
-
-#user_activate {
-    display: block;
-    margin: 10px auto;
-}
-
-.shelf {
-    margin: 50px;
-}
-
-.shelf_head {
-    margin-bottom: 20px;
-}
-
-.shelf_head h2 {
-    display: inline;
-}
-
-.shelf_remove {
-    display: inline;
-    font-size: xx-large;
-    border: none;
-    color: white;
-    margin: 0 auto;
-}
-
-.item_remove {
-    color: red;
 }

@@ -1,4 +1,4 @@
-.user_link {
+.account_link {
     color: white;
     text-decoration: none;
     width: fit-content;
@@ -8,7 +8,7 @@
 }
 
 
-.user {
+.account {
     display: inline-block;
     width: fit-content;
     height: fit-content;
@@ -18,7 +18,7 @@
     border-radius: 10px;
 }
 
-.user img {
+.account img {
     display: block;
     width: 200px;
     height: 200px;
@@ -28,7 +28,7 @@
     margin: 0 auto;
 }
 
-.user table {
+.account table {
     overflow: auto;
     width: 350px;
     height: 180px;
@@ -41,11 +41,11 @@
     display: block;
 }
 
-.user table th {
+.account table th {
     width: 120px;
 }
 
-.user table td {
+.account table td {
     overflow: clip;
     width: auto;
 }
