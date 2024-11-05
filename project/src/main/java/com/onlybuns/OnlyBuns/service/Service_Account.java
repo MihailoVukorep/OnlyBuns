@@ -6,6 +6,7 @@ import com.onlybuns.OnlyBuns.dto.DTO_View_Account;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.AccountRole;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -16,12 +17,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.onlybuns.OnlyBuns.util.SimpleBloomFilter;
+
+
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class Service_Account {
+
+    private SimpleBloomFilter usernameBloomFilter;
+
+    @PostConstruct
+    public void init() {
+        // Initialize the Bloom filter with a size of 1000 bits and 5 hash functions
+        usernameBloomFilter = new SimpleBloomFilter(1000, 5);
+    }
 
     @Autowired
     private Repository_Account repositoryAccount;
@@ -106,19 +118,19 @@ public class Service_Account {
         String message = dto_post_accountRegister.validate();
         if (message != null) { return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST); }
 
-        // Lock on email and username checking to prevent concurrent issues
+        // Lock to prevent concurrent issues
         synchronized (this) {
-            // Check if the email is already in use
-            Optional<Account> foundAccount = repositoryAccount.findByEmail(dto_post_accountRegister.getEmail());
-            if (foundAccount.isPresent()) {
-                return new ResponseEntity<>("Email exists: " + dto_post_accountRegister.getEmail(), HttpStatus.CONFLICT);
+            // Check if the username is already in the Bloom filter
+            if (usernameBloomFilter.mightContain(dto_post_accountRegister.getUserName())) {
+                // If it might be in the Bloom filter, check the database to confirm
+                Optional<Account> foundAccount = repositoryAccount.findByUserName(dto_post_accountRegister.getUserName());
+                if (foundAccount.isPresent()) {
+                    return new ResponseEntity<>("Username exists: " + dto_post_accountRegister.getUserName(), HttpStatus.CONFLICT);
+                }
             }
 
-            // Check if the username is already in use
-            foundAccount = repositoryAccount.findByUserName(dto_post_accountRegister.getUserName());
-            if (foundAccount.isPresent()) {
-                return new ResponseEntity<>("Username exists: " + dto_post_accountRegister.getUserName(), HttpStatus.CONFLICT);
-            }
+            // Add the username to the Bloom filter after confirming it is new
+            usernameBloomFilter.add(dto_post_accountRegister.getUserName());
         }
 
         Account newAccount = new Account(
