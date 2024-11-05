@@ -29,8 +29,12 @@ public class Post {
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Comment> comments = new ArrayList<>();;
+    @OneToMany(mappedBy = "parentPost", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Post> replies = new ArrayList<>(); // This will hold replies to the post
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_post_id")
+    private Post parentPost; // This will reference the parent post (if any)
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Like> likes = new ArrayList<>();;
@@ -47,6 +51,14 @@ public class Post {
         this.account = account;
     }
 
+    // Constructor for replies (setting parent post)
+    public Post(String title, String text, Account account, Post parentPost) {
+        this.title = title;
+        this.text = text;
+        this.account = account;
+        this.parentPost = parentPost;
+    }
+
     @Override
     public String toString() {
         return "Post{" +
@@ -54,7 +66,7 @@ public class Post {
                 ", title='" + title + '\'' +
                 ", text='" + text + '\'' +
                 ", account=" + account.getId() +
-                ", comments=" + comments.size()+
+                ", replies=" + replies.size() +
                 ", likes=" + likes.size() +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +

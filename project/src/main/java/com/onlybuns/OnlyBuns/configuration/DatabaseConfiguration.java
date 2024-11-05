@@ -19,7 +19,6 @@ public class DatabaseConfiguration {
     @Autowired
     private Repository_Post repositoryPost;
 
-
     @Autowired
     private Service_Test serviceTest;
 
@@ -39,11 +38,17 @@ public class DatabaseConfiguration {
         return account;
     }
 
-    public void CreatePost(String title, String text, Account account) {
+    public Post CreatePost(String title, String text, Account account) {
         Post post = new Post(title, text, account);
         repositoryPost.save(post);
+        return post;
     }
 
+    public Post CreatePostComment(String title, String text, Account account, Post root) {
+        Post post = new Post(title, text, account, root);
+        repositoryPost.save(post);
+        return post;
+    }
 
     @Bean
     @Transactional
@@ -115,7 +120,15 @@ public class DatabaseConfiguration {
                 AccountRole.USER
         );
 
-        CreatePost("Zabranjeno dilovanje Sargarepa", "NA OVOM FORUMU SE NE SME DILOVATI SARGAREPA!!!! KO BUDE PREKRSIO DOBIJA BAN ISTE SEKUNDE!", acc4);
+        Post post = CreatePost("Zabranjeno dilovanje Sargarepa", "NA OVOM FORUMU SE NE SME DILOVATI SARGAREPA!!!! KO BUDE PREKRSIO DOBIJA BAN ISTE SEKUNDE!", acc4);
+
+
+        Post p2 = CreatePostComment("NEMA SANSE", "I PIVO POSLE 10 CE ZABRANITI!!", acc2, post);
+
+        CreatePostComment(":^)", "Hvala na ideji! Poz :)", acc4, p2);
+
+        CreatePostComment("HMM", "E TOSE NISAM NADO!!", a1, post);
+
 
         serviceTest.printAll_accounts();
         serviceTest.printAll_posts();

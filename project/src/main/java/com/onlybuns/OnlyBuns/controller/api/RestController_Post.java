@@ -20,8 +20,12 @@ public class RestController_Post {
     public ResponseEntity<List<DTO_View_Post>> api_posts(@RequestParam(value = "sort", required = false) String sort) { return servicePost.api_posts(sort); }
 
     @GetMapping("/api/posts/{id}")
-    public ResponseEntity<DTO_View_Post> api_posts_id(@PathVariable(name = "id") Integer id, HttpSession session) {
-        return servicePost.api_posts_id(id, session);
+    public ResponseEntity<DTO_View_Post> api_posts_id(@PathVariable(name = "id") Integer id) {
+        return servicePost.api_posts_id(id);
     }
 
+    @GetMapping("/api/posts/{id}/replies")
+    public ResponseEntity<List<DTO_View_Post>> api_posts_id_replies(@PathVariable(name = "id") Integer id) {
+        return servicePost.api_posts_id_replies(id);
+    }
 }

@@ -4,7 +4,6 @@ import com.onlybuns.OnlyBuns.dto.DTO_View_Post;
 import com.onlybuns.OnlyBuns.model.Post;
 import org.springframework.data.domain.Sort;
 import com.onlybuns.OnlyBuns.repository.Repository_Post;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,15 +38,25 @@ public class Service_Post {
             }
         }
 
-        List<Post> posts = repositoryPost.findAll(sortOrder);
+        List<Post> posts = repositoryPost.findByParentPostIsNull(sortOrder);
         List<DTO_View_Post> dtos = new ArrayList<>();
         for (Post post : posts) { dtos.add(new DTO_View_Post(post)); }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    public ResponseEntity<DTO_View_Post> api_posts_id(@PathVariable(name = "id") Integer id, HttpSession session) {
+    public ResponseEntity<DTO_View_Post> api_posts_id(@PathVariable(name = "id") Integer id) {
         Optional<Post> post = repositoryPost.findById(id);
         if (post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         return new ResponseEntity<>(new DTO_View_Post(post.get()), HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<DTO_View_Post>> api_posts_id_replies(@PathVariable(name = "id") Integer id) {
+        Optional<Post> optional_post = repositoryPost.findById(id);
+        if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+
+        Post post = optional_post.get();
+        List<DTO_View_Post> dtos = new ArrayList<>();
+        for (Post i : post.getReplies()) { dtos.add(new DTO_View_Post(i)); }
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 }
