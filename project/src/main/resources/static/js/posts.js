@@ -53,11 +53,14 @@ function make_post(item) {
     return post;
 }
 
-async function load_posts(search = "") {
+async function load_posts() {
     posts_clear(div_posts);
 
-    const url = "/api/posts"
-    if (search != "") { url = "/api/posts?s=" + search }
+    let url = "/api/posts";
+    
+    // todo: choose sort here
+    url = "/api/posts?sort=id,desc";
+
     const response = await fetch(url);
     const items = await response.json();
 

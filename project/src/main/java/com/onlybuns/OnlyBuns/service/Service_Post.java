@@ -4,6 +4,7 @@ import com.onlybuns.OnlyBuns.dto.DTO_View_Account;
 import com.onlybuns.OnlyBuns.dto.DTO_View_Post;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.Post;
+import org.springframework.data.domain.Sort;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
 import com.onlybuns.OnlyBuns.repository.Repository_Post;
 import jakarta.servlet.http.HttpSession;
@@ -23,8 +24,25 @@ public class Service_Post {
     @Autowired
     private Repository_Post repositoryPost;
 
-    public ResponseEntity<List<DTO_View_Post>> api_posts() {
-        List<Post> posts = repositoryPost.findAll();
+    public ResponseEntity<List<DTO_View_Post>> api_posts(String sort) {
+
+        // If no sort parameter, use default sorting (e.g., by ID)
+        Sort sortOrder = Sort.unsorted();
+
+        if (sort != null && !sort.isEmpty()) {
+            // Parse the 'sort' parameter
+            String[] sortParams = sort.split(",");
+            if (sortParams.length == 2) {
+                String field = sortParams[0];
+                String direction = sortParams[1].toUpperCase();
+
+                // Validate direction (ASC or DESC)
+                Sort.Direction dir = Sort.Direction.fromString(direction);
+                sortOrder = Sort.by(dir, field);
+            }
+        }
+
+        List<Post> posts = repositoryPost.findAll(sortOrder);
         List<DTO_View_Post> dtos = new ArrayList<>();
         for (Post post : posts) { dtos.add(new DTO_View_Post(post)); }
         return new ResponseEntity<>(dtos, HttpStatus.OK);

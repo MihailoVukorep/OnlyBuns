@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public class RestController_Post {
     @Autowired
     private Service_Post servicePost;
 
-    @GetMapping(value = "/api/posts")
-    public ResponseEntity<List<DTO_View_Post>> api_posts() { return servicePost.api_posts(); }
+    @GetMapping(value = "/api/posts") // /api/posts?sort=newest
+    public ResponseEntity<List<DTO_View_Post>> api_posts(@RequestParam(value = "sort", required = false) String sort) { return servicePost.api_posts(sort); }
 
     @GetMapping("/api/posts/{id}")
     public ResponseEntity<DTO_View_Post> api_posts_id(@PathVariable(name = "id") Integer id, HttpSession session) {
