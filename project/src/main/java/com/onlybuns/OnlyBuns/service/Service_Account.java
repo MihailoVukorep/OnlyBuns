@@ -1,14 +1,11 @@
 package com.onlybuns.OnlyBuns.service;
 
-import com.onlybuns.OnlyBuns.dto.DTO_Post_AccountLogin;
-import com.onlybuns.OnlyBuns.dto.DTO_Post_AccountRegister;
-import com.onlybuns.OnlyBuns.dto.DTO_View_Account;
-import com.onlybuns.OnlyBuns.model.Account;
-import com.onlybuns.OnlyBuns.model.AccountActivation;
-import com.onlybuns.OnlyBuns.model.AccountActivationStatus;
-import com.onlybuns.OnlyBuns.model.AccountRole;
+import com.onlybuns.OnlyBuns.dto.*;
+import com.onlybuns.OnlyBuns.model.*;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
 import com.onlybuns.OnlyBuns.repository.Repository_AccountActivation;
+import com.onlybuns.OnlyBuns.repository.Repository_Like;
+import com.onlybuns.OnlyBuns.repository.Repository_Post;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -23,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.onlybuns.OnlyBuns.util.SimpleBloomFilter;
 
 
-import javax.swing.text.html.Option;
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -42,23 +38,29 @@ public class Service_Account {
     }
 
     @Autowired
-    private Repository_Account repositoryAccount;
+    private Repository_Account repository_account;
 
     @Autowired
-    private Repository_AccountActivation repositoryAccountActivation;
+    private Repository_AccountActivation repository_accountActivation;
+
+    @Autowired
+    private Repository_Post repository_post;
+
+    @Autowired
+    private Repository_Like repository_likes;
 
     @Autowired
     private Service_Email serviceEmail;
 
     public ResponseEntity<List<DTO_View_Account>> api_accounts() {
-        List<Account> accounts = repositoryAccount.findAll();
+        List<Account> accounts = repository_account.findAll();
         List<DTO_View_Account> accountDTOS = new ArrayList<>();
         for (Account account : accounts) { accountDTOS.add(new DTO_View_Account(account)); }
         return new ResponseEntity<>(accountDTOS, HttpStatus.OK);
     }
 
-    public ResponseEntity<DTO_View_Account> api_accounts_id(@PathVariable(name = "id") Integer id, HttpSession session) {
-        Optional<Account> foundAccount = repositoryAccount.findById(id);
+    public ResponseEntity<DTO_View_Account> api_accounts_id(@PathVariable(name = "id") Integer id) {
+        Optional<Account> foundAccount = repository_account.findById(id);
         if (foundAccount.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
 
         return new ResponseEntity<>(new DTO_View_Account(foundAccount.get()), HttpStatus.OK);
@@ -68,7 +70,7 @@ public class Service_Account {
         Account sessionAccount = (Account) session.getAttribute("account");
         if (sessionAccount == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); }
 
-        Optional<Account> foundAccount = repositoryAccount.findById(sessionAccount.getId());
+        Optional<Account> foundAccount = repository_account.findById(sessionAccount.getId());
         if (foundAccount.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
 
         return new ResponseEntity<>(new DTO_View_Account(foundAccount.get()), HttpStatus.OK);
@@ -115,15 +117,15 @@ public class Service_Account {
         }
 
         // find account
-        Optional<Account> opt_account = repositoryAccount.findByEmail(dto_post_accountLogin.getEmail());
-        if (opt_account.isEmpty()) { opt_account = repositoryAccount.findByUserName(dto_post_accountLogin.getEmail()); }
+        Optional<Account> opt_account = repository_account.findByEmail(dto_post_accountLogin.getEmail());
+        if (opt_account.isEmpty()) { opt_account = repository_account.findByUserName(dto_post_accountLogin.getEmail()); }
         if (opt_account.isEmpty()) { return new ResponseEntity<>("Account not found.", HttpStatus.NOT_FOUND); }
 
         // account
         Account account = opt_account.get();
 
         // check if account is activated
-        Optional<AccountActivation> opt_accountActivation = repositoryAccountActivation.findByAccount(account);
+        Optional<AccountActivation> opt_accountActivation = repository_accountActivation.findByAccount(account);
         if (opt_accountActivation.isEmpty()) {
             // missing account activation in db -- creating...
             serviceEmail.sendVerificationEmail(account);
@@ -157,7 +159,7 @@ public class Service_Account {
             // Check if the email is already in the Bloom filter
             if (bloomFilter_email.mightContain(dto_post_accountRegister.getEmail())) {
                 // If it might be in the Bloom filter, check the database to confirm
-                Optional<Account> foundAccount = repositoryAccount.findByEmail(dto_post_accountRegister.getEmail());
+                Optional<Account> foundAccount = repository_account.findByEmail(dto_post_accountRegister.getEmail());
                 if (foundAccount.isPresent()) {
                     return new ResponseEntity<>("Email exists: " + dto_post_accountRegister.getEmail(), HttpStatus.CONFLICT);
                 }
@@ -170,7 +172,7 @@ public class Service_Account {
             // Check if the username is already in the Bloom filter
             if (bloomFilter_userName.mightContain(dto_post_accountRegister.getUserName())) {
                 // If it might be in the Bloom filter, check the database to confirm
-                Optional<Account> foundAccount = repositoryAccount.findByUserName(dto_post_accountRegister.getUserName());
+                Optional<Account> foundAccount = repository_account.findByUserName(dto_post_accountRegister.getUserName());
                 if (foundAccount.isPresent()) {
                     return new ResponseEntity<>("Username exists: " + dto_post_accountRegister.getUserName(), HttpStatus.CONFLICT);
                 }
@@ -193,7 +195,7 @@ public class Service_Account {
                 "...",
                 AccountRole.USER
         );
-        repositoryAccount.save(newAccount);
+        repository_account.save(newAccount);
 
         // send verification email
         serviceEmail.sendVerificationEmail(newAccount);
@@ -208,5 +210,29 @@ public class Service_Account {
 
         session.invalidate();
         return new ResponseEntity<>("Logged out: " + sessionAccount.getUserName(), HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<DTO_View_Post>> api_accounts_id_posts(@PathVariable(name = "id") Integer id) {
+        Optional<Account> optional_account = repository_account.findById(id);
+        if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+
+        // return account posts
+        Account account = optional_account.get();
+        List<Post> posts = repository_post.findAllByAccount(account);
+        List<DTO_View_Post> dtos = new ArrayList<>();
+        for (Post post : posts) { dtos.add(new DTO_View_Post(post)); }
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<DTO_View_Like>> api_accounts_id_likes(@PathVariable(name = "id") Integer id) {
+        Optional<Account> optional_account = repository_account.findById(id);
+        if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+
+        // return account likes
+        Account account = optional_account.get();
+        List<Like> likes = repository_likes.findAllByAccount(account);
+        List<DTO_View_Like> dtos = new ArrayList<>();
+        for (Like like : likes) { dtos.add(new DTO_View_Like(like)); }
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 }

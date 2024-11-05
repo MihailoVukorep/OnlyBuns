@@ -1,8 +1,6 @@
 package com.onlybuns.OnlyBuns.controller.api;
 
-import com.onlybuns.OnlyBuns.dto.DTO_Post_AccountLogin;
-import com.onlybuns.OnlyBuns.dto.DTO_Post_AccountRegister;
-import com.onlybuns.OnlyBuns.dto.DTO_View_Account;
+import com.onlybuns.OnlyBuns.dto.*;
 import com.onlybuns.OnlyBuns.service.Service_Account;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -25,8 +23,18 @@ public class RestController_Account {
     public ResponseEntity<DTO_View_Account> api_myaccount(HttpSession session) { return serviceAccount.api_myaccount(session); }
 
     @GetMapping("/api/accounts/{id}")
-    public ResponseEntity<DTO_View_Account> api_account_id(@PathVariable(name = "id") Integer id, HttpSession session) {
-        return serviceAccount.api_accounts_id(id, session);
+    public ResponseEntity<DTO_View_Account> api_account_id(@PathVariable(name = "id") Integer id) {
+        return serviceAccount.api_accounts_id(id);
+    }
+
+    @GetMapping("/api/accounts/{id}/posts")
+    public ResponseEntity<List<DTO_View_Post>> api_account_id_posts(@PathVariable(name = "id") Integer id) {
+        return serviceAccount.api_accounts_id_posts(id);
+    }
+
+    @GetMapping("/api/accounts/{id}/likes")
+    public ResponseEntity<List<DTO_View_Like>> api_account_id_likes(@PathVariable(name = "id") Integer id) {
+        return serviceAccount.api_accounts_id_likes(id);
     }
 
     @PostMapping("/api/login")
