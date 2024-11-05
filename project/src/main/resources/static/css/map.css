@@ -1,0 +1,29 @@
+/* Map styles */
+/*#map {
+    height: 60vh;
+    width: 60vh;
+    margin: 20px;
+    justify-content: center;
+    align-content: center;
+}
+
+h1 {
+    color: white;
+    font-size: 2em;
+    margin: 20px;
+}*/
+
+.map-container {
+    display: flex;
+    justify-content: center; /* Centriraj div sa mapom horizontalno */
+    align-items: center; /* Centriraj div sa mapom vertikalno */
+    height: 100%; /* Postavi visinu na 100% da se popuni roditeljski element */
+    width: 100%; /* Postavi širinu na 100% */
+}
+
+#map {
+    height: 60vh; /* Visina mape */
+    width: 80vh; /* Širina mape */
+    border-radius: 20px; /* Zaobljene ivice */
+    background-color: rgba(64, 68, 75, 0.4); /* Pozadinska boja */
+}

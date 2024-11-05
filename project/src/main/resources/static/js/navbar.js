@@ -14,6 +14,8 @@ function createLink(text, link) {
 div1.append(createLink("🏠 Home",     "/home"));
 div1.append(createLink("📰 Posts",    "/posts"));
 div1.append(createLink("👥 Accounts", "/accounts"));
+//div1.append(createLink("🗺️ View Map", "/map"));
+
 
 navbar.append(div1);
 
@@ -35,7 +37,8 @@ async function load_dynamic() {
         div2.append(createLink("👤", "/myaccount"));
         div2.append(createLink("⚙️", "/update"));
         div2.append(createLink("🚪 Log out (" + json.userName + ")", "/logout"));
-        
+        div1.append(createLink("🗺️ View Map", "/map"));
+
     }
     else {
         div2.append(createLink("🔑 Log in", "/login"));
