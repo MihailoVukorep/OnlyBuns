@@ -56,10 +56,8 @@ function make_post(item) {
 async function load_posts() {
     posts_clear(div_posts);
 
-    let url = "/api/posts";
-    
-    // todo: choose sort here
-    url = "/api/posts?sort=id,desc";
+    const sortOption = document.getElementById("sortOptions").value
+    const url = `/api/posts?sort=${sortOption}`;
 
     const response = await fetch(url);
     const items = await response.json();

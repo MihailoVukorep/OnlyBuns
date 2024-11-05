@@ -14,6 +14,17 @@
         
         <h1>📰 Posts 📰</h1>
 
+        <div>
+            <label for="sortOptions">Sort by:</label>
+            <select id="sortOptions" onchange="load_posts()">
+                <option value="id,asc">ID Ascending</option>
+                <option value="id,desc">ID Descending</option>
+                <option value="title,asc">Title Ascending</option>
+                <option value="title,desc">Title Descending</option>
+            </select>
+        </div>
+
+
         <!--
         <div class="searchform">
             <input type="text" id="txt_search" placeholder="search post"/>
