@@ -42,7 +42,7 @@ public class DatabaseConfiguration {
                 address,
                 avatar,
                 bio,
-                AccountRole.USER
+                accountRole
         );
         repositoryAccount.save(account);
         return account;
@@ -77,7 +77,7 @@ public class DatabaseConfiguration {
                 "Ajs",
                 "Nigrutin",
                 "sutjeska 13",
-                "/avatars/bunny1.png",
+                "/avatars/ajs.png",
                 "gengsta lik",
                 AccountRole.USER
         );
@@ -93,7 +93,7 @@ public class DatabaseConfiguration {
                 "Ana",
                 "Djuric",
                 "tu na keju",
-                "/avatars/bunny2.png",
+                "/avatars/kons.png",
                 "umetnica moze biti zdrava",
                 AccountRole.USER
         );
@@ -105,7 +105,7 @@ public class DatabaseConfiguration {
                 "Big",
                 "Boss",
                 "motherbase",
-                "/avatars/bunny3.png",
+                "/avatars/bigboss.png",
                 "big scary admin guy",
                 AccountRole.ADMIN
         );
