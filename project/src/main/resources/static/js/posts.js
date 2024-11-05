@@ -10,21 +10,36 @@ function posts_clear(div_posts) {
 
 function make_post(item) {
 
-    const div = document.createElement("div");
-    div.className = "post";
+    const post = document.createElement("div");
+    post.className = "post";
+
+    const post_head = document.createElement("div");
+    post_head.className = "post_head";
 
     const p_title = document.createElement("a");
     p_title.className = "post_title"
     p_title.innerHTML = item.title;
     p_title.href = "/posts/" + item.id;
-    div.appendChild(p_title);
+    post_head.appendChild(p_title);
+
+    const p_account = document.createElement("a");
+    p_account.className = "post_account"
+    p_account.innerHTML = item.account.userName;
+    p_account.href = "/accounts/" + item.account.id;
+    post_head.appendChild(p_account);
+
+    post.appendChild(post_head);
+
+    const post_body = document.createElement("div");
+    post_body.className = "post_body";
 
     const p_text = document.createElement("p");
     p_text.className = "post_text"
     p_text.innerHTML = item.text;
-    div.appendChild(p_text);
+    post_body.appendChild(p_text);
 
-    return div;
+    post.appendChild(post_body);
+    return post;
 }
 
 async function load_posts(search = "") {

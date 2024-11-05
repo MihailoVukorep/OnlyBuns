@@ -81,8 +81,20 @@ public class DatabaseConfiguration {
                 "bibi",
                 "patak",
                 "sutjeska 13",
-                "/avatars/default.jpg",
+                "/avatars/bunny1.png",
                 "veoma kul lik",
+                AccountRole.USER
+        );
+
+        CreateAccount(
+                "konstrakta@gmail.com",
+                "konstrakta",
+                "123",
+                "Ana",
+                "Djuric",
+                "tu na keju",
+                "/avatars/bunny2.png",
+                "umetnica moze biti zdrava",
                 AccountRole.USER
         );
 
@@ -93,7 +105,7 @@ public class DatabaseConfiguration {
                 "Big",
                 "Boss",
                 "motherbase",
-                "/avatars/default.jpg",
+                "/avatars/bunny3.png",
                 "big scary admin guy",
                 AccountRole.ADMIN
         );

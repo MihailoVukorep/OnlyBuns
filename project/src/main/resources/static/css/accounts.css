@@ -21,9 +21,8 @@
 
 .account img {
     display: inline-block;
-    width: 200px;
-    height: 200px;
-    object-fit: contain;
+    width: 100px;
+    height: 100px;
     border: 3px solid white;
     border-radius: 100px;
     margin: 0 auto;
@@ -41,14 +40,21 @@
     padding: 3px;
     margin: 10px;
     display: block;
+    overflow: clip;
+    overflow-wrap: anywhere;
 }
 
 .account table th {
     width: auto;
     text-align: right;
+    overflow: clip;
+    overflow-wrap: anywhere;
 }
 
 .account table td {
-    overflow: clip;
     width: auto;
+    overflow: hidden; /* Hide the overflowed content */
+    text-overflow: ellipsis; /* Show '...' for overflowed content */
+    white-space: nowrap; /* Prevent the content from wrapping to the next line */
+    overflow-wrap: anywhere;
 }
