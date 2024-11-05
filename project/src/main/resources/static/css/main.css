@@ -27,9 +27,9 @@ body {
     height: fit-content;
     margin: 0;
     padding: 0;
-    display: flex; /* Use Flexbox for layout */
-    justify-content: space-between; /* Space between left and right */
-    align-items: center; /* Vertically center items */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #navbar a:hover {
@@ -37,8 +37,8 @@ body {
 }
 
 #navbar_left, #navbar_right {
-    display: flex; /* Ensure these are flex containers */
-    align-items: center; /* Center align items vertically */
+    display: flex;
+    align-items: center;
     margin: 0;
     padding: 10px;
 }
