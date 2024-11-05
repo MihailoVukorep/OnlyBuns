@@ -9,6 +9,9 @@ txt_email.select();
 
 
 async function api_login(v_username, v_password) {
+
+    p_status.innerHTML = "Logging in...";
+
     const response = await fetch('/api/login', {
         method: 'POST',
         headers: {

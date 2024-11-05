@@ -26,7 +26,6 @@ public class Controller_Account {
     public String myaccount(HttpSession session, Model model) {
         Account user = (Account) session.getAttribute("account");
         if (user == null) { return "error.html"; }
-
         model.addAttribute("account_id", user.getId());
         return "account.html";
     }

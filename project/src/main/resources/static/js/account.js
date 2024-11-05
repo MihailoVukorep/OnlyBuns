@@ -18,13 +18,14 @@ async function load_account() {
     document.getElementById("account_bio").innerHTML         = response_users_id_json.bio;
     document.getElementById("account_accountRole").innerHTML = response_users_id_json.accountRole;
 
-    const response_myaccount = await fetch("/api/myaccount");
-
-    if (response_myaccount.ok) {
-        if (window.location.pathname == "/myaccount") {
-            displayUserControls();
-        }
-    }
+    // const response_myaccount = await fetch("/api/myaccount");
+    // needs to verify email first
+    // // redirect after reg
+    // if (response_myaccount.ok) {
+    //     if (window.location.pathname == "/myaccount") {
+    //         displayUserControls();
+    //     }
+    // }
 }
 
 load_account();

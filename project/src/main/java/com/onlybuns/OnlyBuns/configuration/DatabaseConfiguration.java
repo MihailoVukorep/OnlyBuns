@@ -59,7 +59,7 @@ public class DatabaseConfiguration {
     public boolean instantiate() {
 
         Account a1 = CreateAccount(
-                "pera@gmail.com",
+                "killmeplzftn+pera@gmail.com",
                 "rope",
                 "123",
                 "Pera",
@@ -71,7 +71,7 @@ public class DatabaseConfiguration {
         );
 
         Account acc2 = CreateAccount(
-                "ajzak@gmail.com",
+                "killmeplzftn+ajzak@gmail.com",
                 "ajzak",
                 "123",
                 "Ajs",
@@ -87,7 +87,7 @@ public class DatabaseConfiguration {
 
 
         Account acc3 = CreateAccount(
-                "konstrakta@gmail.com",
+                "killmeplzftn+konstrakta@gmail.com",
                 "konstrakta",
                 "123",
                 "Ana",
@@ -101,7 +101,7 @@ public class DatabaseConfiguration {
         CreatePost("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).", acc3);
 
         Account acc4 = CreateAccount(
-                "bigboss@gmail.com",
+                "killmeplzftn+bigboss@gmail.com",
                 "snake",
                 "123",
                 "Big",
