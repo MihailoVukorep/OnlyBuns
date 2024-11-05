@@ -1,16 +1,18 @@
 .post {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    max-width: 200px;
+    max-height: 200px;
     border: 1px solid white;
     background-color: rgba(0, 0, 0, 0.4);
-    padding: 3px;
-    margin: 10px;
-    display: inline-block;
-    width: 300px;
-    height: 300px;
+    padding: 10px;
+    margin: 3px;
+    overflow: hidden;
+    overflow-wrap: anywhere;
 }
 
 .post_head {
-    margin: 3px;
-    padding: 3px;
 
 }
 
@@ -19,7 +21,19 @@
 }
 
 .post_account {
-    float: right;
+    text-decoration: none;
+    padding: 3px;
+}
+
+.post_account_image {
+    width: 32px;
+    height: 32px;
+    max-width: 32px;
+    max-height: 32px;
+    border-radius: 100%;
+}
+
+.post_account_userName {
     margin: 0;
     padding: 0;
     text-decoration: none;
@@ -32,13 +46,15 @@
 }
 
 .post_title {
-    font-size: x-large;
-    text-decoration: 1px dashed none;
+    display: inline;
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    border-bottom: 1px dotted white;
 }
 
 .post_text {
+    display: inline;
     font-size: small;
     color: orange;
-    padding: 3px;
-    margin: 3px;
 }

@@ -58,7 +58,7 @@ public class DatabaseConfiguration {
     @Transactional
     public boolean instantiate() {
 
-        CreateAccount(
+        Account a1 = CreateAccount(
                 "pera@gmail.com",
                 "rope",
                 "123",
@@ -70,7 +70,7 @@ public class DatabaseConfiguration {
                 AccountRole.USER
         );
 
-        Account account4post = CreateAccount(
+        Account acc2 = CreateAccount(
                 "ajzak@gmail.com",
                 "ajzak",
                 "123",
@@ -82,11 +82,11 @@ public class DatabaseConfiguration {
                 AccountRole.USER
         );
 
-        CreatePost("Hello World 1", "Hello evereeehboodyyy!!!! 1 :^)", account4post);
-        CreatePost("Hello World 2", "Hello evereeehboodyyy!!!! 2 :^)", account4post);
-        CreatePost("Hello World 3", "Hello evereeehboodyyy!!!! 3 :^)", account4post);
+        CreatePost("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)", acc2);
+        CreatePost("Sala", "I ja i zeka volimo travu.", acc2);
 
-        CreateAccount(
+
+        Account acc3 = CreateAccount(
                 "konstrakta@gmail.com",
                 "konstrakta",
                 "123",
@@ -98,7 +98,9 @@ public class DatabaseConfiguration {
                 AccountRole.USER
         );
 
-        CreateAccount(
+        CreatePost("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).", acc3);
+
+        Account acc4 = CreateAccount(
                 "bigboss@gmail.com",
                 "snake",
                 "123",
@@ -109,6 +111,8 @@ public class DatabaseConfiguration {
                 "big scary admin guy",
                 AccountRole.ADMIN
         );
+
+        CreatePost("Zabranjeno dilovanje Sargarepa", "NA OVOM FORUMU SE NE SME DILOVATI SARGAREPA!!!! KO BUDE PREKRSIO DOBIJA BAN ISTE SEKUNDE!", acc4);
 
         printAll_accounts();
         printAll_posts();

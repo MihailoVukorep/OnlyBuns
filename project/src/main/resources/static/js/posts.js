@@ -16,27 +16,38 @@ function make_post(item) {
     const post_head = document.createElement("div");
     post_head.className = "post_head";
 
-    const p_title = document.createElement("a");
-    p_title.className = "post_title"
-    p_title.innerHTML = item.title;
-    p_title.href = "/posts/" + item.id;
-    post_head.appendChild(p_title);
+    const post_head_account = document.createElement("a");
+    post_head_account.className = "post_account"
+    post_head_account.href = "/accounts/" + item.account.id;
 
-    const p_account = document.createElement("a");
-    p_account.className = "post_account"
-    p_account.innerHTML = item.account.userName;
-    p_account.href = "/accounts/" + item.account.id;
-    post_head.appendChild(p_account);
+    const post_head_account_image = document.createElement("img");
+    post_head_account_image.className = "post_account_image";
+    post_head_account_image.src = item.account.avatar;
+    post_head_account.appendChild(post_head_account_image);
+
+    const post_head_account_userName = document.createElement("p");
+    post_head_account_userName.innerHTML = item.account.userName;
+    post_head_account_userName.className = "post_account_userName";
+    post_head_account.appendChild(post_head_account_userName);
+
+    post_head.appendChild(post_head_account);
+
+
+    const post_head_title = document.createElement("a");
+    post_head_title.className = "post_title"
+    post_head_title.innerHTML = item.title;
+    post_head_title.href = "/posts/" + item.id;
+    post_head.appendChild(post_head_title);
 
     post.appendChild(post_head);
 
     const post_body = document.createElement("div");
     post_body.className = "post_body";
 
-    const p_text = document.createElement("p");
-    p_text.className = "post_text"
-    p_text.innerHTML = item.text;
-    post_body.appendChild(p_text);
+    const post_body_text = document.createElement("p");
+    post_body_text.className = "post_text"
+    post_body_text.innerHTML = item.text;
+    post_body.appendChild(post_body_text);
 
     post.appendChild(post_body);
     return post;
@@ -60,8 +71,8 @@ load_posts();
 
 
 // SEARCH
-const txt_search = document.getElementById("txt_search");
-const btn_search = document.getElementById("btn_search");
-function search() { load_posts(txt_search.value); }
-txt_search.addEventListener("keydown", function(event) { if (event.key == 'Enter') { search(); } }, false);
-btn_search.onclick = function() { search(); }
+//   const txt_search = document.getElementById("txt_search");
+//   const btn_search = document.getElementById("btn_search");
+//   function search() { load_posts(txt_search.value); }
+//   txt_search.addEventListener("keydown", function(event) { if (event.key == 'Enter') { search(); } }, false);
+//   btn_search.onclick = function() { search(); }

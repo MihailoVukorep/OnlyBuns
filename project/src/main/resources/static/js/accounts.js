@@ -10,7 +10,7 @@ function accounts_clear(div_accounts) {
 function make_account(json) {
 
     const account_link = document.createElement("a");
-    account_link.className = "user_link";
+    account_link.className = "account_link";
     account_link.href = "/accounts/" + json.id;
 
     const account = document.createElement("div");
