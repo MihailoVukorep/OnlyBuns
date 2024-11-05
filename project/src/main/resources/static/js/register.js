@@ -3,7 +3,7 @@ let p_status = document.getElementById("p_status");
 
 async function api_register() {
 
-    p_status.innerHTML = "Registering..."
+    p_status.innerHTML = "Registering...";
 
     let txt_email = document.getElementById("txt_email");
     let txt_userName = document.getElementById("txt_userName");

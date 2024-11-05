@@ -1,11 +1,33 @@
+:root {
+    --var-color-fg-post-white: #f8f8f2;
+    --var-color-fg-post-username: #5ac0cc;;
+    --var-color-fg-post-title: #ae81ff;
+    --var-color-fg-post-account: #2ecc71; 
+    --var-color-fg-post-address: #e2db74;
+    --var-color-fg-post-email: #a2cc28;
+
+    --var-color-bg-sub1: rgba(32, 33, 28);
+    --var-color-bg-sub2: rgba(36, 37, 31);
+    --var-color-bg-sub3: rgba(39, 40, 34);
+
+    --var-color-bg-trans-sub1: rgba(0, 0, 0, 0.5);
+    --var-color-bg-link: rgba(61, 89, 122, 0.372);
+
+    --var-color-border-gray: #505050;
+    --var-color-border-transwhite: rgba(255, 255, 255, 0.5);
+}
+
+
+
 html {
-    color: white;
+    color: var(--var-color-fg-post-white);
     background-image: url("/img/bg1.png");
     background-color: black;
     background-repeat: auto;
     font-size: 20px;
     font-family: monospace;
 }
+
 
 body {
     background-color: transparent;
@@ -23,7 +45,7 @@ body {
 }
 
 #navbar {
-    background-color: rgba(1, 1, 1, 0.5);
+    background-color: var(--var-color-bg-trans-sub1);
     height: fit-content;
     margin: 0;
     padding: 0;
@@ -49,26 +71,17 @@ body {
     color: white;
     padding: 3px;
     font-size: larger;
-    border: #505050 1px solid;
+    border: var(--var-color-border-gray) 1px solid;
     border-radius: 2px;
     margin: 0 3px;
-    background-color: rgba(61, 89, 122, 0.372);
+    background-color: var(--var-color-bg-link);
 }
 
-
-h1 {
+h1, h2 {
     text-align: center;
     text-decoration: double;
-    border-bottom: 3px rgba(255, 255, 255, 0.5) dotted;
+    border-bottom: 3px var(--var-color-border-transwhite) dotted;
     margin: 10px auto;
-    width: 90%;
-}
-
-h2 {
-    text-align: center;
-    border-bottom: 5px white solid;
-    margin: 10px auto;
-    border-radius: 30px;
-    width: fit-content;
-    padding: 10px 30px;
+    width: 100%;
+    padding: 0px;
 }

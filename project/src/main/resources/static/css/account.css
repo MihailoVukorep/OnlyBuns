@@ -4,7 +4,7 @@
     width: fit-content;
     border: 1px solid;
     border-radius: 40px;
-    background: #151515;
+    background: var(--var-color-bg-trans-sub1);
 }
 
 #account img {
@@ -18,18 +18,22 @@
 #account_image {
     width: 300px;
     height: 300px;
-    border: dashed 3px white;
+    border: dashed 3px var(--var-color-border-transwhite);
     display: inline-block;
     margin: 10px;
     padding: 10px;
     border-radius: 50%;
-    background: #050505;
+    background: var(--var-color-bg-trans-sub1);
 }
 
 #account table {
     display: inline-block;
-    background: #101010;
-    border: 3px dotted;
+    background: var(--var-color-bg-trans-sub1);
+    border: 3px dotted var(--var-color-border-transwhite);
     padding: 10px;
     margin: 30px;
+}
+
+#account table th {
+    text-align: right;
 }
