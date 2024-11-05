@@ -32,21 +32,41 @@
 }
 
 .account_info {
-    overflow: hidden;
-    padding: 10px;
+    padding: 0px;
 }
 
 .account_info_head {
-    padding: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 5px;
     margin: 0;
+}
+
+.account_info_head_fullName {
+    font-size: x-large;
+    text-align: center;
+    align-content: center;
 }
 
 .account_info_head_firstName,
 .account_info_head_lastName {
-    font-size: 14px;
     margin: 0 5px 0 0;
     color: var(--var-color-fg-post-account);
     display: inline;
+}
+
+.account_info_head_firstName
+.account_info_head_lastName,
+.account_info_head_userName,
+.account_info_head_email,
+.account_info_body_bio,
+.account_info_body_address,
+.account_info_body_accountRole
+{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .account_info_head_userName {
@@ -54,7 +74,8 @@
     padding: 0;
     font-size: 14px;
     color: var(--var-color-fg-post-username);
-    display: inline;
+    display: block;
+    text-align: center;
 }
 
 .account_info_head_email {
@@ -64,8 +85,10 @@
 
 .account_info_body {
     overflow: hidden;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     border-top: 1px dotted #ddd;
+    padding: 5px;
 }
 
 .account_info_body_bio,

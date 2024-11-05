@@ -13,7 +13,7 @@ function make_post(item) {
     const post = document.createElement("div");
     post.className = "post";
 
-    const post_head = document.createElement("div");
+    const post_head = document.createElement("span");
     post_head.className = "post_head";
 
     const post_head_account = document.createElement("a");
@@ -41,10 +41,10 @@ function make_post(item) {
 
     post.appendChild(post_head);
 
-    const post_body = document.createElement("div");
+    const post_body = document.createElement("span");
     post_body.className = "post_body";
 
-    const post_body_text = document.createElement("p");
+    const post_body_text = document.createElement("span");
     post_body_text.className = "post_text"
     post_body_text.innerHTML = item.text;
     post_body.appendChild(post_body_text);

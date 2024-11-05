@@ -103,6 +103,18 @@ public class DatabaseConfiguration {
                 AccountRole.ADMIN
         );
 
+        CreateAccount(
+                "killmeplzftn+superlongemail@gmail.com",
+                "superlongusernametestyouui",
+                "123",
+                "Super Long First Name",
+                "Super Long Last Name",
+                "really long address, can't be longer, very annoying",
+                "/avatars/bunny1.png",
+                "this is a really long profile bio plz format me",
+                AccountRole.USER
+        );
+
         CreatePost("Zabranjeno dilovanje Sargarepa", "NA OVOM FORUMU SE NE SME DILOVATI SARGAREPA!!!! KO BUDE PREKRSIO DOBIJA BAN ISTE SEKUNDE!", acc4);
 
         serviceTest.printAll_accounts();

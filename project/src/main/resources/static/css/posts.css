@@ -7,23 +7,21 @@
     border: 1px solid var(--var-color-border-transwhite);
     border-radius: 5px;
     background-color: var(--var-color-bg-trans-sub1);
-    padding: 10px;
+    padding: 2px;
     margin: 3px;
     overflow: hidden;
     overflow-wrap: anywhere;
 }
 
-.post_head {
-
-}
-
-.post_body {
-
-}
-
 .post_account {
     text-decoration: none;
     padding: 3px;
+    float: left;
+    display: block;
+    margin: 0 3px 3px 0px;
+    background-color: var(--var-color-bg-trans-sub1);
+    border: 1px solid var(--var-color-border-transwhite);
+    border-radius: 5px;
 }
 
 .post_account_image {
@@ -32,6 +30,8 @@
     max-width: 32px;
     max-height: 32px;
     border-radius: 100%;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .post_account_userName {
@@ -47,7 +47,8 @@
 }
 
 .post_title {
-    display: inline;
+    font-size: medium;
+    display: block;
     color: var(--var-color-fg-post-title);
     text-decoration: none;
     padding: 0;
@@ -58,4 +59,7 @@
     display: inline;
     font-size: small;
     color: var(--var-color-fg-post-white);
+    text-decoration: none;
+    padding: 0;
+    margin: 0;
 }
