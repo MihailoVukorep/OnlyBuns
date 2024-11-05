@@ -4,6 +4,7 @@ import com.onlybuns.OnlyBuns.dto.DTO_Post_AccountLogin;
 import com.onlybuns.OnlyBuns.dto.DTO_Post_AccountRegister;
 import com.onlybuns.OnlyBuns.dto.DTO_View_Account;
 import com.onlybuns.OnlyBuns.service.Service_Account;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +30,8 @@ public class RestController_Account {
     }
 
     @PostMapping("/api/login")
-    public ResponseEntity<String> api_login(@RequestBody DTO_Post_AccountLogin dto_post_accountLogin, HttpSession session){
-        return serviceAccount.api_login(dto_post_accountLogin, session);
+    public ResponseEntity<String> api_login(@RequestBody DTO_Post_AccountLogin dto_post_accountLogin, HttpServletRequest request, HttpSession session){
+        return serviceAccount.api_login(dto_post_accountLogin, request, session);
     }
 
     @PostMapping("/api/register")

@@ -1,8 +1,6 @@
 package com.onlybuns.OnlyBuns.controller.api;
 
-import com.onlybuns.OnlyBuns.dto.DTO_View_Account;
 import com.onlybuns.OnlyBuns.dto.DTO_View_Post;
-import com.onlybuns.OnlyBuns.service.Service_Account;
 import com.onlybuns.OnlyBuns.service.Service_Post;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;

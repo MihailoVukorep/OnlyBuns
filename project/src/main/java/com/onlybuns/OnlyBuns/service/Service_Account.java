@@ -1,12 +1,12 @@
 package com.onlybuns.OnlyBuns.service;
 
-
 import com.onlybuns.OnlyBuns.dto.DTO_Post_AccountLogin;
 import com.onlybuns.OnlyBuns.dto.DTO_Post_AccountRegister;
 import com.onlybuns.OnlyBuns.dto.DTO_View_Account;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.AccountRole;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.Instant;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class Service_Account {
@@ -50,11 +50,41 @@ public class Service_Account {
         return new ResponseEntity<>(new DTO_View_Account(foundAccount.get()), HttpStatus.OK);
     }
 
-    public ResponseEntity<String> api_login(@RequestBody DTO_Post_AccountLogin dto_post_accountLogin, HttpSession session){
+    private static final int MAX_ATTEMPTS = 5;
+    private static final long TIME_WINDOW = 60 * 1000; // 1 minute in milliseconds
+
+    // Rate limiter map: ip -> queue of attempt timestamps
+    private Map<String, Queue<Long>> loginAttempts = new ConcurrentHashMap<>();
+
+    private boolean isRateLimited(String ip) {
+        long currentTime = Instant.now().toEpochMilli();
+
+        // Retrieve or initialize the login attempts queue for the user
+        loginAttempts.putIfAbsent(ip, new LinkedList<>());
+        Queue<Long> attempts = loginAttempts.get(ip);
+
+        // Remove attempts that are outside the time window
+        while (!attempts.isEmpty() && currentTime - attempts.peek() > TIME_WINDOW) { attempts.poll(); }
+
+        // Check if the user has reached the max attempts within the time window
+        if (attempts.size() >= MAX_ATTEMPTS) { return true; }
+
+        // Record the current attempt and proceed
+        attempts.offer(currentTime);
+        return false;
+    }
+
+    public ResponseEntity<String> api_login(@RequestBody DTO_Post_AccountLogin dto_post_accountLogin, HttpServletRequest request, HttpSession session){
         Account sessionAccount = (Account) session.getAttribute("account");
         if (sessionAccount != null) { return new ResponseEntity<>("Already logged in.", HttpStatus.BAD_REQUEST); }
 
         if (dto_post_accountLogin.getEmail().isEmpty() || dto_post_accountLogin.getPassword().isEmpty()) { return new ResponseEntity<>("Invalid login data.", HttpStatus.BAD_REQUEST); }
+
+        // Rate limiter check
+        String clientIp = request.getRemoteAddr(); // Get the client's IP address
+        if (isRateLimited(clientIp)) {
+            return new ResponseEntity<>("Too many login attempts. Please try again later.", HttpStatus.TOO_MANY_REQUESTS);
+        }
 
         Optional<Account> foundAccount = repositoryAccount.findByEmail(dto_post_accountLogin.getEmail());
         if (foundAccount.isEmpty()) { foundAccount = repositoryAccount.findByUserName(dto_post_accountLogin.getEmail()); }
@@ -62,7 +92,6 @@ public class Service_Account {
         if (foundAccount.isEmpty()) { return new ResponseEntity<>("Account not found.", HttpStatus.NOT_FOUND); }
 
         Account account = foundAccount.get();
-
         if (!account.getPassword().equals(dto_post_accountLogin.getPassword())) { return new ResponseEntity<>("Wrong password.", HttpStatus.UNAUTHORIZED); }
 
         session.setAttribute("account", account);
