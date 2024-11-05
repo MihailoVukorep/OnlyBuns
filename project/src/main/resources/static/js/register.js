@@ -6,9 +6,15 @@ async function api_register() {
     let txt_email = document.getElementById("txt_email");
     let txt_userName = document.getElementById("txt_userName");
     let txt_password = document.getElementById("txt_password");
+    let txt_password_repeat = document.getElementById("txt_password_repeat");
     let txt_firstName = document.getElementById("txt_firstName");
     let txt_lastName = document.getElementById("txt_lastName");
     let txt_address = document.getElementById("txt_address");
+
+    if (txt_password.value != txt_password_repeat.value) {
+        p_status.innerHTML = "Passwords don't match";
+        return;
+    }
 
     const response = await fetch('/api/register', {
         method: 'POST',

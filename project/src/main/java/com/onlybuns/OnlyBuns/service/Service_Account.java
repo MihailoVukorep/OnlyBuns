@@ -51,36 +51,35 @@ public class Service_Account {
 
     public ResponseEntity<String> api_login(@RequestBody DTO_Post_AccountLogin dto_post_accountLogin, HttpSession session){
         Account sessionAccount = (Account) session.getAttribute("account");
-        if (sessionAccount != null) { return new ResponseEntity<>("already logged in", HttpStatus.BAD_REQUEST); }
+        if (sessionAccount != null) { return new ResponseEntity<>("Already logged in.", HttpStatus.BAD_REQUEST); }
 
-        if (dto_post_accountLogin.getEmail().isEmpty() || dto_post_accountLogin.getPassword().isEmpty()) { return new ResponseEntity<>("invalid login data", HttpStatus.BAD_REQUEST); }
+        if (dto_post_accountLogin.getEmail().isEmpty() || dto_post_accountLogin.getPassword().isEmpty()) { return new ResponseEntity<>("Invalid login data.", HttpStatus.BAD_REQUEST); }
 
         Optional<Account> foundAccount = repositoryAccount.findByEmail(dto_post_accountLogin.getEmail());
-        if (foundAccount.isEmpty()) {
-            foundAccount = repositoryAccount.findByUserName(dto_post_accountLogin.getEmail());
-        }
+        if (foundAccount.isEmpty()) { foundAccount = repositoryAccount.findByUserName(dto_post_accountLogin.getEmail()); }
 
-        if (foundAccount.isEmpty()) {
-            return new ResponseEntity<>("account not found", HttpStatus.NOT_FOUND);
-        }
+        if (foundAccount.isEmpty()) { return new ResponseEntity<>("Account not found.", HttpStatus.NOT_FOUND); }
 
         Account account = foundAccount.get();
 
-        if (!account.getPassword().equals(dto_post_accountLogin.getPassword())) { return new ResponseEntity<>("wrong password", HttpStatus.UNAUTHORIZED); }
+        if (!account.getPassword().equals(dto_post_accountLogin.getPassword())) { return new ResponseEntity<>("Wrong password.", HttpStatus.UNAUTHORIZED); }
 
         session.setAttribute("account", account);
-        return new ResponseEntity<>("logged in as: " + account.getUserName(), HttpStatus.OK);
+        return new ResponseEntity<>("Logged in as: " + account.getUserName(), HttpStatus.OK);
     }
 
     public ResponseEntity<String> api_register(@RequestBody DTO_Post_AccountRegister dto_post_accountRegister, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("account");
-        if (sessionAccount != null) { return new ResponseEntity<>("already logged in", HttpStatus.BAD_REQUEST); }
+        if (sessionAccount != null) { return new ResponseEntity<>("Already logged in.", HttpStatus.BAD_REQUEST); }
+
+        String message = dto_post_accountRegister.validate();
+        if (message != null) { return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST); }
 
         Optional<Account> foundAccount = repositoryAccount.findByEmail(dto_post_accountRegister.getEmail());
-        if (!foundAccount.isEmpty()) { return new ResponseEntity<>("email exists: " + dto_post_accountRegister.getEmail(), HttpStatus.CONFLICT); }
+        if (!foundAccount.isEmpty()) { return new ResponseEntity<>("Email exists: " + dto_post_accountRegister.getEmail(), HttpStatus.CONFLICT); }
 
         foundAccount = repositoryAccount.findByUserName(dto_post_accountRegister.getUserName());
-        if (!foundAccount.isEmpty()) { return new ResponseEntity<>("username exists: " + dto_post_accountRegister.getUserName(), HttpStatus.CONFLICT); }
+        if (!foundAccount.isEmpty()) { return new ResponseEntity<>("Username exists: " + dto_post_accountRegister.getUserName(), HttpStatus.CONFLICT); }
 
         Account newAccount = new Account(
                 dto_post_accountRegister.getEmail(),
@@ -95,14 +94,14 @@ public class Service_Account {
         );
         repositoryAccount.save(newAccount);
         session.setAttribute("account", newAccount);
-        return new ResponseEntity<>("registered: " + newAccount, HttpStatus.OK);
+        return new ResponseEntity<>("Registered.", HttpStatus.OK);
     }
 
     public ResponseEntity<String> logout(HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("account");
-        if (sessionAccount == null) { return new ResponseEntity<>("already logged out", HttpStatus.BAD_REQUEST); }
+        if (sessionAccount == null) { return new ResponseEntity<>("Already logged out.", HttpStatus.BAD_REQUEST); }
 
         session.invalidate();
-        return new ResponseEntity<>("logged out: " + sessionAccount.getUserName(), HttpStatus.OK);
+        return new ResponseEntity<>("Logged out: " + sessionAccount.getUserName(), HttpStatus.OK);
     }
 }
