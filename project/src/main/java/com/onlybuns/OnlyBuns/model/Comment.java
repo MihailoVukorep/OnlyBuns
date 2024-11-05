@@ -6,13 +6,13 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "comments")
 public class Comment {
@@ -33,8 +33,20 @@ public class Comment {
     private Post post;
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Like> likes;
+    private List<Like> likes = new ArrayList<>();;
 
     @CreationTimestamp
     private LocalDateTime createdDate;
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", account=" + account.getId() +
+                ", post=" + post +
+                ", likes=" + likes.size() +
+                ", createdDate=" + createdDate +
+                '}';
+    }
 }
