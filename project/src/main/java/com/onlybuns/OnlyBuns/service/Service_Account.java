@@ -8,6 +8,7 @@ import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.AccountRole;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,6 +69,7 @@ public class Service_Account {
         return new ResponseEntity<>("Logged in as: " + account.getUserName(), HttpStatus.OK);
     }
 
+    @Transactional
     public ResponseEntity<String> api_register(@RequestBody DTO_Post_AccountRegister dto_post_accountRegister, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("account");
         if (sessionAccount != null) { return new ResponseEntity<>("Already logged in.", HttpStatus.BAD_REQUEST); }
@@ -75,11 +77,20 @@ public class Service_Account {
         String message = dto_post_accountRegister.validate();
         if (message != null) { return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST); }
 
-        Optional<Account> foundAccount = repositoryAccount.findByEmail(dto_post_accountRegister.getEmail());
-        if (!foundAccount.isEmpty()) { return new ResponseEntity<>("Email exists: " + dto_post_accountRegister.getEmail(), HttpStatus.CONFLICT); }
+        // Lock on email and username checking to prevent concurrent issues
+        synchronized (this) {
+            // Check if the email is already in use
+            Optional<Account> foundAccount = repositoryAccount.findByEmail(dto_post_accountRegister.getEmail());
+            if (foundAccount.isPresent()) {
+                return new ResponseEntity<>("Email exists: " + dto_post_accountRegister.getEmail(), HttpStatus.CONFLICT);
+            }
 
-        foundAccount = repositoryAccount.findByUserName(dto_post_accountRegister.getUserName());
-        if (!foundAccount.isEmpty()) { return new ResponseEntity<>("Username exists: " + dto_post_accountRegister.getUserName(), HttpStatus.CONFLICT); }
+            // Check if the username is already in use
+            foundAccount = repositoryAccount.findByUserName(dto_post_accountRegister.getUserName());
+            if (foundAccount.isPresent()) {
+                return new ResponseEntity<>("Username exists: " + dto_post_accountRegister.getUserName(), HttpStatus.CONFLICT);
+            }
+        }
 
         Account newAccount = new Account(
                 dto_post_accountRegister.getEmail(),
