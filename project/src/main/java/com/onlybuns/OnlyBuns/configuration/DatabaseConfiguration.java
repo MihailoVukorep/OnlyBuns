@@ -58,33 +58,33 @@ public class DatabaseConfiguration {
     @Transactional
     public boolean instantiate() {
 
-        Account account1 = CreateAccount(
+        CreateAccount(
                 "pera@gmail.com",
                 "rope",
                 "123",
-                "pera",
-                "peric",
+                "Pera",
+                "Peric",
                 "bulevar 22",
                 "/avatars/default.jpg",
                 "veoma ozbiljan lik",
                 AccountRole.USER
         );
 
-        CreatePost("Hello World 1", "Hello evereeehboodyyy!!!! 1 :^)", account1);
-        CreatePost("Hello World 2", "Hello evereeehboodyyy!!!! 2 :^)", account1);
-        CreatePost("Hello World 3", "Hello evereeehboodyyy!!!! 3 :^)", account1);
-
-        CreateAccount(
-                "bibi@gmail.com",
-                "bibi",
+        Account account4post = CreateAccount(
+                "ajzak@gmail.com",
+                "ajzak",
                 "123",
-                "bibi",
-                "patak",
+                "Ajs",
+                "Nigrutin",
                 "sutjeska 13",
                 "/avatars/bunny1.png",
-                "veoma kul lik",
+                "gengsta lik",
                 AccountRole.USER
         );
+
+        CreatePost("Hello World 1", "Hello evereeehboodyyy!!!! 1 :^)", account4post);
+        CreatePost("Hello World 2", "Hello evereeehboodyyy!!!! 2 :^)", account4post);
+        CreatePost("Hello World 3", "Hello evereeehboodyyy!!!! 3 :^)", account4post);
 
         CreateAccount(
                 "konstrakta@gmail.com",

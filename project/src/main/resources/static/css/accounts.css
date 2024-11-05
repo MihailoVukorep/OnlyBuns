@@ -7,16 +7,21 @@
     margin: 20px;
 }
 
-
 .account {
     display: inline-block;
-    width: fit-content;
-    height: fit-content;
+    width: 230px;
+    height: 300px;
+    max-width: 230px;
+    max-height: 300px;
     background-color: #101010;
     border: 1px solid white;
     padding: 3px;
     border-radius: 10px;
     margin: 5px;
+}
+
+.account_img_cont {
+    display: flex;
 }
 
 .account img {
@@ -28,33 +33,61 @@
     margin: 0 auto;
 }
 
-.account table {
-    display: inline-block;
-    overflow: auto;
-    width: 290px;
-    height: 160px;
-    max-width: 290px;
-    max-height: 160px;
-    font-size: medium;
-    border: 1px dashed white;
-    padding: 3px;
-    margin: 10px;
-    display: block;
-    overflow: clip;
-    overflow-wrap: anywhere;
+.account_info {
+    overflow: hidden;
+    padding: 10px;
 }
 
-.account table th {
-    width: auto;
-    text-align: right;
-    overflow: clip;
-    overflow-wrap: anywhere;
+.account_info_head {
+    padding: 0;
+    margin: 0;
 }
 
-.account table td {
-    width: auto;
-    overflow: hidden; /* Hide the overflowed content */
-    text-overflow: ellipsis; /* Show '...' for overflowed content */
-    white-space: nowrap; /* Prevent the content from wrapping to the next line */
+.account_info_head_firstName,
+.account_info_head_lastName {
+    font-size: 14px;
+    margin: 0 5px 0 0;
+    color: lime;
+    display: inline;
+}
+
+.account_info_head_userName {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    color: #5ac0cc;
+    display: inline;
+}
+
+.account_info_head_email {
+    color: coral;
+    font-size: 12px;
+}
+
+.account_info_body {
+    overflow: hidden;
     overflow-wrap: anywhere;
+    border-top: 1px dotted #ddd;
+}
+
+.account_info_body_bio,
+.account_info_body_address,
+.account_info_body_accountRole {
+    margin: 8px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.account_info_body_bio {
+    font-style: italic;
+    color: #666;
+}
+
+.account_info_body_address {
+    font-size: 15px;
+}
+
+.account_info_body_accountRole {
+    font-weight: bold;
+    color: #333;
 }
