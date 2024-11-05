@@ -5,6 +5,7 @@ import com.onlybuns.OnlyBuns.model.AccountRole;
 import com.onlybuns.OnlyBuns.model.Post;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
 import com.onlybuns.OnlyBuns.repository.Repository_Post;
+import com.onlybuns.OnlyBuns.service.Service_Test;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,15 +23,9 @@ public class DatabaseConfiguration {
     @Autowired
     private Repository_Post repositoryPost;
 
-    public void printAll_accounts() {
-        List<Account> accounts = repositoryAccount.findAll();
-        for (Account i : accounts) { System.out.println(i.toString()); }
-    }
 
-    public void printAll_posts() {
-        List<Post> posts = repositoryPost.findAll();
-        for (Post i : posts) { System.out.println(i.toString()); }
-    }
+    @Autowired
+    private Service_Test serviceTest;
 
     public Account CreateAccount(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio, AccountRole accountRole) {
         Account account = new Account(
@@ -114,8 +109,8 @@ public class DatabaseConfiguration {
 
         CreatePost("Zabranjeno dilovanje Sargarepa", "NA OVOM FORUMU SE NE SME DILOVATI SARGAREPA!!!! KO BUDE PREKRSIO DOBIJA BAN ISTE SEKUNDE!", acc4);
 
-        printAll_accounts();
-        printAll_posts();
+        serviceTest.printAll_accounts();
+        serviceTest.printAll_posts();
 
         return true;
     }
