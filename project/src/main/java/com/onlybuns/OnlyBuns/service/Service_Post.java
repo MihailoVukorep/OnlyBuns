@@ -1,11 +1,8 @@
 package com.onlybuns.OnlyBuns.service;
 
-import com.onlybuns.OnlyBuns.dto.DTO_View_Account;
 import com.onlybuns.OnlyBuns.dto.DTO_View_Post;
-import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.Post;
 import org.springframework.data.domain.Sort;
-import com.onlybuns.OnlyBuns.repository.Repository_Account;
 import com.onlybuns.OnlyBuns.repository.Repository_Post;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,10 +1,8 @@
 package com.onlybuns.OnlyBuns.dto;
-
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.Comment;
 import com.onlybuns.OnlyBuns.model.Post;
 import lombok.*;
-
 import java.time.LocalDateTime;
 import java.util.List;
 

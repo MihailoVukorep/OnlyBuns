@@ -1,6 +1,4 @@
 package com.onlybuns.OnlyBuns.dto;
-
-
 import lombok.*;
 
 @Getter

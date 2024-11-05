@@ -1,5 +1,4 @@
 package com.onlybuns.OnlyBuns.controller.web;
-
 import com.onlybuns.OnlyBuns.model.Account;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;

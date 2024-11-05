@@ -1,5 +1,4 @@
 package com.onlybuns.OnlyBuns.configuration;
-
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.AccountRole;
 import com.onlybuns.OnlyBuns.model.Post;
@@ -10,9 +9,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @Configuration
 public class DatabaseConfiguration {
