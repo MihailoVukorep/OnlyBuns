@@ -3,6 +3,8 @@ let p_status = document.getElementById("p_status");
 
 async function api_register() {
 
+    p_status.innerHTML = "Registering...";
+
     let txt_email = document.getElementById("txt_email");
     let txt_userName = document.getElementById("txt_userName");
     let txt_password = document.getElementById("txt_password");
@@ -37,9 +39,9 @@ async function api_register() {
     console.log(response);
     p_status.innerHTML = text;
 
-    if (response.ok) {
-        window.location.href = "myaccount";
-    }
+    //if (response.ok) {
+    //    window.location.href = "myaccount"; // no redirect needs verification
+    //}
 }
 
 btn_register.onclick = api_register;

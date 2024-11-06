@@ -2,28 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
     <head>
         <meta charset="UTF-8">
-        <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+        <link rel="icon" type="image/x-icon" href="/img/favicon.png">
         <link rel="stylesheet" href="/css/main.css">
 
         <title>OnlyBuns - Post</title>
         <link rel="stylesheet" href="/css/post.css">
         <link rel="stylesheet" href="/css/dataform.css">
-        <link rel="stylesheet" href="/css/popup.css">
     </head>
         <input type="hidden" id="post_id" th:value="${post_id}"/>
 
         <div id="navbar"></div>
 
-        <h1>Post</h2>
-
-        <div id="post">
-            <p id="v_title">...</p>
-            <p id="v_text">...</p>
-        </div>
-
-        <div>
-            <h2>Comments</h2>
-            <div id="v_comments"></div>
+        <div id="thread">
         </div>
 
         <script type="text/javascript" src="/js/navbar.js"></script>

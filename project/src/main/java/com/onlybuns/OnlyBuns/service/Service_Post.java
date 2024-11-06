@@ -1,8 +1,7 @@
 package com.onlybuns.OnlyBuns.service;
 
+
 import com.onlybuns.OnlyBuns.dto.DTO_CreatePost;
-import com.onlybuns.OnlyBuns.dto.DTO_Post_AccountRegister;
-import com.onlybuns.OnlyBuns.dto.DTO_View_Account;
 import com.onlybuns.OnlyBuns.dto.DTO_View_Post;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.AccountRole;
@@ -38,9 +37,6 @@ public class Service_Post {
     @Autowired
     private Repository_Post repositoryPost;
 
-    @Value("${file.upload-dir}")
-    private String uploadDir;
-
     public ResponseEntity<List<DTO_View_Post>> api_posts(String sort) {
 
         // If no sort parameter, use default sorting (e.g., by ID)
@@ -59,7 +55,7 @@ public class Service_Post {
             }
         }
 
-        List<Post> posts = repositoryPost.findAll(sortOrder);
+        List<Post> posts = repositoryPost.findByParentPostIsNull(sortOrder);
         List<DTO_View_Post> dtos = new ArrayList<>();
         for (Post post : posts) {
             dtos.add(new DTO_View_Post(post));
@@ -67,7 +63,7 @@ public class Service_Post {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    public ResponseEntity<DTO_View_Post> api_posts_id(@PathVariable(name = "id") Integer id, HttpSession session) {
+    public ResponseEntity<DTO_View_Post> api_posts_id(@PathVariable(name = "id") Integer id) {
         Optional<Post> post = repositoryPost.findById(id);
         if (post.isEmpty()) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -76,43 +72,31 @@ public class Service_Post {
     }
 
     @Transactional
-    public ResponseEntity<String> api_createpost(String title,
-                                                 String description,
-                                                 String location,
-                                                 MultipartFile file,
+    public ResponseEntity<String> api_createpost(@RequestBody DTO_CreatePost dto_createpost,
                                                  HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("account");
 
-        if (title.isEmpty() || description.isEmpty() || location.isEmpty()) {
+        String message = dto_createpost.validate();
+        if (message != null) {
             return new ResponseEntity<>("All fields are required.", HttpStatus.BAD_REQUEST);
         }
 
 
-        String filePath = null;
-        if (file != null && !file.isEmpty()) {
-            try {
-                filePath = saveImage(file);
-            } catch (IOException e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
-            }
-        }
-        Post newPost = new Post(title, description, location, sessionAccount, filePath);
-
+        Post newPost = new Post(
+                dto_createpost.getTitle(),
+                dto_createpost.getDescription(),
+                dto_createpost.getLocation(),
+                sessionAccount);
+        repositoryPost.save(newPost);
 
         return new ResponseEntity<>("Post created successfully.", HttpStatus.OK);
     }
-
-    private String saveImage(MultipartFile file) throws IOException {
-        Path uploadPath = Paths.get(uploadDir);
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
-
-        String fileName = file.getOriginalFilename();
-        Path filePath = uploadPath.resolve(fileName);
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-        return filePath.toString();
+    public ResponseEntity<List<DTO_View_Post>> api_posts_id_replies(@PathVariable(name = "id") Integer id) {
+        Optional<Post> optional_post = repositoryPost.findById(id);
+        if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+        Post post = optional_post.get();
+        List<DTO_View_Post> dtos = new ArrayList<>();
+        for (Post i : post.getReplies()) { dtos.add(new DTO_View_Post(i)); }
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
-
 }

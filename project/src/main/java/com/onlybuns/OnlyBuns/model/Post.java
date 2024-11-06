@@ -1,22 +1,16 @@
 package com.onlybuns.OnlyBuns.model;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "posts")
 public class Post {
@@ -41,11 +35,15 @@ public class Post {
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Comment> comments;
+    @OneToMany(mappedBy = "parentPost", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Post> replies = new ArrayList<>(); // This will hold replies to the post
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_post_id")
+    private Post parentPost; // This will reference the parent post (if any)
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Like> likes;
+    private List<Like> likes = new ArrayList<>();;
 
     @CreationTimestamp
     private LocalDateTime createdDate;
@@ -59,5 +57,27 @@ public class Post {
         //this.picture = picture;
         this.location = location;
         this.account = account;
+    }
+
+    // Constructor for replies (setting parent post)
+    public Post(String title, String text, Account account, Post parentPost) {
+        this.title = title;
+        this.text = text;
+        this.account = account;
+        this.parentPost = parentPost;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", text='" + text + '\'' +
+                ", account=" + account.getId() +
+                ", replies=" + replies.size() +
+                ", likes=" + likes.size() +
+                ", createdDate=" + createdDate +
+                ", updatedDate=" + updatedDate +
+                '}';
     }
 }

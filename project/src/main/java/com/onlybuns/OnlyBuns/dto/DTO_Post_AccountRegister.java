@@ -1,5 +1,4 @@
 package com.onlybuns.OnlyBuns.dto;
-
 import lombok.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

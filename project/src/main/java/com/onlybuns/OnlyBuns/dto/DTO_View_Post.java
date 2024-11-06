@@ -1,10 +1,7 @@
 package com.onlybuns.OnlyBuns.dto;
-
 import com.onlybuns.OnlyBuns.model.Account;
-import com.onlybuns.OnlyBuns.model.Comment;
 import com.onlybuns.OnlyBuns.model.Post;
 import lombok.*;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,7 +15,7 @@ public class DTO_View_Post {
     public String title;
     public String text;
     public Account account;
-    public List<Comment> comments;
+    public Integer replies;
     public LocalDateTime createdDate;
     public LocalDateTime updatedDate;
 
@@ -27,7 +24,7 @@ public class DTO_View_Post {
         this.title = post.getTitle();
         this.text = post.getText();
         this.account = post.getAccount();
-        this.comments = post.getComments();
+        this.replies = post.getReplies().size();
         this.createdDate = post.getCreatedDate();
         this.updatedDate = post.getUpdatedDate();
     }

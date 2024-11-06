@@ -41,21 +41,26 @@ function make_account(json) {
     const account_info_head = document.createElement("div");
     account_info_head.className = "account_info_head";
 
-    const account_info_head_firstName = document.createElement("p");
+    // full name
+    const account_info_head_fullName = document.createElement("div");
+    account_info_head_fullName.className = "account_info_head_fullName";
+    const account_info_head_firstName = document.createElement("span");
     account_info_head_firstName.className = "account_info_head_firstName";
     account_info_head_firstName.innerHTML = json.firstName;
-    account_info_head.appendChild(account_info_head_firstName);
-
-    const account_info_head_lastName = document.createElement("p");
+    account_info_head_fullName.appendChild(account_info_head_firstName);
+    const account_info_head_lastName = document.createElement("span");
     account_info_head_lastName.className = "account_info_head_lastName";
     account_info_head_lastName.innerHTML = json.lastName;
-    account_info_head.appendChild(account_info_head_lastName);
+    account_info_head_fullName.appendChild(account_info_head_lastName);
+    account_info_head.appendChild(account_info_head_fullName);
 
-    const account_info_head_userName = document.createElement("p");
+    // username
+    const account_info_head_userName = document.createElement("div");
     account_info_head_userName.className = "account_info_head_userName";
     account_info_head_userName.innerHTML = json.userName;
     account_info_head.appendChild(account_info_head_userName);
 
+    // email
     const account_info_head_email = document.createElement("p");
     account_info_head_email.className = "account_info_head_email";
     account_info_head_email.innerHTML = json.email;

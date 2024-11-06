@@ -1,5 +1,4 @@
 package com.onlybuns.OnlyBuns.controller.web;
-
 import com.onlybuns.OnlyBuns.model.Account;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -26,7 +25,6 @@ public class Controller_Account {
     public String myaccount(HttpSession session, Model model) {
         Account user = (Account) session.getAttribute("account");
         if (user == null) { return "error.html"; }
-
         model.addAttribute("account_id", user.getId());
         return "account.html";
     }

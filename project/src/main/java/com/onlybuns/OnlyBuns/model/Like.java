@@ -7,7 +7,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "likes")
 public class Like {
@@ -24,7 +23,12 @@ public class Like {
     @JoinColumn(name = "post_id", nullable = true)
     private Post post;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "comment_id", nullable = true)
-    private Comment comment;
+    @Override
+    public String toString() {
+        return "Like{" +
+                "id=" + id +
+                ", account=" + account.getId() +
+                ", post=" + post.getId() +
+                '}';
+    }
 }

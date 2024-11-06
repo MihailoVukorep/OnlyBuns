@@ -82,8 +82,8 @@ public class DatabaseConfiguration {
                 AccountRole.USER
         );
 
-        CreatePost("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)", "location1",acc2);
-        CreatePost("Sala", "I ja i zeka volimo travu.", "location2",acc2);
+        CreatePost("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)","location1", acc2);
+        CreatePost("Sala", "I ja i zeka volimo travu.","location2", acc2);
 
 
         Account acc3 = CreateAccount(
@@ -98,7 +98,7 @@ public class DatabaseConfiguration {
                 AccountRole.USER
         );
 
-        CreatePost("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).", "location3",acc3);
+        CreatePost("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).","location3", acc3);
 
         Account acc4 = CreateAccount(
                 "bigboss@gmail.com",
@@ -112,7 +112,7 @@ public class DatabaseConfiguration {
                 AccountRole.ADMIN
         );
 
-        CreatePost("Zabranjeno dilovanje Sargarepa", "NA OVOM FORUMU SE NE SME DILOVATI SARGAREPA!!!! KO BUDE PREKRSIO DOBIJA BAN ISTE SEKUNDE!", "location4",acc4);
+        CreatePost("Zabranjeno dilovanje Sargarepa", "NA OVOM FORUMU SE NE SME DILOVATI SARGAREPA!!!! KO BUDE PREKRSIO DOBIJA BAN ISTE SEKUNDE!","location4", acc4);
 
         printAll_accounts();
         printAll_posts();
