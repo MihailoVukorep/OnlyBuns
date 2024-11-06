@@ -1,14 +1,14 @@
 package com.onlybuns.OnlyBuns.controller.api;
 
+import com.onlybuns.OnlyBuns.dto.DTO_CreatePost;
+import com.onlybuns.OnlyBuns.dto.DTO_Post_AccountRegister;
 import com.onlybuns.OnlyBuns.dto.DTO_View_Post;
 import com.onlybuns.OnlyBuns.service.Service_Post;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,6 +24,17 @@ public class RestController_Post {
     @GetMapping("/api/posts/{id}")
     public ResponseEntity<DTO_View_Post> api_posts_id(@PathVariable(name = "id") Integer id, HttpSession session) {
         return servicePost.api_posts_id(id, session);
+    }
+    @PostMapping("/api/createpost")
+    public ResponseEntity<String> api_createpost(
+            @RequestParam("title") String title,
+            @RequestParam("description") String description,
+            @RequestParam("location") String location,
+            @RequestParam(value = "file", required = false) MultipartFile file,
+            HttpSession session) {
+
+        // Proslijedite sve podatke u `servicePost.api_createpost`
+        return servicePost.api_createpost(title, description, location, file, session);
     }
 
 }
