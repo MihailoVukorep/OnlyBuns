@@ -82,6 +82,18 @@ public class DatabaseConfiguration {
                 AccountRole.USER
         );
 
+        Account acc5 = CreateAccount(
+                "rankaradulovic70@gmail.com",
+                "ranxx",
+                "123",
+                "Ranka",
+                "Radulovic",
+                "sutjeska 13",
+                "/avatars/ajs.png",
+                "gengsta lik",
+                AccountRole.USER
+        );
+
         CreatePost("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)","location1", acc2);
         CreatePost("Sala", "I ja i zeka volimo travu.","location2", acc2);
 
