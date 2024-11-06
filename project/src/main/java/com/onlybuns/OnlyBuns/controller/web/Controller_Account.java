@@ -37,14 +37,22 @@ public class Controller_Account {
     }
 
     @GetMapping("/admin/manage")
-    public String managementPage(HttpSession session) {
+    public String management(HttpSession session) {
         Account user = (Account) session.getAttribute("account");
         if (user == null || user.getAccountRole() != AccountRole.ADMIN) {
             return "unauthorized.html";
         }
-        return "management.html";
+        return "manage.html";
     }
 
+    @GetMapping("/admin/adminallaccounts")
+    public String adminAllAccounts(HttpSession session) {
+        Account user = (Account) session.getAttribute("account");
+        if (user == null || user.getAccountRole() != AccountRole.ADMIN) {
+            return "unauthorized.html";
+        }
+        return "adminallaccounts.html";
+    }
 
     // TODO: UPDATE ACCOUNT
 }

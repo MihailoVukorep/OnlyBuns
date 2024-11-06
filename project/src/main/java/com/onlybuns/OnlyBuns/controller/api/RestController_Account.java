@@ -18,6 +18,9 @@ public class RestController_Account {
     @GetMapping(value = "/api/accounts")
     public ResponseEntity<List<DTO_View_Account>> api_accounts() { return serviceAccount.api_accounts(); }
 
+    @GetMapping(value = "/api/adminaccounts")
+    public ResponseEntity<List<DTO_Admin_View_Account>> api_adminaccounts() { return serviceAccount.api_adminaccounts(); }
+
     @GetMapping("/api/myaccount")
     public ResponseEntity<DTO_View_Account> api_myaccount(HttpSession session) { return serviceAccount.api_myaccount(session); }
 

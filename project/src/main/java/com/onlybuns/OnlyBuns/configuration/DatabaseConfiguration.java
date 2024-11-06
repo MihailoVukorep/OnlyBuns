@@ -126,13 +126,7 @@ public class DatabaseConfiguration {
 
         CreatePost("Zabranjeno dilovanje Sargarepa", "NA OVOM FORUMU SE NE SME DILOVATI SARGAREPA!!!! KO BUDE PREKRSIO DOBIJA BAN ISTE SEKUNDE!","location4", acc4);
 
-        printAll_accounts();
-        printAll_posts();
-
-        // TODO: CREATE LIKES
-
-        // TODO: ADD MORE USERS / POSTS
-        Account acc5 = CreateAccount(
+        Account acc6 = CreateAccount(
                 "sapundzijas@gmail.com",
                 "sarahah",
                 "123",
@@ -143,7 +137,7 @@ public class DatabaseConfiguration {
                 "big scary admin guy",
                 AccountRole.ADMIN
         );
-        Account acc6 = CreateAccount(
+        Account acc7 = CreateAccount(
                 "sapundzijas+superlongemail@gmail.com",
                 "sara",
                 "123",
@@ -154,6 +148,14 @@ public class DatabaseConfiguration {
                 "veoma ozbiljan lik",
                 AccountRole.USER
         );
+
+        printAll_accounts();
+        printAll_posts();
+
+        // TODO: CREATE LIKES
+
+        // TODO: ADD MORE USERS / POSTS
+
         return true;
     }
 }

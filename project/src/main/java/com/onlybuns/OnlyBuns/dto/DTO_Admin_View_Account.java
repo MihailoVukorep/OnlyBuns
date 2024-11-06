@@ -18,11 +18,12 @@ public class DTO_Admin_View_Account {
     public Integer posts_count;
     public Integer following_count;
 
-    public void DTO_View_Account(Account account) {
-        this.id = account.getId();
+    public DTO_Admin_View_Account(Account account) {
         this.email = account.getEmail();
         this.userName = account.getUserName();
         this.avatar = account.getAvatar();
         this.accountRole = account.getAccountRole();
+        this.posts_count = 0;
+        this.following_count = 0;
     }
 }
