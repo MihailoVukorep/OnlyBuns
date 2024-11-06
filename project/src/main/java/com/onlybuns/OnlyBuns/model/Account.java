@@ -46,6 +46,8 @@ public class Account {
     @CreationTimestamp
     private LocalDateTime createdDate;
 
+    // TODO: LIKES - for count
+
     public Account(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio, AccountRole accountRole) {
         this.email = email;
         this.userName = userName;

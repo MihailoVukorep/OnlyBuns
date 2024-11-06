@@ -10,7 +10,7 @@ async function create_post(json, indent = 0) {
 
     // Create and append the post title
     const post_title = document.createElement("p");
-    post_title.innerHTML = `< strong>${json.title}</strong>`;
+    post_title.innerHTML = `<strong>${json.title}</strong>`;
     post.appendChild(post_title);
 
     // Create and append the post text
