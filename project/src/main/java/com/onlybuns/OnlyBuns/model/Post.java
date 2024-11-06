@@ -25,6 +25,12 @@ public class Post {
     @Column
     private String text;
 
+    @Column
+    private String picture;
+
+    @Column
+    private String location;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
@@ -49,9 +55,11 @@ public class Post {
     @UpdateTimestamp
     private LocalDateTime updatedDate;
 
-    public Post(String title, String text, Account account) {
+    public Post(String title, String text, String location, Account account) {
         this.title = title;
         this.text = text;
+        //this.picture = picture;
+        this.location = location;
         this.account = account;
     }
 

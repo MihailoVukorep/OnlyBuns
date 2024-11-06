@@ -15,4 +15,6 @@ public class Controller_Post {
         model.addAttribute("post_id", id);
         return "post.html";
     }
+    @GetMapping("/createpost")
+    public String createpost() { return "createpost.html"; }
 }

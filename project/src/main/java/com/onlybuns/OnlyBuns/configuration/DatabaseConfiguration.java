@@ -1,14 +1,17 @@
 package com.onlybuns.OnlyBuns.configuration;
+
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.AccountRole;
 import com.onlybuns.OnlyBuns.model.Post;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
 import com.onlybuns.OnlyBuns.repository.Repository_Post;
-import com.onlybuns.OnlyBuns.service.Service_Test;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Configuration
 public class DatabaseConfiguration {
@@ -19,8 +22,15 @@ public class DatabaseConfiguration {
     @Autowired
     private Repository_Post repositoryPost;
 
-    @Autowired
-    private Service_Test serviceTest;
+    public void printAll_accounts() {
+        List<Account> accounts = repositoryAccount.findAll();
+        for (Account i : accounts) { System.out.println(i.toString()); }
+    }
+
+    public void printAll_posts() {
+        List<Post> posts = repositoryPost.findAll();
+        for (Post i : posts) { System.out.println(i.toString()); }
+    }
 
     public Account CreateAccount(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio, AccountRole accountRole) {
         Account account = new Account(
@@ -38,24 +48,18 @@ public class DatabaseConfiguration {
         return account;
     }
 
-    public Post CreatePost(String title, String text, Account account) {
-        Post post = new Post(title, text, account);
+    public void CreatePost(String title, String text, String location, Account account) {
+        Post post = new Post(title, text, location, account);
         repositoryPost.save(post);
-        return post;
     }
 
-    public Post CreatePostComment(String title, String text, Account account, Post root) {
-        Post post = new Post(title, text, account, root);
-        repositoryPost.save(post);
-        return post;
-    }
 
     @Bean
     @Transactional
     public boolean instantiate() {
 
         Account a1 = CreateAccount(
-                "killmeplzftn+pera@gmail.com",
+                "pera@gmail.com",
                 "rope",
                 "123",
                 "Pera",
@@ -67,7 +71,7 @@ public class DatabaseConfiguration {
         );
 
         Account acc2 = CreateAccount(
-                "killmeplzftn+ajzak@gmail.com",
+                "ajzak@gmail.com",
                 "ajzak",
                 "123",
                 "Ajs",
@@ -78,12 +82,24 @@ public class DatabaseConfiguration {
                 AccountRole.USER
         );
 
-        CreatePost("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)", acc2);
-        CreatePost("Sala", "I ja i zeka volimo travu.", acc2);
+        Account acc5 = CreateAccount(
+                "rankaradulovic70@gmail.com",
+                "ranxx",
+                "123",
+                "Ranka",
+                "Radulovic",
+                "sutjeska 13",
+                "/avatars/ajs.png",
+                "gengsta lik",
+                AccountRole.USER
+        );
+
+        CreatePost("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)","location1", acc2);
+        CreatePost("Sala", "I ja i zeka volimo travu.","location2", acc2);
 
 
         Account acc3 = CreateAccount(
-                "killmeplzftn+konstrakta@gmail.com",
+                "konstrakta@gmail.com",
                 "konstrakta",
                 "123",
                 "Ana",
@@ -94,10 +110,10 @@ public class DatabaseConfiguration {
                 AccountRole.USER
         );
 
-        CreatePost("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).", acc3);
+        CreatePost("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).","location3", acc3);
 
         Account acc4 = CreateAccount(
-                "killmeplzftn+bigboss@gmail.com",
+                "bigboss@gmail.com",
                 "snake",
                 "123",
                 "Big",
@@ -108,30 +124,10 @@ public class DatabaseConfiguration {
                 AccountRole.ADMIN
         );
 
-        CreateAccount(
-                "killmeplzftn+superlongemail@gmail.com",
-                "superlongusernametestyouui",
-                "123",
-                "Super Long First Name",
-                "Super Long Last Name",
-                "really long address, can't be longer, very annoying",
-                "/avatars/bunny1.png",
-                "this is a really long profile bio plz format me",
-                AccountRole.USER
-        );
+        CreatePost("Zabranjeno dilovanje Sargarepa", "NA OVOM FORUMU SE NE SME DILOVATI SARGAREPA!!!! KO BUDE PREKRSIO DOBIJA BAN ISTE SEKUNDE!","location4", acc4);
 
-        Post post = CreatePost("Zabranjeno dilovanje Sargarepa", "NA OVOM FORUMU SE NE SME DILOVATI SARGAREPA!!!! KO BUDE PREKRSIO DOBIJA BAN ISTE SEKUNDE!", acc4);
-
-
-        Post p2 = CreatePostComment("NEMA SANSE", "I PIVO POSLE 10 CE ZABRANITI!!", acc2, post);
-
-        CreatePostComment(":^)", "Hvala na ideji! Poz :)", acc4, p2);
-
-        CreatePostComment("HMM", "E TOSE NISAM NADO!!", a1, post);
-
-
-        serviceTest.printAll_accounts();
-        serviceTest.printAll_posts();
+        printAll_accounts();
+        printAll_posts();
 
         // TODO: CREATE LIKES
 
