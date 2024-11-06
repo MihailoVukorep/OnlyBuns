@@ -42,6 +42,10 @@ public class Post {
     @CreationTimestamp
     private LocalDateTime createdDate;
 
+    // TODO: ADDRESS ZA MAPU
+
+    // TODO: SLIKA
+
     @UpdateTimestamp
     private LocalDateTime updatedDate;
 

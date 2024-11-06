@@ -133,6 +133,10 @@ public class DatabaseConfiguration {
         serviceTest.printAll_accounts();
         serviceTest.printAll_posts();
 
+        // TODO: CREATE LIKES
+
+        // TODO: ADD MORE USERS / POSTS
+
         return true;
     }
 }
