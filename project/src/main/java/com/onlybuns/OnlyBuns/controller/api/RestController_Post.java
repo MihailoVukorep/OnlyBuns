@@ -30,4 +30,17 @@ public class RestController_Post {
     public ResponseEntity<List<DTO_View_Post>> api_posts_id_replies(@PathVariable(name = "id") Integer id) {
         return servicePost.api_posts_id_replies(id);
     }
+
+    // TODO: CREATE POST
+
+    // TODO: CREATE POST - PICTURE
+
+    // TODO: CREATE LIKE
+
+    // TODO: POSTS PAGING
+
+    // TODO: UPDATE POST
+
+    // TODO: DELETE POST
+
 }

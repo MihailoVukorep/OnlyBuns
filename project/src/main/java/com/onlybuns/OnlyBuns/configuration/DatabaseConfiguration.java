@@ -117,6 +117,10 @@ public class DatabaseConfiguration {
         printAll_accounts();
         printAll_posts();
 
+        // TODO: CREATE LIKES
+
+        // TODO: ADD MORE USERS / POSTS
+
         return true;
     }
 }
