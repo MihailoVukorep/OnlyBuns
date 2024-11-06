@@ -1,5 +1,6 @@
 package com.onlybuns.OnlyBuns.controller.web;
 import com.onlybuns.OnlyBuns.model.Account;
+import com.onlybuns.OnlyBuns.model.AccountRole;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +35,16 @@ public class Controller_Account {
         model.addAttribute("account_id", id);
         return "account.html";
     }
+
+    @GetMapping("/admin/manage")
+    public String managementPage(HttpSession session) {
+        Account user = (Account) session.getAttribute("account");
+        if (user == null || user.getAccountRole() != AccountRole.ADMIN) {
+            return "unauthorized.html";
+        }
+        return "management.html";
+    }
+
 
     // TODO: UPDATE ACCOUNT
 }

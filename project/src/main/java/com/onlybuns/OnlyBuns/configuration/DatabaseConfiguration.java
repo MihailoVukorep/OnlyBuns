@@ -136,7 +136,28 @@ public class DatabaseConfiguration {
         // TODO: CREATE LIKES
 
         // TODO: ADD MORE USERS / POSTS
-
+        Account acc5 = CreateAccount(
+                "sapundzijas@gmail.com",
+                "sarahah",
+                "123",
+                "Big",
+                "Boss",
+                "motherbase",
+                "/avatars/bigboss.png",
+                "big scary admin guy",
+                AccountRole.ADMIN
+        );
+        Account acc6 = CreateAccount(
+                "sapundzijas+superlongemail@gmail.com",
+                "sara",
+                "123",
+                "Pera",
+                "Peric",
+                "bulevar 22",
+                "/avatars/default.jpg",
+                "veoma ozbiljan lik",
+                AccountRole.USER
+        );
         return true;
     }
 }
