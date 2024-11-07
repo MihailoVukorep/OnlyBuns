@@ -34,12 +34,12 @@ async function load_dynamic() {
             div2.append(createLink("🛠️ Management", "/admin/manage"));
         }
 
+        div2.append(createLink("🗺️ View Map", "/map"));
+        div2.append(createLink("➕ Create Post", "/createpost"));
+
         div2.append(createLink("👤", "/myaccount"));
         div2.append(createLink("⚙️", "/update"));
         div2.append(createLink("🚪 Log out (" + json.userName + ")", "/logout"));
-        div1.append(createLink("🗺️ View Map", "/map"));
-        div1.append(createLink("➕ Create Post", "/createpost"));
-
     }
     else {
         div2.append(createLink("🔑 Log in", "/login"));
