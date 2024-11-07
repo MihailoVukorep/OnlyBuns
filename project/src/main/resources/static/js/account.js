@@ -1,9 +1,5 @@
 let account_id = document.getElementById("account_id").value;
 
-function displayUserControls() {
-
-}
-
 async function load_account() {
     const response_users_id = await fetch("/api/accounts/" + account_id);
     const response_users_id_json = await response_users_id.json();
@@ -18,14 +14,6 @@ async function load_account() {
     document.getElementById("account_bio").innerHTML         = response_users_id_json.bio;
     document.getElementById("account_accountRole").innerHTML = response_users_id_json.accountRole;
 
-    // const response_myaccount = await fetch("/api/myaccount");
-    // needs to verify email first
-    // // redirect after reg
-    // if (response_myaccount.ok) {
-    //     if (window.location.pathname == "/myaccount") {
-    //         displayUserControls();
-    //     }
-    // }
 }
 
 load_account();
