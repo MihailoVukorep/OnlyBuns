@@ -33,10 +33,10 @@ function make_account(json) {
     account_info_head_names.className = "account_info_head_names";
 
     // role
-    const account_info_head_accountRole = document.createElement("span");
-    account_info_head_accountRole.className = "account_info_body_accountRole";
-    account_info_head_accountRole.appendChild(roles(json.accountRoles)); // KOJI KURAC
-    account_info_head_names.appendChild(account_info_head_accountRole);
+    const account_info_head_roles = document.createElement("span");
+    account_info_head_roles.className = "account_info_body_roles";
+    account_info_head_roles.appendChild(roles(json.roles));
+    account_info_head_names.appendChild(account_info_head_roles);
 
     // space
     account_info_head_names.appendChild(document.createTextNode(" "));
