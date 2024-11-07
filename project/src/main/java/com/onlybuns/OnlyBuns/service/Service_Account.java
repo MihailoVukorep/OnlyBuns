@@ -2,6 +2,7 @@ package com.onlybuns.OnlyBuns.service;
 import com.onlybuns.OnlyBuns.dto.*;
 import com.onlybuns.OnlyBuns.model.*;
 import com.onlybuns.OnlyBuns.repository.*;
+import com.onlybuns.OnlyBuns.util.RateLimiter;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -48,6 +49,8 @@ public class Service_Account {
     @Autowired
     private Service_Email serviceEmail;
 
+    private final RateLimiter rateLimiter = new RateLimiter();
+
     public ResponseEntity<List<DTO_View_Account>> api_accounts() {
         List<Account> accounts = repository_account.findAll();
         List<DTO_View_Account> accountDTOS = new ArrayList<>();
@@ -79,29 +82,7 @@ public class Service_Account {
         return new ResponseEntity<>(new DTO_View_Account(foundAccount.get()), HttpStatus.OK);
     }
 
-    private static final int MAX_ATTEMPTS = 5;
-    private static final long TIME_WINDOW = 60 * 1000; // 1 minute in milliseconds
 
-    // Rate limiter map: ip -> queue of attempt timestamps
-    private Map<String, Queue<Long>> loginAttempts = new ConcurrentHashMap<>();
-
-    private boolean isRateLimited(String ip) {
-        long currentTime = Instant.now().toEpochMilli();
-
-        // Retrieve or initialize the login attempts queue for the user
-        loginAttempts.putIfAbsent(ip, new LinkedList<>());
-        Queue<Long> attempts = loginAttempts.get(ip);
-
-        // Remove attempts that are outside the time window
-        while (!attempts.isEmpty() && currentTime - attempts.peek() > TIME_WINDOW) { attempts.poll(); }
-
-        // Check if the user has reached the max attempts within the time window
-        if (attempts.size() >= MAX_ATTEMPTS) { return true; }
-
-        // Record the current attempt and proceed
-        attempts.offer(currentTime);
-        return false;
-    }
 
     public ResponseEntity<String> api_login(@RequestBody DTO_Post_AccountLogin dto_post_accountLogin, HttpServletRequest request, HttpSession session){
 
@@ -115,7 +96,7 @@ public class Service_Account {
 
         // Rate limiter check
         String clientIp = request.getRemoteAddr(); // Get the client's IP address
-        if (isRateLimited(clientIp)) {
+        if (rateLimiter.isRateLimited(clientIp)) {
             return new ResponseEntity<>("Too many login attempts. Please try again later.", HttpStatus.TOO_MANY_REQUESTS);
         }
 
