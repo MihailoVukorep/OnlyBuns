@@ -1,0 +1,122 @@
+/* Main container for the form */
+.container {
+    display: flex;
+    justify-content: space-between; /* Razmak između dva diva */
+    margin: 20px auto;
+    max-width: 1400px;
+}
+
+/* Left part: Form container */
+.form-container {
+    display: inline-block;
+    border: 3px solid #ccc;
+    padding: 20px;
+    vertical-align: middle;
+    border-radius: 8px;
+    margin-left: 3%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form title */
+h2 {
+    color: #ccc;
+}
+
+/* Table for form fields */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th {
+    text-align: left;
+    padding: 10px;
+    width: 150px;
+}
+
+td {
+    padding: 10px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Submit button */
+button {
+    width: 20%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    margin-left: 3%;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Right part: Image container */
+.image-container {
+    flex: 0 0 40%; /* Fixna širina od 40% ekrana */
+    margin-left: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#image-preview {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#image-preview img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 8px;
+}
+
+/* Hidden file input */
+input[type="file"] {
+    display: none;
+}
+.upload_button {
+    background-color: #4CAF50; /* Zelena boja pozadine */
+    color: white; /* Bela boja teksta */
+    padding: 10px 20px; /* Unutrašnja margina */
+    font-size: 16px; /* Veličina fonta */
+    border: none; /* Bez ivice */
+    border-radius: 4px; /* Zaobljeni uglovi */
+    width: auto;
+    cursor: pointer; /* Prikaz kursora kao pokazivač */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Blaga senka */
+    transition: background-color 0.3s ease; /* Animacija promene boje */
+}
+
+/* Responsive design for mobile screens */
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        margin: 10px;
+    }
+
+    .form-container, .image-container {
+        margin-right: 0;
+        margin-left: 0;
+        width: 100%;
+    }
+
+    button {
+        font-size: 14px;
+    }
+}

@@ -1,11 +1,14 @@
 package com.onlybuns.OnlyBuns.controller.api;
 import com.onlybuns.OnlyBuns.dto.DTO_CreatePost;
 import com.onlybuns.OnlyBuns.dto.DTO_View_Post;
+import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.service.Service_Post;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,9 +26,22 @@ public class RestController_Post {
         return servicePost.api_posts_id(id);
     }
     @PostMapping("/api/createpost")
-    public ResponseEntity<String> api_createpost(@RequestBody DTO_CreatePost dto_createpost, HttpSession session) {
-        return servicePost.api_createpost(dto_createpost, session);
+    public ResponseEntity<String> api_createpost(@RequestParam("title") String title,
+                                                 @RequestParam("description") String description,
+                                                 @RequestParam("location") String location,
+                                                 @RequestParam(value = "image", required = false) MultipartFile imageFile,
+                                                 HttpSession session) {
+        Account sessionAccount = (Account) session.getAttribute("account");
+
+        // Validacija podataka
+        if (title == null || description == null || location == null) {
+            return new ResponseEntity<>("All fields are required.", HttpStatus.BAD_REQUEST);
+        }
+
+        // Pozivanje servisne funkcije za kreiranje posta
+        return servicePost.api_createpost(title, description, location, imageFile, sessionAccount);
     }
+
     @GetMapping("/api/posts/{id}/replies")
     public ResponseEntity<List<DTO_View_Post>> api_posts_id_replies(@PathVariable(name = "id") Integer id) {
         return servicePost.api_posts_id_replies(id);

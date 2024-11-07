@@ -55,11 +55,11 @@ public class Post {
     @UpdateTimestamp
     private LocalDateTime updatedDate;
 
-    public Post(String title, String text, String location, Account account) {
+    public Post(String title, String text, String location, String picture, Account account) {
         this.title = title;
         this.text = text;
-        //this.picture = picture;
         this.location = location;
+        this.picture = picture;
         this.account = account;
     }
 
@@ -77,6 +77,8 @@ public class Post {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", text='" + text + '\'' +
+                ", location='" + location + '\'' +
+                ", picture='" + picture + '\'' +
                 ", account=" + account.getId() +
                 ", replies=" + replies.size() +
                 ", likes=" + likes.size() +

@@ -1,30 +1,49 @@
 let btnCreatePost = document.getElementById("btn_createpost");
-let txtTitle = document.getElementById("txt_title");
-let txtDescription = document.getElementById("txt_description");
-let txtLocation = document.getElementById("txt_location");
+let fileImage = document.getElementById("file_image");
+let imagePreview = document.getElementById("image-preview");
+let pStatus = document.getElementById("p_status");
 
-async function api_createpost(v_title, v_description, v_location) {
+// Kada se promeni odabrana slika, prikazujemo je
+fileImage.addEventListener("change", function (e) {
+    handleImageUpload(e.target.files[0]);
+});
+
+// Funkcija za prikaz slike u elementu za pregled
+function handleImageUpload(file) {
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            const img = document.createElement("img");
+            img.src = event.target.result;
+            imagePreview.innerHTML = "";  // Brišemo prethodni pregled
+            imagePreview.appendChild(img);
+            imagePreview.style.display = "block";  // Prikazujemo novi pregled
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+// Funkcija za kreiranje posta
+async function api_createpost() {
+    const formData = new FormData(document.getElementById('postForm'));
+    const imageFile = fileImage.files[0];
+    if (imageFile) {
+        formData.append("image", imageFile);
+    }
+
     const response = await fetch('/api/createpost', {
         method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({title: v_title, description: v_description, location: v_location})
+        body: formData
     });
+
     const text = await response.text();
-
     console.log(response);
-
     console.log(text);
-    p_status.innerHTML = text;
+    pStatus.innerHTML = text;
 
     if (response.ok) {
         window.location.href = "posts";
     }
 }
 
-function createpost() {
-    api_createpost(txtTitle.value, txtDescription.value, txtLocation.value);
-}
-btnCreatePost.onclick = createpost;
+btnCreatePost.onclick = api_createpost;
