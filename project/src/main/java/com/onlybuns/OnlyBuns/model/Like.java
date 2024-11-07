@@ -2,6 +2,9 @@ package com.onlybuns.OnlyBuns.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -22,6 +25,9 @@ public class Like {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id", nullable = true)
     private Post post;
+
+    @CreationTimestamp
+    private LocalDateTime createdDate;
 
     public Like(Account account, Post post) {
         this.account = account;

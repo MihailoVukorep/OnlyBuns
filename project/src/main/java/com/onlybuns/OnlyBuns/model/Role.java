@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -21,6 +24,9 @@ public class Role {
 
     @Column(nullable = false, unique = true)
     private String name;
+
+    @CreationTimestamp
+    private LocalDateTime createdDate;
 
     public Role(String name) {
         this.name = name;

@@ -145,7 +145,7 @@ public class DatabaseConfiguration {
                 "hejter",
                 "123",
                 "Hejter",
-                "Mafijas",
+                "McLovin",
                 "laze teleckog",
                 "/avatars/mclovin.png",
                 "mrzim zeceve",
