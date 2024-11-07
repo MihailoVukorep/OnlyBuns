@@ -22,9 +22,10 @@ public class DTO_View_Account {
     public String avatar;
     public String bio;
     public Set<Role> accountRoles;
-    public Integer postsCount = 0;
-    public Integer followersCount = 0;
-    public Integer followingCount = 0;
+    public Integer postsCount;
+    public Integer likesCount;
+    public Integer followersCount;
+    public Integer followingCount;
 
     public DTO_View_Account(Account account) {
         this.id = account.getId();
@@ -37,5 +38,9 @@ public class DTO_View_Account {
         this.avatar = account.getAvatar();
         this.bio = account.getBio();
         this.accountRoles = account.getRoles();
+        this.postsCount = account.getPosts().size();
+        this.likesCount = account.getLikes().size();
+        this.followersCount = 0;
+        this.followingCount = 0;
     }
 }

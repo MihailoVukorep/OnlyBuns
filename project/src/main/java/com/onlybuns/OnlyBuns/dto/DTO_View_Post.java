@@ -15,7 +15,7 @@ public class DTO_View_Post {
     public String text;
     public String picture;
     public String location;
-    public Account account;
+    public DTO_View_Post_Account account;
     public Integer replies;
     public Integer parentPostId;
     public Integer likes;
@@ -39,7 +39,7 @@ public class DTO_View_Post {
         if (parent != null) { this.parentPostId = parent.getId(); }
         this.picture = post.getPicture();
         this.location = post.getLocation();
-        this.account = post.getAccount();
+        this.account = new DTO_View_Post_Account(post.getAccount());
         this.replies = post.getReplies().size();
         this.likes = post.getLikes().size();
         this.totalChildren = countReplies(post);

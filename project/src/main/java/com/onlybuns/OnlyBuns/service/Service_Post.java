@@ -70,9 +70,7 @@ public class Service_Post {
 
     public ResponseEntity<DTO_View_Post> api_posts_id(Integer id) {
         Optional<Post> post = repository_post.findById(id);
-        if (post.isEmpty()) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        if (post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         return new ResponseEntity<>(new DTO_View_Post(post.get()), HttpStatus.OK);
     }
 
