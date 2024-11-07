@@ -28,8 +28,8 @@ async function load_dynamic() {
         const json = await response.json();
         console.log(json);
         
-        if (json.accountRole == "ADMIN") {
-
+        if (json.accountRole === "ADMIN") {
+            div2.append(createLink("🛠 Management", "/admin/manage"));
         }
 
         div2.append(createLink("👤", "/myaccount"));

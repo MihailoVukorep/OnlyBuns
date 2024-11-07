@@ -126,6 +126,29 @@ public class DatabaseConfiguration {
 
         CreatePost("Zabranjeno dilovanje Sargarepa", "NA OVOM FORUMU SE NE SME DILOVATI SARGAREPA!!!! KO BUDE PREKRSIO DOBIJA BAN ISTE SEKUNDE!","location4", "/img/bunny4.png",acc4);
 
+        Account acc6 = CreateAccount(
+                "sapundzijas@gmail.com",
+                "sarahah",
+                "123",
+                "Big",
+                "Boss",
+                "motherbase",
+                "/avatars/bigboss.png",
+                "big scary admin guy",
+                AccountRole.ADMIN
+        );
+        Account acc7 = CreateAccount(
+                "sapundzijas+superlongemail@gmail.com",
+                "sara",
+                "123",
+                "Pera",
+                "Peric",
+                "bulevar 22",
+                "/avatars/default.jpg",
+                "veoma ozbiljan lik",
+                AccountRole.USER
+        );
+
         printAll_accounts();
         printAll_posts();
 
