@@ -1,9 +1,12 @@
 package com.onlybuns.OnlyBuns.service;
 
-
+import com.onlybuns.OnlyBuns.dto.DTO_View_Like;
 import com.onlybuns.OnlyBuns.dto.DTO_View_Post;
 import com.onlybuns.OnlyBuns.model.Account;
+import com.onlybuns.OnlyBuns.model.Like;
 import com.onlybuns.OnlyBuns.model.Post;
+import com.onlybuns.OnlyBuns.repository.Repository_Account;
+import com.onlybuns.OnlyBuns.repository.Repository_Like;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,8 +15,8 @@ import com.onlybuns.OnlyBuns.repository.Repository_Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -29,7 +32,14 @@ import java.util.Optional;
 public class Service_Post {
 
     @Autowired
-    private Repository_Post repositoryPost;
+    private Repository_Account repository_account;
+
+    @Autowired
+    private Repository_Post repository_post;
+
+    @Autowired
+    private Repository_Like repository_like;
+
     @Value("${file.upload-dir}")
     private String uploadDir;
 
@@ -51,7 +61,7 @@ public class Service_Post {
             }
         }
 
-        List<Post> posts = repositoryPost.findByParentPostIsNull(sortOrder);
+        List<Post> posts = repository_post.findByParentPostIsNull(sortOrder);
         List<DTO_View_Post> dtos = new ArrayList<>();
         for (Post post : posts) {
             dtos.add(new DTO_View_Post(post));
@@ -60,7 +70,7 @@ public class Service_Post {
     }
 
     public ResponseEntity<DTO_View_Post> api_posts_id(Integer id) {
-        Optional<Post> post = repositoryPost.findById(id);
+        Optional<Post> post = repository_post.findById(id);
         if (post.isEmpty()) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
@@ -86,7 +96,7 @@ public class Service_Post {
 
         // Kreiranje posta
         Post newPost = new Post(title, description, location, filePath, sessionAccount);
-        repositoryPost.save(newPost);
+        repository_post.save(newPost);
 
         System.out.println("Post kreiran: " + newPost);
         if (filePath != null) {
@@ -109,7 +119,7 @@ public class Service_Post {
     }
 
     public ResponseEntity<List<DTO_View_Post>> api_posts_id_replies(Integer id) {
-        Optional<Post> optional_post = repositoryPost.findById(id);
+        Optional<Post> optional_post = repository_post.findById(id);
         if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         Post post = optional_post.get();
         List<DTO_View_Post> dtos = new ArrayList<>();
@@ -117,10 +127,32 @@ public class Service_Post {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    @Transactional
     public ResponseEntity<String> api_posts_id_like(Integer id, HttpSession session) {
+        Account sessionAccount = (Account) session.getAttribute("account");
+        if (sessionAccount == null) { return new ResponseEntity<>("Can't like when logged out.", HttpStatus.BAD_REQUEST); }
 
+        Optional<Account> optional_account = repository_account.findById(sessionAccount.getId());
+        if (!optional_account.isEmpty()) { return new ResponseEntity<>("Can't find account", HttpStatus.NOT_FOUND); }
+        Account account = optional_account.get();
 
+        Optional<Post> optional_post = repository_post.findById(id);
+        if (!optional_post.isEmpty()) { return new ResponseEntity<>("Can't find post", HttpStatus.NOT_FOUND); }
+        Post post = optional_post.get();
+
+        // create new like
+        Like newLike = new Like(account, post);
+        repository_like.save(newLike);
 
         return new ResponseEntity<>("Post liked.", HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<DTO_View_Like>> api_posts_id_likes(Integer id) {
+        Optional<Post> optional_post = repository_post.findById(id);
+        if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+        Post post = optional_post.get();
+        List<DTO_View_Like> dtos = new ArrayList<>();
+        for (Like i : post.getLikes()) { dtos.add(new DTO_View_Like(i)); }
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 }

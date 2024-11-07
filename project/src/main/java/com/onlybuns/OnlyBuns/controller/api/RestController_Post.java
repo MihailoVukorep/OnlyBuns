@@ -1,4 +1,5 @@
 package com.onlybuns.OnlyBuns.controller.api;
+import com.onlybuns.OnlyBuns.dto.DTO_View_Like;
 import com.onlybuns.OnlyBuns.dto.DTO_View_Post;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.service.Service_Post;
@@ -52,7 +53,10 @@ public class RestController_Post {
         return servicePost.api_posts_id_like(id, session);
     }
 
-    // TODO: CREATE LIKE
+    @PostMapping("/api/posts/{id}/likes")
+    public ResponseEntity<List<DTO_View_Like>> api_posts_id_likes(@PathVariable(name = "id") Integer id) {
+        return servicePost.api_posts_id_likes(id);
+    }
 
     // TODO: POSTS PAGING
 

@@ -19,6 +19,7 @@ public class DTO_View_Post {
     public Account account;
     public Integer replies;
     public Integer parentPostId;
+    public Integer likes;
     public LocalDateTime createdDate;
     public LocalDateTime updatedDate;
 
@@ -32,6 +33,7 @@ public class DTO_View_Post {
         this.location = post.getLocation();
         this.account = post.getAccount();
         this.replies = post.getReplies().size();
+        this.likes = post.getLikes().size();
         this.createdDate = post.getCreatedDate();
         this.updatedDate = post.getUpdatedDate();
     }

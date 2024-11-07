@@ -23,6 +23,11 @@ public class Like {
     @JoinColumn(name = "post_id", nullable = true)
     private Post post;
 
+    public Like(Account account, Post post) {
+        this.account = account;
+        this.post = post;
+    }
+
     @Override
     public String toString() {
         return "Like{" +
