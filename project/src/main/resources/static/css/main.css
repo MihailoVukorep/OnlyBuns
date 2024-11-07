@@ -89,3 +89,16 @@ h1, h2 {
 h2 {
     text-align: left !important;
 }
+
+.onlybuns_link {
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bolder;
+    color: white;
+    padding: 3px;
+    font-size: larger;
+    border: var(--var-color-border-gray) 1px solid;
+    border-radius: 2px;
+    margin: 0 3px;
+    background-color: var(--var-color-bg-link);
+}
