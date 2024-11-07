@@ -1,5 +1,4 @@
 package com.onlybuns.OnlyBuns.controller.api;
-import com.onlybuns.OnlyBuns.dto.DTO_CreatePost;
 import com.onlybuns.OnlyBuns.dto.DTO_View_Post;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.service.Service_Post;
