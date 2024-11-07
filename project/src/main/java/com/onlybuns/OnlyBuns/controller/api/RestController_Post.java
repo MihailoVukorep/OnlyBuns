@@ -46,9 +46,11 @@ public class RestController_Post {
         return servicePost.api_posts_id_replies(id);
     }
 
-    // TODO: CREATE POST
 
-    // TODO: CREATE POST - PICTURE
+    @PostMapping("/api/posts/{id}/like")
+    public ResponseEntity<String> api_posts_id_like(@PathVariable(name = "id") Integer id, HttpSession session) {
+        return servicePost.api_posts_id_like(id, session);
+    }
 
     // TODO: CREATE LIKE
 

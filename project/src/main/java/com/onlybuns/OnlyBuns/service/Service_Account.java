@@ -186,9 +186,12 @@ public class Service_Account {
             }
         }
 
-        Optional<Role> role = repository_role.findByName("USER");
-        if (role.isEmpty()) {
-
+        // find user role / if not exist create one
+        Optional<Role> optional_role = repository_role.findByName("USER");
+        Role role = null;
+        if (optional_role.isEmpty()) {
+            role = optional_role.get();
+            repository_role.save(new Role("USER"));
         }
 
         // create account
@@ -200,7 +203,8 @@ public class Service_Account {
                 dto_post_accountRegister.getLastName(),
                 dto_post_accountRegister.getAddress(),
                 "/avatars/default.jpg",
-                "..."
+                "...",
+                role
         );
         repository_account.save(newAccount);
 

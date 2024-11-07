@@ -4,6 +4,7 @@ package com.onlybuns.OnlyBuns.service;
 import com.onlybuns.OnlyBuns.dto.DTO_View_Post;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.Post;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
@@ -58,7 +59,7 @@ public class Service_Post {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    public ResponseEntity<DTO_View_Post> api_posts_id(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<DTO_View_Post> api_posts_id(Integer id) {
         Optional<Post> post = repositoryPost.findById(id);
         if (post.isEmpty()) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -107,12 +108,19 @@ public class Service_Post {
         return "/" + filePath.toString();
     }
 
-    public ResponseEntity<List<DTO_View_Post>> api_posts_id_replies(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<List<DTO_View_Post>> api_posts_id_replies(Integer id) {
         Optional<Post> optional_post = repositoryPost.findById(id);
         if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         Post post = optional_post.get();
         List<DTO_View_Post> dtos = new ArrayList<>();
         for (Post i : post.getReplies()) { dtos.add(new DTO_View_Post(i)); }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> api_posts_id_like(Integer id, HttpSession session) {
+
+
+
+        return new ResponseEntity<>("Post liked.", HttpStatus.OK);
     }
 }
