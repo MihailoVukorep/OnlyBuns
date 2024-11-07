@@ -112,7 +112,7 @@ function make_post(json) {
     return post;
 }
 
-async function load() {
+async function load_posts() {
     posts_clear(div_posts);
 
     const sortOption = document.getElementById("sortOptions").value;
@@ -126,4 +126,4 @@ async function load() {
     }
 }
 
-load();
+load_posts();

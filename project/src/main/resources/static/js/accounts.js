@@ -104,7 +104,7 @@ function accounts_populate(div_accounts, items) {
 }
 
 
-async function load() {
+async function load_posts() {
     accounts_clear(div_accounts);
 
     const response = await fetch("/api/accounts");
@@ -114,5 +114,5 @@ async function load() {
     accounts_populate(div_accounts, json);
 }
 
-load();
+load_posts();
 

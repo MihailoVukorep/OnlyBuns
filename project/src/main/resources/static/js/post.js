@@ -113,7 +113,7 @@ async function fetch_post(json, indent = 0) {
     }
 }
 
-async function load() {
+async function load_posts() {
     // Fetch the main post data
     const response = await fetch(`/api/posts/${post_id}`);
     if (!response.ok) {
@@ -128,4 +128,4 @@ async function load() {
 }
 
 // Start loading posts
-load();
+load_posts();
