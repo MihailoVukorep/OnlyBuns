@@ -85,7 +85,7 @@ public class DatabaseConfiguration {
                 "Ranka",
                 "Radulovic",
                 "sutjeska 13",
-                "/avatars/ajs.png",
+                "/avatars/default.jpg",
                 "gengsta lik",
                 AccountRole.USER
         );
@@ -136,19 +136,19 @@ public class DatabaseConfiguration {
                 "sapundzijas@gmail.com",
                 "sarahah",
                 "123",
-                "Big",
-                "Boss",
-                "motherbase",
-                "/avatars/bigboss.png",
-                "big scary admin guy",
+                "Sara",
+                "Sara",
+                "tu tamo",
+                "/avatars/default.jpg",
+                "sara",
                 AccountRole.ADMIN
         );
         Account acc_sara2 = CreateAccount(
                 "sapundzijas+superlongemail@gmail.com",
                 "sara",
                 "123",
-                "Pera",
-                "Peric",
+                "Sara",
+                "Sara",
                 "bulevar 22",
                 "/avatars/default.jpg",
                 "veoma ozbiljan lik",
