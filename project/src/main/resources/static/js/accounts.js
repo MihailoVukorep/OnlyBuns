@@ -26,14 +26,6 @@ function make_account(json) {
 
     account.appendChild(account_img_cont);
 
-    // "EMAIL: ",         json.email
-    // "USERNAME: ",      json.userName
-    // "FIRST NAME: ",    json.firstName
-    // "LAST NAME: ",     json.lastName
-    // "ADDRESS: ",       json.address
-    // "BIO: ",           json.bio
-    // "ACCOUNT ROLE: ",  json.accountRole
-
     const account_info = document.createElement("div");
     account_info.className = "account_info";
     
@@ -41,27 +33,62 @@ function make_account(json) {
     const account_info_head = document.createElement("div");
     account_info_head.className = "account_info_head";
 
-    // full name
-    const account_info_head_fullName = document.createElement("div");
-    account_info_head_fullName.className = "account_info_head_fullName";
+
+
+    // NAMES
+    const account_info_head_names = document.createElement("div");
+    account_info_head_names.className = "account_info_head_names";
+
+    // role
+    const account_info_head_accountRole = document.createElement("span");
+    account_info_head_accountRole.className = "account_info_body_accountRole";
+    if (json.accountRole == "USER") {
+        account_info_head_accountRole.innerHTML = "👤";
+        account_info_head_accountRole.title = "User"
+    }
+    else if (json.accountRole == "ADMIN") {
+        account_info_head_accountRole.innerHTML = "👑";
+        account_info_head_accountRole.title = "Admin"
+    }
+    account_info_head_names.appendChild(account_info_head_accountRole);
+
+    // space
+    account_info_head_names.appendChild(document.createTextNode(" "));
+
+    // first name
     const account_info_head_firstName = document.createElement("span");
     account_info_head_firstName.className = "account_info_head_firstName";
     account_info_head_firstName.innerHTML = json.firstName;
-    account_info_head_fullName.appendChild(account_info_head_firstName);
+    account_info_head_names.appendChild(account_info_head_firstName);
+
+    // space
+    account_info_head_names.appendChild(document.createTextNode(" "));
+
+    // last name
     const account_info_head_lastName = document.createElement("span");
     account_info_head_lastName.className = "account_info_head_lastName";
     account_info_head_lastName.innerHTML = json.lastName;
-    account_info_head_fullName.appendChild(account_info_head_lastName);
-    account_info_head.appendChild(account_info_head_fullName);
+    account_info_head_names.appendChild(account_info_head_lastName);
 
-    // username
-    const account_info_head_userName = document.createElement("div");
+    // space
+    account_info_head_names.appendChild(document.createTextNode(" "));
+
+    // (username)
+    const account_info_head_userName_start = document.createElement("span");
+    account_info_head_userName_start.innerHTML = "(";
+    account_info_head_names.appendChild(account_info_head_userName_start);
+    const account_info_head_userName = document.createElement("span");
     account_info_head_userName.className = "account_info_head_userName";
     account_info_head_userName.innerHTML = json.userName;
-    account_info_head.appendChild(account_info_head_userName);
+    account_info_head_names.appendChild(account_info_head_userName);
+    const account_info_head_userName_end = document.createElement("span");
+    account_info_head_userName_end.innerHTML = ")";
+    account_info_head_names.appendChild(account_info_head_userName_end);
+
+    account_info_head.appendChild(account_info_head_names);
 
     // email
-    const account_info_head_email = document.createElement("p");
+    const account_info_head_email = document.createElement("div");
     account_info_head_email.className = "account_info_head_email";
     account_info_head_email.innerHTML = json.email;
     account_info_head.appendChild(account_info_head_email);
@@ -72,21 +99,17 @@ function make_account(json) {
     const account_info_body = document.createElement("div");
     account_info_body.className = "account_info_body";
 
-    const account_info_body_bio = document.createElement("p");
-    account_info_body_bio.className = "account_info_body_bio";
-    account_info_body_bio.innerHTML = json.bio;
-    account_info_body.appendChild(account_info_body_bio);
-
-
-    const account_info_body_address = document.createElement("p");
+    // address
+    const account_info_body_address = document.createElement("div");
     account_info_body_address.className = "account_info_body_address";
     account_info_body_address.innerHTML = json.address;
     account_info_body.appendChild(account_info_body_address);
 
-    const account_info_body_accountRole = document.createElement("p");
-    account_info_body_accountRole.className = "account_info_body_accountRole";
-    account_info_body_accountRole.innerHTML = json.accountRole;
-    account_info_body.appendChild(account_info_body_accountRole);
+    // bio
+    const account_info_body_bio = document.createElement("div");
+    account_info_body_bio.className = "account_info_body_bio";
+    account_info_body_bio.innerHTML = json.bio;
+    account_info_body.appendChild(account_info_body_bio);
 
     account_info.appendChild(account_info_body);
 

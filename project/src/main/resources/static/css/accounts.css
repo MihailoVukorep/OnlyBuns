@@ -8,9 +8,9 @@
 .account {
     display: inline-block;
     width: 230px;
-    height: 300px;
+    height: 230px;
     max-width: 230px;
-    max-height: 300px;
+    max-height: 230px;
     background-color: var(--var-color-bg-trans-sub1);
     border: 1px solid var(--var-color-border-transwhite);
     padding: 3px;
@@ -43,17 +43,14 @@
     margin: 0;
 }
 
-.account_info_head_fullName {
-    font-size: x-large;
-    text-align: center;
-    align-content: center;
+.account_info_head_names {
+    font-size: large;
+    margin-bottom: 5px;
 }
 
 .account_info_head_firstName,
 .account_info_head_lastName {
-    margin: 0 5px 0 0;
     color: var(--var-color-fg-post-account);
-    display: inline;
 }
 
 .account_info_head_firstName
@@ -70,17 +67,12 @@
 }
 
 .account_info_head_userName {
-    margin: 0;
-    padding: 0;
-    font-size: 14px;
     color: var(--var-color-fg-post-username);
-    display: block;
-    text-align: center;
 }
 
 .account_info_head_email {
     color: var(--var-color-fg-post-email);
-    font-size: 10px;
+    font-size: small;
 }
 
 .account_info_body {
@@ -91,24 +83,11 @@
     padding: 5px;
 }
 
-.account_info_body_bio,
-.account_info_body_address,
-.account_info_body_accountRole {
-    margin: 8px 0;
-    font-size: 14px;
-    color: #555;
-}
+.account_info_body_bio, .account_info_body_address {
+    font-size: small;
 
-.account_info_body_bio {
-    font-style: italic;
-    color: #666;
 }
 
 .account_info_body_address {
-    font-size: 15px;
-}
-
-.account_info_body_accountRole {
-    font-weight: bold;
-    color: #333;
+    color: var(--var-color-fg-post-address)
 }

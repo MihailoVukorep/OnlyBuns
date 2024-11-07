@@ -40,3 +40,7 @@
 #account_email {
     color: var(--var-color-fg-post-email);
 }
+
+#account_address {
+    color: var(--var-color-fg-post-address);
+}
