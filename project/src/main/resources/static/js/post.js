@@ -3,18 +3,28 @@ const thread = document.getElementById("thread");
 
 
 async function create_post(json, indent = 0) {
+
+    console.log(json);
+
     // Create the main post container
     const post = document.createElement("div");
     post.className = "post";
     post.style.marginLeft = `${indent}px`; // Indentation for visual hierarchy
 
-    // Create and append the post title
     const post_title = document.createElement("p");
-    post_title.innerHTML = `<strong>${json.title}</strong>`;
+    post_title.className = "post_title";
+    post_title.innerHTML = json.title;
     post.appendChild(post_title);
 
-    // Create and append the post text
+    if (json.picture != null) {
+        const post_picture = document.createElement("img");
+        post_picture.className = "post_picture";
+        post_picture.src = json.picture;
+        post.appendChild(post_picture);
+    }
+
     const post_text = document.createElement("p");
+    post_text.className = "post_text";
     post_text.innerHTML = json.text;
     post.appendChild(post_text);
 

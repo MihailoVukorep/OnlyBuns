@@ -90,8 +90,8 @@ public class DatabaseConfiguration {
                 AccountRole.USER
         );
 
-        repositoryPost.save(new Post("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)","location1", "uploads/img/bunny1.png", acc_ajzak));
-        repositoryPost.save(new Post("Sala", "I ja i zeka volimo travu.","location2", "uploads/img/bunny2.png", acc_ajzak));
+        repositoryPost.save(new Post("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)","location1", "/uploads/img/bunny1.png", acc_ajzak));
+        repositoryPost.save(new Post("Sala", "I ja i zeka volimo travu.","location2", "/uploads/img/bunny2.png", acc_ajzak));
 
 
         Account acc_ana = CreateAccount(
@@ -106,7 +106,7 @@ public class DatabaseConfiguration {
                 AccountRole.USER
         );
 
-        repositoryPost.save(new Post("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).","location3", "uploads/img/bunny3.png", acc_ana));
+        repositoryPost.save(new Post("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).","location3", "/uploads/img/bunny3.png", acc_ana));
 
         Account acc_admin = CreateAccount(
                 "bigboss@gmail.com",

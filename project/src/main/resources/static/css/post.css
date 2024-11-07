@@ -7,3 +7,8 @@
     overflow: hidden;
     overflow-wrap: anywhere;
 }
+
+.post_picture {
+    width: 300px;
+    height: auto;
+}
