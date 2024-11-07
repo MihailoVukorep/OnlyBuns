@@ -4,8 +4,7 @@ async function post_like(id) {
         popup("You need to login first.");
         return;
     }
-
-    
+    console.log(`like: ${id}`);
 }
 
 async function post_reply(id) {
@@ -14,4 +13,5 @@ async function post_reply(id) {
         popup("You need to login first.");
         return;
     }
+    console.log(`reply: ${id}`);
 }
