@@ -1,7 +1,9 @@
 package com.onlybuns.OnlyBuns.dto;
 import com.onlybuns.OnlyBuns.model.Account;
-import com.onlybuns.OnlyBuns.model.AccountRole;
+import com.onlybuns.OnlyBuns.model.Role;
 import lombok.*;
+
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,7 +21,7 @@ public class DTO_View_Account {
     public String address;
     public String avatar;
     public String bio;
-    public AccountRole accountRole;
+    public Set<Role> accountRoles;
 
     public DTO_View_Account(Account account) {
         this.id = account.getId();
@@ -31,6 +33,6 @@ public class DTO_View_Account {
         this.address = account.getAddress();
         this.avatar = account.getAvatar();
         this.bio = account.getBio();
-        this.accountRole = account.getAccountRole();
+        this.accountRoles = account.getRoles();
     }
 }

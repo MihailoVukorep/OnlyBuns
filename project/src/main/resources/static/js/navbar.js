@@ -1,3 +1,5 @@
+loadScript('/js/roles.js');
+
 let navbar = document.getElementById("navbar");
 
 // STATIC BUTTONS
@@ -28,7 +30,7 @@ async function load_dynamic() {
         const json = await response.json();
         console.log(json);
         
-        if (json.accountRole === "ADMIN") {
+        if (hasRole(json.accountRoles, "ADMIN")) {
             div2.append(createLink("🛠️ Management", "/admin/manage"));
         }
 

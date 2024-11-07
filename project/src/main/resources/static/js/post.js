@@ -1,3 +1,5 @@
+loadScript('/js/post_renderer.js');
+
 const post_id = document.getElementById("post_id").value;
 const thread = document.getElementById("thread");
 
@@ -11,7 +13,7 @@ async function fetch_post(json, indent = 0) {
     post.style.marginLeft = `${indent}px`;
 
     // Append this post to the main thread container
-    document.getElementById("thread").appendChild(post);
+    thread.appendChild(post);
 
     // Check if there are replies and load them recursively
     if (json.replies > 0) {

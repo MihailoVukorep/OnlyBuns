@@ -1,63 +1,66 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head>
-  <!-- MAIN -->
-  <meta charset="UTF-8">
-  <link rel="icon" type="image/x-icon" href="/img/favicon.png">
-  <link rel="stylesheet" href="/css/main.css">
+    <head>
+        <!-- MAIN -->
+        <meta charset="UTF-8">
+        <link rel="icon" type="image/x-icon" href="/img/favicon.png">
+        <link rel="stylesheet" href="/css/main.css">
+        <title>Create Post</title>
+        <link rel="stylesheet" href="/css/register.css">
+        <link rel="stylesheet" href="/css/createpost.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+        <link rel="stylesheet" href="/css/map.css" />
 
-  <title>Create Post</title>
-  <link rel="stylesheet" href="/css/register.css">
-  <link rel="stylesheet" href="/css/createpost.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <link rel="stylesheet" href="/css/map.css" />
-</head>
-<body>
-<div id="navbar"></div>
-
-<h1>📸 Create Post 📸</h1>
-<div class="container">
-  <form id="postForm" enctype="multipart/form-data">
-    <!-- Left part: Form fields (post data) -->
-    <div class="form-container">
-      <h2>Post Details</h2>
-      <table>
-        <tr>
-          <th>TITLE:</th>
-          <td><input class="txtfld" type="text" id="txt_title" name="title" placeholder="Title" required /></td>
-        </tr>
-        <tr>
-          <th>DESCRIPTION:</th>
-          <td><input class="txtfld" type="text" id="txt_description" name="description" placeholder="Description" required /></td>
-        </tr>
-        <tr>
-          <th>LOCATION:</th>
-          <td><input class="txtfld" type="text" id="txt_location" name="location" placeholder="Enter location or address" required /></td>
-        </tr>
-      </table>
-    </div>
-
-    <!-- Right part: Image Upload Section -->
-    <div class="form-container">
-      <h2>Upload Image</h2>
-      <div class="image-upload">
-        <button type="button" class="upload_button" onclick="document.getElementById('file_image').click()">Choose File</button>
-        <input type="file" id="file_image" name="image" accept="image/*" class="file-input" />
-        <div id="image-preview" class="image-preview">
-          <p>No image selected</p>
+        <script defer type="text/javascript" src="/js/main.js"></script>
+        <script defer type="text/javascript" src="/js/navbar.js"></script>
+        <script defer type="text/javascript" src="/js/createpost.js"></script>
+        <script defer src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script defer type="text/javascript" src="/js/map.js"></script>
+    </head>
+    <body>
+        <div id="navbar"></div>
+        <h1>📸 Create Post 📸</h1>
+        <div class="container">
+            <form id="postForm" enctype="multipart/form-data">
+                <!-- Left part: Form fields (post data) -->
+                <div class="form-container">
+                    <h2>Post Details</h2>
+                    <table>
+                        <tr>
+                            <th>TITLE:</th>
+                            <td>
+                                <input class="txtfld" type="text" id="txt_title" name="title" placeholder="Title" required />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>DESCRIPTION:</th>
+                            <td>
+                                <input class="txtfld" type="text" id="txt_description" name="description" placeholder="Description" required />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>LOCATION:</th>
+                            <td>
+                                <input class="txtfld" type="text" id="txt_location" name="location" placeholder="Enter location or address" required />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- Right part: Image Upload Section -->
+                <div class="form-container">
+                    <h2>Upload Image</h2>
+                    <div class="image-upload">
+                        <button type="button" class="upload_button" onclick="document.getElementById('file_image').click()">Choose File</button>
+                        <input type="file" id="file_image" name="image" accept="image/*" class="file-input" />
+                        <div id="image-preview" class="image-preview">
+                            <p>No image selected</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Submit button for creating the post -->
+                <button type="button" id="btn_createpost">CREATE POST</button>
+                <p id="p_status">...</p>
+            </form>
         </div>
-      </div>
-    </div>
-
-    <!-- Submit button for creating the post -->
-    <button type="button" id="btn_createpost">CREATE POST</button>
-    <p id="p_status">...</p>
-  </form>
-</div>
-
-<script type="text/javascript" src="/js/navbar.js"></script>
-<script type="text/javascript" src="/js/createpost.js"></script>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script type="text/javascript" src="/js/map.js"></script>
-</body>
+    </body>
 </html>

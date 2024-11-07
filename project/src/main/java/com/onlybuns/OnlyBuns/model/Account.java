@@ -3,6 +3,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -40,15 +44,18 @@ public class Account {
     @Column
     private String bio;
 
-    @Column
-    private AccountRole accountRole;
-
     @CreationTimestamp
     private LocalDateTime createdDate;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "account_roles",
+            joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Set<Role> roles = new HashSet<>();;
+
     // TODO: LIKES - for count
 
-    public Account(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio, AccountRole accountRole) {
+    public Account(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio) {
         this.email = email;
         this.userName = userName;
         this.password = password;
@@ -57,7 +64,18 @@ public class Account {
         this.address = address;
         this.avatar = avatar;
         this.bio = bio;
-        this.accountRole = accountRole;
+    }
+
+    public Account(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio, Role role) {
+        this.email = email;
+        this.userName = userName;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.avatar = avatar;
+        this.bio = bio;
+        this.roles.add(role);
     }
 
     @Override
@@ -72,7 +90,6 @@ public class Account {
                 ", address='" + address + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", bio='" + bio + '\'' +
-                ", accountRole=" + accountRole +
                 ", createdDate=" + createdDate +
                 '}';
     }

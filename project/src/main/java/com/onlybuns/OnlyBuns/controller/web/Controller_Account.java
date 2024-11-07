@@ -1,6 +1,5 @@
 package com.onlybuns.OnlyBuns.controller.web;
 import com.onlybuns.OnlyBuns.model.Account;
-import com.onlybuns.OnlyBuns.model.AccountRole;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,10 +35,14 @@ public class Controller_Account {
         return "account.html";
     }
 
+    public boolean isAdmin(Account account) {
+        return account.getRoles().stream().anyMatch(role -> "ADMIN".equals(role.getName()));
+    }
+
     @GetMapping("/admin/manage")
     public String management(HttpSession session) {
         Account user = (Account) session.getAttribute("account");
-        if (user == null || user.getAccountRole() != AccountRole.ADMIN) {
+        if (user == null || !isAdmin(user)) {
             return "unauthorized.html";
         }
         return "manage.html";
@@ -48,7 +51,7 @@ public class Controller_Account {
     @GetMapping("/admin/adminallaccounts")
     public String adminAllAccounts(HttpSession session) {
         Account user = (Account) session.getAttribute("account");
-        if (user == null || user.getAccountRole() != AccountRole.ADMIN) {
+        if (user == null || !isAdmin(user)) {
             return "unauthorized.html";
         }
         return "adminallaccounts.html";

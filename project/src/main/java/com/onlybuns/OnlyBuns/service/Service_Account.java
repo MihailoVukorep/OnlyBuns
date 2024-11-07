@@ -1,10 +1,7 @@
 package com.onlybuns.OnlyBuns.service;
 import com.onlybuns.OnlyBuns.dto.*;
 import com.onlybuns.OnlyBuns.model.*;
-import com.onlybuns.OnlyBuns.repository.Repository_Account;
-import com.onlybuns.OnlyBuns.repository.Repository_AccountActivation;
-import com.onlybuns.OnlyBuns.repository.Repository_Like;
-import com.onlybuns.OnlyBuns.repository.Repository_Post;
+import com.onlybuns.OnlyBuns.repository.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -35,6 +32,9 @@ public class Service_Account {
 
     @Autowired
     private Repository_Account repository_account;
+
+    @Autowired
+    private Repository_Role repository_role;
 
     @Autowired
     private Repository_AccountActivation repository_accountActivation;
@@ -186,6 +186,11 @@ public class Service_Account {
             }
         }
 
+        Optional<Role> role = repository_role.findByName("USER");
+        if (role.isEmpty()) {
+
+        }
+
         // create account
         Account newAccount = new Account(
                 dto_post_accountRegister.getEmail(),
@@ -195,8 +200,7 @@ public class Service_Account {
                 dto_post_accountRegister.getLastName(),
                 dto_post_accountRegister.getAddress(),
                 "/avatars/default.jpg",
-                "...",
-                AccountRole.USER
+                "..."
         );
         repository_account.save(newAccount);
 

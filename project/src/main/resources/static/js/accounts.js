@@ -1,3 +1,5 @@
+loadScript('roles.js');
+
 let div_accounts = document.getElementById("accounts");
 
 function accounts_clear(div_accounts) {
@@ -33,8 +35,6 @@ function make_account(json) {
     const account_info_head = document.createElement("div");
     account_info_head.className = "account_info_head";
 
-
-
     // NAMES
     const account_info_head_names = document.createElement("div");
     account_info_head_names.className = "account_info_head_names";
@@ -42,14 +42,7 @@ function make_account(json) {
     // role
     const account_info_head_accountRole = document.createElement("span");
     account_info_head_accountRole.className = "account_info_body_accountRole";
-    if (json.accountRole == "USER") {
-        account_info_head_accountRole.innerHTML = "👤";
-        account_info_head_accountRole.title = "User"
-    }
-    else if (json.accountRole == "ADMIN") {
-        account_info_head_accountRole.innerHTML = "👑";
-        account_info_head_accountRole.title = "Admin"
-    }
+    account_info_head_accountRole.appendChild(roles(json.accountRoles)); // KOJI KURAC
     account_info_head_names.appendChild(account_info_head_accountRole);
 
     // space

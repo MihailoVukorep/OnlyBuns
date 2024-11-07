@@ -4,12 +4,15 @@ import com.onlybuns.OnlyBuns.model.*;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
 import com.onlybuns.OnlyBuns.repository.Repository_AccountActivation;
 import com.onlybuns.OnlyBuns.repository.Repository_Post;
+import com.onlybuns.OnlyBuns.repository.Repository_Role;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Configuration
 public class DatabaseConfiguration {
@@ -23,6 +26,9 @@ public class DatabaseConfiguration {
     @Autowired
     private Repository_AccountActivation repositoryAccountActivation;
 
+    @Autowired
+    private Repository_Role repository_role;
+
     public void printAll_accounts() {
         List<Account> accounts = repositoryAccount.findAll();
         for (Account i : accounts) { System.out.println(i.toString()); }
@@ -33,7 +39,11 @@ public class DatabaseConfiguration {
         for (Post i : posts) { System.out.println(i.toString()); }
     }
 
-    public Account CreateAccount(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio, AccountRole accountRole) {
+    public Account CreateAccount(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio, Boolean addAdminRole) {
+
+        Role role_user = init_role("USER");
+        Role role_admin = init_role("ADMIN");
+
         Account account = new Account(
                 email,
                 userName,
@@ -43,15 +53,39 @@ public class DatabaseConfiguration {
                 address,
                 avatar,
                 bio,
-                accountRole
+                role_user
         );
+
+        if (addAdminRole) {
+            Set<Role> roles = account.getRoles();
+            roles.add(role_admin);
+            account.setRoles(roles);
+        }
+
         repositoryAccount.save(account);
+
         return account;
+    }
+
+    public Role init_role(String name) {
+        Optional<Role> optional_role = repository_role.findByName(name);
+        if (optional_role.isEmpty()) {
+            Role role = new Role(name);
+            repository_role.save(role);
+            return role;
+        }
+        else {
+            return optional_role.get();
+        }
     }
 
     @Bean
     @Transactional
     public boolean instantiate() {
+
+        Role role_user = init_role("USER");
+        Role role_admin = init_role("ADMIN");
+
 
         Account acc_pera = CreateAccount(
                 "killmeplzftn+pera@gmail.com",
@@ -62,7 +96,7 @@ public class DatabaseConfiguration {
                 "bulevar 22",
                 "/avatars/default.jpg",
                 "veoma ozbiljan lik",
-                AccountRole.USER
+                false
         );
         repositoryAccountActivation.save(new AccountActivation(acc_pera, AccountActivationStatus.APPROVED)); // approve petar on create
 
@@ -75,7 +109,7 @@ public class DatabaseConfiguration {
                 "sutjeska 13",
                 "/avatars/ajs.png",
                 "gengsta lik",
-                AccountRole.USER
+                false
         );
 
         Account acc_ranka = CreateAccount(
@@ -87,7 +121,7 @@ public class DatabaseConfiguration {
                 "sutjeska 13",
                 "/avatars/default.jpg",
                 "gengsta lik",
-                AccountRole.USER
+                false
         );
 
         repositoryPost.save(new Post("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)","location1", "/uploads/img/bunny1.png", acc_ajzak));
@@ -103,7 +137,7 @@ public class DatabaseConfiguration {
                 "tu na keju",
                 "/avatars/kons.png",
                 "umetnica moze biti zdrava",
-                AccountRole.USER
+                false
         );
 
         Account acc_hater = CreateAccount(
@@ -115,7 +149,7 @@ public class DatabaseConfiguration {
                 "laze teleckog",
                 "/avatars/mclovin.png",
                 "mrzim zeceve",
-                AccountRole.USER
+                false
         );
 
 
@@ -135,7 +169,7 @@ public class DatabaseConfiguration {
                 "motherbase",
                 "/avatars/bigboss.png",
                 "big scary admin guy",
-                AccountRole.ADMIN
+                true
         );
         repositoryAccountActivation.save(new AccountActivation(acc_admin, AccountActivationStatus.APPROVED)); // approve petar on create
 
@@ -159,7 +193,7 @@ public class DatabaseConfiguration {
                 "tu tamo",
                 "/avatars/default.jpg",
                 "sara",
-                AccountRole.ADMIN
+                true
         );
         Account acc_sara2 = CreateAccount(
                 "sapundzijas+superlongemail@gmail.com",
@@ -170,7 +204,7 @@ public class DatabaseConfiguration {
                 "bulevar 22",
                 "/avatars/default.jpg",
                 "veoma ozbiljan lik",
-                AccountRole.USER
+                false
         );
 
         printAll_accounts();

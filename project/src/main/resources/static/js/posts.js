@@ -1,15 +1,9 @@
+loadScript('/js/post_renderer.js');
 
 const div_posts = document.getElementById("posts");
 
-function posts_clear(div_posts) {
-    while (div_posts.firstChild) {
-        div_posts.removeChild(div_posts.lastChild);
-    }
-}
-
-
 async function load_posts() {
-    posts_clear(div_posts);
+    prune(div_posts);
 
     const sortOption = document.getElementById("sortOptions").value;
     const url = `/api/posts?sort=${sortOption}`;
