@@ -18,6 +18,7 @@ public class DTO_View_Post {
     public String location;
     public Account account;
     public Integer replies;
+    public Integer parentPostId;
     public LocalDateTime createdDate;
     public LocalDateTime updatedDate;
 
@@ -25,6 +26,8 @@ public class DTO_View_Post {
         this.id = post.getId();
         this.title = post.getTitle();
         this.text = post.getText();
+        Post parent = post.getParentPost();
+        if (parent != null) { this.parentPostId = parent.getId(); }
         this.picture = post.getPicture();
         this.location = post.getLocation();
         this.account = post.getAccount();

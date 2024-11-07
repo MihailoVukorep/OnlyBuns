@@ -35,6 +35,12 @@ async function load_posts() {
     
     const json = await response.json();
 
+    if (json.parentPostId != null) {
+        const parent = document.getElementById("parent");
+        parent.href = `/posts/${json.parentPostId}`
+        parent.style.display = "block";
+    }
+
     // Load the main post (assuming json is a single post object)
     await fetch_post(json); // Start with the main post
 }

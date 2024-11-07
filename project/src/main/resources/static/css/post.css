@@ -102,6 +102,10 @@
     max-width: 90%;
 }
 
-#sort_controls {
-    padding: 0 0 10px 10px;
+#parent {
+    display: block;
+    text-decoration: none;
+    margin: 3px;
+    padding: 3px;
+    background-color: var(--var-color-bg-trans-sub1);
 }
