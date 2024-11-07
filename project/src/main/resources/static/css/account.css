@@ -23,6 +23,10 @@
 
 #account_info {
     display: inline-block;
+    border: double var(--var-color-border-transwhite);
+    background: var(--var-color-bg-trans-sub1);
+    padding: 10px;
+    box-shadow: 5px 5px 10px black;
 }
 
 #account_names {
