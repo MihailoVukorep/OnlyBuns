@@ -18,9 +18,6 @@ public class Controller_Account {
     @GetMapping("/logout")
     public String logout() { return "logout.html"; }
 
-    @GetMapping("/accounts")
-    public String accounts() { return "accounts.html"; }
-
     @GetMapping("/myaccount")
     public String myaccount(HttpSession session, Model model) {
         Account user = (Account) session.getAttribute("account");
@@ -43,18 +40,18 @@ public class Controller_Account {
     public String management(HttpSession session) {
         Account user = (Account) session.getAttribute("account");
         if (user == null || !isAdmin(user)) {
-            return "unauthorized.html";
+            return "error/403.html";
         }
-        return "manage.html";
+        return "admin_manage.html";
     }
 
-    @GetMapping("/admin/adminallaccounts")
+    @GetMapping("/admin/accounts")
     public String adminAllAccounts(HttpSession session) {
         Account user = (Account) session.getAttribute("account");
         if (user == null || !isAdmin(user)) {
-            return "unauthorized.html";
+            return "error/403.html";
         }
-        return "adminallaccounts.html";
+        return "admin_accounts.html";
     }
 
     // TODO: UPDATE ACCOUNT

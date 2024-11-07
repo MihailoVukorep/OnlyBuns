@@ -2,9 +2,8 @@ loadScript('/js/roles.js');
 
 let navbar = document.getElementById("navbar");
 
-// STATIC BUTTONS
-let div1 = document.createElement("div");
-div1.id = "navbar_left";
+let navbar_static = document.createElement("div");
+navbar_static.id = "navbar_left";
 
 function createLink(text, link) {
     let a = document.createElement("a");
@@ -13,15 +12,15 @@ function createLink(text, link) {
     return a;
 }
 
-div1.append(createLink("🏠 Home",     "/home"));
-div1.append(createLink("📰 Posts",    "/posts"));
-div1.append(createLink("👥 Accounts", "/accounts"));
+navbar_static.append(createLink("🏠 Home",     "/home"));
+navbar_static.append(createLink("📰 Posts",    "/posts"));
 
-navbar.append(div1);
 
-let div2 = document.createElement("div");
-div2.id = "navbar_right";
-navbar.append(div2);
+navbar.append(navbar_static);
+
+let navbar_dynamic = document.createElement("div");
+navbar_dynamic.id = "navbar_right";
+navbar.append(navbar_dynamic);
 
 async function load_dynamic() {
     const response = await fetch("/api/myaccount");
@@ -31,19 +30,20 @@ async function load_dynamic() {
         console.log(json);
         
         if (hasRole(json.accountRoles, "ADMIN")) {
-            div2.append(createLink("🛠️ Management", "/admin/manage"));
+            navbar_dynamic.append(createLink("👥 Accounts", "/admin/accounts"));
+            navbar_dynamic.append(createLink("🛠️ Management", "/admin/manage"));
         }
 
-        div2.append(createLink("🗺️ View Map", "/map"));
-        div2.append(createLink("➕ Create Post", "/createpost"));
+        navbar_dynamic.append(createLink("🗺️ View Map", "/map"));
+        navbar_dynamic.append(createLink("➕ Create Post", "/createpost"));
 
-        div2.append(createLink("👤", "/myaccount"));
-        div2.append(createLink("⚙️", "/update"));
-        div2.append(createLink("🚪 Log out (" + json.userName + ")", "/logout"));
+        navbar_dynamic.append(createLink("👤", "/myaccount"));
+        navbar_dynamic.append(createLink("⚙️", "/update"));
+        navbar_dynamic.append(createLink("🚪 Log out (" + json.userName + ")", "/logout"));
     }
     else {
-        div2.append(createLink("🔑 Log in", "/login"));
-        div2.append(createLink("📝 Register", "/register"));
+        navbar_dynamic.append(createLink("🔑 Log in", "/login"));
+        navbar_dynamic.append(createLink("📝 Register", "/register"));
     }
 }
 
