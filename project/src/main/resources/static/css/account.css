@@ -48,3 +48,11 @@
 #account_address {
     color: var(--var-color-fg-post-address);
 }
+
+.account_counters {
+    font-size: medium;
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
+    border-bottom: 1px dashed var(--var-color-border-transwhite)
+}
