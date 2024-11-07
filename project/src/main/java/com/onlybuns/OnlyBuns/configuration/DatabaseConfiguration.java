@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Configuration
@@ -50,17 +49,11 @@ public class DatabaseConfiguration {
         return account;
     }
 
-    public void CreatePost(String title, String text, String location, String picture, Account account) {
-        Post post = new Post(title, text, location, picture, account);
-        repositoryPost.save(post);
-    }
-
-
     @Bean
     @Transactional
     public boolean instantiate() {
 
-        Account a1 = CreateAccount(
+        Account acc_pera = CreateAccount(
                 "pera@gmail.com",
                 "rope",
                 "123",
@@ -71,9 +64,9 @@ public class DatabaseConfiguration {
                 "veoma ozbiljan lik",
                 AccountRole.USER
         );
-        repositoryAccountActivation.save(new AccountActivation(a1, AccountActivationStatus.APPROVED)); // approve petar on create
+        repositoryAccountActivation.save(new AccountActivation(acc_pera, AccountActivationStatus.APPROVED)); // approve petar on create
 
-        Account acc2 = CreateAccount(
+        Account acc_ajzak = CreateAccount(
                 "ajzak@gmail.com",
                 "ajzak",
                 "123",
@@ -85,7 +78,7 @@ public class DatabaseConfiguration {
                 AccountRole.USER
         );
 
-        Account acc5 = CreateAccount(
+        Account acc_ranka = CreateAccount(
                 "rankaradulovic70@gmail.com",
                 "ranxx",
                 "123",
@@ -97,11 +90,11 @@ public class DatabaseConfiguration {
                 AccountRole.USER
         );
 
-        CreatePost("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)","location1", "/img/bunny1.png",acc2);
-        CreatePost("Sala", "I ja i zeka volimo travu.","location2", "/img/bunny2.png",acc2);
+        repositoryPost.save(new Post("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)","location1", "uploads/img/bunny1.png", acc_ajzak));
+        repositoryPost.save(new Post("Sala", "I ja i zeka volimo travu.","location2", "uploads/img/bunny2.png", acc_ajzak));
 
 
-        Account acc3 = CreateAccount(
+        Account acc_ana = CreateAccount(
                 "konstrakta@gmail.com",
                 "konstrakta",
                 "123",
@@ -113,9 +106,9 @@ public class DatabaseConfiguration {
                 AccountRole.USER
         );
 
-        CreatePost("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).","location3", "/img/bunny3.png",acc3);
+        repositoryPost.save(new Post("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).","location3", "uploads/img/bunny3.png", acc_ana));
 
-        Account acc4 = CreateAccount(
+        Account acc_admin = CreateAccount(
                 "bigboss@gmail.com",
                 "snake",
                 "123",
@@ -127,9 +120,18 @@ public class DatabaseConfiguration {
                 AccountRole.ADMIN
         );
 
-        CreatePost("Zabranjeno dilovanje Sargarepa", "NA OVOM FORUMU SE NE SME DILOVATI SARGAREPA!!!! KO BUDE PREKRSIO DOBIJA BAN ISTE SEKUNDE!","location4", "/img/bunny4.png",acc4);
 
-        Account acc6 = CreateAccount(
+        Post root = new Post("Dilujem Sargarepe", "10 DINARA 100 SARGAREPA!!!!", acc_ana);
+        repositoryPost.save(root);
+
+        Post root2 = new Post("NEMA SANSE", "ALA DRUZE KAKAV DEAL!!", acc_ajzak, root);
+        repositoryPost.save(root2);
+
+        repositoryPost.save(new Post("DA DA", "Rodilo drvece :^)", acc_ajzak, root2));
+        repositoryPost.save(new Post("HMM", "E TOSE NISAM NADO!!", acc_ajzak, root));
+
+
+        Account acc_sara = CreateAccount(
                 "sapundzijas@gmail.com",
                 "sarahah",
                 "123",
@@ -140,7 +142,7 @@ public class DatabaseConfiguration {
                 "big scary admin guy",
                 AccountRole.ADMIN
         );
-        Account acc7 = CreateAccount(
+        Account acc_sara2 = CreateAccount(
                 "sapundzijas+superlongemail@gmail.com",
                 "sara",
                 "123",

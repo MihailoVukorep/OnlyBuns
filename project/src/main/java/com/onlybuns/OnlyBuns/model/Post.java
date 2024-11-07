@@ -51,6 +51,17 @@ public class Post {
     @UpdateTimestamp
     private LocalDateTime updatedDate;
 
+    public Post(String text, Account account) {
+        this.text = text;
+        this.account = account;
+    }
+
+    public Post(String title, String text, Account account) {
+        this.title = title;
+        this.text = text;
+        this.account = account;
+    }
+
     public Post(String title, String text, String location, String picture, Account account) {
         this.title = title;
         this.text = text;
