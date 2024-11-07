@@ -63,3 +63,8 @@
     padding: 0;
     margin: 0;
 }
+
+.post_picture {
+    width: 100px;
+    height: auto;
+}

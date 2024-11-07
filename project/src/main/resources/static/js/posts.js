@@ -10,6 +10,8 @@ function posts_clear(div_posts) {
 
 function make_post(item) {
 
+    console.log(item);
+
     const post = document.createElement("div");
     post.className = "post";
 
@@ -32,7 +34,6 @@ function make_post(item) {
 
     post_head.appendChild(post_head_account);
 
-
     const post_head_title = document.createElement("a");
     post_head_title.className = "post_title"
     post_head_title.innerHTML = item.title;
@@ -48,6 +49,11 @@ function make_post(item) {
     post_body_text.className = "post_text"
     post_body_text.innerHTML = item.text;
     post_body.appendChild(post_body_text);
+
+    const post_body_picture = document.createElement("img");
+    post_body_picture.className = "post_picture";
+    post_body_picture.src = item.picture;
+    post_body.appendChild(post_body_picture);
 
     post.appendChild(post_body);
     return post;
