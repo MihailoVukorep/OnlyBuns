@@ -1,10 +1,7 @@
 package com.onlybuns.OnlyBuns.configuration;
 
 import com.onlybuns.OnlyBuns.model.*;
-import com.onlybuns.OnlyBuns.repository.Repository_Account;
-import com.onlybuns.OnlyBuns.repository.Repository_AccountActivation;
-import com.onlybuns.OnlyBuns.repository.Repository_Post;
-import com.onlybuns.OnlyBuns.repository.Repository_Role;
+import com.onlybuns.OnlyBuns.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,24 +15,27 @@ import java.util.Set;
 public class DatabaseConfiguration {
 
     @Autowired
-    private Repository_Account repositoryAccount;
+    private Repository_Account repository_account;
 
     @Autowired
-    private Repository_Post repositoryPost;
+    private Repository_Post repository_post;
 
     @Autowired
-    private Repository_AccountActivation repositoryAccountActivation;
+    private Repository_AccountActivation repository_accountActivation;
 
     @Autowired
     private Repository_Role repository_role;
 
+    @Autowired
+    private Repository_Like repository_like;
+
     public void printAll_accounts() {
-        List<Account> accounts = repositoryAccount.findAll();
+        List<Account> accounts = repository_account.findAll();
         for (Account i : accounts) { System.out.println(i.toString()); }
     }
 
     public void printAll_posts() {
-        List<Post> posts = repositoryPost.findAll();
+        List<Post> posts = repository_post.findAll();
         for (Post i : posts) { System.out.println(i.toString()); }
     }
 
@@ -62,7 +62,7 @@ public class DatabaseConfiguration {
             account.setRoles(roles);
         }
 
-        repositoryAccount.save(account);
+        repository_account.save(account);
 
         return account;
     }
@@ -98,7 +98,7 @@ public class DatabaseConfiguration {
                 "veoma ozbiljan lik",
                 false
         );
-        repositoryAccountActivation.save(new AccountActivation(acc_pera, AccountActivationStatus.APPROVED)); // approve petar on create
+        repository_accountActivation.save(new AccountActivation(acc_pera, AccountActivationStatus.APPROVED)); // approve petar on create
 
         Account acc_ajzak = CreateAccount(
                 "killmeplzftn+ajzak@gmail.com",
@@ -124,8 +124,8 @@ public class DatabaseConfiguration {
                 false
         );
 
-        repositoryPost.save(new Post("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)","location1", "/uploads/img/bunny1.png", acc_ajzak));
-        repositoryPost.save(new Post("Sala", "I ja i zeka volimo travu.","location2", "/uploads/img/bunny2.png", acc_ajzak));
+        repository_post.save(new Post("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)","location1", "/uploads/img/bunny1.png", acc_ajzak));
+        repository_post.save(new Post("Sala", "I ja i zeka volimo travu.","location2", "/uploads/img/bunny2.png", acc_ajzak));
 
 
         Account acc_ana = CreateAccount(
@@ -154,10 +154,10 @@ public class DatabaseConfiguration {
 
 
         Post r = new Post("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).","location3", "/uploads/img/bunny3.png", acc_ana);
-        repositoryPost.save(r);
+        repository_post.save(r);
 
-        repositoryPost.save(new Post("e necu", "Sto bi trosio vodu nek smrdi!", acc_ajzak, r));
-        repositoryPost.save(new Post("ti se okupaj", ":)", acc_hater, r));
+        repository_post.save(new Post("e necu", "Sto bi trosio vodu nek smrdi!", acc_ajzak, r));
+        repository_post.save(new Post("ti se okupaj", ":)", acc_hater, r));
 
 
         Account acc_admin = CreateAccount(
@@ -171,17 +171,19 @@ public class DatabaseConfiguration {
                 "big scary admin guy",
                 true
         );
-        repositoryAccountActivation.save(new AccountActivation(acc_admin, AccountActivationStatus.APPROVED)); // approve petar on create
+        repository_accountActivation.save(new AccountActivation(acc_admin, AccountActivationStatus.APPROVED)); // approve petar on create
 
 
         Post root = new Post("Dilujem Sargarepe", "10 DINARA 100 SARGAREPA!!!!", acc_ana);
-        repositoryPost.save(root);
+        repository_post.save(root);
 
         Post root2 = new Post("NEMA SANSE", "ALA DRUZE KAKAV DEAL!!", acc_ajzak, root);
-        repositoryPost.save(root2);
+        repository_post.save(root2);
 
-        repositoryPost.save(new Post("DA DA", "Rodilo drvece :^)", acc_ajzak, root2));
-        repositoryPost.save(new Post("HMM", "E TOSE NISAM NADO!!", acc_ajzak, root));
+        repository_post.save(new Post("DA DA", "Rodilo drvece :^)", acc_ajzak, root2));
+        repository_post.save(new Post("HMM", "E TOSE NISAM NADO!!", acc_ajzak, root));
+
+
 
 
         Account acc_sara = CreateAccount(
@@ -206,6 +208,11 @@ public class DatabaseConfiguration {
                 "veoma ozbiljan lik",
                 false
         );
+
+
+        repository_like.save(new Like(acc_ajzak, root));
+        repository_like.save(new Like(acc_sara, root));
+        repository_like.save(new Like(acc_sara2, root));
 
         printAll_accounts();
         printAll_posts();
