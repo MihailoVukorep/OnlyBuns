@@ -15,7 +15,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class Service_Email {

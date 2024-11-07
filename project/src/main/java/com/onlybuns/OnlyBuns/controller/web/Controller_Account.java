@@ -32,25 +32,17 @@ public class Controller_Account {
         return "account.html";
     }
 
-    public boolean isAdmin(Account account) {
-        return account.getRoles().stream().anyMatch(role -> "ADMIN".equals(role.getName()));
-    }
-
     @GetMapping("/admin/manage")
     public String management(HttpSession session) {
         Account user = (Account) session.getAttribute("account");
-        if (user == null || !isAdmin(user)) {
-            return "error/403.html";
-        }
+        if (user == null || !user.isAdmin(user)) { return "error/403.html"; }
         return "admin_manage.html";
     }
 
     @GetMapping("/admin/accounts")
     public String adminAllAccounts(HttpSession session) {
         Account user = (Account) session.getAttribute("account");
-        if (user == null || !isAdmin(user)) {
-            return "error/403.html";
-        }
+        if (user == null || !user.isAdmin(user)) { return "error/403.html"; }
         return "admin_accounts.html";
     }
 

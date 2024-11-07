@@ -50,7 +50,10 @@ public class Service_Account {
 
     private final RateLimiter rateLimiter = new RateLimiter();
 
-    public ResponseEntity<List<DTO_View_Account>> api_admin_accounts() {
+    public ResponseEntity<List<DTO_View_Account>> api_admin_accounts(HttpSession session) {
+        Account user = (Account) session.getAttribute("account");
+        if (user == null || !user.isAdmin(user)) { return new ResponseEntity<>(null, HttpStatus.FORBIDDEN); }
+
         List<Account> accounts = repository_account.findAll();
         List<DTO_View_Account> accountDTOS = new ArrayList<>();
         for (Account account : accounts) { accountDTOS.add(new DTO_View_Account(account)); }
@@ -73,8 +76,6 @@ public class Service_Account {
 
         return new ResponseEntity<>(new DTO_View_Account(foundAccount.get()), HttpStatus.OK);
     }
-
-
 
     public ResponseEntity<String> api_login(@RequestBody DTO_Post_AccountLogin dto_post_accountLogin, HttpServletRequest request, HttpSession session){
 

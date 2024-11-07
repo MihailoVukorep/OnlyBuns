@@ -78,6 +78,10 @@ public class Account {
         this.roles.add(role);
     }
 
+    public boolean isAdmin(Account account) {
+        return account.getRoles().stream().anyMatch(role -> "ADMIN".equals(role.getName()));
+    }
+
     @Override
     public String toString() {
         return "Account{" +
