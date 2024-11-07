@@ -48,15 +48,12 @@ public class Service_Email {
 
     public void sendVerificationEmail(Account account) {
         // Generate a verification token and save it in the AccountActivation table
-        String token = UUID.randomUUID().toString();
-        AccountActivation activation = new AccountActivation();
-        activation.setAccount(account);
-        activation.setStatus(AccountActivationStatus.WAITING);
-        activation.setToken(token);
+        ;
+        AccountActivation activation = new AccountActivation(account, AccountActivationStatus.WAITING);
         repositoryAccountActivation.save(activation);
 
         // Send verification email
-        String verificationLink = "http://127.0.0.1:8080/api/verify?token=" + token;
+        String verificationLink = "http://127.0.0.1:8080/api/verify?token=" + activation.getToken();
 
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(account.getEmail());

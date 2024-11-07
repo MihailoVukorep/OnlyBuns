@@ -27,15 +27,15 @@ public class DTO_Post_AccountRegister {
         return null;
     }
 
+    private static boolean isNullOrEmpty(String value) {
+        return value == null || value.trim().isEmpty();
+    }
+
     private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
 
     public static boolean isValidEmail(String email) {
         Pattern pattern = Pattern.compile(EMAIL_REGEX);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
-    }
-
-    private static boolean isNullOrEmpty(String value) {
-        return value == null || value.trim().isEmpty();
     }
 }

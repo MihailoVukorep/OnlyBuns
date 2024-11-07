@@ -1,9 +1,8 @@
 package com.onlybuns.OnlyBuns.configuration;
 
-import com.onlybuns.OnlyBuns.model.Account;
-import com.onlybuns.OnlyBuns.model.AccountRole;
-import com.onlybuns.OnlyBuns.model.Post;
+import com.onlybuns.OnlyBuns.model.*;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
+import com.onlybuns.OnlyBuns.repository.Repository_AccountActivation;
 import com.onlybuns.OnlyBuns.repository.Repository_Post;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,9 @@ public class DatabaseConfiguration {
 
     @Autowired
     private Repository_Post repositoryPost;
+
+    @Autowired
+    private Repository_AccountActivation repositoryAccountActivation;
 
     public void printAll_accounts() {
         List<Account> accounts = repositoryAccount.findAll();
@@ -69,6 +71,7 @@ public class DatabaseConfiguration {
                 "veoma ozbiljan lik",
                 AccountRole.USER
         );
+        repositoryAccountActivation.save(new AccountActivation(a1, AccountActivationStatus.APPROVED)); // approve petar on create
 
         Account acc2 = CreateAccount(
                 "ajzak@gmail.com",

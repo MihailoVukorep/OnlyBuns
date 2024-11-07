@@ -3,6 +3,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -26,7 +27,12 @@ public class AccountActivation {
     protected AccountActivationStatus status;
 
     @Column(nullable = false, unique = true)
-    private String token;
+    private String token = UUID.randomUUID().toString();
+
+    public AccountActivation(Account account, AccountActivationStatus status) {
+        this.account = account;
+        this.status = status;
+    }
 
     @Override
     public String toString() {

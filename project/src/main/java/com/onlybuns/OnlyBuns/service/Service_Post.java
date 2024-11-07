@@ -1,7 +1,6 @@
 package com.onlybuns.OnlyBuns.service;
 
 
-import com.onlybuns.OnlyBuns.dto.DTO_CreatePost;
 import com.onlybuns.OnlyBuns.dto.DTO_View_Post;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.AccountRole;
