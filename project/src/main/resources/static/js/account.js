@@ -14,9 +14,13 @@ async function load_account() {
     document.getElementById("account_address").innerHTML     = json.address;
     document.getElementById("account_avatar").src            = json.avatar;
     document.getElementById("account_bio").innerHTML         = json.bio;
-
     const role = document.getElementById("account_accountRoles");
     role.appendChild(roles(json.accountRoles))
+
+    document.getElementById("account_postsCount").innerHTML     = json.postsCount;
+    document.getElementById("account_followingCount").innerHTML = json.followingCount;
+    document.getElementById("account_followersCount").innerHTML = json.followersCount;
+
 }
 
 load_account();
