@@ -54,10 +54,6 @@ body {
     align-items: center;
 }
 
-#navbar a:hover {
-    background-color: transparent;
-}
-
 #navbar_left, #navbar_right {
     display: flex;
     align-items: center;
@@ -66,6 +62,7 @@ body {
 }
 
 #navbar a {
+    cursor: pointer;
     text-decoration: none;
     font-weight: bolder;
     color: white;
@@ -75,6 +72,9 @@ body {
     border-radius: 2px;
     margin: 0 3px;
     background-color: var(--var-color-bg-link);
+}
+#navbar a:hover {
+    background-color: transparent;
 }
 
 h1, h2 {

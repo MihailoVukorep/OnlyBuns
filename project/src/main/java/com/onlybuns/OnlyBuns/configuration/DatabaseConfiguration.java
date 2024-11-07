@@ -113,7 +113,7 @@ public class DatabaseConfiguration {
                 "Hejter",
                 "Mafijas",
                 "laze teleckog",
-                "/avatars/kons.png",
+                "/avatars/mclovin.png",
                 "mrzim zeceve",
                 AccountRole.USER
         );
