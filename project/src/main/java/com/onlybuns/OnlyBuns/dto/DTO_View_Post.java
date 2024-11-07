@@ -14,6 +14,8 @@ public class DTO_View_Post {
     public Integer id;
     public String title;
     public String text;
+    public String picture;
+    public String location;
     public Account account;
     public Integer replies;
     public LocalDateTime createdDate;
@@ -23,6 +25,8 @@ public class DTO_View_Post {
         this.id = post.getId();
         this.title = post.getTitle();
         this.text = post.getText();
+        this.picture = post.getPicture();
+        this.location = post.getLocation();
         this.account = post.getAccount();
         this.replies = post.getReplies().size();
         this.createdDate = post.getCreatedDate();
