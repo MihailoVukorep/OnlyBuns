@@ -109,7 +109,7 @@ function make_account(json) {
 async function load_posts() {
     prune(accounts);
 
-    const response = await fetch("/api/accounts");
+    const response = await fetch("/api/admin/accounts");
     const json = await response.json();
 
     for (let i = 0; i < json.length; i++) {
