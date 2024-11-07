@@ -23,8 +23,8 @@ public class DTO_View_Account {
     public String bio;
     public Set<Role> accountRoles;
     public Integer postsCount = 0;
-    public Integer followingCount = 0;
     public Integer followersCount = 0;
+    public Integer followingCount = 0;
 
     public DTO_View_Account(Account account) {
         this.id = account.getId();
