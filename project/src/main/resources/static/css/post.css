@@ -3,10 +3,31 @@
     border: 1px solid var(--var-color-border-transwhite);
     border-radius: 5px;
     background-color: var(--var-color-bg-trans-sub1);
-    padding: 3px;
     margin: 3px;
     overflow: hidden;
     overflow-wrap: anywhere;
+}
+
+.post_body {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--var-color-border-transwhite);
+    padding: 10px;
+}
+
+.post_body_link {
+    text-decoration: none;
+}
+
+.post_content {
+    flex: 1;
+    margin-bottom: 10px;
+}
+
+.post_controls {
+    padding: 3px;
+    display: flex;
+    gap: 2px;
 }
 
 .post_controls button {
@@ -18,52 +39,41 @@
     font-size: small;
     border: var(--var-color-border-gray) 1px solid;
     border-radius: 2px;
-    margin: 0 3px 0 0;
     background-color: var(--var-color-bg-link);
 }
 
 .post_account_link {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    justify-content: center;
     text-decoration: none;
-    display: inline-block;
-    padding: 0;
-    margin: 0;
-    /*! border: 1px solid var(--var-color-border-transwhite); */
-    box-sizing: border-box;
     font-size: small;
 }
 
 .post_account {
-    display: flex;
-    align-items: center; /* Centers items vertically */
-    justify-content: center; /* Centers content horizontally */
-    gap: 2px; /* Space between image and text */
-    box-sizing: border-box;
-    background-color: var(--var-color-bg-link);
+    padding: 3px;
+    display: inline-block;
 }
 
 .post_account_image {
     display: inline;
-    width: 16px;
-    height: 16px;
-    max-width: 32px;
-    max-height: 32px;
+    width: 20px;
+    height: 20px;
+    max-width: 20px;
+    max-height: 20px;
     border-radius: 100%;
-    margin: 0 auto;
 }
 
 .post_account_userName {
-    display: inline;
-    margin: 0;
-    padding: 0;
+    display: inline-flex;
     text-decoration: none;
     color: var(--var-color-fg-post-username);
     overflow-wrap: break-word;
     word-break: break-word;
     font-weight: 700;
-    /*! font-size: 13px; */
     font-family: sans-serif;
     font-size: small;
-    padding: 3px;
 }
 
 .post_title {
@@ -88,6 +98,10 @@
     margin: 3px;
     border: 1px solid var(--var-color-border-transwhite);
     display: block;
-    width: 300px;
-    height: auto;
+    max-height: 200px;
+    max-width: 90%;
+}
+
+#sort_controls {
+    padding: 0 0 10px 10px;
 }
