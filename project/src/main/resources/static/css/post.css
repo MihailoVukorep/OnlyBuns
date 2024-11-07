@@ -2,13 +2,25 @@
     border: 1px solid var(--var-color-border-transwhite);
     border-radius: 5px;
     background-color: rgb(0, 0, 0, 0.3);
-    padding: 2px;
+    padding: 3px;
     margin: 3px;
-    overflow: hidden;
-    overflow-wrap: anywhere;
+}
+
+.post_title {
+    font-size: xx-large;
+    text-decoration: underline;
+    padding: 0;
+    margin: 0;
+}
+
+.post_text {
+    font-size: large;
+    padding: 0;
+    margin: 0;
 }
 
 .post_picture {
     width: 300px;
     height: auto;
+    border: 1px solid var(--var-color-border-transwhite);
 }
