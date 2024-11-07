@@ -54,7 +54,7 @@ public class DatabaseConfiguration {
     public boolean instantiate() {
 
         Account acc_pera = CreateAccount(
-                "pera@gmail.com",
+                "killmeplzftn+pera@gmail.com",
                 "rope",
                 "123",
                 "Pera",
@@ -67,7 +67,7 @@ public class DatabaseConfiguration {
         repositoryAccountActivation.save(new AccountActivation(acc_pera, AccountActivationStatus.APPROVED)); // approve petar on create
 
         Account acc_ajzak = CreateAccount(
-                "ajzak@gmail.com",
+                "killmeplzftn+ajzak@gmail.com",
                 "ajzak",
                 "123",
                 "Ajs",
@@ -95,7 +95,7 @@ public class DatabaseConfiguration {
 
 
         Account acc_ana = CreateAccount(
-                "konstrakta@gmail.com",
+                "killmeplzftn+konstrakta@gmail.com",
                 "konstrakta",
                 "123",
                 "Ana",
@@ -106,7 +106,25 @@ public class DatabaseConfiguration {
                 AccountRole.USER
         );
 
-        repositoryPost.save(new Post("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).","location3", "/uploads/img/bunny3.png", acc_ana));
+        Account acc_hater = CreateAccount(
+                "killmeplzftn+hejter@gmail.com",
+                "hejter",
+                "123",
+                "Hejter",
+                "Mafijas",
+                "laze teleckog",
+                "/avatars/kons.png",
+                "mrzim zeceve",
+                AccountRole.USER
+        );
+
+
+        Post r = new Post("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).","location3", "/uploads/img/bunny3.png", acc_ana);
+        repositoryPost.save(r);
+
+        repositoryPost.save(new Post("e necu", "Sto bi trosio vodu nek smrdi!", acc_ajzak, r));
+        repositoryPost.save(new Post("ti se okupaj", ":)", acc_hater, r));
+
 
         Account acc_admin = CreateAccount(
                 "bigboss@gmail.com",
