@@ -12,7 +12,7 @@
 
 #account_image {
     display: inline-block;
-    border: dotted 3px var(--var-color-border-transwhite);
+    /*! border: dotted 3px var(--var-color-border-transwhite); */
     margin: 10px;
     padding: 10px;
     width: 250px;
