@@ -1,13 +1,6 @@
 loadScript('/js/roles.js');
 
-let div_accounts = document.getElementById("accounts");
-
-function accounts_clear(div_accounts) {
-    
-    while (div_accounts.firstChild) {
-        div_accounts.removeChild(div_accounts.lastChild);
-    }
-}
+let accounts = document.getElementById("accounts");
 
 function make_account(json) {
 
@@ -112,22 +105,16 @@ function make_account(json) {
     return account_link;
 }
 
-function accounts_populate(div_accounts, items) {
-
-    for (let i = 0; i < items.length; i++) {
-        div_accounts.appendChild(make_account(items[i]));
-    }
-}
-
 
 async function load_posts() {
-    accounts_clear(div_accounts);
+    prune(accounts);
 
     const response = await fetch("/api/accounts");
     const json = await response.json();
 
-    console.log(json)
-    accounts_populate(div_accounts, json);
+    for (let i = 0; i < json.length; i++) {
+        accounts.appendChild(make_account(json[i]));
+    }
 }
 
 load_posts();

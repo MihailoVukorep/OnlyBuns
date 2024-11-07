@@ -27,7 +27,6 @@ async function load_dynamic() {
 
     if (response.ok) {
         const json = await response.json();
-        console.log(json);
         
         if (hasRole(json.accountRoles, "ADMIN")) {
             navbar_dynamic.append(createLink("👥 Accounts", "/admin/accounts"));

@@ -37,8 +37,6 @@ async function api_createpost() {
     });
 
     const text = await response.text();
-    console.log(response);
-    console.log(text);
     pStatus.innerHTML = text;
 
     if (response.ok) {

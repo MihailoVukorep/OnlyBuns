@@ -23,10 +23,6 @@ async function api_login(v_username, v_password) {
 
 
     const text = await response.text();
-
-    console.log(response);
-
-    console.log(text);
     p_status.innerHTML = text;
 
     if (response.ok) {

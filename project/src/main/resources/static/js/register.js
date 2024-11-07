@@ -36,7 +36,6 @@ async function api_register() {
 
     const text = await response.text();
 
-    console.log(response);
     p_status.innerHTML = text;
 
     //if (response.ok) {

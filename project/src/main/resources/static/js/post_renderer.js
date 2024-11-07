@@ -90,8 +90,6 @@ function make_post_controls(json) {
 
 function make_post(json, link_body=false) {
 
-    console.log(json);
-
     const post = document.createElement("div");
     post.className = "post";
 

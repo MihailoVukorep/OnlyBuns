@@ -6,8 +6,6 @@ const thread = document.getElementById("thread");
 
 async function fetch_post(json, indent = 0) {
 
-    console.log(json);
-
     // make post
     const post = make_post(json, false);
     post.style.marginLeft = `${indent}px`;
