@@ -20,8 +20,17 @@ public class DTO_View_Post {
     public Integer replies;
     public Integer parentPostId;
     public Integer likes;
+    public Integer totalChildren;
     public LocalDateTime createdDate;
     public LocalDateTime updatedDate;
+
+    private static int countReplies(Post post) {
+        int count = 0;
+        for (Post reply : post.getReplies()) {
+            count += 1 + countReplies(reply);
+        }
+        return count;
+    }
 
     public DTO_View_Post(Post post) {
         this.id = post.getId();
@@ -34,6 +43,7 @@ public class DTO_View_Post {
         this.account = post.getAccount();
         this.replies = post.getReplies().size();
         this.likes = post.getLikes().size();
+        this.totalChildren = countReplies(post);
         this.createdDate = post.getCreatedDate();
         this.updatedDate = post.getUpdatedDate();
     }

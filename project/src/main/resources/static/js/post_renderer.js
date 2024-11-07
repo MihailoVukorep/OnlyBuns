@@ -1,3 +1,5 @@
+loadScript('/js/post_actions.js');
+
 function make_post_content(json) {
 
     const post_content = document.createElement("div");
@@ -71,13 +73,13 @@ function make_post_controls(json) {
 
     const post_controls_like = document.createElement("button");
     post_controls_like.className = "post_controls_like";
-    post_controls_like.textContent = "❤️ Like";
+    post_controls_like.textContent = `❤️ Like (${json.likes})`;
     post_controls_like.onclick = () => post_like(json.id);
     post_controls.appendChild(post_controls_like);
 
     const post_controls_comment = document.createElement("button");
     post_controls_comment.className = "post_controls_comment";
-    post_controls_comment.textContent = "💬 Reply";
+    post_controls_comment.textContent = `💬 Reply (${json.totalChildren})`;
     post_controls_comment.onclick = () => post_reply(json.id);
     post_controls.appendChild(post_controls_comment);
 

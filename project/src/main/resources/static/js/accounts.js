@@ -1,4 +1,4 @@
-loadScript('roles.js');
+loadScript('/js/roles.js');
 
 let div_accounts = document.getElementById("accounts");
 
