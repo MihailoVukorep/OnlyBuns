@@ -130,15 +130,16 @@ public class Service_Post {
         if (sessionAccount == null) { return new ResponseEntity<>("Can't like when logged out.", HttpStatus.BAD_REQUEST); }
 
         Optional<Account> optional_account = repository_account.findById(sessionAccount.getId());
-        if (!optional_account.isEmpty()) { return new ResponseEntity<>("Can't find account", HttpStatus.NOT_FOUND); }
+        if (optional_account.isEmpty()) { return new ResponseEntity<>("Can't find account", HttpStatus.NOT_FOUND); }
         Account account = optional_account.get();
 
         Optional<Post> optional_post = repository_post.findById(id);
-        if (!optional_post.isEmpty()) { return new ResponseEntity<>("Can't find post", HttpStatus.NOT_FOUND); }
+        if (optional_post.isEmpty()) { return new ResponseEntity<>("Can't find post", HttpStatus.NOT_FOUND); }
         Post post = optional_post.get();
 
         // create new like
         Like newLike = new Like(account, post);
+        post.getLikes().add(newLike);
         repository_like.save(newLike);
 
         return new ResponseEntity<>("Post liked.", HttpStatus.OK);
