@@ -119,6 +119,7 @@ public class DatabaseConfiguration {
                 "big scary admin guy",
                 AccountRole.ADMIN
         );
+        repositoryAccountActivation.save(new AccountActivation(acc_admin, AccountActivationStatus.APPROVED)); // approve petar on create
 
 
         Post root = new Post("Dilujem Sargarepe", "10 DINARA 100 SARGAREPA!!!!", acc_ana);
