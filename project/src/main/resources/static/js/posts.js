@@ -77,6 +77,22 @@ function make_post_account(json) {
     return post_account;
 }
 
+async function post_like() {
+    const response = await fetch("/api/myaccount");
+    if (!response.ok) {
+        popup("You need to login first.");
+        return;
+    }
+}
+
+async function post_reply() {
+    const response = await fetch("/api/myaccount");
+    if (!response.ok) {
+        popup("You need to login first.");
+        return;
+    }
+}
+
 function make_post_controls(json) {
     const post_controls = document.createElement("div");
     post_controls.className = "post_controls";
@@ -84,11 +100,13 @@ function make_post_controls(json) {
     const post_controls_like = document.createElement("button");
     post_controls_like.className = "post_controls_like";
     post_controls_like.textContent = "❤️ Like";
+    post_controls_like.onclick = post_like;
     post_controls.appendChild(post_controls_like);
 
     const post_controls_comment = document.createElement("button");
     post_controls_comment.className = "post_controls_comment";
-    post_controls_comment.textContent = "💬 Comment";
+    post_controls_comment.textContent = "💬 Reply";
+    post_controls_comment.onclick = post_reply;
     post_controls.appendChild(post_controls_comment);
 
     post_controls.appendChild(make_post_account(json));

@@ -8,10 +8,15 @@
         <title>OnlyBuns - Posts</title>
         <link rel="stylesheet" href="/css/posts.css">
         <link rel="stylesheet" href="/css/searchform.css">
+        <link rel="stylesheet" href="/css/popup.css">
     </head>
     <body>
         <div id="navbar"></div>
         
+        <div class="popup" id="popup" style="display: none;">
+            <p id="popup_text"></p>
+        </div>
+
         <h1>📰 Posts 📰</h1>
 
         <div>
@@ -33,6 +38,7 @@
 
         <div id="posts"></div>
 
+        <script type="text/javascript" src="/js/popup.js"></script>
         <script type="text/javascript" src="/js/navbar.js"></script>
         <script type="text/javascript" src="/js/posts.js"></script>
     </body>
