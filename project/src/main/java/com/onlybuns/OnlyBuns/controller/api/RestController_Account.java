@@ -15,11 +15,8 @@ public class RestController_Account {
     @Autowired
     private Service_Account serviceAccount;
 
-    @GetMapping(value = "/api/accounts")
-    public ResponseEntity<List<DTO_View_Account>> api_accounts() { return serviceAccount.api_accounts(); }
-
-    @GetMapping(value = "/api/adminaccounts")
-    public ResponseEntity<List<DTO_Admin_View_Account>> api_adminaccounts() { return serviceAccount.api_adminaccounts(); }
+    @GetMapping(value = "/api/admin/accounts")
+    public ResponseEntity<List<DTO_View_Account>> api_admin_accounts() { return serviceAccount.api_admin_accounts(); }
 
     @GetMapping("/api/myaccount")
     public ResponseEntity<DTO_View_Account> api_myaccount(HttpSession session) { return serviceAccount.api_myaccount(session); }

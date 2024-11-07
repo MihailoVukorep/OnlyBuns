@@ -22,6 +22,9 @@ public class DTO_View_Account {
     public String avatar;
     public String bio;
     public Set<Role> accountRoles;
+    public Integer postsCount;
+    public Integer followingCount;
+    public Integer followersCount;
 
     public DTO_View_Account(Account account) {
         this.id = account.getId();

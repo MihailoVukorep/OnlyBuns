@@ -14,9 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.onlybuns.OnlyBuns.util.SimpleBloomFilter;
-import java.time.Instant;
+
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class Service_Account {
@@ -51,17 +50,10 @@ public class Service_Account {
 
     private final RateLimiter rateLimiter = new RateLimiter();
 
-    public ResponseEntity<List<DTO_View_Account>> api_accounts() {
+    public ResponseEntity<List<DTO_View_Account>> api_admin_accounts() {
         List<Account> accounts = repository_account.findAll();
         List<DTO_View_Account> accountDTOS = new ArrayList<>();
         for (Account account : accounts) { accountDTOS.add(new DTO_View_Account(account)); }
-        return new ResponseEntity<>(accountDTOS, HttpStatus.OK);
-    }
-
-    public ResponseEntity<List<DTO_Admin_View_Account>> api_adminaccounts() {
-        List<Account> accounts = repository_account.findAll();
-        List<DTO_Admin_View_Account> accountDTOS = new ArrayList<>();
-        for (Account account : accounts) { accountDTOS.add(new DTO_Admin_View_Account(account)); }
         return new ResponseEntity<>(accountDTOS, HttpStatus.OK);
     }
 
