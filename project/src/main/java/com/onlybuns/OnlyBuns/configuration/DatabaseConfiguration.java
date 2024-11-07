@@ -217,9 +217,10 @@ public class DatabaseConfiguration {
         printAll_accounts();
         printAll_posts();
 
-        // TODO: CREATE LIKES
-
-        // TODO: ADD MORE USERS / POSTS
+        // // UNCOMMENT TO SPAM POSTS
+        // for (int i = 0; i < 100; i++) {
+        //     repository_post.save(new Post("Testing" + i, "Testing a lot of posts " + i, acc_ana));
+        // }
 
         return true;
     }
