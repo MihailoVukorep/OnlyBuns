@@ -20,7 +20,7 @@ async function fetch_post(json, indent = 0) {
 
         // Loop through replies and append each recursively with increased indentation
         for (let i = 0; i < replies.length; i++) {
-            await fetch_post(replies[i], indent + 20); // Increase indentation for replies
+            await fetch_post(replies[i], indent + 30); // Increase indentation for replies
         }
     }
 }

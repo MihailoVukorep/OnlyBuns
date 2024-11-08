@@ -1,4 +1,6 @@
 package com.onlybuns.OnlyBuns.controller.web;
+import com.onlybuns.OnlyBuns.model.Account;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +18,9 @@ public class Controller_Post {
         return "post.html";
     }
     @GetMapping("/createpost")
-    public String createpost() { return "createpost.html"; }
-
-    @GetMapping("/edit/{id}")
-    public String editpost() {return "editpost.html"; }
+    public String createpost(HttpSession session) {
+        Account user = (Account)session.getAttribute("account");
+        if (user == null) { return "error/401.html"; }
+        return "createpost.html";
+    }
 }

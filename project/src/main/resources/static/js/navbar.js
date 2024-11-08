@@ -2,51 +2,54 @@ loadScript('/js/roles.js');
 
 let navbar = document.getElementById("navbar");
 
-let navbar_static = document.createElement("div");
-navbar_static.id = "navbar_left";
-
-function createLink(text, link) {
+function navbar_mklink(text, link) {
     let a = document.createElement("a");
     a.innerHTML = text;
     a.href = link;
     return a;
 }
 
-navbar_static.append(createLink("🏠 Home",     "/home"));
-navbar_static.append(createLink("📰 Posts",    "/posts"));
+function navbar_load_static() {
+    let links_static = document.createElement("div");
+    links_static.id = "navbar_left";
 
+    links_static.append(navbar_mklink("🏠 Home",     "/home"));
+    links_static.append(navbar_mklink("📰 Posts",    "/posts"));
 
-navbar.append(navbar_static);
+    navbar.append(links_static);
+}
 
-let navbar_dynamic = document.createElement("div");
-navbar_dynamic.id = "navbar_right";
-navbar.append(navbar_dynamic);
+async function navbar_load_dynamic() {
 
-async function load_dynamic() {
+    let links_dynamic = document.createElement("div");
+    links_dynamic.id = "navbar_right";
+    navbar.append(links_dynamic);
+
     const response = await fetch("/api/myaccount");
 
     if (response.ok) {
         const json = await response.json();
         
         if (hasRole(json.roles, "ADMIN")) {
-            navbar_dynamic.append(createLink("👥 Accounts", "/admin/accounts"));
-            navbar_dynamic.append(createLink("🛠️ Management", "/admin/manage"));
+            links_dynamic.append(navbar_mklink("👥 Accounts", "/admin/accounts"));
+            links_dynamic.append(navbar_mklink("🛠️ Management", "/admin/manage"));
         }
 
-        navbar_dynamic.append(createLink("🗺️ View Map", "/map"));
-        navbar_dynamic.append(createLink("➕ Create Post", "/createpost"));
+        links_dynamic.append(navbar_mklink("🗺️ View Map", "/map"));
+        links_dynamic.append(navbar_mklink("➕ Create Post", "/createpost"));
 
-        navbar_dynamic.append(createLink("👤", "/myaccount"));
-        navbar_dynamic.append(createLink("⚙️", "/update"));
-        navbar_dynamic.append(createLink("🚪 Log out (" + json.userName + ")", "/logout"));
+        links_dynamic.append(navbar_mklink("👤", "/myaccount"));
+        links_dynamic.append(navbar_mklink("⚙️", "/myaccount/update"));
+        links_dynamic.append(navbar_mklink("🚪 Log out (" + json.userName + ")", "/logout"));
     }
     else {
-        navbar_dynamic.append(createLink("🔑 Log in", "/login"));
-        navbar_dynamic.append(createLink("📝 Register", "/register"));
+        links_dynamic.append(navbar_mklink("🔑 Log in", "/login"));
+        links_dynamic.append(navbar_mklink("📝 Register", "/register"));
     }
 }
 
-load_dynamic();
+navbar_load_static();
+navbar_load_dynamic();
 
 
 

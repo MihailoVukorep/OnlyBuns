@@ -1,7 +1,8 @@
 package com.onlybuns.OnlyBuns.service;
 
-import com.onlybuns.OnlyBuns.dto.DTO_View_Like;
-import com.onlybuns.OnlyBuns.dto.DTO_View_Post;
+import com.onlybuns.OnlyBuns.dto.DTO_Put_Post;
+import com.onlybuns.OnlyBuns.dto.DTO_Get_Like;
+import com.onlybuns.OnlyBuns.dto.DTO_Get_Post;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.Like;
 import com.onlybuns.OnlyBuns.model.Post;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -42,7 +45,7 @@ public class Service_Post {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    public ResponseEntity<List<DTO_View_Post>> api_posts(String sort) {
+    public ResponseEntity<List<DTO_Get_Post>> get_api_posts(String sort) {
 
         // If no sort parameter, use default sorting (e.g., by ID)
         Sort sortOrder = Sort.unsorted();
@@ -61,34 +64,51 @@ public class Service_Post {
         }
 
         List<Post> posts = repository_post.findByParentPostIsNull(sortOrder);
-        List<DTO_View_Post> dtos = new ArrayList<>();
+        List<DTO_Get_Post> dtos = new ArrayList<>();
         for (Post post : posts) {
-            dtos.add(new DTO_View_Post(post));
+            dtos.add(new DTO_Get_Post(post));
         }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    public ResponseEntity<DTO_View_Post> api_posts_id(Integer id) {
+    public ResponseEntity<DTO_Get_Post> get_api_posts_id(Long id) {
         Optional<Post> post = repository_post.findById(id);
         if (post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
-        return new ResponseEntity<>(new DTO_View_Post(post.get()), HttpStatus.OK);
+        return new ResponseEntity<>(new DTO_Get_Post(post.get()), HttpStatus.OK);
     }
 
     @Transactional
-    public ResponseEntity<String> api_createpost(String title, String description, String location,
-                                                 MultipartFile imageFile, Account sessionAccount) {
+    public ResponseEntity<String> post_api_createpost(String title, String description, String location,
+                                                      MultipartFile imageFile, HttpSession session) {
+
+        Account sessionAccount = (Account) session.getAttribute("account");
+        if (sessionAccount == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED); }
+
         // Validacija podataka
-        if (title == null || description == null || location == null) {
+        if (
+                title == null ||
+                        title.isEmpty() ||
+                        description == null ||
+                        description.isEmpty() ||
+                        location == null ||
+                        location.isEmpty())
+        {
             return new ResponseEntity<>("All fields are required.", HttpStatus.BAD_REQUEST);
         }
         String filePath = null;  // Inicijalizacija filePath varijable
 
         try {
             // Save the file to the directory
-             filePath = saveImage(imageFile);
+            filePath = saveImage(imageFile);
             //return ResponseEntity.ok("Image uploaded successfully: " + filePath);
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
+        }
+        catch (IOException ignored) {
+
+            // post without image
+            //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
+        }
+        catch (Exception ignored) {
+
         }
 
         // Kreiranje posta
@@ -115,46 +135,55 @@ public class Service_Post {
         return "/" + filePath.toString();
     }
 
-    public ResponseEntity<List<DTO_View_Post>> api_posts_id_replies(Integer id) {
+    public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_replies(Long id) {
         Optional<Post> optional_post = repository_post.findById(id);
         if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         Post post = optional_post.get();
-        List<DTO_View_Post> dtos = new ArrayList<>();
-        for (Post i : post.getReplies()) { dtos.add(new DTO_View_Post(i)); }
+        List<DTO_Get_Post> dtos = new ArrayList<>();
+        for (Post i : post.getReplies()) { dtos.add(new DTO_Get_Post(i)); }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @Transactional
-    public ResponseEntity<String> api_posts_id_like(Integer id, HttpSession session) {
+    public ResponseEntity<String> post_api_posts_id_like(Long id, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("account");
         if (sessionAccount == null) { return new ResponseEntity<>("Can't like when logged out.", HttpStatus.BAD_REQUEST); }
 
         Optional<Account> optional_account = repository_account.findById(sessionAccount.getId());
-        if (optional_account.isEmpty()) { return new ResponseEntity<>("Can't find account", HttpStatus.NOT_FOUND); }
+        if (optional_account.isEmpty()) { return new ResponseEntity<>("Can't find your account.", HttpStatus.NOT_FOUND); }
         Account account = optional_account.get();
 
         Optional<Post> optional_post = repository_post.findById(id);
-        if (optional_post.isEmpty()) { return new ResponseEntity<>("Can't find post", HttpStatus.NOT_FOUND); }
+        if (optional_post.isEmpty()) { return new ResponseEntity<>("Can't find post.", HttpStatus.NOT_FOUND); }
         Post post = optional_post.get();
 
-        // create new like
-        Like newLike = new Like(account, post);
-        post.getLikes().add(newLike);
-        repository_like.save(newLike);
+        Optional<Like> optional_like = repository_like.findByAccountIdAndPostId(account.getId(), post.getId());
+        if (optional_like.isEmpty()) {
 
-        return new ResponseEntity<>("Post liked.", HttpStatus.OK);
+            // create new like
+            Like newLike = new Like(account, post);
+            post.getLikes().add(newLike);
+            repository_like.save(newLike);
+
+            return new ResponseEntity<>("Post liked.", HttpStatus.OK);
+        }
+
+        Like like = optional_like.get();
+        repository_like.delete(like);
+
+        return new ResponseEntity<>("Post unliked.", HttpStatus.OK);
     }
 
-    public ResponseEntity<List<DTO_View_Like>> api_posts_id_likes(Integer id) {
+    public ResponseEntity<List<DTO_Get_Like>> post_api_posts_id_likes(Long id) {
         Optional<Post> optional_post = repository_post.findById(id);
         if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         Post post = optional_post.get();
-        List<DTO_View_Like> dtos = new ArrayList<>();
-        for (Like i : post.getLikes()) { dtos.add(new DTO_View_Like(i)); }
+        List<DTO_Get_Like> dtos = new ArrayList<>();
+        for (Like i : post.getLikes()) { dtos.add(new DTO_Get_Like(i)); }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
     @Transactional
-    public ResponseEntity<String> createReply(Integer postId, Post reply, HttpSession session) {
+    public ResponseEntity<String> post_api_posts_id_replies(Long postId, Post reply, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("account");
         if (sessionAccount == null) {
             return new ResponseEntity<>("Can't comment when logged out.", HttpStatus.UNAUTHORIZED);
@@ -162,7 +191,7 @@ public class Service_Post {
 
         Optional<Post> originalPost = repository_post.findById(postId);
         if (originalPost.isEmpty()) {
-            return new ResponseEntity<>("Can't find post", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Can't find post.", HttpStatus.NOT_FOUND);
         }
 
         Post parentPost = originalPost.get();
@@ -175,58 +204,35 @@ public class Service_Post {
         return new ResponseEntity<>("Post commented.", HttpStatus.OK);
     }
 
-    @Transactional
-    public ResponseEntity<String> api_editpost(Integer id,String title, String description, String location,
-                                                 MultipartFile imageFile, Account sessionAccount) {
+    public ResponseEntity<String> put_api_posts_id(
+            @PathVariable(name = "id") Long id,
+            DTO_Put_Post dto_put_post,
+            HttpSession session) {
 
-        Optional<Post> existingPostOpt = repository_post.findById(id);
-        if (!existingPostOpt.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post not found");
-        }
+        // TODO: UPDATE POST IMPLEMENT
+        return new ResponseEntity<>("Not implemented.", HttpStatus.NOT_IMPLEMENTED);
 
-        Post existingPost = existingPostOpt.get();
-
-        String filePath = existingPost.getPicture();
-
-        if (imageFile != null && !imageFile.isEmpty()) {
-            try {
-                filePath = saveImage(imageFile);
-            } catch (IOException e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
-            }
-        }
-
-        existingPost.setTitle(title);
-        existingPost.setText(description);
-        existingPost.setLocation(location);
-        existingPost.setPicture(filePath);
-
-        // Save the edited post
-        repository_post.save(existingPost);
-
-        System.out.println("Post updated: " + existingPost);
-        if (filePath != null) {
-            System.out.println("Image path: " + filePath);
-        }
-
-        return new ResponseEntity<>("Post updated successfully.", HttpStatus.OK);
+        //return new ResponseEntity<>("Updated post.", HttpStatus.OK);
     }
 
-    public ResponseEntity<String> api_deletepost(Integer postId, Account sessionAccount) {
-        Post post = repository_post.findById(postId).orElse(null);
-        if (post == null) {
-            return ResponseEntity.status(404).body("Post not found.");
-        }
+    @Transactional
+    public ResponseEntity<String> delete_api_posts_id(
+            @PathVariable(name = "id") Long id,
+            HttpSession session) {
+
+        Account sessionAccount = (Account) session.getAttribute("account");
+        if (sessionAccount == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED); }
+
+        Optional<Post> optional_post = repository_post.findById(id);
+        if (optional_post.isEmpty()) { return new ResponseEntity<>("Can't find post.", HttpStatus.NOT_FOUND); }
+        Post post = optional_post.get();
 
         if (!post.getAccount().getId().equals(sessionAccount.getId())) {
-            return ResponseEntity.status(403).body("You do not have permission to delete this post.");
+            return new ResponseEntity<>("You don't own this post.", HttpStatus.FORBIDDEN);
         }
 
-        try {
-            repository_post.deleteById(postId);
-            return ResponseEntity.status(200).body("Post deleted successfully.");
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("An error occurred while deleting the post.");
-        }
+        repository_post.delete(post);
+        return new ResponseEntity<>("Post deleted.", HttpStatus.OK);
     }
+
 }

@@ -1,5 +1,4 @@
 package com.onlybuns.OnlyBuns.dto;
-import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.Post;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -9,15 +8,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DTO_View_Post {
-    public Integer id;
+public class DTO_Get_Post {
+    public Long id;
     public String title;
     public String text;
     public String picture;
     public String location;
-    public DTO_View_Post_Account account;
+    public DTO_Get_Post_Account account;
     public Integer replies;
-    public Integer parentPostId;
+    public Long parentPostId;
     public Integer likes;
     public Integer totalChildren;
     public LocalDateTime createdDate;
@@ -31,7 +30,7 @@ public class DTO_View_Post {
         return count;
     }
 
-    public DTO_View_Post(Post post) {
+    public DTO_Get_Post(Post post) {
         this.id = post.getId();
         this.title = post.getTitle();
         this.text = post.getText();
@@ -39,7 +38,7 @@ public class DTO_View_Post {
         if (parent != null) { this.parentPostId = parent.getId(); }
         this.picture = post.getPicture();
         this.location = post.getLocation();
-        this.account = new DTO_View_Post_Account(post.getAccount());
+        this.account = new DTO_Get_Post_Account(post.getAccount());
         this.replies = post.getReplies().size();
         this.likes = post.getLikes().size();
         this.totalChildren = countReplies(post);

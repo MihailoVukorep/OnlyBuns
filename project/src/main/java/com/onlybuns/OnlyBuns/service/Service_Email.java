@@ -28,7 +28,7 @@ public class Service_Email {
     @Autowired
     private Environment env;
 
-    public ResponseEntity<String> api_verify(@RequestParam("token") String token) {
+    public ResponseEntity<String> get_api_verify(@RequestParam("token") String token) {
         Optional<AccountActivation> activationOpt = repositoryAccountActivation.findByToken(token);
         if (activationOpt.isEmpty()) {
             return new ResponseEntity<>("Invalid or expired verification token.", HttpStatus.BAD_REQUEST);

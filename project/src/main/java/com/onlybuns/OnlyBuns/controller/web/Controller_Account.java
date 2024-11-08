@@ -21,7 +21,7 @@ public class Controller_Account {
     @GetMapping("/myaccount")
     public String myaccount(HttpSession session, Model model) {
         Account user = (Account) session.getAttribute("account");
-        if (user == null) { return "error.html"; }
+        if (user == null) { return "error/401.html"; }
         model.addAttribute("account_id", user.getId());
         return "account.html";
     }

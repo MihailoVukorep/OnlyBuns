@@ -9,12 +9,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DTO_View_Like {
+public class DTO_Get_Like {
     private Long id;
     private Account account;
     private Post post;
 
-    public DTO_View_Like(Like like) {
+    public DTO_Get_Like(Like like) {
         this.id = like.getId();
         this.account = like.getAccount();
         this.post = like.getPost();

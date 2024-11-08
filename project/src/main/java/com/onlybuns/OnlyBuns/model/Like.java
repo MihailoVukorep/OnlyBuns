@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "likes")
+@Table(name = "likes", uniqueConstraints = @UniqueConstraint(columnNames = {"account_id", "post_id"}))
 public class Like {
 
     @Id
@@ -23,7 +23,7 @@ public class Like {
     private Account account;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "post_id", nullable = true)
+    @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
     @CreationTimestamp

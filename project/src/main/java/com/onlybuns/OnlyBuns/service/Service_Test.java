@@ -39,7 +39,7 @@ public class Service_Test {
         for (AccountActivation i : accountActivations) { System.out.println(i.toString()); }
     }
 
-    public ResponseEntity<String> api_test() {
+    public ResponseEntity<String> get_api_test() {
 
         printAll_accounts();
         printAll_posts();

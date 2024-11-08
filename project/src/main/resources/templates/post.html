@@ -1,40 +1,43 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-    <head>
-        <meta charset="UTF-8">
-        <link rel="icon" type="image/x-icon" href="/img/favicon.png">
-        <link rel="stylesheet" href="/css/main.css">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="/css/main.css">
 
-        <title>OnlyBuns - Post</title>
-        <link rel="stylesheet" href="/css/post.css">
-        <link rel="stylesheet" href="/css/dataform.css">
-        <link rel="stylesheet" href="/css/popup.css">
+    <title>OnlyBuns - Post</title>
+    <link rel="stylesheet" href="/css/post.css">
+    <link rel="stylesheet" href="/css/dataform.css">
+    <link rel="stylesheet" href="/css/popup.css">
 
-        <script defer type="text/javascript" src="/js/main.js"></script>
-        <script defer type="text/javascript" src="/js/popup.js"></script>
-        <script defer type="text/javascript" src="/js/navbar.js"></script>
-        <script defer type="text/javascript" src="/js/post.js"></script>
-    </head>
-        <!-- <input type="hidden" id="logged_in_user_id" th:value="${logged_in_user_id}" /> -->
-        <input type="hidden" id="post_id" th:value="${post_id}"/>
+    <script defer type="text/javascript" src="/js/main.js"></script>
+    <script defer type="text/javascript" src="/js/popup.js"></script>
+    <script defer type="text/javascript" src="/js/navbar.js"></script>
+    <script defer type="text/javascript" src="/js/post.js"></script>
+</head>
+<body>
+<input type="hidden" id="post_id" th:value="${post_id}"/>
 
-        <div class="popup" id="popup" style="display: none;">
-            <p id="popup_text"></p>
-        </div>
+<div id="navbar"></div>
 
-        <div id="navbar"></div>
+<a id="parent" style="display: none;">🔝 Parent Post</a>
 
-        <a id="parent" style="display: none;">🔝 Parent Post</a>
+<div id="thread"></div>
 
-        <div id="thread"></div>
+<div id="commentForm" style="display: none;">
+    <div id="commentForm_content">
+        <input type="text" id="commentTitle" placeholder="Title">
+        <textarea id="commentText" placeholder="Text"></textarea>
 
-        <div id="commentForm" style="display: none;">
-            <input type="text" id="commentTitle" placeholder="Title">
-            <textarea id="commentText" placeholder="Text"></textarea>
-            <button onclick="post_reply()">Submit</button>
+        <div id="commentForm_controls">
+            <button onclick="submitCommentForm()">Submit</button>
             <button onclick="hideCommentForm()">Decline</button>
         </div>
-    </body>
+    </div>
+</div>
+
+<div class="popup" id="popup" style="display: none;">
+    <p id="popup_text"></p>
+</div>
+</body>
 </html>
-
-

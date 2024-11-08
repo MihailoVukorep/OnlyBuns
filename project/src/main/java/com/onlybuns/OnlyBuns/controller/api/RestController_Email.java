@@ -13,5 +13,5 @@ public class RestController_Email {
     private Service_Email serviceEmail;
 
     @GetMapping("/api/verify")
-    public ResponseEntity<String> api_verify(@RequestParam("token") String token) { return serviceEmail.api_verify(token); }
+    public ResponseEntity<String> get_api_verify(@RequestParam("token") String token) { return serviceEmail.get_api_verify(token); }
 }

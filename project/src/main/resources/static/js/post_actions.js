@@ -1,30 +1,62 @@
 async function post_like(id) {
-    const response = await fetch("/api/myaccount");
-    if (!response.ok) {
-        popup("You need to login first.");
-        return;
-    }
-    //console.log(`like: ${id}`);
-    try {
-        const likeResponse = await fetch(`/api/posts/${id}/like`, {
-            method: "POST"
-        });
+    const response = await fetch(`/api/posts/${id}/like`, { method: "POST" });
+    const response_text = await response.text();
 
-        if (likeResponse.ok) {
-            popup("Post liked!");
-        } else {
-            const message = await likeResponse.text();
-            popup(`Failed to like post: ${message}`);
-        }
-    } catch (error) {
-        console.error("Error liking post:", error);
-        popup("An error occurred while liking the post.");
-    }
+    if (response.ok) { popup(`✅ ${response_text}`); }
+    else             { popup(`❌ ${response_text}`); }
 }
 
-function showCommentForm(postId) {
-    document.getElementById("post_id").value = postId;
+async function post_reply(id, title, text) {
+    const response = await fetch(`/api/posts/${id}/replies`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ title, text })
+    });
+    const response_text = await response.text();
 
+    if (response.ok) { popup(`✅ ${response_text}`); }
+    else             { popup(`❌ ${response_text}`); }
+
+    hideCommentForm();
+}
+
+async function post_update(id) {
+    const title = document.getElementById("commentTitle").value;
+    const text = document.getElementById("commentText").value;
+    const postId = document.getElementById("post_id").value;
+
+    const response = await fetch(`/api/posts/${postId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ title, text })
+    });
+
+    const response_text = await response.text();
+
+    if (response.ok) { popup(`✅ ${response_text}`); }
+    else             { popup(`❌ ${response_text}`); }
+
+    hideCommentForm();
+}
+
+async function post_delete(id) {
+
+    const response = await fetch(`/api/posts/${id}`, { method: "DELETE" });
+    const response_text = await response.text();
+
+    if (response.ok) { popup(`✅ ${response_text}`); }
+    else             { popup(`❌ ${response_text}`); }
+
+}
+
+let commentFormCurrentId = null;
+
+function showCommentForm(postId) {
+    commentFormCurrentId = postId;
     document.getElementById("commentForm").style.display = "block";
 }
 
@@ -34,30 +66,7 @@ function hideCommentForm() {
     document.getElementById("commentText").value = "";
 }
 
-async function post_reply() {
-    const title = document.getElementById("commentTitle").value;
-    const text = document.getElementById("commentText").value;
-    const postId = document.getElementById("post_id").value;
-
-    const response = await fetch(`/api/posts/${postId}/replies`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ title, text })
-    });
-
-    if (response.ok) {
-        popup("Comment posted successfully!");
-        hideCommentForm();
-    } else {
-        popup("Failed to post comment.");
-    }
+function submitCommentForm() {
+    post_reply(commentFormCurrentId, document.getElementById("commentTitle").value, document.getElementById("commentText").value);
+    hideCommentForm();
 }
-
-function editPost() {
-    const post_id = document.getElementById("post_id").value;
-    window.location.href = `/posts/{post_id}/edit`; 
-}
-
-

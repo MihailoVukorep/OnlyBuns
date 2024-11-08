@@ -62,6 +62,15 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 
+
+		<!-- Swagger -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+
+
 		<!-- REMOVED LOGIN PAGE
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

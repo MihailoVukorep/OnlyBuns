@@ -17,7 +17,7 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -53,10 +53,10 @@ public class Account {
     private Set<Role> roles = new HashSet<>();;
 
     // One-to-many relationship with Post - an account can have many posts
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.REFRESH, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Post> posts;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.REFRESH, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Like> likes;
 
     public Account(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio) {

@@ -10,9 +10,9 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DTO_View_Account {
+public class DTO_Get_Account {
 
-    public Integer id;
+    public Long id;
     public String email;
     public String userName;
     //public String password;
@@ -27,7 +27,7 @@ public class DTO_View_Account {
     public Integer followersCount;
     public Integer followingCount;
 
-    public DTO_View_Account(Account account) {
+    public DTO_Get_Account(Account account) {
         this.id = account.getId();
         this.email = account.getEmail();
         this.userName = account.getUserName();

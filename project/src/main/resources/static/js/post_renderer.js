@@ -73,26 +73,28 @@ function make_post_controls(json) {
 
     const post_controls_like = document.createElement("button");
     post_controls_like.className = "post_controls_like";
-    post_controls_like.textContent = `❤️ Like (${json.likes})`;
+    post_controls_like.textContent = `❤️ ${json.likes}`;
     post_controls_like.onclick = () => post_like(json.id);
     post_controls.appendChild(post_controls_like);
 
     const post_controls_comment = document.createElement("button");
     post_controls_comment.className = "post_controls_comment";
-    post_controls_comment.textContent = `💬 Reply (${json.totalChildren})`;
+    post_controls_comment.textContent = `💬 ${json.totalChildren}`;
     post_controls_comment.onclick = () => showCommentForm(json.id);
     //post_controls_comment.onclick = () => showCommentForm(json.id);
     post_controls.appendChild(post_controls_comment);
 
+    const post_controls_update = document.createElement("button");
+    post_controls_update.className = "post_controls_update";
+    post_controls_update.textContent = `📝`;
+    post_controls_update.onclick = () => post_update(json.id);
+    post_controls.appendChild(post_controls_update);
 
-    // const loggedInUserId = document.getElementById("logged_in_user_id").value;
-    // if (json.account.id === loggedInUserId) {
-    //     const post_controls_edit = document.createElement("button");
-    //     post_controls_edit.className = "post_controls_edit";
-    //     post_controls_edit.textContent = "✏️ Edit";
-    //     post_controls_edit.onclick = () => window.location.href = `/editpost/${json.id}`;
-    //     post_controls.appendChild(post_controls_edit);
-    // }
+    const post_controls_delete = document.createElement("button");
+    post_controls_delete.className = "post_controls_delete";
+    post_controls_delete.textContent = `🗑`;
+    post_controls_delete.onclick = () => post_delete(json.id);
+    post_controls.appendChild(post_controls_delete);
 
     post_controls.appendChild(make_post_account(json));
 
