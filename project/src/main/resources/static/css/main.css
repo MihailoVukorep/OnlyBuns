@@ -91,6 +91,7 @@ h2 {
 }
 
 .onlybuns_link {
+    display: inline-block;
     cursor: pointer;
     text-decoration: none;
     font-weight: bolder;
@@ -101,4 +102,10 @@ h2 {
     border-radius: 2px;
     margin: 0 3px;
     background-color: var(--var-color-bg-link);
+}
+
+.onlybuns_link_block {
+    display: block;
+    width: fit-content;
+    margin: 10px;
 }

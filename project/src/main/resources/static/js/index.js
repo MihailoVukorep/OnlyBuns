@@ -1,29 +1,20 @@
 loadScript('/js/roles.js');
 
-let navbar = document.getElementById("navbar");
-
-let links_static = document.createElement("div");
-links_static.id = "navbar_left";
+const links = document.getElementById("links");
 
 function createLink(text, link) {
-    let a = document.createElement("a");
+    const a = document.createElement("a");
+    a.classList.add("onlybuns_link");
+    a.classList.add("onlybuns_link_block");
     a.innerHTML = text;
     a.href = link;
     return a;
 }
 
-links_static.append(createLink("🏠 Home",     "/home"));
-links_static.append(createLink("📰 Posts",    "/posts"));
-
-
-navbar.append(links_static);
-
-let links_dynamic = document.createElement("div");
-links_dynamic.id = "navbar_right";
-navbar.append(links_dynamic);
-
 async function load_dynamic() {
     const response = await fetch("/api/myaccount");
+
+    const links_dynamic = document.getElementById("links");
 
     if (response.ok) {
         const json = await response.json();
@@ -36,8 +27,8 @@ async function load_dynamic() {
         links_dynamic.append(createLink("🗺️ View Map", "/map"));
         links_dynamic.append(createLink("➕ Create Post", "/createpost"));
 
-        links_dynamic.append(createLink("👤", "/myaccount"));
-        links_dynamic.append(createLink("⚙️", "/myaccount/update"));
+        links_dynamic.append(createLink("👤 My Account", "/myaccount"));
+        links_dynamic.append(createLink("⚙️ My Account - Update", "/myaccount/update"));
         links_dynamic.append(createLink("🚪 Log out (" + json.userName + ")", "/logout"));
     }
     else {
@@ -47,6 +38,4 @@ async function load_dynamic() {
 }
 
 load_dynamic();
-
-
 
