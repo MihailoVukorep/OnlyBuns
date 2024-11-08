@@ -26,6 +26,13 @@
         <a id="parent" style="display: none;">🔝 Parent Post</a>
 
         <div id="thread"></div>
+
+        <div id="commentForm" style="display: none;">
+            <input type="text" id="commentTitle" placeholder="Title">
+            <textarea id="commentText" placeholder="Text"></textarea>
+            <button onclick="post_reply()">Submit</button>
+            <button onclick="hideCommentForm()">Decline</button>
+        </div>
     </body>
 </html>
 

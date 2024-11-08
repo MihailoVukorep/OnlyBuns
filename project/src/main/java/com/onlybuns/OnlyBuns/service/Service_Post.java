@@ -153,4 +153,26 @@ public class Service_Post {
         for (Like i : post.getLikes()) { dtos.add(new DTO_View_Like(i)); }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
+    @Transactional
+    public ResponseEntity<String> createReply(Integer postId, Post reply, HttpSession session) {
+        Account sessionAccount = (Account) session.getAttribute("account");
+        if (sessionAccount == null) {
+            return new ResponseEntity<>("Can't comment when logged out.", HttpStatus.UNAUTHORIZED);
+        }
+
+        Optional<Post> originalPost = repository_post.findById(postId);
+        if (originalPost.isEmpty()) {
+            return new ResponseEntity<>("Can't find post", HttpStatus.NOT_FOUND);
+        }
+
+        Post parentPost = originalPost.get();
+        reply.setAccount(sessionAccount);
+        reply.setParentPost(parentPost);
+        parentPost.getReplies().add(reply);
+
+        repository_post.save(reply);
+
+        return new ResponseEntity<>("Post commented.", HttpStatus.OK);
+    }
+
 }

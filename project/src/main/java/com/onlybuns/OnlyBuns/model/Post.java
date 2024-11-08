@@ -55,6 +55,10 @@ public class Post {
         this.text = text;
         this.account = account;
     }
+    public Post(String title, String text) {
+        this.title = text;
+        this.text = text;
+    }
 
     public Post(String title, String text, Account account) {
         this.title = title;

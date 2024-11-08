@@ -2,6 +2,7 @@ package com.onlybuns.OnlyBuns.controller.api;
 import com.onlybuns.OnlyBuns.dto.DTO_View_Like;
 import com.onlybuns.OnlyBuns.dto.DTO_View_Post;
 import com.onlybuns.OnlyBuns.model.Account;
+import com.onlybuns.OnlyBuns.model.Post;
 import com.onlybuns.OnlyBuns.service.Service_Post;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,18 +34,24 @@ public class RestController_Post {
                                                  HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("account");
 
-        // Validacija podataka
         if (title == null || description == null || location == null) {
             return new ResponseEntity<>("All fields are required.", HttpStatus.BAD_REQUEST);
         }
 
-        // Pozivanje servisne funkcije za kreiranje posta
         return servicePost.api_createpost(title, description, location, imageFile, sessionAccount);
     }
 
     @GetMapping("/api/posts/{id}/replies")
     public ResponseEntity<List<DTO_View_Post>> api_posts_id_replies(@PathVariable(name = "id") Integer id) {
         return servicePost.api_posts_id_replies(id);
+    }
+    @PostMapping("/api/posts/{id}/replies")
+    public ResponseEntity<String> addReplyToPost(
+            @PathVariable(name = "id") Integer id,
+            @RequestBody Post reply,
+            HttpSession session) {
+
+        return servicePost.createReply(id, reply, session);
     }
 
 
