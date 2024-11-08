@@ -12,5 +12,5 @@ public class RestController_Test {
     private Service_Test service_test;
 
     @GetMapping("/api/test")
-    public ResponseEntity<String> api_test() { return service_test.api_test();}
+    public ResponseEntity<String> get_api_test() { return service_test.get_api_test();}
 }

@@ -11,13 +11,13 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DTO_View_Post_Account {
+public class DTO_Get_Post_Account {
     public Integer id;
     public String userName;
     public String avatar;
     public Set<Role> roles;
 
-    public DTO_View_Post_Account(Account account) {
+    public DTO_Get_Post_Account(Account account) {
         this.id = account.getId();
         this.userName = account.getUserName();
         this.avatar = account.getAvatar();

@@ -1,8 +1,8 @@
 package com.onlybuns.OnlyBuns.service;
 
 import com.onlybuns.OnlyBuns.dto.DTO_Put_Post;
-import com.onlybuns.OnlyBuns.dto.DTO_View_Like;
-import com.onlybuns.OnlyBuns.dto.DTO_View_Post;
+import com.onlybuns.OnlyBuns.dto.DTO_Get_Like;
+import com.onlybuns.OnlyBuns.dto.DTO_Get_Post;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.Like;
 import com.onlybuns.OnlyBuns.model.Post;
@@ -19,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -46,7 +45,7 @@ public class Service_Post {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    public ResponseEntity<List<DTO_View_Post>> api_posts(String sort) {
+    public ResponseEntity<List<DTO_Get_Post>> get_api_posts(String sort) {
 
         // If no sort parameter, use default sorting (e.g., by ID)
         Sort sortOrder = Sort.unsorted();
@@ -65,22 +64,22 @@ public class Service_Post {
         }
 
         List<Post> posts = repository_post.findByParentPostIsNull(sortOrder);
-        List<DTO_View_Post> dtos = new ArrayList<>();
+        List<DTO_Get_Post> dtos = new ArrayList<>();
         for (Post post : posts) {
-            dtos.add(new DTO_View_Post(post));
+            dtos.add(new DTO_Get_Post(post));
         }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    public ResponseEntity<DTO_View_Post> api_posts_id(Integer id) {
+    public ResponseEntity<DTO_Get_Post> get_api_posts_id(Integer id) {
         Optional<Post> post = repository_post.findById(id);
         if (post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
-        return new ResponseEntity<>(new DTO_View_Post(post.get()), HttpStatus.OK);
+        return new ResponseEntity<>(new DTO_Get_Post(post.get()), HttpStatus.OK);
     }
 
     @Transactional
-    public ResponseEntity<String> api_createpost(String title, String description, String location,
-                                                 MultipartFile imageFile, HttpSession session) {
+    public ResponseEntity<String> post_api_createpost(String title, String description, String location,
+                                                      MultipartFile imageFile, HttpSession session) {
 
         Account sessionAccount = (Account) session.getAttribute("account");
         if (sessionAccount == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED); }
@@ -136,17 +135,17 @@ public class Service_Post {
         return "/" + filePath.toString();
     }
 
-    public ResponseEntity<List<DTO_View_Post>> api_posts_id_replies(Integer id) {
+    public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_replies(Integer id) {
         Optional<Post> optional_post = repository_post.findById(id);
         if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         Post post = optional_post.get();
-        List<DTO_View_Post> dtos = new ArrayList<>();
-        for (Post i : post.getReplies()) { dtos.add(new DTO_View_Post(i)); }
+        List<DTO_Get_Post> dtos = new ArrayList<>();
+        for (Post i : post.getReplies()) { dtos.add(new DTO_Get_Post(i)); }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @Transactional
-    public ResponseEntity<String> api_posts_id_like(Integer id, HttpSession session) {
+    public ResponseEntity<String> post_api_posts_id_like(Integer id, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("account");
         if (sessionAccount == null) { return new ResponseEntity<>("Can't like when logged out.", HttpStatus.BAD_REQUEST); }
 
@@ -166,16 +165,16 @@ public class Service_Post {
         return new ResponseEntity<>("Post liked.", HttpStatus.OK);
     }
 
-    public ResponseEntity<List<DTO_View_Like>> api_posts_id_likes(Integer id) {
+    public ResponseEntity<List<DTO_Get_Like>> post_api_posts_id_likes(Integer id) {
         Optional<Post> optional_post = repository_post.findById(id);
         if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         Post post = optional_post.get();
-        List<DTO_View_Like> dtos = new ArrayList<>();
-        for (Like i : post.getLikes()) { dtos.add(new DTO_View_Like(i)); }
+        List<DTO_Get_Like> dtos = new ArrayList<>();
+        for (Like i : post.getLikes()) { dtos.add(new DTO_Get_Like(i)); }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
     @Transactional
-    public ResponseEntity<String> createReply(Integer postId, Post reply, HttpSession session) {
+    public ResponseEntity<String> post_api_posts_id_replies(Integer postId, Post reply, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("account");
         if (sessionAccount == null) {
             return new ResponseEntity<>("Can't comment when logged out.", HttpStatus.UNAUTHORIZED);
@@ -196,22 +195,22 @@ public class Service_Post {
         return new ResponseEntity<>("Post commented.", HttpStatus.OK);
     }
 
-    public ResponseEntity<String> api_posts_id_update(
+    public ResponseEntity<String> put_api_posts_id(
             @PathVariable(name = "id") Integer id,
             DTO_Put_Post dto_put_post,
             HttpSession session) {
 
-        // TODO: IMPLEMENT
+        // TODO: UPDATE POST IMPLEMENT
 
         return new ResponseEntity<>("Updated post.", HttpStatus.OK);
     }
 
     @DeleteMapping("/api/posts/{id}")
-    public ResponseEntity<String> api_posts_id_delete(
+    public ResponseEntity<String> delete_api_posts_id(
             @PathVariable(name = "id") Integer id,
             HttpSession session) {
 
-        // TODO: IMPLEMENT
+        // TODO: DELETE POST IMPLEMENT
 
         return new ResponseEntity<>("Deleted post.", HttpStatus.OK);
     }

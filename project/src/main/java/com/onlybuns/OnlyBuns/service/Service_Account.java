@@ -50,34 +50,34 @@ public class Service_Account {
 
     private final RateLimiter rateLimiter = new RateLimiter();
 
-    public ResponseEntity<List<DTO_View_Account>> api_admin_accounts(HttpSession session) {
+    public ResponseEntity<List<DTO_Get_Account>> get_api_admin_accounts(HttpSession session) {
         Account user = (Account) session.getAttribute("account");
         if (user == null || !user.isAdmin(user)) { return new ResponseEntity<>(null, HttpStatus.FORBIDDEN); }
 
         List<Account> accounts = repository_account.findAll();
-        List<DTO_View_Account> accountDTOS = new ArrayList<>();
-        for (Account account : accounts) { accountDTOS.add(new DTO_View_Account(account)); }
+        List<DTO_Get_Account> accountDTOS = new ArrayList<>();
+        for (Account account : accounts) { accountDTOS.add(new DTO_Get_Account(account)); }
         return new ResponseEntity<>(accountDTOS, HttpStatus.OK);
     }
 
-    public ResponseEntity<DTO_View_Account> api_accounts_id(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<DTO_Get_Account> get_api_accounts_id(@PathVariable(name = "id") Integer id) {
         Optional<Account> foundAccount = repository_account.findById(id);
         if (foundAccount.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
 
-        return new ResponseEntity<>(new DTO_View_Account(foundAccount.get()), HttpStatus.OK);
+        return new ResponseEntity<>(new DTO_Get_Account(foundAccount.get()), HttpStatus.OK);
     }
 
-    public ResponseEntity<DTO_View_Account> api_myaccount(HttpSession session) {
+    public ResponseEntity<DTO_Get_Account> get_api_myaccount(HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("account");
         if (sessionAccount == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); }
 
         Optional<Account> foundAccount = repository_account.findById(sessionAccount.getId());
         if (foundAccount.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
 
-        return new ResponseEntity<>(new DTO_View_Account(foundAccount.get()), HttpStatus.OK);
+        return new ResponseEntity<>(new DTO_Get_Account(foundAccount.get()), HttpStatus.OK);
     }
 
-    public ResponseEntity<String> api_login(@RequestBody DTO_Post_AccountLogin dto_post_accountLogin, HttpServletRequest request, HttpSession session){
+    public ResponseEntity<String> get_api_login(@RequestBody DTO_Post_AccountLogin dto_post_accountLogin, HttpServletRequest request, HttpSession session){
 
         // already logged in
         Account sessionAccount = (Account) session.getAttribute("account");
@@ -123,7 +123,7 @@ public class Service_Account {
     }
 
     @Transactional
-    public ResponseEntity<String> api_register(@RequestBody DTO_Post_AccountRegister dto_post_accountRegister, HttpSession session) {
+    public ResponseEntity<String> get_api_register(@RequestBody DTO_Post_AccountRegister dto_post_accountRegister, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("account");
         if (sessionAccount != null) { return new ResponseEntity<>("Already logged in.", HttpStatus.BAD_REQUEST); }
 
@@ -189,7 +189,7 @@ public class Service_Account {
         return new ResponseEntity<>("Registered. Please verify email to login.", HttpStatus.OK);
     }
 
-    public ResponseEntity<String> logout(HttpSession session) {
+    public ResponseEntity<String> get_api_logout(HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("account");
         if (sessionAccount == null) { return new ResponseEntity<>("Already logged out.", HttpStatus.BAD_REQUEST); }
 
@@ -197,27 +197,27 @@ public class Service_Account {
         return new ResponseEntity<>("Logged out: " + sessionAccount.getUserName(), HttpStatus.OK);
     }
 
-    public ResponseEntity<List<DTO_View_Post>> api_accounts_id_posts(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<List<DTO_Get_Post>> get_api_accounts_id_posts(@PathVariable(name = "id") Integer id) {
         Optional<Account> optional_account = repository_account.findById(id);
         if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
 
         // return account posts
         Account account = optional_account.get();
         List<Post> posts = repository_post.findAllByAccount(account);
-        List<DTO_View_Post> dtos = new ArrayList<>();
-        for (Post post : posts) { dtos.add(new DTO_View_Post(post)); }
+        List<DTO_Get_Post> dtos = new ArrayList<>();
+        for (Post post : posts) { dtos.add(new DTO_Get_Post(post)); }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    public ResponseEntity<List<DTO_View_Like>> api_accounts_id_likes(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<List<DTO_Get_Like>> get_api_accounts_id_likes(@PathVariable(name = "id") Integer id) {
         Optional<Account> optional_account = repository_account.findById(id);
         if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
 
         // return account likes
         Account account = optional_account.get();
         List<Like> likes = repository_likes.findAllByAccount(account);
-        List<DTO_View_Like> dtos = new ArrayList<>();
-        for (Like like : likes) { dtos.add(new DTO_View_Like(like)); }
+        List<DTO_Get_Like> dtos = new ArrayList<>();
+        for (Like like : likes) { dtos.add(new DTO_Get_Like(like)); }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 }
