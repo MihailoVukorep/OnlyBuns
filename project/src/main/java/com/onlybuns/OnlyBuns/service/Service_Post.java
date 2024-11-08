@@ -150,11 +150,11 @@ public class Service_Post {
         if (sessionAccount == null) { return new ResponseEntity<>("Can't like when logged out.", HttpStatus.BAD_REQUEST); }
 
         Optional<Account> optional_account = repository_account.findById(sessionAccount.getId());
-        if (optional_account.isEmpty()) { return new ResponseEntity<>("Can't find account", HttpStatus.NOT_FOUND); }
+        if (optional_account.isEmpty()) { return new ResponseEntity<>("Can't find account.", HttpStatus.NOT_FOUND); }
         Account account = optional_account.get();
 
         Optional<Post> optional_post = repository_post.findById(id);
-        if (optional_post.isEmpty()) { return new ResponseEntity<>("Can't find post", HttpStatus.NOT_FOUND); }
+        if (optional_post.isEmpty()) { return new ResponseEntity<>("Can't find post.", HttpStatus.NOT_FOUND); }
         Post post = optional_post.get();
 
         // create new like
@@ -182,7 +182,7 @@ public class Service_Post {
 
         Optional<Post> originalPost = repository_post.findById(postId);
         if (originalPost.isEmpty()) {
-            return new ResponseEntity<>("Can't find post", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Can't find post.", HttpStatus.NOT_FOUND);
         }
 
         Post parentPost = originalPost.get();
@@ -210,9 +210,19 @@ public class Service_Post {
             @PathVariable(name = "id") Integer id,
             HttpSession session) {
 
-        // TODO: DELETE POST IMPLEMENT
+        Account sessionAccount = (Account) session.getAttribute("account");
+        if (sessionAccount == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED); }
 
-        return new ResponseEntity<>("Deleted post.", HttpStatus.OK);
+        Optional<Post> optional_post = repository_post.findById(id);
+        if (optional_post.isEmpty()) { return new ResponseEntity<>("Can't find post.", HttpStatus.NOT_FOUND); }
+        Post post = optional_post.get();
+
+        if (post.getAccount().getId() == sessionAccount.getId()) {
+            return new ResponseEntity<>("You don't own this post.", HttpStatus.FORBIDDEN);
+        }
+
+        repository_post.delete(post);
+        return new ResponseEntity<>("Post deleted.", HttpStatus.OK);
     }
 
 }
