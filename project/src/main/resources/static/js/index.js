@@ -24,9 +24,10 @@ async function navbar_load_dynamic() {
             links_dynamic.append(createLink("🛠️ Management", "/admin/manage"));
         }
 
-        links_dynamic.append(createLink("🗺️ View Map", "/map"));
         links_dynamic.append(createLink("➕ Create Post", "/createpost"));
-
+        links_dynamic.append(createLink("💬 Chat", "/chat"));
+        links_dynamic.append(createLink("📈 Analytics", "/analytics"));
+        links_dynamic.append(createLink("🗺️ View Map", "/map"));
         links_dynamic.append(createLink("👤 My Account", "/myaccount"));
         links_dynamic.append(createLink("⚙️ My Account - Update", "/myaccount/update"));
         links_dynamic.append(createLink("🚪 Log out (" + json.userName + ")", "/logout"));
