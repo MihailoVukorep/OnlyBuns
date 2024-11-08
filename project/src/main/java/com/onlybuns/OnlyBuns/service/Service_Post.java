@@ -206,7 +206,7 @@ public class Service_Post {
         //return new ResponseEntity<>("Updated post.", HttpStatus.OK);
     }
 
-    @DeleteMapping("/api/posts/{id}")
+    @Transactional
     public ResponseEntity<String> delete_api_posts_id(
             @PathVariable(name = "id") Integer id,
             HttpSession session) {
@@ -218,11 +218,11 @@ public class Service_Post {
         if (optional_post.isEmpty()) { return new ResponseEntity<>("Can't find post.", HttpStatus.NOT_FOUND); }
         Post post = optional_post.get();
 
-        if (post.getAccount().getId() == sessionAccount.getId()) {
+        if (!post.getAccount().getId().equals(sessionAccount.getId())) {
             return new ResponseEntity<>("You don't own this post.", HttpStatus.FORBIDDEN);
         }
 
-        repository_post.delete(post);
+        repository_post.deleteById(post.getId());
         return new ResponseEntity<>("Post deleted.", HttpStatus.OK);
     }
 
