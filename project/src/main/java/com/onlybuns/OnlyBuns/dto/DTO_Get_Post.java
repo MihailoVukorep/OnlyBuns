@@ -9,14 +9,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 public class DTO_Get_Post {
-    public Integer id;
+    public Long id;
     public String title;
     public String text;
     public String picture;
     public String location;
     public DTO_Get_Post_Account account;
     public Integer replies;
-    public Integer parentPostId;
+    public Long parentPostId;
     public Integer likes;
     public Integer totalChildren;
     public LocalDateTime createdDate;

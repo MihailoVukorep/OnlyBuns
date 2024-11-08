@@ -12,7 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @ToString
 public class DTO_Get_Post_Account {
-    public Integer id;
+    public Long id;
     public String userName;
     public String avatar;
     public Set<Role> roles;

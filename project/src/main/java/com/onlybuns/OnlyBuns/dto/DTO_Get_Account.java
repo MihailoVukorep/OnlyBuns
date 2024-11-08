@@ -12,7 +12,7 @@ import java.util.Set;
 @ToString
 public class DTO_Get_Account {
 
-    public Integer id;
+    public Long id;
     public String email;
     public String userName;
     //public String password;

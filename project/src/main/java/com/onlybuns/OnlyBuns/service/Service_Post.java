@@ -71,7 +71,7 @@ public class Service_Post {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    public ResponseEntity<DTO_Get_Post> get_api_posts_id(Integer id) {
+    public ResponseEntity<DTO_Get_Post> get_api_posts_id(Long id) {
         Optional<Post> post = repository_post.findById(id);
         if (post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         return new ResponseEntity<>(new DTO_Get_Post(post.get()), HttpStatus.OK);
@@ -135,7 +135,7 @@ public class Service_Post {
         return "/" + filePath.toString();
     }
 
-    public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_replies(Integer id) {
+    public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_replies(Long id) {
         Optional<Post> optional_post = repository_post.findById(id);
         if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         Post post = optional_post.get();
@@ -145,17 +145,20 @@ public class Service_Post {
     }
 
     @Transactional
-    public ResponseEntity<String> post_api_posts_id_like(Integer id, HttpSession session) {
+    public ResponseEntity<String> post_api_posts_id_like(Long id, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("account");
         if (sessionAccount == null) { return new ResponseEntity<>("Can't like when logged out.", HttpStatus.BAD_REQUEST); }
 
         Optional<Account> optional_account = repository_account.findById(sessionAccount.getId());
-        if (optional_account.isEmpty()) { return new ResponseEntity<>("Can't find account.", HttpStatus.NOT_FOUND); }
+        if (optional_account.isEmpty()) { return new ResponseEntity<>("Can't find your account.", HttpStatus.NOT_FOUND); }
         Account account = optional_account.get();
 
         Optional<Post> optional_post = repository_post.findById(id);
         if (optional_post.isEmpty()) { return new ResponseEntity<>("Can't find post.", HttpStatus.NOT_FOUND); }
         Post post = optional_post.get();
+
+        Optional<Like> optional_like = repository_like.findByAccountIdAndPostId(account.getId(), post.getId());
+        if (optional_like.isEmpty()) { return new ResponseEntity<>("Post already liked.", HttpStatus.ALREADY_REPORTED); }
 
         // create new like
         Like newLike = new Like(account, post);
@@ -165,7 +168,7 @@ public class Service_Post {
         return new ResponseEntity<>("Post liked.", HttpStatus.OK);
     }
 
-    public ResponseEntity<List<DTO_Get_Like>> post_api_posts_id_likes(Integer id) {
+    public ResponseEntity<List<DTO_Get_Like>> post_api_posts_id_likes(Long id) {
         Optional<Post> optional_post = repository_post.findById(id);
         if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         Post post = optional_post.get();
@@ -174,7 +177,7 @@ public class Service_Post {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
     @Transactional
-    public ResponseEntity<String> post_api_posts_id_replies(Integer postId, Post reply, HttpSession session) {
+    public ResponseEntity<String> post_api_posts_id_replies(Long postId, Post reply, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("account");
         if (sessionAccount == null) {
             return new ResponseEntity<>("Can't comment when logged out.", HttpStatus.UNAUTHORIZED);
@@ -196,7 +199,7 @@ public class Service_Post {
     }
 
     public ResponseEntity<String> put_api_posts_id(
-            @PathVariable(name = "id") Integer id,
+            @PathVariable(name = "id") Long id,
             DTO_Put_Post dto_put_post,
             HttpSession session) {
 
@@ -208,7 +211,7 @@ public class Service_Post {
 
     @Transactional
     public ResponseEntity<String> delete_api_posts_id(
-            @PathVariable(name = "id") Integer id,
+            @PathVariable(name = "id") Long id,
             HttpSession session) {
 
         Account sessionAccount = (Account) session.getAttribute("account");

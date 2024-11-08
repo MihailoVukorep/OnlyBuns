@@ -60,7 +60,7 @@ public class Service_Account {
         return new ResponseEntity<>(accountDTOS, HttpStatus.OK);
     }
 
-    public ResponseEntity<DTO_Get_Account> get_api_accounts_id(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<DTO_Get_Account> get_api_accounts_id(@PathVariable(name = "id") Long id) {
         Optional<Account> foundAccount = repository_account.findById(id);
         if (foundAccount.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
 
@@ -197,7 +197,7 @@ public class Service_Account {
         return new ResponseEntity<>("Logged out: " + sessionAccount.getUserName(), HttpStatus.OK);
     }
 
-    public ResponseEntity<List<DTO_Get_Post>> get_api_accounts_id_posts(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<List<DTO_Get_Post>> get_api_accounts_id_posts(@PathVariable(name = "id") Long id) {
         Optional<Account> optional_account = repository_account.findById(id);
         if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
 
@@ -209,7 +209,7 @@ public class Service_Account {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    public ResponseEntity<List<DTO_Get_Like>> get_api_accounts_id_likes(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<List<DTO_Get_Like>> get_api_accounts_id_likes(@PathVariable(name = "id") Long id) {
         Optional<Account> optional_account = repository_account.findById(id);
         if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
 
