@@ -15,6 +15,7 @@
         <script defer type="text/javascript" src="/js/navbar.js"></script>
         <script defer type="text/javascript" src="/js/post.js"></script>
     </head>
+    <body>
         <input type="hidden" id="post_id" th:value="${post_id}"/>
 
         <div class="popup" id="popup" style="display: none;">
@@ -28,10 +29,15 @@
         <div id="thread"></div>
 
         <div id="commentForm" style="display: none;">
-            <input type="text" id="commentTitle" placeholder="Title">
-            <textarea id="commentText" placeholder="Text"></textarea>
-            <button onclick="post_reply()">Submit</button>
-            <button onclick="hideCommentForm()">Decline</button>
+            <div id="commentForm_content">
+                <input type="text" id="commentTitle" placeholder="Title">
+                <textarea id="commentText" placeholder="Text"></textarea>
+    
+                <div id="commentForm_controls">
+                    <button onclick="post_reply()">Submit</button>
+                    <button onclick="hideCommentForm()">Decline</button>
+                </div>
+            </div>
         </div>
     </body>
 </html>
