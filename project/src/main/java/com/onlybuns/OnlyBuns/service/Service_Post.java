@@ -158,14 +158,20 @@ public class Service_Post {
         Post post = optional_post.get();
 
         Optional<Like> optional_like = repository_like.findByAccountIdAndPostId(account.getId(), post.getId());
-        if (optional_like.isEmpty()) { return new ResponseEntity<>("Post already liked.", HttpStatus.ALREADY_REPORTED); }
+        if (optional_like.isEmpty()) {
 
-        // create new like
-        Like newLike = new Like(account, post);
-        post.getLikes().add(newLike);
-        repository_like.save(newLike);
+            // create new like
+            Like newLike = new Like(account, post);
+            post.getLikes().add(newLike);
+            repository_like.save(newLike);
 
-        return new ResponseEntity<>("Post liked.", HttpStatus.OK);
+            return new ResponseEntity<>("Post liked.", HttpStatus.OK);
+        }
+
+        Like like = optional_like.get();
+        repository_like.delete(like);
+
+        return new ResponseEntity<>("Post unliked.", HttpStatus.OK);
     }
 
     public ResponseEntity<List<DTO_Get_Like>> post_api_posts_id_likes(Long id) {
@@ -225,7 +231,7 @@ public class Service_Post {
             return new ResponseEntity<>("You don't own this post.", HttpStatus.FORBIDDEN);
         }
 
-        repository_post.deleteById(post.getId());
+        repository_post.delete(post);
         return new ResponseEntity<>("Post deleted.", HttpStatus.OK);
     }
 

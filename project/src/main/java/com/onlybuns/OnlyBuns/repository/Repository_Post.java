@@ -11,5 +11,4 @@ public interface Repository_Post extends JpaRepository<Post, Long> {
     List<Post> findByParentPostIsNull();
     List<Post> findByParentPostIsNull(Sort sort);
     List<Post> findAllByAccount(Account account);
-    void deleteById(Long id);
 }
