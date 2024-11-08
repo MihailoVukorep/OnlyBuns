@@ -45,10 +45,10 @@ body {
 }
 
 #navbar {
+    padding: 5px;
     background-color: var(--var-color-bg-trans-sub1);
     height: fit-content;
     margin: 0;
-    padding: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -58,19 +58,19 @@ body {
     display: flex;
     align-items: center;
     margin: 0;
-    padding: 10px;
+    gap: 5px;
 }
 
 #navbar a {
+    display: inline-block;
+    font-size: 16px;
     cursor: pointer;
     text-decoration: none;
     font-weight: bolder;
     color: white;
     padding: 3px;
-    font-size: larger;
     border: var(--var-color-border-gray) 1px solid;
     border-radius: 2px;
-    margin: 0 3px;
     background-color: var(--var-color-bg-link);
 }
 #navbar a:hover {

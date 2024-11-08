@@ -11,7 +11,7 @@ function createLink(text, link) {
     return a;
 }
 
-async function load_dynamic() {
+async function navbar_load_dynamic() {
     const response = await fetch("/api/myaccount");
 
     const links_dynamic = document.getElementById("links");
@@ -37,5 +37,5 @@ async function load_dynamic() {
     }
 }
 
-load_dynamic();
+navbar_load_dynamic();
 
