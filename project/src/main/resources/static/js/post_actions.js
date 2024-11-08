@@ -55,3 +55,9 @@ async function post_reply() {
     }
 }
 
+function editPost() {
+    const post_id = document.getElementById("post_id").value;
+    window.location.href = `/posts/{post_id}/edit`; 
+}
+
+

@@ -41,6 +41,11 @@ async function load_posts() {
         parent.style.display = "block";
     }
 
+    // const loggedInUserId = document.getElementById("logged_in_user_id").value;
+    // if (json.userId === loggedInUserId) {
+    //     document.getElementById("editPostButton").style.display = "block";
+    // }
+
     // Load the main post (assuming json is a single post object)
     await fetch_post(json); // Start with the main post
 }

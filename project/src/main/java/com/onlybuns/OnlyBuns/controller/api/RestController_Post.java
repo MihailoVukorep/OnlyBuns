@@ -66,9 +66,22 @@ public class RestController_Post {
     }
 
     // TODO: POSTS PAGING
+    @PutMapping ("/api/editpost/{id}")
+    public ResponseEntity<String> api_editpost(@PathVariable(name = "id") Integer id,@RequestParam("title") String title,
+                                                 @RequestParam("description") String description,
+                                                 @RequestParam("location") String location,
+                                                 @RequestParam(value = "image", required = false) MultipartFile imageFile,
+                                                 HttpSession session) {
+        Account sessionAccount = (Account) session.getAttribute("account");
 
-    // TODO: UPDATE POST
+        return servicePost.api_editpost(id, title, description, location, imageFile, sessionAccount);
+    }
 
-    // TODO: DELETE POST
+    @DeleteMapping("/api/deletepost/{id}")
+    public ResponseEntity<String> api_deletepost(@PathVariable(name = "id") Integer id, HttpSession session){
+        Account sessionAccount = (Account) session.getAttribute("account");
+
+        return servicePost.api_deletepost(id, sessionAccount);
+    }
 
 }

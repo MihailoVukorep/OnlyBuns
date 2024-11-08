@@ -17,4 +17,7 @@ public class Controller_Post {
     }
     @GetMapping("/createpost")
     public String createpost() { return "createpost.html"; }
+
+    @GetMapping("/edit/{id}")
+    public String editpost() {return "editpost.html"; }
 }

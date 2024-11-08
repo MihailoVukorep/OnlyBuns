@@ -84,6 +84,16 @@ function make_post_controls(json) {
     //post_controls_comment.onclick = () => showCommentForm(json.id);
     post_controls.appendChild(post_controls_comment);
 
+
+    // const loggedInUserId = document.getElementById("logged_in_user_id").value;
+    // if (json.account.id === loggedInUserId) {
+    //     const post_controls_edit = document.createElement("button");
+    //     post_controls_edit.className = "post_controls_edit";
+    //     post_controls_edit.textContent = "✏️ Edit";
+    //     post_controls_edit.onclick = () => window.location.href = `/editpost/${json.id}`;
+    //     post_controls.appendChild(post_controls_edit);
+    // }
+
     post_controls.appendChild(make_post_account(json));
 
     return post_controls;

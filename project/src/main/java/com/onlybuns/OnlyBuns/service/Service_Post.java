@@ -175,4 +175,58 @@ public class Service_Post {
         return new ResponseEntity<>("Post commented.", HttpStatus.OK);
     }
 
+    @Transactional
+    public ResponseEntity<String> api_editpost(Integer id,String title, String description, String location,
+                                                 MultipartFile imageFile, Account sessionAccount) {
+
+        Optional<Post> existingPostOpt = repository_post.findById(id);
+        if (!existingPostOpt.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post not found");
+        }
+
+        Post existingPost = existingPostOpt.get();
+
+        String filePath = existingPost.getPicture();
+
+        if (imageFile != null && !imageFile.isEmpty()) {
+            try {
+                filePath = saveImage(imageFile);
+            } catch (IOException e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
+            }
+        }
+
+        existingPost.setTitle(title);
+        existingPost.setText(description);
+        existingPost.setLocation(location);
+        existingPost.setPicture(filePath);
+
+        // Save the edited post
+        repository_post.save(existingPost);
+
+        System.out.println("Post updated: " + existingPost);
+        if (filePath != null) {
+            System.out.println("Image path: " + filePath);
+        }
+
+        return new ResponseEntity<>("Post updated successfully.", HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> api_deletepost(Integer postId, Account sessionAccount) {
+        Post post = repository_post.findById(postId).orElse(null);
+        if (post == null) {
+            return ResponseEntity.status(404).body("Post not found.");
+        }
+
+        if (!post.getAccount().getId().equals(sessionAccount.getId())) {
+            return ResponseEntity.status(403).body("You do not have permission to delete this post.");
+        }
+
+        try {
+            repository_post.deleteById(postId);
+            return ResponseEntity.status(200).body("Post deleted successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("An error occurred while deleting the post.");
+        }
+    }
 }
