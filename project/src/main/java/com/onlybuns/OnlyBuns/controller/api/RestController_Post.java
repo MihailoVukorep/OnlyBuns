@@ -1,4 +1,5 @@
 package com.onlybuns.OnlyBuns.controller.api;
+import com.onlybuns.OnlyBuns.dto.DTO_Put_Post;
 import com.onlybuns.OnlyBuns.dto.DTO_View_Like;
 import com.onlybuns.OnlyBuns.dto.DTO_View_Post;
 import com.onlybuns.OnlyBuns.model.Account;
@@ -62,7 +63,21 @@ public class RestController_Post {
     // TODO: POSTS PAGING
 
     // TODO: UPDATE POST
+    @PutMapping("/api/posts/{id}")
+    public ResponseEntity<String> api_posts_id_update(
+            @PathVariable(name = "id") Integer id,
+            DTO_Put_Post dto_put_post,
+            HttpSession session) {
+
+        return servicePost.api_posts_id_update(id, dto_put_post, session);
+    }
 
     // TODO: DELETE POST
+    @DeleteMapping("/api/posts/{id}")
+    public ResponseEntity<String> api_posts_id_delete(
+            @PathVariable(name = "id") Integer id,
+            HttpSession session) {
 
+        return servicePost.api_posts_id_delete(id, session);
+    }
 }

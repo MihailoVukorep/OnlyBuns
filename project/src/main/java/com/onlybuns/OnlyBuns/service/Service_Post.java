@@ -1,5 +1,6 @@
 package com.onlybuns.OnlyBuns.service;
 
+import com.onlybuns.OnlyBuns.dto.DTO_Put_Post;
 import com.onlybuns.OnlyBuns.dto.DTO_View_Like;
 import com.onlybuns.OnlyBuns.dto.DTO_View_Post;
 import com.onlybuns.OnlyBuns.model.Account;
@@ -16,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -190,6 +194,26 @@ public class Service_Post {
         repository_post.save(reply);
 
         return new ResponseEntity<>("Post commented.", HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> api_posts_id_update(
+            @PathVariable(name = "id") Integer id,
+            DTO_Put_Post dto_put_post,
+            HttpSession session) {
+
+        // TODO: IMPLEMENT
+
+        return new ResponseEntity<>("Updated post.", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/api/posts/{id}")
+    public ResponseEntity<String> api_posts_id_delete(
+            @PathVariable(name = "id") Integer id,
+            HttpSession session) {
+
+        // TODO: IMPLEMENT
+
+        return new ResponseEntity<>("Deleted post.", HttpStatus.OK);
     }
 
 }
