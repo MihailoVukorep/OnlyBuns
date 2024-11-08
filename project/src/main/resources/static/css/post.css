@@ -1,3 +1,7 @@
+#thread {
+    padding: 10px;
+}
+
 .post {
     display: block;
     border: 1px solid var(--var-color-border-transwhite);
@@ -6,6 +10,7 @@
     margin: 3px;
     overflow: hidden;
     overflow-wrap: anywhere;
+    /* width: fit-content; */
 }
 
 .post_body {
