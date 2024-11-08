@@ -201,8 +201,9 @@ public class Service_Post {
             HttpSession session) {
 
         // TODO: UPDATE POST IMPLEMENT
+        return new ResponseEntity<>("Not implemented.", HttpStatus.NOT_IMPLEMENTED);
 
-        return new ResponseEntity<>("Updated post.", HttpStatus.OK);
+        //return new ResponseEntity<>("Updated post.", HttpStatus.OK);
     }
 
     @DeleteMapping("/api/posts/{id}")
