@@ -32,13 +32,7 @@ public class RestController_Post {
                                                  @RequestParam("location") String location,
                                                  @RequestParam(value = "image", required = false) MultipartFile imageFile,
                                                  HttpSession session) {
-        Account sessionAccount = (Account) session.getAttribute("account");
-
-        if (title == null || description == null || location == null) {
-            return new ResponseEntity<>("All fields are required.", HttpStatus.BAD_REQUEST);
-        }
-
-        return servicePost.api_createpost(title, description, location, imageFile, sessionAccount);
+        return servicePost.api_createpost(title, description, location, imageFile, session);
     }
 
     @GetMapping("/api/posts/{id}/replies")

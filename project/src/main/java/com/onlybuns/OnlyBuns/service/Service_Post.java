@@ -76,9 +76,20 @@ public class Service_Post {
 
     @Transactional
     public ResponseEntity<String> api_createpost(String title, String description, String location,
-                                                 MultipartFile imageFile, Account sessionAccount) {
+                                                 MultipartFile imageFile, HttpSession session) {
+
+        Account sessionAccount = (Account) session.getAttribute("account");
+        if (sessionAccount == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED); }
+
         // Validacija podataka
-        if (title == null || description == null || location == null) {
+        if (
+                title == null ||
+                title.isEmpty() ||
+                description == null ||
+                description.isEmpty() ||
+                location == null ||
+                location.isEmpty())
+        {
             return new ResponseEntity<>("All fields are required.", HttpStatus.BAD_REQUEST);
         }
         String filePath = null;  // Inicijalizacija filePath varijable
@@ -87,8 +98,14 @@ public class Service_Post {
             // Save the file to the directory
              filePath = saveImage(imageFile);
             //return ResponseEntity.ok("Image uploaded successfully: " + filePath);
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
+        }
+        catch (IOException ignored) {
+
+            // post without image
+            //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
+        }
+        catch (Exception ignored) {
+
         }
 
         // Kreiranje posta
