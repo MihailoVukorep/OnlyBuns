@@ -11,8 +11,8 @@ function navbar_load_left() {
     let navbar_left = document.createElement("div");
     navbar_left.id = "navbar_left";
 
-    navbar_left.append(navbar_mklink("🏠 Home",     "/home"));
-    navbar_left.append(navbar_mklink("📰 Posts",    "/posts"));
+    navbar_left.append(navbar_mklink("🏠 Home", "/home"));
+    navbar_left.append(navbar_mklink("📰 Posts", "/posts"));
 
     navbar.append(navbar_left);
 }
@@ -27,7 +27,7 @@ async function navbar_load_right() {
 
     if (response.ok) {
         const json = await response.json();
-        
+
         if (hasRole(json.roles, "ADMIN")) {
             navbar_right.append(navbar_mklink("👥 Accounts", "/admin/accounts"));
             navbar_right.append(navbar_mklink("🛠️ Management", "/admin/manage"));

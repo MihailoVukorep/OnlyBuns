@@ -5,28 +5,28 @@ let pStatus = document.getElementById("p_status");
 
 let postId = getPostIdFromUrl();
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     fetchPostData(postId);
 });
 
 function getPostIdFromUrl() {
     const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('id'); 
+    return urlParams.get('id');
 }
 
 async function fetchPostData(postId) {
     const response = await fetch(`/api/posts/${postId}`);
-    
+
     if (response.ok) {
         const postData = await response.json();
 
         document.getElementById('title').value = postData.title;
         document.getElementById('description').value = postData.text;
         document.getElementById('location').value = postData.location;
-        
+
         if (postData.picture) {
             const img = document.createElement("img");
-            img.src = postData.picture;  
+            img.src = postData.picture;
             imagePreview.innerHTML = "";
             imagePreview.appendChild(img);
             imagePreview.style.display = "block";
@@ -36,7 +36,7 @@ async function fetchPostData(postId) {
     }
 }
 
-fileImage.addEventListener("change", function (e) {
+fileImage.addEventListener("change", function(e) {
     handleImageUpload(e.target.files[0]);
 });
 
@@ -44,12 +44,12 @@ fileImage.addEventListener("change", function (e) {
 function handleImageUpload(file) {
     if (file) {
         const reader = new FileReader();
-        reader.onload = function (event) {
+        reader.onload = function(event) {
             const img = document.createElement("img");
             img.src = event.target.result;
-            imagePreview.innerHTML = "";  
+            imagePreview.innerHTML = "";
             imagePreview.appendChild(img);
-            imagePreview.style.display = "block";  
+            imagePreview.style.display = "block";
         };
         reader.readAsDataURL(file);
     }

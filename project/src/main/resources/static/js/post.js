@@ -29,7 +29,7 @@ async function load_posts() {
         console.error("Failed to load post.");
         return;
     }
-    
+
     const json = await response.json();
 
     if (json.parentPostId != null) {

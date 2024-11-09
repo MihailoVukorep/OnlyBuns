@@ -15,10 +15,10 @@ async function api_login(v_username, v_password) {
     const response = await fetch('/api/login', {
         method: 'POST',
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify({email: v_username, password: v_password})
+        body: JSON.stringify({ email: v_username, password: v_password })
     });
 
 

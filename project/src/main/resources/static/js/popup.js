@@ -9,7 +9,7 @@ function popup(text) {
 
 function popup_init() {
     const popup = document.getElementById("popup");
-    popup.onclick = function () {
+    popup.onclick = function() {
         popup.style.display = "none";
     }
 }

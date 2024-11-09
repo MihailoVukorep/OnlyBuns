@@ -4,7 +4,7 @@ let imagePreview = document.getElementById("image-preview");
 let pStatus = document.getElementById("p_status");
 
 // Kada se promeni odabrana slika, prikazujemo je
-fileImage.addEventListener("change", function (e) {
+fileImage.addEventListener("change", function(e) {
     handleImageUpload(e.target.files[0]);
 });
 
@@ -12,7 +12,7 @@ fileImage.addEventListener("change", function (e) {
 function handleImageUpload(file) {
     if (file) {
         const reader = new FileReader();
-        reader.onload = function (event) {
+        reader.onload = function(event) {
             const img = document.createElement("img");
             img.src = event.target.result;
             imagePreview.innerHTML = "";  // Brišemo prethodni pregled

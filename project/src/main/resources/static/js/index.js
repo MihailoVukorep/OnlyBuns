@@ -14,7 +14,7 @@ async function load_index_links() {
 
     if (response.ok) {
         const json = await response.json();
-        
+
         if (hasRole(json.roles, "ADMIN")) {
             links.append(index_link("👥 Accounts", "/admin/accounts"));
             links.append(index_link("🛠️ Management", "/admin/manage"));

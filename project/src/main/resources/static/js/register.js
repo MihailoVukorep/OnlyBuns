@@ -21,16 +21,16 @@ async function api_register() {
     const response = await fetch('/api/register', {
         method: 'POST',
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            email:     txt_email.value,
-            userName:  txt_userName.value,
-            password:  txt_password.value,
+            email: txt_email.value,
+            userName: txt_userName.value,
+            password: txt_password.value,
             firstName: txt_firstName.value,
-            lastName:  txt_lastName.value,
-            address:   txt_address.value,
+            lastName: txt_lastName.value,
+            address: txt_address.value,
         })
     });
 

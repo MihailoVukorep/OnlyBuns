@@ -9,7 +9,7 @@ function make_account(json) {
 
     const account = document.createElement("div");
     account.className = "account";
-    
+
     const account_img_cont = document.createElement("div");
     account_img_cont.className = "account_img_cont";
 
@@ -22,7 +22,7 @@ function make_account(json) {
 
     const account_info = document.createElement("div");
     account_info.className = "account_info";
-    
+
     // HEAD
     const account_info_head = document.createElement("div");
     account_info_head.className = "account_info_head";

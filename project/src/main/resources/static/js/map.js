@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
 
     var map = L.map('map').setView([45.2671, 19.8335], 13);
 
