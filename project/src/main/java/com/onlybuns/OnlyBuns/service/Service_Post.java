@@ -46,7 +46,7 @@ public class Service_Post {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    // GETING POSTS
+    // GETTING POSTS
     public ResponseEntity<List<DTO_Get_Post>> get_api_posts(HttpSession session, String sort) {
 
         Sort sortOrder = Sort.unsorted();
