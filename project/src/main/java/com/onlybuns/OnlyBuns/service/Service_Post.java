@@ -70,7 +70,6 @@ public class Service_Post {
 
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
-
     public ResponseEntity<DTO_Get_Post> get_api_posts_id(Long id, HttpSession session) {
         Optional<Post> postOptional = repository_post.findById(id);
         if (postOptional.isEmpty()) {return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
@@ -79,7 +78,6 @@ public class Service_Post {
         Account account = (Account) session.getAttribute("account");
         return new ResponseEntity<>(getPostForUser(post, account), HttpStatus.OK);
     }
-
     public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_replies(Long id, HttpSession session) {
         Optional<Post> optional_post = repository_post.findById(id);
         if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
@@ -88,7 +86,6 @@ public class Service_Post {
         Account account = (Account) session.getAttribute("account");
         return new ResponseEntity<>(getPostsForUser(post.getReplies(), account), HttpStatus.OK);
     }
-
     public DTO_Get_Post getPostForUser(Post post, Account account) {
 
         if (account == null) {
@@ -101,8 +98,6 @@ public class Service_Post {
                 post.getAccount().getId().equals(account.getId())  // myPost
             );
     }
-
-
     public List<DTO_Get_Post> getPostsForUser(List<Post> posts, Account account) {
 
         if (account == null) {
@@ -129,10 +124,8 @@ public class Service_Post {
     }
 
     // CREATING POSTS
-
     @Transactional
-    public ResponseEntity<String> post_api_createpost(String title, String description, String location,
-                                                      MultipartFile imageFile, HttpSession session) {
+    public ResponseEntity<String> post_api_createpost(String title, String description, String location, MultipartFile imageFile, HttpSession session) {
 
         Account sessionAccount = (Account) session.getAttribute("account");
         if (sessionAccount == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED); }
@@ -188,9 +181,7 @@ public class Service_Post {
         return "/" + filePath.toString();
     }
 
-
-    // LIKE POST, UPDATE
-
+    // LIKE
     @Transactional
     public ResponseEntity<String> post_api_posts_id_like(Long id, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("account");
@@ -221,6 +212,7 @@ public class Service_Post {
         return new ResponseEntity<>("Post unliked.", HttpStatus.OK);
     }
 
+    // GET LIKES
     public ResponseEntity<List<DTO_Get_Like>> get_api_posts_id_likes(Long id) {
         Optional<Post> optional_post = repository_post.findById(id);
         if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
@@ -230,6 +222,7 @@ public class Service_Post {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    // COMMENT
     @Transactional
     public ResponseEntity<String> post_api_posts_id_replies(Long postId, Post reply, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("account");
@@ -252,10 +245,8 @@ public class Service_Post {
         return new ResponseEntity<>("Post commented.", HttpStatus.OK);
     }
 
-    public ResponseEntity<String> put_api_posts_id(
-            @PathVariable(name = "id") Long id,
-            DTO_Put_Post dto_put_post,
-            HttpSession session) {
+    // UPDATE POST
+    public ResponseEntity<String> put_api_posts_id(@PathVariable(name = "id") Long id, DTO_Put_Post dto_put_post, HttpSession session) {
 
         // TODO: UPDATE POST IMPLEMENT
         return new ResponseEntity<>("Not implemented.", HttpStatus.NOT_IMPLEMENTED);
@@ -263,10 +254,9 @@ public class Service_Post {
         //return new ResponseEntity<>("Updated post.", HttpStatus.OK);
     }
 
+    // DELETE POST
     @Transactional
-    public ResponseEntity<String> delete_api_posts_id(
-            @PathVariable(name = "id") Long id,
-            HttpSession session) {
+    public ResponseEntity<String> delete_api_posts_id(@PathVariable(name = "id") Long id, HttpSession session) {
 
         Account sessionAccount = (Account) session.getAttribute("account");
         if (sessionAccount == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED); }
@@ -282,5 +272,4 @@ public class Service_Post {
         repository_post.delete(post);
         return new ResponseEntity<>("Post deleted.", HttpStatus.OK);
     }
-
 }
