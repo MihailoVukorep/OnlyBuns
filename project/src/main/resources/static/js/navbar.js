@@ -36,9 +36,26 @@ async function navbar_load_right() {
         navbar_right.append(navbar_mklink("🗺️ View Map", "/map"));
         navbar_right.append(navbar_mklink("➕ Create Post", "/createpost"));
 
-        navbar_right.append(navbar_mklink("👤", "/myaccount"));
-        navbar_right.append(navbar_mklink("⚙️", "/myaccount/update"));
-        navbar_right.append(navbar_mklink("🚪 Log out (" + json.userName + ")", "/logout"));
+        // account link
+        const post_account = document.createElement("div");
+        post_account.className = "onlybuns_account";
+        post_account.className = "post_account"
+        const post_account_link = document.createElement("a");
+        post_account_link.className = "onlybuns_account_link";
+        post_account_link.href = "/accounts/" + json.id;
+        const post_account_image = document.createElement("img");
+        post_account_image.className = "onlybuns_avatar";
+        post_account_image.src = json.avatar;
+        post_account_link.appendChild(post_account_image);
+        const post_account_userName = document.createElement("span");
+        post_account_userName.innerHTML = json.userName;
+        //post_account_userName.className = "onlybuns_username";
+        post_account_link.appendChild(post_account_userName);
+        post_account.appendChild(post_account_link);
+        navbar_right.append(post_account);
+
+        navbar_right.append(navbar_mklink("⚙️ Update", "/myaccount/update"));
+        navbar_right.append(navbar_mklink("🚪 Log out", "/logout"));
     }
     else {
         navbar_right.append(navbar_mklink("🔑 Log in", "/login"));
