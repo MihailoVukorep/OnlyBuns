@@ -57,14 +57,13 @@ function handleImageUpload(file) {
 
 // Funkcija za kreiranje posta
 async function api_editpost() {
+    console.log(`post_update called with id: ${id}`);
     const formData = new FormData(document.getElementById('postForm'));
-    const imageFile = fileImage.files[0];
-    if (imageFile) {
-        formData.append("image", imageFile);
-    }
+    const postId = getPostIdFromUrl();
 
-    const response = await fetch('/api/editpost', {
-        method: 'POST',
+    // Adjust the endpoint to match the REST controller path
+    const response = await fetch(`/api/posts/${postId}`, {
+        method: 'PUT',
         body: formData
     });
 
@@ -72,7 +71,7 @@ async function api_editpost() {
     pStatus.innerHTML = text;
 
     if (response.ok) {
-        window.location.href = "posts";
+        window.location.href = "/posts";  // Redirect after a successful edit
     }
 }
 

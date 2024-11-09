@@ -67,9 +67,10 @@ public class RestController_Post {
     public ResponseEntity<String> put_api_posts_id(
             @PathVariable(name = "id") Long id,
             DTO_Put_Post dto_put_post,
+            @RequestParam(value = "image", required = false) MultipartFile imageFile,
             HttpSession session) {
 
-        return servicePost.put_api_posts_id(id, dto_put_post, session);
+        return servicePost.put_api_posts_id(id, dto_put_post, imageFile, session);
     }
 
     // TODO: DELETE POST

@@ -49,16 +49,26 @@ async function post_reply(id, title, text) {
 }
 
 async function post_update(id) {
-    const title = document.getElementById("commentTitle").value;
-    const text = document.getElementById("commentText").value;
+    console.log(`post_update called with id: ${id}`);
+    const title = document.getElementById("txt_title").value;
+    const text = document.getElementById("txt_text").value;
+    const location = document.getElementById("txt_location").value;
+    const imageFile = document.getElementById("file_image").files[0];
     const postId = document.getElementById("post_id").value;
 
-    const response = await fetch(`/api/posts/${postId}`, {
+    formData.append("title", title);
+    formData.append("text", text);
+    formData.append("location", location);
+    if (imageFile) {
+        formData.append("image", imageFile);
+    }
+
+    const response = await fetch(`/api/posts/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ title, text })
+        body: formData
     });
 
     const response_text = await response.text();

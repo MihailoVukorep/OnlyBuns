@@ -246,12 +246,34 @@ public class Service_Post {
     }
 
     // UPDATE POST
-    public ResponseEntity<String> put_api_posts_id(@PathVariable(name = "id") Long id, DTO_Put_Post dto_put_post, HttpSession session) {
+    public ResponseEntity<String> put_api_posts_id(@PathVariable(name = "id") Long id, DTO_Put_Post dto_put_post, MultipartFile imageFile, HttpSession session) {
 
-        // TODO: UPDATE POST IMPLEMENT
-        return new ResponseEntity<>("Not implemented.", HttpStatus.NOT_IMPLEMENTED);
+        Optional<Post> existingPostOpt = repository_post.findById(id);
+        if (existingPostOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post not found");
+        }
 
-        //return new ResponseEntity<>("Updated post.", HttpStatus.OK);
+        Post existingPost = existingPostOpt.get();
+        String filePath = existingPost.getPicture();
+
+        if (imageFile != null && !imageFile.isEmpty()) {
+            try {
+                filePath = saveImage(imageFile);
+            } catch (IOException e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
+            }
+        }
+        existingPost.setTitle(dto_put_post.getTitle());
+        existingPost.setText(dto_put_post.getText());
+        existingPost.setLocation(dto_put_post.getLocation());
+        existingPost.setPicture(filePath);
+
+        repository_post.save(existingPost);
+        System.out.println("Post updated: " + existingPost);
+        if (filePath != null) {
+            System.out.println("Image path: " + filePath);
+        }
+        return new ResponseEntity<>("Post updated successfully.", HttpStatus.OK);
     }
 
     // DELETE POST
