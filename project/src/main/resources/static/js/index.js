@@ -1,6 +1,6 @@
 const links = document.getElementById("links");
 
-function createLink(text, link) {
+function index_link(text, link) {
     const a = document.createElement("a");
     a.classList.add("onlybuns_link");
     a.classList.add("onlybuns_link_block");
@@ -9,37 +9,35 @@ function createLink(text, link) {
     return a;
 }
 
-async function navbar_load_dynamic() {
+async function load_index_links() {
     const response = await fetch("/api/myaccount");
-
-    const links_dynamic = document.getElementById("links");
 
     if (response.ok) {
         const json = await response.json();
         
         if (hasRole(json.roles, "ADMIN")) {
-            links_dynamic.append(createLink("👥 Accounts", "/admin/accounts"));
-            links_dynamic.append(createLink("🛠️ Management", "/admin/manage"));
+            links.append(index_link("👥 Accounts", "/admin/accounts"));
+            links.append(index_link("🛠️ Management", "/admin/manage"));
         }
 
-        links_dynamic.append(createLink("➕ Create Post", "/createpost"));
-        links_dynamic.append(createLink("💬 Chat", "/chat"));
-        links_dynamic.append(createLink("📈 Analytics", "/analytics"));
-        links_dynamic.append(createLink("🗺️ View Map", "/map"));
-        links_dynamic.append(createLink("👤 My Account", "/myaccount"));
-        links_dynamic.append(createLink("⚙️ My Account - Update", "/myaccount/update"));
-        links_dynamic.append(createLink("🚪 Log out (" + json.userName + ")", "/logout"));
+        links.append(index_link("➕ Create Post", "/createpost"));
+        links.append(index_link("💬 Chat", "/chat"));
+        links.append(index_link("📈 Analytics", "/analytics"));
+        links.append(index_link("🗺️ View Map", "/map"));
+        links.append(index_link("👤 My Account", "/myaccount"));
+        links.append(index_link("⚙️ My Account - Update", "/myaccount/update"));
+        links.append(index_link("🚪 Log out (" + json.userName + ")", "/logout"));
     }
     else {
-        links_dynamic.append(createLink("🔑 Log in", "/login"));
-        links_dynamic.append(createLink("📝 Register", "/register"));
+        links.append(index_link("🔑 Log in", "/login"));
+        links.append(index_link("📝 Register", "/register"));
     }
 }
 
 
 async function init() {
     await loadjs('/js/roles.js');
-    navbar_load_dynamic();
+    load_index_links();
 }
 
 init();
