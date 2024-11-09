@@ -73,8 +73,9 @@ function make_post_controls(json) {
 
     const post_controls_like = document.createElement("button");
     post_controls_like.className = "post_controls_like";
-    post_controls_like.textContent = `❤️ ${json.likes}`;
-    post_controls_like.onclick = () => post_like(json.id);
+    post_controls_like.value = parseInt(json.likes, 10);
+    post_controls_like.textContent = `${json.liked ? "💟" : "❤️"} ${json.likes}`;
+    post_controls_like.onclick = () => post_like(json.id, post_controls_like);
     post_controls.appendChild(post_controls_like);
 
     const post_controls_comment = document.createElement("button");
@@ -84,17 +85,19 @@ function make_post_controls(json) {
     //post_controls_comment.onclick = () => showCommentForm(json.id);
     post_controls.appendChild(post_controls_comment);
 
-    const post_controls_update = document.createElement("button");
-    post_controls_update.className = "post_controls_update";
-    post_controls_update.textContent = `📝`;
-    post_controls_update.onclick = () => post_update(json.id);
-    post_controls.appendChild(post_controls_update);
+    if (json.myPost) {
+        const post_controls_update = document.createElement("button");
+        post_controls_update.className = "post_controls_update";
+        post_controls_update.textContent = `📝`;
+        post_controls_update.onclick = () => post_update(json.id);
+        post_controls.appendChild(post_controls_update);
 
-    const post_controls_delete = document.createElement("button");
-    post_controls_delete.className = "post_controls_delete";
-    post_controls_delete.textContent = `🗑`;
-    post_controls_delete.onclick = () => post_delete(json.id);
-    post_controls.appendChild(post_controls_delete);
+        const post_controls_delete = document.createElement("button");
+        post_controls_delete.className = "post_controls_delete";
+        post_controls_delete.textContent = `🗑`;
+        post_controls_delete.onclick = () => post_delete(json.id);
+        post_controls.appendChild(post_controls_delete);
+    }
 
     post_controls.appendChild(make_post_account(json));
 

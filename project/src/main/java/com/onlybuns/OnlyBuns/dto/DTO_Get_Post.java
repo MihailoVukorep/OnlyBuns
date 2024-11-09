@@ -22,13 +22,8 @@ public class DTO_Get_Post {
     public LocalDateTime createdDate;
     public LocalDateTime updatedDate;
 
-    private static int countReplies(Post post) {
-        int count = 0;
-        for (Post reply : post.getReplies()) {
-            count += 1 + countReplies(reply);
-        }
-        return count;
-    }
+    public Boolean liked  = false;
+    public Boolean myPost = false;
 
     public DTO_Get_Post(Post post) {
         this.id = post.getId();
@@ -44,5 +39,11 @@ public class DTO_Get_Post {
         this.totalChildren = countReplies(post);
         this.createdDate = post.getCreatedDate();
         this.updatedDate = post.getUpdatedDate();
+    }
+
+    private static int countReplies(Post post) {
+        int count = 0;
+        for (Post reply : post.getReplies()) { count += 1 + countReplies(reply); }
+        return count;
     }
 }

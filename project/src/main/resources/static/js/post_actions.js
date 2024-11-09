@@ -1,9 +1,24 @@
-async function post_like(id) {
+async function post_like(id, button) {
     const response = await fetch(`/api/posts/${id}/like`, { method: "POST" });
     const response_text = await response.text();
 
-    if (response.ok) { popup(`✅ ${response_text}`); }
-    else             { popup(`❌ ${response_text}`); }
+    if (response.ok) {
+        if (response_text == "Post liked.") {
+            button.value++;
+            button.textContent = `💟 ${button.value}`;
+        }
+        else if (response_text == "Post unliked.") {
+            button.value--;
+            button.textContent = `❤️ ${button.value}`;
+        }
+        else {
+            popup(`✅ ${response_text}`);
+        }
+    }
+
+    else {
+        popup(`❌ ${response_text}`);
+    }
 }
 
 async function post_reply(id, title, text) {

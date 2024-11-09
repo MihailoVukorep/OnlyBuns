@@ -9,4 +9,5 @@ public interface Repository_Like extends JpaRepository<Like, Long> {
     List<Like> findAll();
     List<Like> findAllByAccount(Account account);
     Optional<Like> findByAccountIdAndPostId(Long accountId, Long postId);
+    List<Like> findByPostIdInAndAccount(List<Long> postIds, Account account);
 }

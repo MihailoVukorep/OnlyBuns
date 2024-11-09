@@ -183,7 +183,7 @@ public class DatabaseConfiguration {
         repository_post.save(new Post("DA DA", "Rodilo drvece :^)", acc_ajzak, root2));
         repository_post.save(new Post("HMM", "E TOSE NISAM NADO!!", acc_ajzak, root));
 
-
+        repository_post.save(new Post("My post", "Moj post!", acc_pera));
 
 
         Account acc_sara = CreateAccount(

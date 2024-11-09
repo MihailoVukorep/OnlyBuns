@@ -19,7 +19,9 @@ public class RestController_Post {
     private Service_Post servicePost;
 
     @GetMapping(value = "/api/posts") // /api/posts?sort=newest
-    public ResponseEntity<List<DTO_Get_Post>> get_api_posts(@RequestParam(value = "sort", required = false) String sort) { return servicePost.get_api_posts(sort); }
+    public ResponseEntity<List<DTO_Get_Post>> get_api_posts(HttpSession session, @RequestParam(value = "sort", required = false) String sort) {
+        return servicePost.get_api_posts(session, sort);
+    }
 
     @GetMapping("/api/posts/{id}")
     public ResponseEntity<DTO_Get_Post> get_api_posts_id(@PathVariable(name = "id") Long id) {

@@ -29,6 +29,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class Service_Post {
@@ -45,30 +47,64 @@ public class Service_Post {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    public ResponseEntity<List<DTO_Get_Post>> get_api_posts(String sort) {
+    public ResponseEntity<List<DTO_Get_Post>> get_api_posts(HttpSession session, String sort) {
 
-        // If no sort parameter, use default sorting (e.g., by ID)
         Sort sortOrder = Sort.unsorted();
 
         if (sort != null && !sort.isEmpty()) {
-            // Parse the 'sort' parameter
             String[] sortParams = sort.split(",");
             if (sortParams.length == 2) {
                 String field = sortParams[0];
                 String direction = sortParams[1].toUpperCase();
 
-                // Validate direction (ASC or DESC)
                 Sort.Direction dir = Sort.Direction.fromString(direction);
                 sortOrder = Sort.by(dir, field);
             }
         }
 
-        List<Post> posts = repository_post.findByParentPostIsNull(sortOrder);
-        List<DTO_Get_Post> dtos = new ArrayList<>();
-        for (Post post : posts) {
-            dtos.add(new DTO_Get_Post(post));
-        }
+        // Retrieve the current user from the session (e.g., session attribute)
+        Account account = (Account) session.getAttribute("account");
+
+        // Call service method to get posts with "liked" and "deletable" fields populated
+        List<DTO_Get_Post> dtos = getPostsForUser(account, sortOrder);
+
         return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    public List<DTO_Get_Post> getPostsForUser(Account account, Sort sortOrder) {
+        // Fetch all top-level posts (no parent posts) with the specified sort order
+        List<Post> posts = repository_post.findByParentPostIsNull(sortOrder);
+
+        // If account is null, set "liked" and "deletable" to false for all posts
+        if (account == null) {
+            return posts.stream()
+                    .map(post -> createPostDTO(post, false, false))
+                    .collect(Collectors.toList());
+        }
+
+        // If account is not null, proceed to fetch likes and set "liked" and "deletable" appropriately
+        List<Long> postIds = posts.stream().map(Post::getId).collect(Collectors.toList());
+
+        // Retrieve likes for the current user in a single query to avoid multiple calls
+        List<Like> userLikes = repository_like.findByPostIdInAndAccount(postIds, account);
+        Set<Long> likedPostIds = userLikes.stream()
+                .map(like -> like.getPost().getId())
+                .collect(Collectors.toSet());
+
+        return posts.stream()
+                .map(post -> createPostDTO(
+                        post,
+                        likedPostIds.contains(post.getId()),
+                        post.getAccount().getId().equals(account.getId()))
+                )
+                .collect(Collectors.toList());
+    }
+
+    private DTO_Get_Post createPostDTO(Post post, boolean isLiked, boolean myPost) {
+        DTO_Get_Post dto = new DTO_Get_Post(post);
+        dto.setLiked(isLiked);
+        dto.setMyPost(myPost);
+        return dto;
     }
 
     public ResponseEntity<DTO_Get_Post> get_api_posts_id(Long id) {
