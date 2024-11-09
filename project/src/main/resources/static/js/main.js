@@ -1,13 +1,25 @@
-function loadScript(url) {
-    var script = document.createElement('script'); // Create a new <script> tag
-    script.src = url; // Set the source to the external JS file URL
-    script.type = 'text/javascript'; // Set the script type
-    script.async = true; // Optional: makes the script load asynchronously
+function loadjs(url) {
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = url;
+        script.type = 'text/javascript';
+        script.async = true;
+        script.onload = () => { console.log(`loadjs: ${url}`); resolve(); };
+        script.onerror = () => { console.error(`error loadjs: ${url}`); reject(new Error(`Failed to load script: ${url}`)); };
+        document.head.appendChild(script);
+    });
+}
 
-    document.head.appendChild(script);
-    
-    script.onload = function() { console.log(`'loaded: ${url}`); };
-    script.onerror = function() { console.log(`error loading script: ${url}`); };
+function loadcss(url) {
+    return new Promise((resolve, reject) => {
+        const link = document.createElement('link');
+        link.href = url;
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.onload = () => { console.log(`loadcss: ${url}`); resolve(); };
+        link.onerror = () => { console.error(`error loadcss: ${url}`); reject(new Error(`Failed to load CSS: ${url}`)); };
+        document.head.appendChild(link);
+    });
 }
 
 // remove children

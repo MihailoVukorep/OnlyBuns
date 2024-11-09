@@ -1,5 +1,3 @@
-loadScript('/js/roles.js');
-
 let navbar = document.getElementById("navbar");
 
 function navbar_mklink(text, link) {
@@ -49,7 +47,10 @@ async function navbar_load_dynamic() {
 }
 
 navbar_load_static();
-navbar_load_dynamic();
 
+async function init() {
+    await loadjs('/js/roles.js');
+    navbar_load_dynamic();
+}
 
-
+init();

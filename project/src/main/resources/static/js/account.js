@@ -1,5 +1,3 @@
-loadScript('/js/roles.js');
-
 const account_id = document.getElementById("account_id").value;
 
 async function load_account() {
@@ -14,6 +12,7 @@ async function load_account() {
     document.getElementById("account_address").innerHTML     = json.address;
     document.getElementById("account_avatar").src            = json.avatar;
     document.getElementById("account_bio").innerHTML         = json.bio;
+
     const role = document.getElementById("account_roles");
     role.appendChild(roles(json.roles))
 
@@ -23,4 +22,10 @@ async function load_account() {
 
 }
 
-load_account();
+
+async function init() {
+    await loadjs('/js/roles.js');
+    load_account();
+}
+
+init();

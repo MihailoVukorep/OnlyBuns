@@ -1,5 +1,3 @@
-loadScript('/js/roles.js');
-
 const links = document.getElementById("links");
 
 function createLink(text, link) {
@@ -38,5 +36,11 @@ async function navbar_load_dynamic() {
     }
 }
 
-navbar_load_dynamic();
+
+async function init() {
+    await loadjs('/js/roles.js');
+    navbar_load_dynamic();
+}
+
+init();
 

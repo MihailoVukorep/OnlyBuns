@@ -1,4 +1,3 @@
-loadScript('/js/roles.js');
 
 let accounts = document.getElementById("accounts");
 
@@ -108,7 +107,6 @@ function make_account(json) {
 
 async function load_posts() {
     prune(accounts);
-
     const response = await fetch("/api/admin/accounts");
     const json = await response.json();
 
@@ -117,5 +115,11 @@ async function load_posts() {
     }
 }
 
-load_posts();
+async function init() {
+    await loadjs('/js/roles.js');
+    load_posts();
+}
+
+
+init();
 

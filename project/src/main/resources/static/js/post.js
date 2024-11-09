@@ -1,8 +1,5 @@
-loadScript('/js/post_renderer.js');
-
 const post_id = document.getElementById("post_id").value;
 const thread = document.getElementById("thread");
-
 
 async function fetch_post(json, indent = 0) {
 
@@ -50,5 +47,9 @@ async function load_posts() {
     await fetch_post(json); // Start with the main post
 }
 
-// Start loading posts
-load_posts();
+async function init() {
+    await loadjs('/js/post_renderer.js');
+    load_posts();
+}
+
+init();

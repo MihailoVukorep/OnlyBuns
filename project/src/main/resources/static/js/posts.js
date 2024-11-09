@@ -1,5 +1,3 @@
-loadScript('/js/post_renderer.js');
-
 const div_posts = document.getElementById("posts");
 
 async function load_posts() {
@@ -16,4 +14,9 @@ async function load_posts() {
     }
 }
 
-load_posts();
+async function init() {
+    await loadjs('/js/post_renderer.js');
+    load_posts();
+}
+
+init();
