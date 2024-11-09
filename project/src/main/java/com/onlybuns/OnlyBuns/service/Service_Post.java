@@ -71,29 +71,13 @@ public class Service_Post {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-
-
-
-
     public ResponseEntity<DTO_Get_Post> get_api_posts_id(Long id, HttpSession session) {
         Optional<Post> postOptional = repository_post.findById(id);
         if (postOptional.isEmpty()) {return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         Post post = postOptional.get();
 
         Account account = (Account) session.getAttribute("account");
-        if (account == null) {
-            DTO_Get_Post dto = new DTO_Get_Post(post, false, false);
-            return new ResponseEntity<>(dto, HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>
-                (new DTO_Get_Post
-                    (
-                        post,
-                        repository_like.existsByPostAndAccount(post, account), // liked
-                        post.getAccount().getId().equals(account.getId())  // myPost
-                    ),
-                HttpStatus.OK);
+        return new ResponseEntity<>(getPostForUser(post, account), HttpStatus.OK);
     }
 
     public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_replies(Long id, HttpSession session) {
@@ -103,6 +87,19 @@ public class Service_Post {
 
         Account account = (Account) session.getAttribute("account");
         return new ResponseEntity<>(getPostsForUser(post.getReplies(), account), HttpStatus.OK);
+    }
+
+    public DTO_Get_Post getPostForUser(Post post, Account account) {
+
+        if (account == null) {
+            return new DTO_Get_Post(post, false, false);
+        }
+
+        return new DTO_Get_Post(
+                post,
+                repository_like.existsByPostAndAccount(post, account), // liked
+                post.getAccount().getId().equals(account.getId())  // myPost
+            );
     }
 
 
