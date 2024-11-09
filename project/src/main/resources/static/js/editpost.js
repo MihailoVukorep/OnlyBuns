@@ -20,9 +20,9 @@ async function fetchPostData(postId) {
     if (response.ok) {
         const postData = await response.json();
 
-        document.getElementById('title').value = postData.title;
-        document.getElementById('description').value = postData.text;
-        document.getElementById('location').value = postData.location;
+        document.getElementById('txt_title').value = postData.title;
+        document.getElementById('txt_text').value = postData.text; // Updated to 'text'
+        document.getElementById('txt_location').value = postData.location;
 
         if (postData.picture) {
             const img = document.createElement("img");
@@ -55,13 +55,36 @@ function handleImageUpload(file) {
     }
 }
 
-// Funkcija za kreiranje posta
-async function api_editpost() {
-    console.log(`post_update called with id: ${id}`);
-    const formData = new FormData(document.getElementById('postForm'));
-    const postId = getPostIdFromUrl();
+async function post_update(id) {
+    const formData = new FormData();
+    const title = document.getElementById("txt_title").value;
+    const text = document.getElementById("txt_text").value; // Updated to 'text'
+    const location = document.getElementById("txt_location").value;
+    const imageFile = document.getElementById("file_image").files[0];
 
-    // Adjust the endpoint to match the REST controller path
+    formData.append("title", title);
+    formData.append("text", text); // Updated to 'text'
+    formData.append("location", location);
+    if (imageFile) {
+        formData.append("image", imageFile);
+    }
+
+    const response = await fetch(`/api/posts/${id}`, {
+        method: "PUT",
+        body: formData,
+    });
+
+    const responseText = await response.text();
+    popup(response.ok ? `✅ ${responseText}` : `❌ ${responseText}`);
+    hideCommentForm();
+}
+
+
+async function api_editpost() {
+    console.log(`api_editpost called with id: ${postId}`);
+    const formData = new FormData(document.getElementById('postForm'));
+    const id = getPostIdFromUrl();
+
     const response = await fetch(`/api/posts/${postId}`, {
         method: 'PUT',
         body: formData
@@ -71,8 +94,9 @@ async function api_editpost() {
     pStatus.innerHTML = text;
 
     if (response.ok) {
-        window.location.href = "/posts";  // Redirect after a successful edit
+        window.location.href = `/posts/${postId}`;
     }
+    
 }
 
 btnEditPost.onclick = api_editpost;

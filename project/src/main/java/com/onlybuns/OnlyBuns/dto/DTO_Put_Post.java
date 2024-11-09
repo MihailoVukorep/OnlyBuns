@@ -15,12 +15,10 @@ public class DTO_Put_Post {
     public String location;
     public LocalDateTime updatedDate;
 
-
     public DTO_Put_Post(String title, String text, String location) {
         this.title = title;
         this.text = text;
         this.location = location;
         this.updatedDate = LocalDateTime.now();
     }
-    // TODO: IMPLEMENT WHAT IS BEING UPDATED
 }
