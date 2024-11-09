@@ -1,64 +1,65 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-    <head>
-        <!-- MAIN -->
-        <meta charset="UTF-8">
-        <link rel="icon" type="image/x-icon" href="/img/favicon.png">
-        <link rel="stylesheet" href="/css/main.css">
 
-        <title>OnlyBuns - Account</title>
-        <link rel="stylesheet" href="/css/account.css">
+<head>
+    <!-- MAIN -->
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="/css/main.css">
 
-        <script defer type="text/javascript" src="/js/main.js"></script>
-        <script defer type="text/javascript" src="/js/navbar.js"></script>
-        <script defer type="text/javascript" src="/js/account.js"></script>
-    </head>
-    <body>
-        <div id="navbar"></div>
+    <title>OnlyBuns - Account</title>
+    <link rel="stylesheet" href="/css/account.css">
 
-        <input type="hidden" id="account_id" th:value="${account_id}"/>
+    <script defer type="text/javascript" src="/js/main.js"></script>
+    <script defer type="text/javascript" src="/js/navbar.js"></script>
+    <script defer type="text/javascript" src="/js/account.js"></script>
+</head>
 
-        <div id="account">
-            <div id="account_image">
-                <img id="account_avatar" src="/avatars/default.jpg">
-            </div>
+<body>
+    <div id="navbar"></div>
 
-           <div id="account_info">
-                <div id="account_names">
-                    <span id="account_roles"></span>
-                    <span id="account_firstName"></span>
-                    <span id="account_lastName"></span>
-                    <span>(</span><span id="account_userName"></span><span>)</span>
-                </div>
+    <input type="hidden" id="account_id" th:value="${account_id}" />
 
-                <div>
-                    <div id="account_email"></div>
-                </div>
-
-                <div>
-                    <div id="account_address"></div>
-                    <div id="account_bio"></div>
-                </div>
-
-                <div class="account_counters">
-                    <span>
-                        <span id="account_postsCount"></span>
-                        <span>posts,</span>
-                    </span>
-                    <span>
-                        <span id="account_followersCount"></span>
-                        <span>followers,</span>
-                    </span>
-                    <span>
-                        <span id="account_followingCount"></span>
-                        <span>following</span>
-                    </span>
-                </div>
-           </div>
+    <div id="account">
+        <div id="account_image">
+            <img id="account_avatar" src="/avatars/default.jpg">
         </div>
 
-        <h1></h1>
-    </body>
+        <div id="account_info">
+            <div id="account_names">
+                <span id="account_roles"></span>
+                <span id="account_firstName"></span>
+                <span id="account_lastName"></span>
+                <span>(</span><span id="account_userName"></span><span>)</span>
+            </div>
+
+            <div>
+                <div id="account_email"></div>
+            </div>
+
+            <div>
+                <div id="account_address"></div>
+                <div id="account_bio"></div>
+            </div>
+
+            <div class="account_counters">
+                <span>
+                    <span id="account_postsCount"></span>
+                    <span>posts,</span>
+                </span>
+                <span>
+                    <span id="account_followersCount"></span>
+                    <span>followers,</span>
+                </span>
+                <span>
+                    <span id="account_followingCount"></span>
+                    <span>following</span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <h1></h1>
+</body>
+
 </html>
-
-

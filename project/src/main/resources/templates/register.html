@@ -1,35 +1,59 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-    <head>
-        <!-- MAIN -->
-        <meta charset="UTF-8">
-        <link rel="icon" type="image/x-icon" href="/img/favicon.png">
-        <link rel="stylesheet" href="/css/main.css">
 
-        <title>OnlyBuns - Register</title>
-        <link rel="stylesheet" href="/css/register.css">
-        <link rel="stylesheet" href="/css/dataform.css">
+<head>
+    <!-- MAIN -->
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="/css/main.css">
 
-        <script defer type="text/javascript" src="/js/main.js"></script>
-        <script defer type="text/javascript" src="/js/navbar.js"></script>
-        <script defer type="text/javascript" src="/js/register.js"></script>
-    </head>
-    <body>
-        <div id="navbar"></div>
+    <title>OnlyBuns - Register</title>
+    <link rel="stylesheet" href="/css/register.css">
+    <link rel="stylesheet" href="/css/dataform.css">
 
-        <h1>📝 Register 📝</h1>
-        <div class="dataform" id="form_register">
-            <table>
-                <tr><th>📧 EMAIL:</th><td><input class="txtfld" type="text" id="txt_email" placeholder="email"/></td></tr>
-                <tr><th>👤 USERNAME:</th><td><input class="txtfld" type="text" id="txt_userName" placeholder="username"/></td></tr>
-                <tr><th>🤐 PASSWORD:</th><td><input class="txtfld" type="text" id="txt_password" placeholder="password"/></td></tr>
-                <tr><th>🤐 REPEAT PASSWORD:</th><td><input class="txtfld" type="text" id="txt_password_repeat"  placeholder="repeat password"/></td></tr>
-                <tr><th>✍️ FIRST NAME:</th><td><input class="txtfld" type="text" id="txt_firstName" placeholder="first name"/></td></tr>
-                <tr><th>✍️ LAST NAME:</th><td><input class="txtfld" type="text" id="txt_lastName" placeholder="last name"/></td></tr>
-                <tr><th>📍 ADDRESS:</th><td><input class="txtfld" type="text" id="txt_address" placeholder="address"/></td></tr>
-            </table>
-            <button id="btn_register">📝 Register</button>
-            <p id="p_status">...</p>
-        </div>
-    </body>
+    <script defer type="text/javascript" src="/js/main.js"></script>
+    <script defer type="text/javascript" src="/js/navbar.js"></script>
+    <script defer type="text/javascript" src="/js/register.js"></script>
+</head>
+
+<body>
+    <div id="navbar"></div>
+
+    <h1>📝 Register 📝</h1>
+    <div class="dataform" id="form_register">
+        <table>
+            <tr>
+                <th>📧 EMAIL:</th>
+                <td><input class="txtfld" type="text" id="txt_email" placeholder="email" /></td>
+            </tr>
+            <tr>
+                <th>👤 USERNAME:</th>
+                <td><input class="txtfld" type="text" id="txt_userName" placeholder="username" /></td>
+            </tr>
+            <tr>
+                <th>🤐 PASSWORD:</th>
+                <td><input class="txtfld" type="text" id="txt_password" placeholder="password" /></td>
+            </tr>
+            <tr>
+                <th>🤐 REPEAT PASSWORD:</th>
+                <td><input class="txtfld" type="text" id="txt_password_repeat" placeholder="repeat password" /></td>
+            </tr>
+            <tr>
+                <th>✍️ FIRST NAME:</th>
+                <td><input class="txtfld" type="text" id="txt_firstName" placeholder="first name" /></td>
+            </tr>
+            <tr>
+                <th>✍️ LAST NAME:</th>
+                <td><input class="txtfld" type="text" id="txt_lastName" placeholder="last name" /></td>
+            </tr>
+            <tr>
+                <th>📍 ADDRESS:</th>
+                <td><input class="txtfld" type="text" id="txt_address" placeholder="address" /></td>
+            </tr>
+        </table>
+        <button id="btn_register">📝 Register</button>
+        <p id="p_status">...</p>
+    </div>
+</body>
+
 </html>
