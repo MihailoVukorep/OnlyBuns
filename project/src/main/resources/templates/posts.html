@@ -9,6 +9,7 @@
     <title>OnlyBuns - Posts</title>
     <link rel="stylesheet" href="/css/posts.css">
     <link rel="stylesheet" href="/css/popup.css">
+    <link rel="stylesheet" href="/css/commentform.css">
 
     <script defer type="text/javascript" src="/js/main.js"></script>
     <script defer type="text/javascript" src="/js/popup.js"></script>
@@ -36,6 +37,22 @@
     </div>
 
     <div id="posts"></div>
+
+        <div id="commentForm" style="display: none;">
+        <div id="commentForm_content">
+            <input type="text" id="commentTitle" placeholder="Title">
+            <textarea id="commentText" placeholder="Text"></textarea>
+
+            <div id="commentForm_controls">
+                <button onclick="submitCommentForm()">Submit</button>
+                <button onclick="hideCommentForm()">Decline</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup" id="popup" style="display: none;">
+        <p id="popup_text"></p>
+    </div>
 
 </body>
 
