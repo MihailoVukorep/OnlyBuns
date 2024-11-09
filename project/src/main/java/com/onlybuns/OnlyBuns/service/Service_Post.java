@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,6 +46,7 @@ public class Service_Post {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
+    // GETING POSTS
     public ResponseEntity<List<DTO_Get_Post>> get_api_posts(HttpSession session, String sort) {
 
         Sort sortOrder = Sort.unsorted();
@@ -62,27 +62,58 @@ public class Service_Post {
             }
         }
 
-        // Retrieve the current user from the session (e.g., session attribute)
         Account account = (Account) session.getAttribute("account");
 
-        // Call service method to get posts with "liked" and "deletable" fields populated
-        List<DTO_Get_Post> dtos = getPostsForUser(account, sortOrder);
+        // parent posts with sorting
+        List<Post> posts = repository_post.findByParentPostIsNull(sortOrder);
+        List<DTO_Get_Post> dtos = getPostsForUser(posts, account);
 
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    public List<DTO_Get_Post> getPostsForUser(Account account, Sort sortOrder) {
-        // Fetch all top-level posts (no parent posts) with the specified sort order
-        List<Post> posts = repository_post.findByParentPostIsNull(sortOrder);
 
-        // If account is null, set "liked" and "deletable" to false for all posts
+
+
+
+    public ResponseEntity<DTO_Get_Post> get_api_posts_id(Long id, HttpSession session) {
+        Optional<Post> postOptional = repository_post.findById(id);
+        if (postOptional.isEmpty()) {return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+        Post post = postOptional.get();
+
+        Account account = (Account) session.getAttribute("account");
+        if (account == null) {
+            DTO_Get_Post dto = new DTO_Get_Post(post, false, false);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>
+                (new DTO_Get_Post
+                    (
+                        post,
+                        repository_like.existsByPostAndAccount(post, account), // liked
+                        post.getAccount().getId().equals(account.getId())  // myPost
+                    ),
+                HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_replies(Long id, HttpSession session) {
+        Optional<Post> optional_post = repository_post.findById(id);
+        if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+        Post post = optional_post.get();
+
+        Account account = (Account) session.getAttribute("account");
+        return new ResponseEntity<>(getPostsForUser(post.getReplies(), account), HttpStatus.OK);
+    }
+
+
+    public List<DTO_Get_Post> getPostsForUser(List<Post> posts, Account account) {
+
         if (account == null) {
             return posts.stream()
-                    .map(post -> createPostDTO(post, false, false))
+                    .map(post -> new DTO_Get_Post(post, false, false))
                     .collect(Collectors.toList());
         }
 
-        // If account is not null, proceed to fetch likes and set "liked" and "deletable" appropriately
         List<Long> postIds = posts.stream().map(Post::getId).collect(Collectors.toList());
 
         // Retrieve likes for the current user in a single query to avoid multiple calls
@@ -92,7 +123,7 @@ public class Service_Post {
                 .collect(Collectors.toSet());
 
         return posts.stream()
-                .map(post -> createPostDTO(
+                .map(post -> new DTO_Get_Post(
                         post,
                         likedPostIds.contains(post.getId()),
                         post.getAccount().getId().equals(account.getId()))
@@ -100,18 +131,7 @@ public class Service_Post {
                 .collect(Collectors.toList());
     }
 
-    private DTO_Get_Post createPostDTO(Post post, boolean isLiked, boolean myPost) {
-        DTO_Get_Post dto = new DTO_Get_Post(post);
-        dto.setLiked(isLiked);
-        dto.setMyPost(myPost);
-        return dto;
-    }
-
-    public ResponseEntity<DTO_Get_Post> get_api_posts_id(Long id) {
-        Optional<Post> post = repository_post.findById(id);
-        if (post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
-        return new ResponseEntity<>(new DTO_Get_Post(post.get()), HttpStatus.OK);
-    }
+    // CREATING POSTS
 
     @Transactional
     public ResponseEntity<String> post_api_createpost(String title, String description, String location,
@@ -171,14 +191,8 @@ public class Service_Post {
         return "/" + filePath.toString();
     }
 
-    public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_replies(Long id) {
-        Optional<Post> optional_post = repository_post.findById(id);
-        if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
-        Post post = optional_post.get();
-        List<DTO_Get_Post> dtos = new ArrayList<>();
-        for (Post i : post.getReplies()) { dtos.add(new DTO_Get_Post(i)); }
-        return new ResponseEntity<>(dtos, HttpStatus.OK);
-    }
+
+    // LIKE POST, UPDATE
 
     @Transactional
     public ResponseEntity<String> post_api_posts_id_like(Long id, HttpSession session) {
@@ -210,7 +224,7 @@ public class Service_Post {
         return new ResponseEntity<>("Post unliked.", HttpStatus.OK);
     }
 
-    public ResponseEntity<List<DTO_Get_Like>> post_api_posts_id_likes(Long id) {
+    public ResponseEntity<List<DTO_Get_Like>> get_api_posts_id_likes(Long id) {
         Optional<Post> optional_post = repository_post.findById(id);
         if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         Post post = optional_post.get();
@@ -218,6 +232,7 @@ public class Service_Post {
         for (Like i : post.getLikes()) { dtos.add(new DTO_Get_Like(i)); }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
+
     @Transactional
     public ResponseEntity<String> post_api_posts_id_replies(Long postId, Post reply, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("account");

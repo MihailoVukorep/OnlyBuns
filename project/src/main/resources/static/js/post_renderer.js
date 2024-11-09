@@ -1,3 +1,14 @@
+function drawLikeButton(button, liked, likes) {
+    if (liked) {
+        button.textContent = `💗 ${likes}`;
+        button.classList.add("liked");
+    }
+    else {
+        button.textContent = `❤️ ${likes}`;
+        button.classList.remove("liked");
+    }
+} 
+
 async function post_like(id, button) {
     const response = await fetch(`/api/posts/${id}/like`, { method: "POST" });
     const response_text = await response.text();
@@ -20,17 +31,6 @@ async function post_like(id, button) {
         popup(`❌ ${response_text}`);
     }
 }
-
-function drawLikeButton(button, liked, likes) {
-    if (liked) {
-        button.textContent = `💗 ${likes}`;
-        button.classList.add("liked");
-    }
-    else {
-        button.textContent = `❤️ ${likes}`;
-        button.classList.remove("liked");
-    }
-} 
 
 async function post_reply(id, title, text) {
     const response = await fetch(`/api/posts/${id}/replies`, {
@@ -171,8 +171,8 @@ function make_post_controls(json) {
     const post_controls_like = document.createElement("button");
     post_controls_like.className = "post_controls_like";
     post_controls_like.value = parseInt(json.likes, 10);
-    drawLikeButton(post_controls_like, json.liked, json.likes);
     post_controls_like.onclick = () => post_like(json.id, post_controls_like);
+    drawLikeButton(post_controls_like, json.liked, json.likes);
     post_controls.appendChild(post_controls_like);
 
     const post_controls_comment = document.createElement("button");
@@ -202,6 +202,8 @@ function make_post_controls(json) {
 }
 
 function make_post(json, link_body=false) {
+
+    console.log(json);
 
     const post = document.createElement("div");
     post.className = "post";

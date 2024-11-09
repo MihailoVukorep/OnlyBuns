@@ -46,7 +46,10 @@ public class Service_Account {
     private Repository_Like repository_likes;
 
     @Autowired
-    private Service_Email serviceEmail;
+    private Service_Email service_email;
+
+    @Autowired
+    private Service_Post service_post;
 
     private final RateLimiter rateLimiter = new RateLimiter();
 
@@ -105,7 +108,7 @@ public class Service_Account {
         Optional<AccountActivation> opt_accountActivation = repository_accountActivation.findByAccount(account);
         if (opt_accountActivation.isEmpty()) {
             // missing account activation in db -- creating...
-            serviceEmail.sendVerificationEmail(account);
+            service_email.sendVerificationEmail(account);
             return new ResponseEntity<>("Please verify email.", HttpStatus.UNAUTHORIZED);
         }
         else {
@@ -187,7 +190,7 @@ public class Service_Account {
         repository_account.save(newAccount);
 
         // send verification email
-        serviceEmail.sendVerificationEmail(newAccount);
+        service_email.sendVerificationEmail(newAccount);
 
         // session.setAttribute("account", newAccount); // can't login need to verify
         return new ResponseEntity<>("Registered. Please verify email to login.", HttpStatus.OK);
@@ -201,16 +204,13 @@ public class Service_Account {
         return new ResponseEntity<>("Logged out: " + sessionAccount.getUserName(), HttpStatus.OK);
     }
 
-    public ResponseEntity<List<DTO_Get_Post>> get_api_accounts_id_posts(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<List<DTO_Get_Post>> get_api_accounts_id_posts(@PathVariable(name = "id") Long id, HttpSession session) {
         Optional<Account> optional_account = repository_account.findById(id);
         if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
-
-        // return account posts
         Account account = optional_account.get();
-        List<Post> posts = repository_post.findAllByAccount(account);
-        List<DTO_Get_Post> dtos = new ArrayList<>();
-        for (Post post : posts) { dtos.add(new DTO_Get_Post(post)); }
-        return new ResponseEntity<>(dtos, HttpStatus.OK);
+
+        Account sessionAccount = (Account) session.getAttribute("account");
+        return new ResponseEntity<>(service_post.getPostsForUser(repository_post.findAllByAccount(account), sessionAccount), HttpStatus.OK);
     }
 
     public ResponseEntity<List<DTO_Get_Like>> get_api_accounts_id_likes(@PathVariable(name = "id") Long id) {

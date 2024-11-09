@@ -25,7 +25,7 @@ public class DTO_Get_Post {
     public Boolean liked  = false;
     public Boolean myPost = false;
 
-    public DTO_Get_Post(Post post) {
+    public DTO_Get_Post(Post post, Boolean liked, Boolean myPost) {
         this.id = post.getId();
         this.title = post.getTitle();
         this.text = post.getText();
@@ -39,6 +39,8 @@ public class DTO_Get_Post {
         this.totalChildren = countReplies(post);
         this.createdDate = post.getCreatedDate();
         this.updatedDate = post.getUpdatedDate();
+        this.liked = liked;
+        this.myPost = myPost;
     }
 
     private static int countReplies(Post post) {

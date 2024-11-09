@@ -24,8 +24,8 @@ public class RestController_Post {
     }
 
     @GetMapping("/api/posts/{id}")
-    public ResponseEntity<DTO_Get_Post> get_api_posts_id(@PathVariable(name = "id") Long id) {
-        return servicePost.get_api_posts_id(id);
+    public ResponseEntity<DTO_Get_Post> get_api_posts_id(@PathVariable(name = "id") Long id, HttpSession session) {
+        return servicePost.get_api_posts_id(id, session);
     }
     @PostMapping("/api/createpost")
     public ResponseEntity<String> post_api_createpost(@RequestParam("title") String title,
@@ -37,8 +37,8 @@ public class RestController_Post {
     }
 
     @GetMapping("/api/posts/{id}/replies")
-    public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_replies(@PathVariable(name = "id") Long id) {
-        return servicePost.get_api_posts_id_replies(id);
+    public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_replies(@PathVariable(name = "id") Long id, HttpSession session) {
+        return servicePost.get_api_posts_id_replies(id, session);
     }
     @PostMapping("/api/posts/{id}/replies")
     public ResponseEntity<String> post_api_posts_id_replies(
@@ -55,9 +55,9 @@ public class RestController_Post {
         return servicePost.post_api_posts_id_like(id, session);
     }
 
-    @PostMapping("/api/posts/{id}/likes")
+    @GetMapping("/api/posts/{id}/likes")
     public ResponseEntity<List<DTO_Get_Like>> post_api_posts_id_likes(@PathVariable(name = "id") Long id) {
-        return servicePost.post_api_posts_id_likes(id);
+        return servicePost.get_api_posts_id_likes(id);
     }
 
     // TODO: POSTS PAGING

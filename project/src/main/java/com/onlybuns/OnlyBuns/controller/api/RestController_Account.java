@@ -27,8 +27,8 @@ public class RestController_Account {
     }
 
     @GetMapping("/api/accounts/{id}/posts")
-    public ResponseEntity<List<DTO_Get_Post>> get_api_account_id_posts(@PathVariable(name = "id") Long id) {
-        return serviceAccount.get_api_accounts_id_posts(id);
+    public ResponseEntity<List<DTO_Get_Post>> get_api_account_id_posts(@PathVariable(name = "id") Long id, HttpSession session) {
+        return serviceAccount.get_api_accounts_id_posts(id, session);
     }
 
     @GetMapping("/api/accounts/{id}/likes")
