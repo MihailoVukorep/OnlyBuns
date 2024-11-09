@@ -115,8 +115,9 @@ public class Service_Account {
             }
         }
 
-        // check if password matches
-        if (!account.getPassword().equals(dto_post_accountLogin.getPassword())) { return new ResponseEntity<>("Wrong password.", HttpStatus.UNAUTHORIZED); }
+        if (!account.isPassword(dto_post_accountLogin.password)) {
+            return new ResponseEntity<>("Wrong password.", HttpStatus.UNAUTHORIZED);
+        }
 
         session.setAttribute("account", account);
         return new ResponseEntity<>("Logged in as: " + account.getUserName(), HttpStatus.OK);
@@ -167,6 +168,9 @@ public class Service_Account {
             role = optional_role.get();
             repository_role.save(new Role("USER"));
         }
+
+
+
 
         // create account
         Account newAccount = new Account(
