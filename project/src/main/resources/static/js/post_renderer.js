@@ -196,7 +196,7 @@ function make_post_controls(json) {
         const post_controls_update = document.createElement("button");
         post_controls_update.className = "post_controls_update";
         post_controls_update.textContent = `📝`;
-        post_controls_update.onclick = () => post_update(json.id);
+        post_controls_update.onclick = () => window.location.href = `/posts/${json.id}/edit`;
         post_controls.appendChild(post_controls_update);
 
         const post_controls_delete = document.createElement("button");
