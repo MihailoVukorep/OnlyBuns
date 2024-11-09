@@ -39,7 +39,6 @@ async function navbar_load_right() {
         // account link
         const post_account = document.createElement("div");
         post_account.className = "onlybuns_account";
-        post_account.className = "post_account"
         const post_account_link = document.createElement("a");
         post_account_link.className = "onlybuns_account_link";
         post_account_link.href = "/accounts/" + json.id;
