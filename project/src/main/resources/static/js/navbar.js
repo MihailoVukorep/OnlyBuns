@@ -7,21 +7,21 @@ function navbar_mklink(text, link) {
     return a;
 }
 
-function navbar_load_static() {
-    let links_static = document.createElement("div");
-    links_static.id = "navbar_left";
+function navbar_load_left() {
+    let navbar_left = document.createElement("div");
+    navbar_left.id = "navbar_left";
 
-    links_static.append(navbar_mklink("🏠 Home",     "/home"));
-    links_static.append(navbar_mklink("📰 Posts",    "/posts"));
+    navbar_left.append(navbar_mklink("🏠 Home",     "/home"));
+    navbar_left.append(navbar_mklink("📰 Posts",    "/posts"));
 
-    navbar.append(links_static);
+    navbar.append(navbar_left);
 }
 
-async function navbar_load_dynamic() {
+async function navbar_load_right() {
 
-    let links_dynamic = document.createElement("div");
-    links_dynamic.id = "navbar_right";
-    navbar.append(links_dynamic);
+    let navbar_right = document.createElement("div");
+    navbar_right.id = "navbar_right";
+    navbar.append(navbar_right);
 
     const response = await fetch("/api/myaccount");
 
@@ -29,28 +29,28 @@ async function navbar_load_dynamic() {
         const json = await response.json();
         
         if (hasRole(json.roles, "ADMIN")) {
-            links_dynamic.append(navbar_mklink("👥 Accounts", "/admin/accounts"));
-            links_dynamic.append(navbar_mklink("🛠️ Management", "/admin/manage"));
+            navbar_right.append(navbar_mklink("👥 Accounts", "/admin/accounts"));
+            navbar_right.append(navbar_mklink("🛠️ Management", "/admin/manage"));
         }
 
-        links_dynamic.append(navbar_mklink("🗺️ View Map", "/map"));
-        links_dynamic.append(navbar_mklink("➕ Create Post", "/createpost"));
+        navbar_right.append(navbar_mklink("🗺️ View Map", "/map"));
+        navbar_right.append(navbar_mklink("➕ Create Post", "/createpost"));
 
-        links_dynamic.append(navbar_mklink("👤", "/myaccount"));
-        links_dynamic.append(navbar_mklink("⚙️", "/myaccount/update"));
-        links_dynamic.append(navbar_mklink("🚪 Log out (" + json.userName + ")", "/logout"));
+        navbar_right.append(navbar_mklink("👤", "/myaccount"));
+        navbar_right.append(navbar_mklink("⚙️", "/myaccount/update"));
+        navbar_right.append(navbar_mklink("🚪 Log out (" + json.userName + ")", "/logout"));
     }
     else {
-        links_dynamic.append(navbar_mklink("🔑 Log in", "/login"));
-        links_dynamic.append(navbar_mklink("📝 Register", "/register"));
+        navbar_right.append(navbar_mklink("🔑 Log in", "/login"));
+        navbar_right.append(navbar_mklink("📝 Register", "/register"));
     }
 }
 
-navbar_load_static();
+navbar_load_left();
 
 async function init() {
     await loadjs('/js/roles.js');
-    navbar_load_dynamic();
+    navbar_load_right();
 }
 
 init();
