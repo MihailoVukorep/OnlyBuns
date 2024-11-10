@@ -3,6 +3,7 @@ import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.Role;
 import lombok.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
 @Getter
@@ -24,6 +25,7 @@ public class DTO_Get_Account {
     public Set<Role> roles;
     public boolean isAdmin;
     // TODO: ADD ROLES STRING WITH EMOJIS
+    public String created;
     public Integer postsCount;
     public Integer likesCount;
     public Integer followersCount;
@@ -41,6 +43,7 @@ public class DTO_Get_Account {
         this.bio = account.getBio();
         this.roles = account.getRoles();
         this.isAdmin = account.isAdmin();
+        this.created = account.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         this.postsCount = account.getPosts().size();
         this.likesCount = account.getLikes().size();
         this.followersCount = 0;

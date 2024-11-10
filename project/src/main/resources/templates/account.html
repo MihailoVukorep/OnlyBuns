@@ -9,9 +9,6 @@
 
     <title>OnlyBuns - Account</title>
     <link rel="stylesheet" href="/css/account.css">
-
-    <script defer type="text/javascript" src="/js/main.js"></script>
-    <script defer type="text/javascript" src="/js/account.js"></script>
 </head>
 
 <body>
@@ -41,7 +38,7 @@
                 <div th:text="${account.bio}" id="account_bio"></div>
             </div>
 
-            <div class="account_counters">
+            <div id="account_counters">
                 <span>
                     <span id="account_postsCount" th:text="${account.postsCount}"></span>
                     <span>posts,</span>
@@ -55,6 +52,8 @@
                     <span>following</span>
                 </span>
             </div>
+
+            <div th:text="${account.created}" id="account_created"></div>
         </div>
     </div>
 

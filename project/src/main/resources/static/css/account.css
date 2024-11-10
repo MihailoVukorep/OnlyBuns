@@ -49,10 +49,17 @@
     color: var(--var-color-fg-post-address);
 }
 
-.account_counters {
+#account_counters {
     font-size: medium;
     margin: 5px;
     padding: 5px;
     text-align: center;
     border-bottom: 1px dashed var(--var-color-border-transwhite)
+}
+
+#account_created {
+    color: var(--var-color-fg-post-date);
+    font-size: small;
+    font-style: italic;
+    text-align: right;
 }
