@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -50,9 +51,20 @@ public class Controller_Account {
     }
 
     @GetMapping("/admin/accounts")
-    public String admin_accounts(HttpSession session, Model model) {
+    public String admin_accounts(HttpSession session,
+                                 Model model,
+                                 @RequestParam(required = false) String firstName,
+                                 @RequestParam(required = false) String lastName,
+                                 @RequestParam(required = false) String userName,
+                                 @RequestParam(required = false) String email,
+                                 @RequestParam(required = false) String address,
+                                 @RequestParam(required = false) Integer minPostCount,
+                                 @RequestParam(required = false) Integer maxPostCount
+    ) {
         Account user = (Account) session.getAttribute("user");
         if (user == null || !user.isAdmin()) { return "error/403.html"; }
+
+        model.addAttribute("accounts", service_account.get_api_admin_accounts_raw(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount));
         return "admin_accounts.html";
     }
 

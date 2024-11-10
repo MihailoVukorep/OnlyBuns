@@ -51,14 +51,18 @@ public class Service_Account {
 
     private final RateLimiter rateLimiter = new RateLimiter();
 
-    public ResponseEntity<List<DTO_Get_Account>> get_api_admin_accounts(HttpSession session) {
-        Account user = (Account) session.getAttribute("user");
-        if (user == null || !user.isAdmin()) { return new ResponseEntity<>(null, HttpStatus.FORBIDDEN); }
+    public ResponseEntity<List<DTO_Get_Account>> get_api_admin_accounts(HttpSession session, String firstName, String lastName, String userName, String email, String address, Integer minPostCount, Integer maxPostCount){
+        return new ResponseEntity<>(get_api_admin_accounts_raw(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount), HttpStatus.OK);
+    }
 
-        List<Account> accounts = repository_account.findAll();
+    public List<DTO_Get_Account> get_api_admin_accounts_raw(HttpSession session, String firstName, String lastName, String userName, String email, String address, Integer minPostCount, Integer maxPostCount){
+        Account user = (Account) session.getAttribute("user");
+        if (user == null || !user.isAdmin()) { return null; }
+
+        List<Account> accounts = repository_account.findAccountsByAttributesLike(firstName, lastName, userName, email, address, minPostCount, maxPostCount);
         List<DTO_Get_Account> accountDTOS = new ArrayList<>();
         for (Account account : accounts) { accountDTOS.add(new DTO_Get_Account(account)); }
-        return new ResponseEntity<>(accountDTOS, HttpStatus.OK);
+        return accountDTOS;
     }
 
     public ResponseEntity<DTO_Get_Account> get_api_accounts_id(Long id) {

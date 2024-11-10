@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/css/admin_accounts.css">
 
     <script defer type="text/javascript" src="/js/main.js"></script>
-    <script defer type="text/javascript" src="/js/admin_accounts.js"></script>
+    <!-- <script defer type="text/javascript" src="/js/admin_accounts.js"></script> -->
 </head>
 
 <body>
@@ -19,7 +19,87 @@
 
     <h1>👥 Accounts 👥</h1>
 
-    <div id="accounts"></div>
+    <form action="/admin/accounts" method="get">
+        <!-- Search fields with labels -->
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" placeholder="Enter first name">
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" placeholder="Enter last name">
+
+        <label for="userName">Username:</label>
+        <input type="text" id="userName" name="userName" placeholder="Enter username">
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter email address">
+
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" placeholder="Enter address">
+
+        <label for="minPostCount">Minimum Post Count:</label>
+        <input type="number" id="minPostCount" name="minPostCount" placeholder="0" min="0">
+
+        <label for="maxPostCount">Maximum Post Count:</label>
+        <input type="number" id="maxPostCount" name="maxPostCount" placeholder="1000" min="0">
+
+        <!-- Submit button -->
+        <button type="submit">Search</button>
+    </form>
+
+    <div id="accounts">
+        <div th:each="account : ${accounts}" class="account_link">
+            <!-- Account Link -->
+            <a th:href="'/accounts/' + ${account.id}">
+                <div class="account">
+                    
+                    <!-- Avatar -->
+                    <div class="account_img_cont">
+                        <img th:src="${account.avatar}" alt="Account Avatar" class="account_img">
+                    </div>
+                    
+                    <!-- Account Information -->
+                    <div class="account_info">
+                        
+                        <!-- Account Head -->
+                        <div class="account_info_head">
+                            
+                            <!-- Names and Username -->
+                            <div class="account_info_head_names">
+                                <!-- Role -->
+                                <span th:text="${account.roles[0].name}" class="account_info_body_roles"></span>
+    
+                                <!-- First Name -->
+                                <span th:text="${account.firstName}" class="account_info_head_firstName"></span>
+                                
+                                <!-- Last Name -->
+                                <span th:text="${account.lastName}" class="account_info_head_lastName"></span>
+                                
+                                <!-- Username (with parentheses) -->
+                                <span>(</span>
+                                <span th:text="${account.userName}" class="account_info_head_userName"></span>
+                                <span>)</span>
+                            </div>
+                            
+                            <!-- Email -->
+                            <div class="account_info_head_email" th:text="${account.email}"></div>
+                        </div>
+                        
+                        <!-- Account Body -->
+                        <div class="account_info_body">
+                            
+                            <!-- Address -->
+                            <div class="account_info_body_address" th:text="${account.address}"></div>
+                            
+                            <!-- Bio -->
+                            <div class="account_info_body_bio" th:text="${account.bio}"></div>
+                        </div>
+                        
+                    </div> <!-- End Account Info -->
+                    
+                </div> <!-- End Account -->
+            </a>
+        </div>
+    </div>
 </body>
 
 </html>
