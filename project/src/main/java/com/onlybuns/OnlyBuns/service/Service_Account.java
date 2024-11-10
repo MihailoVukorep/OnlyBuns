@@ -237,4 +237,50 @@ public class Service_Account {
 
         return repository_account.findAll(sort);
     }
+
+    public List<DTO_Get_Account> getFilteredAndSortedAccounts(HttpSession session,
+                                                              String firstName,
+                                                              String lastName,
+                                                              String userName,
+                                                              String email,
+                                                              String address,
+                                                              Integer minPostCount,
+                                                              Integer maxPostCount,
+                                                              String sortOption) {
+        List<DTO_Get_Account> accounts = get_api_admin_accounts_raw(
+                session, firstName, lastName, userName, email, address, minPostCount, maxPostCount);
+
+        if (accounts == null || accounts.isEmpty()) {
+            return accounts;
+        }
+        if (sortOption == null) {
+            return accounts;
+        }
+
+        Comparator<DTO_Get_Account> comparator = null;
+
+        switch (sortOption) {
+            case "follow_count,asc":
+//                comparator = Comparator.comparingInt(DTO_Get_Account::getFollowCount);
+                comparator = Comparator.comparing(DTO_Get_Account::getEmail);
+                break;
+            case "follow_count,desc":
+//                comparator = Comparator.comparingInt(DTO_Get_Account::getFollowCount).reversed();
+                comparator = Comparator.comparing(DTO_Get_Account::getEmail);
+                break;
+            case "email,asc":
+                comparator = Comparator.comparing(DTO_Get_Account::getEmail);
+                break;
+            case "email,desc":
+                comparator = Comparator.comparing(DTO_Get_Account::getEmail).reversed();
+                break;
+            default:
+                return accounts;
+        }
+
+        accounts.sort(comparator);
+
+        return accounts;
+    }
+
 }

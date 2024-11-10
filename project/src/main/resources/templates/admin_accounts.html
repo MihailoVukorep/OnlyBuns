@@ -57,7 +57,7 @@
 
     <div id="sort_controls">
         <label for="sortOptions">Sort by:</label>
-        <form action="/admin/accounts/sort" method="GET" id="sortForm">
+        <form action="/admin/accounts" method="GET" id="sortForm">
             <select id="sortOptions" name="sort" th:value="${currentSort}" onchange="this.form.submit()">
                 <option value="follow_count,asc" th:selected="${currentSort == 'follow_count,asc'}">Followers Ascending</option>
                 <option value="follow_count,desc" th:selected="${currentSort == 'follow_count,desc'}">Followers Descending</option>
