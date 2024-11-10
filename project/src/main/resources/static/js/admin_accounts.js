@@ -35,6 +35,7 @@ function make_account(json) {
     const account_info_head_roles = document.createElement("span");
     account_info_head_roles.className = "account_info_body_roles";
     account_info_head_names.appendChild(account_info_head_roles);
+    // TODO: DRAW ROLES
 
     // space
     account_info_head_names.appendChild(document.createTextNode(" "));
