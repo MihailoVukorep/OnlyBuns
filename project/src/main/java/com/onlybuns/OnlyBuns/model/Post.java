@@ -56,7 +56,7 @@ public class Post {
         this.account = account;
     }
     public Post(String title, String text) {
-        this.title = text;
+        this.title = title;
         this.text = text;
     }
 

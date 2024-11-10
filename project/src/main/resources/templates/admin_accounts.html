@@ -55,6 +55,18 @@
         </table>
     </form>
 
+    <div id="sort_controls">
+        <label for="sortOptions">Sort by:</label>
+        <form action="/admin/accounts" method="GET" id="sortForm">
+            <select id="sortOptions" name="sort" th:value="${currentSort}" onchange="this.form.submit()">
+                <option value="follow_count,asc" th:selected="${currentSort == 'follow_count,asc'}">Followers Ascending</option>
+                <option value="follow_count,desc" th:selected="${currentSort == 'follow_count,desc'}">Followers Descending</option>
+                <option value="email,asc" th:selected="${currentSort == 'email,asc'}">Email Ascending</option>
+                <option value="email,desc" th:selected="${currentSort == 'email,desc'}">Email Descending</option>
+            </select>
+        </form>
+    </div>
+
     <div id="accounts">
         <div th:each="account : ${accounts}" class="account_link">
             <a th:href="'/accounts/' + ${account.id}">

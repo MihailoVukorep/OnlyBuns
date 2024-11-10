@@ -3,11 +3,13 @@ import com.onlybuns.OnlyBuns.dto.*;
 import com.onlybuns.OnlyBuns.model.*;
 import com.onlybuns.OnlyBuns.repository.*;
 import com.onlybuns.OnlyBuns.util.RateLimiter;
+import com.onlybuns.OnlyBuns.util.VarConverter;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -50,6 +52,7 @@ public class Service_Account {
     private Service_Post service_post;
 
     private final RateLimiter rateLimiter = new RateLimiter();
+    private final VarConverter varConverter = new VarConverter();
 
     public ResponseEntity<List<DTO_Get_Account>> get_api_admin_accounts(HttpSession session, String firstName, String lastName, String userName, String email, String address, Integer minPostCount, Integer maxPostCount){
         return new ResponseEntity<>(get_api_admin_accounts_raw(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount), HttpStatus.OK);
@@ -222,4 +225,62 @@ public class Service_Account {
         for (Like like : likes) { dtos.add(new DTO_Get_Like(like)); }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
+
+    public List<Account> getSortedAccounts(HttpSession session,String sortOption) {
+        Sort sort = switch (sortOption) {
+            case "follow_count,asc" -> Sort.by(Sort.Direction.ASC, "followCount");
+            case "follow_count,desc" -> Sort.by(Sort.Direction.DESC, "followCount");
+            case "email,asc" -> Sort.by(Sort.Direction.ASC, "email");
+            case "email,desc" -> Sort.by(Sort.Direction.DESC, "email");
+            default -> Sort.unsorted();
+        };
+
+        return repository_account.findAll(sort);
+    }
+
+    public List<DTO_Get_Account> getFilteredAndSortedAccounts(HttpSession session,
+                                                              String firstName,
+                                                              String lastName,
+                                                              String userName,
+                                                              String email,
+                                                              String address,
+                                                              Integer minPostCount,
+                                                              Integer maxPostCount,
+                                                              String sortOption) {
+        List<DTO_Get_Account> accounts = get_api_admin_accounts_raw(
+                session, firstName, lastName, userName, email, address, minPostCount, maxPostCount);
+
+        if (accounts == null || accounts.isEmpty()) {
+            return accounts;
+        }
+        if (sortOption == null) {
+            return accounts;
+        }
+
+        Comparator<DTO_Get_Account> comparator = null;
+
+        switch (sortOption) {
+            case "follow_count,asc":
+//                comparator = Comparator.comparingInt(DTO_Get_Account::getFollowCount);
+                comparator = Comparator.comparing(DTO_Get_Account::getEmail);
+                break;
+            case "follow_count,desc":
+//                comparator = Comparator.comparingInt(DTO_Get_Account::getFollowCount).reversed();
+                comparator = Comparator.comparing(DTO_Get_Account::getEmail);
+                break;
+            case "email,asc":
+                comparator = Comparator.comparing(DTO_Get_Account::getEmail);
+                break;
+            case "email,desc":
+                comparator = Comparator.comparing(DTO_Get_Account::getEmail).reversed();
+                break;
+            default:
+                return accounts;
+        }
+
+        accounts.sort(comparator);
+
+        return accounts;
+    }
+
 }

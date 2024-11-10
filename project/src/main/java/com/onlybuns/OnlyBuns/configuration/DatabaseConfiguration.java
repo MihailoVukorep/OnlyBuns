@@ -153,7 +153,7 @@ public class DatabaseConfiguration {
         );
 
 
-        Post r = new Post("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).","location3", "/uploads/img/bunny3.png", acc_ana);
+        Post r = new Post("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).","location3", "/uploads/img/bunny5.png", acc_ana);
         repository_post.save(r);
 
         repository_post.save(new Post("e necu", "Sto bi trosio vodu nek smrdi!", acc_ajzak, r));

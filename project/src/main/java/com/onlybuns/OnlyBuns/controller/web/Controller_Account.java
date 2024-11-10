@@ -50,23 +50,53 @@ public class Controller_Account {
         return "admin_manage.html";
     }
 
-    @GetMapping("/admin/accounts")
-    public String admin_accounts(HttpSession session,
-                                 Model model,
-                                 @RequestParam(required = false) String firstName,
-                                 @RequestParam(required = false) String lastName,
-                                 @RequestParam(required = false) String userName,
-                                 @RequestParam(required = false) String email,
-                                 @RequestParam(required = false) String address,
-                                 @RequestParam(required = false) Integer minPostCount,
-                                 @RequestParam(required = false) Integer maxPostCount
-    ) {
-        Account user = (Account) session.getAttribute("user");
-        if (user == null || !user.isAdmin()) { return "error/403.html"; }
+//    @GetMapping("/admin/accounts")
+//    public String admin_accounts(HttpSession session,
+//                                 Model model,
+//                                 @RequestParam(required = false) String firstName,
+//                                 @RequestParam(required = false) String lastName,
+//                                 @RequestParam(required = false) String userName,
+//                                 @RequestParam(required = false) String email,
+//                                 @RequestParam(required = false) String address,
+//                                 @RequestParam(required = false) Integer minPostCount,
+//                                 @RequestParam(required = false) Integer maxPostCount
+//    ) {
+//        Account user = (Account) session.getAttribute("user");
+//        if (user == null || !user.isAdmin()) { return "error/403.html"; }
+//
+//        model.addAttribute("accounts", service_account.get_api_admin_accounts_raw(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount));
+//        return "admin_accounts.html";
+//    }
+//
+//    @GetMapping("/admin/accounts/sort")
+//    public String posts(HttpSession session, Model model, @RequestParam(value = "sort", required = false) String sort) {
+//        model.addAttribute("accounts", service_account.getSortedAccounts(session, sort));
+//        model.addAttribute("currentSort", sort);
+//        return "admin_accounts.html";
+//    }
 
-        model.addAttribute("accounts", service_account.get_api_admin_accounts_raw(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount));
+    @GetMapping("/admin/accounts")
+    public String adminAccounts(HttpSession session,
+                                Model model,
+                                @RequestParam(required = false) String firstName,
+                                @RequestParam(required = false) String lastName,
+                                @RequestParam(required = false) String userName,
+                                @RequestParam(required = false) String email,
+                                @RequestParam(required = false) String address,
+                                @RequestParam(required = false) Integer minPostCount,
+                                @RequestParam(required = false) Integer maxPostCount,
+                                @RequestParam(value = "sort", required = false) String sort) {
+        Account user = (Account) session.getAttribute("user");
+        if (user == null || !user.isAdmin()) {
+            return "error/403.html";
+        }
+
+        // Fetch filtered and sorted accounts
+        model.addAttribute("accounts", service_account.getFilteredAndSortedAccounts(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount, sort));
+        model.addAttribute("currentSort", sort);
         return "admin_accounts.html";
     }
+
 
     // TODO: UPDATE ACCOUNT
 }
