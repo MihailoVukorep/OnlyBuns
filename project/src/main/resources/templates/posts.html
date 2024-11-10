@@ -56,7 +56,7 @@
                 </button>
 
                 <button th:if="${post.myPost}" class="post_controls_update"
-                    th:onclick="'window.location.href=\'/posts/edit/' + ${post.id}\'">
+                    th:onclick="'window.location.href=\'/posts/edit/' + ${post.id} \'">
                     📝
                 </button>
                 <button th:if="${post.myPost}" class="post_controls_delete"

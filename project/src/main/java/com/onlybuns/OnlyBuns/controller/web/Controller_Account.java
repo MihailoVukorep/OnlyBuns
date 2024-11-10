@@ -68,5 +68,12 @@ public class Controller_Account {
         return "admin_accounts.html";
     }
 
+    @GetMapping("/admin/accounts/sort")
+    public String posts(HttpSession session, Model model, @RequestParam(value = "sort", required = false) String sort) {
+        model.addAttribute("accounts", service_account.getSortedAccounts(session, sort));
+        model.addAttribute("currentSort", sort);
+        return "admin_accounts.html";
+    }
+
     // TODO: UPDATE ACCOUNT
 }
