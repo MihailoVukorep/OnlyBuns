@@ -10,6 +10,8 @@
     <title>OnlyBuns - Log In</title>
     <link rel="stylesheet" href="/css/login.css">
     <link rel="stylesheet" href="/css/dataform.css">
+
+    <script defer type="text/javascript" src="/js/morph.js"></script>
 </head>
 
 <body>
@@ -20,17 +22,18 @@
     <div class="dataform" id="form_login">
         <table>
             <tr>
-                <th>📧 EMAIL / 👤 USERNAME:</th>
+                <th><span class="title-word title-word-1">📧 EMAIL</span><span class="title-word title-word-2">/</span><span class="title-word title-word-3">👤 USERNAME:</span></th>
                 <td><input type="text" id="txt_email" placeholder="email / username" /></td>
             </tr>
             <tr>
-                <th>🤐 PASSWORD:</th>
+                <th class="title-word title-word-4">🤐 PASSWORD:</th>
                 <td><input type="text" id="txt_password" placeholder="password" /></td>
             </tr>
         </table>
         <button id="btn_login" onclick="login()">🔑 Log In</button>
-        <p id="p_status">...</p>
     </div>
+    <div id="p_status"></div>
+
 
     <script>
         let txt_email = document.getElementById("txt_email");
@@ -43,7 +46,7 @@
         txt_password.addEventListener("keydown", function (event) {if (event.key == 'Enter') {login();} }, false);
 
         async function login() {
-            p_status.innerHTML = "Logging in...";
+            morph(p_status, "", "Logging in...");
 
             const response = await fetch('/api/login', {
                 method: 'POST',
@@ -55,7 +58,7 @@
             });
 
             const text = await response.text();
-            p_status.innerHTML = text;
+            morph(p_status, "Logging in...", text);
 
             if (response.ok) {
                 window.location.href = "user";

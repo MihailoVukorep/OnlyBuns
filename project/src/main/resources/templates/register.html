@@ -10,6 +10,7 @@
     <title>OnlyBuns - Register</title>
     <link rel="stylesheet" href="/css/register.css">
     <link rel="stylesheet" href="/css/dataform.css">
+    <script defer type="text/javascript" src="/js/morph.js"></script>
 </head>
 
 <body>
@@ -19,43 +20,43 @@
     <div class="dataform" id="form_register">
         <table>
             <tr>
-                <th>📧 EMAIL:</th>
+                <th class="title-word title-word-1">📧 EMAIL:</th>
                 <td><input class="txtfld" type="text" id="txt_email" placeholder="email" /></td>
             </tr>
             <tr>
-                <th>👤 USERNAME:</th>
+                <th class="title-word title-word-2">👤 USERNAME:</th>
                 <td><input class="txtfld" type="text" id="txt_userName" placeholder="username" /></td>
             </tr>
             <tr>
-                <th>🤐 PASSWORD:</th>
+                <th class="title-word title-word-3">🤐 PASSWORD:</th>
                 <td><input class="txtfld" type="text" id="txt_password" placeholder="password" /></td>
             </tr>
             <tr>
-                <th>🤐 REPEAT PASSWORD:</th>
+                <th class="title-word title-word-3">🤐 REPEAT PASSWORD:</th>
                 <td><input class="txtfld" type="text" id="txt_password_repeat" placeholder="repeat password" /></td>
             </tr>
             <tr>
-                <th>✍️ FIRST NAME:</th>
+                <th class="title-word title-word-4">✍️ FIRST NAME:</th>
                 <td><input class="txtfld" type="text" id="txt_firstName" placeholder="first name" /></td>
             </tr>
             <tr>
-                <th>✍️ LAST NAME:</th>
+                <th class="title-word title-word-4">✍️ LAST NAME:</th>
                 <td><input class="txtfld" type="text" id="txt_lastName" placeholder="last name" /></td>
             </tr>
             <tr>
-                <th>📍 ADDRESS:</th>
+                <th class="title-word title-word-1">📍 ADDRESS:</th>
                 <td><input class="txtfld" type="text" id="txt_address" placeholder="address" /></td>
             </tr>
         </table>
         <button id="btn_register" onclick="register()">📝 Register</button>
-        <p id="p_status">...</p>
     </div>
+    <div id="p_status"><div>
 
     <script>
         async function register() {
 
             let p_status = document.getElementById("p_status");
-            p_status.innerHTML = "Registering...";
+            morph(p_status, "", "Registering...");
 
             let txt_email = document.getElementById("txt_email");
             let txt_userName = document.getElementById("txt_userName");
@@ -90,7 +91,7 @@
             });
 
             const text = await response.text();
-            p_status.innerHTML = text;
+            morph(p_status, "Registering...", text);
         }
     </script>
 </body>

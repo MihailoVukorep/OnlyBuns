@@ -1,13 +1,14 @@
 :root {
     --var-color-fg-white: #f8f8f2;
     --var-color-fg-post-white: #f8f8f2;
-    --var-color-fg-post-username: #5ac0cc;;
+    --var-color-fg-post-username: #5ac0cc;
+    ;
     --var-color-fg-post-title: #ae81ff;
-    --var-color-fg-post-account: #2ecc71; 
+    --var-color-fg-post-account: #2ecc71;
     --var-color-fg-post-address: #e2db74;
     --var-color-fg-post-email: #a2cc28;
     --var-color-fg-post-date: #7d7d7d;
-    
+
 
     --var-color-bg-sub1: rgba(32, 33, 28);
     --var-color-bg-sub2: rgba(36, 37, 31);
@@ -57,7 +58,8 @@ body {
     align-items: center;
 }
 
-#navbar_left, #navbar_right {
+#navbar_left,
+#navbar_right {
     display: flex;
     align-items: center;
     margin: 0;
@@ -81,11 +83,13 @@ body {
     border-radius: 2px;
     background-color: var(--var-color-bg-link);
 }
+
 #navbar a:hover {
     background-color: transparent;
 }
 
-h1, h2 {
+h1,
+h2 {
     text-align: center;
     text-decoration: double;
     border-bottom: 3px var(--var-color-border-transwhite) dotted;
@@ -122,6 +126,7 @@ h2 {
 .onlybuns_account {
     display: inline-block;
 }
+
 .onlybuns_account_link {
     display: flex !important;
     gap: 2px !important;
@@ -129,6 +134,7 @@ h2 {
     justify-content: center !important;
     text-decoration: none !important;
 }
+
 .onlybuns_avatar {
     display: inline;
     width: 20px;
@@ -137,10 +143,135 @@ h2 {
     max-height: 20px;
     border-radius: 100%;
 }
+
 .onlybuns_username {
     display: inline-flex;
     text-decoration: none;
     color: var(--var-color-fg-post-username);
     overflow-wrap: break-word;
     word-break: break-word;
+}
+
+
+/* h1 animation */
+h1 {
+    text-transform: uppercase;
+    background-image: linear-gradient(-225deg,
+            #5adac9 0%,
+            #7a4dab 29%,
+            #ff1361 67%,
+            #fff800 100%);
+    background-size: auto auto;
+    background-clip: border-box;
+    background-size: 200% auto;
+    color: #fff;
+    background-clip: text;
+    text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textclip 2s linear infinite;
+    display: inline-block;
+    font-size: 30px;
+}
+
+@keyframes textclip {
+    to {
+        background-position: 200% center;
+    }
+}
+
+
+/* label animation */
+.title-word {
+    animation: color-animation 4s linear infinite;
+}
+
+.title-word-1 {
+    --color-1: #DF8453;
+    --color-2: #3D8DAE;
+    --color-3: #E4A9A8;
+}
+
+.title-word-2 {
+    --color-1: #DBAD4A;
+    --color-2: #ACCFCB;
+    --color-3: #17494D;
+}
+
+.title-word-3 {
+    --color-1: #ACCFCB;
+    --color-2: #E4A9A8;
+    --color-3: #ACCFCB;
+}
+
+.title-word-4 {
+    --color-1: #3D8DAE;
+    --color-2: #DF8453;
+    --color-3: #E4A9A8;
+}
+
+@keyframes color-animation {
+    0% {
+        color: var(--color-1)
+    }
+
+    32% {
+        color: var(--color-1)
+    }
+
+    33% {
+        color: var(--color-2)
+    }
+
+    65% {
+        color: var(--color-2)
+    }
+
+    66% {
+        color: var(--color-3)
+    }
+
+    99% {
+        color: var(--color-3)
+    }
+
+    100% {
+        color: var(--color-1)
+    }
+}
+
+
+/* morph status text */
+#p_status {
+    filter: url(#threshold) blur(0.6px);
+}
+
+
+/* waviy */
+.waviy {
+    position: relative;
+    -webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0, 0, 0, .2));
+    font-size: 60px;
+}
+.waviy span {
+    font-family: 'Alfa Slab One', cursive;
+    position: relative;
+    display: inline-block;
+    color: #fff;
+    text-transform: uppercase;
+    animation: waviy 1s infinite;
+    animation-delay: calc(.1s * var(--i));
+
+}
+@keyframes waviy {
+
+    0%,
+    40%,
+    100% {
+        transform: translateY(0)
+    }
+
+    20% {
+        transform: translateY(-20px)
+    }
 }
