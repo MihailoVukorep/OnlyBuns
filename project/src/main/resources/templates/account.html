@@ -9,6 +9,9 @@
 
     <title>OnlyBuns - Account</title>
     <link rel="stylesheet" href="/css/account.css">
+
+    <link rel="stylesheet" href="/css/animations/rainbow_h1.css">
+    <link rel="stylesheet" href="/css/animations/blur_appear.css">
 </head>
 
 <body>
@@ -21,7 +24,7 @@
             <img th:src="${account.avatar}" id="account_avatar">
         </div>
 
-        <div id="account_info">
+        <div class="appear" id="account_info">
             <div id="account_names">
                 <span id="account_roles"></span>
                 <span th:text="${account.firstName}" id="account_firstName"></span>
@@ -41,11 +44,11 @@
             <div id="account_counters">
                 <span>
                     <span id="account_postsCount" th:text="${account.postsCount}"></span>
-                    <span>posts,</span>
+                    <span>posts</span><span>,</span>
                 </span>
                 <span>
                     <span id="account_followersCount" th:text="${account.followersCount}"></span>
-                    <span>followers,</span>
+                    <span>followers</span><span>,</span>
                 </span>
                 <span>
                     <span id="account_followingCount" th:text="${account.followingCount}"></span>
