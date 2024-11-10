@@ -19,33 +19,22 @@ public class RestController_Account {
     public ResponseEntity<DTO_Get_Account> get_api_user(HttpSession session) { return service_account.get_api_user(session); }
 
     @GetMapping("/api/accounts/{id}")
-    public ResponseEntity<DTO_Get_Account> get_api_account_id(@PathVariable(name = "id") Long id) {
-        return service_account.get_api_accounts_id(id);
-    }
+    public ResponseEntity<DTO_Get_Account> get_api_account_id(@PathVariable(name = "id") Long id) { return service_account.get_api_accounts_id(id); }
 
     @GetMapping("/api/accounts/{id}/posts")
-    public ResponseEntity<List<DTO_Get_Post>> get_api_account_id_posts(@PathVariable(name = "id") Long id, HttpSession session) {
-        return service_account.get_api_accounts_id_posts(id, session);
-    }
+    public ResponseEntity<List<DTO_Get_Post>> get_api_account_id_posts(@PathVariable(name = "id") Long id, HttpSession session) { return service_account.get_api_accounts_id_posts(id, session); }
 
     @GetMapping("/api/accounts/{id}/likes")
-    public ResponseEntity<List<DTO_Get_Like>> get_api_account_id_likes(@PathVariable(name = "id") Long id) {
-        return service_account.get_api_accounts_id_likes(id);
-    }
+    public ResponseEntity<List<DTO_Get_Like>> get_api_account_id_likes(@PathVariable(name = "id") Long id) { return service_account.get_api_accounts_id_likes(id); }
 
     @PostMapping("/api/login")
-    public ResponseEntity<String> get_api_login(@RequestBody DTO_Post_AccountLogin dto_post_accountLogin, HttpServletRequest request, HttpSession session){
-        return service_account.get_api_login(dto_post_accountLogin, request, session);
-    }
+    public ResponseEntity<String> get_api_login(@RequestBody DTO_Post_AccountLogin dto_post_accountLogin, HttpServletRequest request, HttpSession session){ return service_account.get_api_login(dto_post_accountLogin, request, session); }
 
     @PostMapping("/api/register")
-    public ResponseEntity<String> get_api_register(@RequestBody DTO_Post_AccountRegister dto_post_accountRegister, HttpSession session) {
-        return service_account.get_api_register(dto_post_accountRegister, session);
-    }
+    public ResponseEntity<String> get_api_register(@RequestBody DTO_Post_AccountRegister dto_post_accountRegister, HttpSession session) { return service_account.get_api_register(dto_post_accountRegister, session); }
 
     @PostMapping("/api/logout")
     public ResponseEntity<String> get_api_logout(HttpSession session) { return service_account.get_api_logout(session); }
-
 
     @GetMapping(value = "/api/admin/accounts")
     public ResponseEntity<List<DTO_Get_Account>> get_api_admin_accounts(HttpSession session) { return service_account.get_api_admin_accounts(session); }
