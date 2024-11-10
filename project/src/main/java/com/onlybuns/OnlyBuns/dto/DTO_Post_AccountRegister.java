@@ -17,12 +17,12 @@ public class DTO_Post_AccountRegister {
     public String address;
 
     public String validate() {
-        if (isNullOrEmpty(email)) { return "Email cannot be empty"; }
-        if (isNullOrEmpty(userName)) { return "Username cannot be empty"; }
-        if (isNullOrEmpty(password)) { return "Password cannot be empty"; }
-        if (isNullOrEmpty(firstName)) { return "First name cannot be empty"; }
-        if (isNullOrEmpty(lastName)) { return "Last name cannot be empty"; }
-        if (isNullOrEmpty(address)) { return "Address cannot be empty"; }
+        if (isNullOrEmpty(email)) { return "Email cannot be empty."; }
+        if (isNullOrEmpty(userName)) { return "Username cannot be empty."; }
+        if (isNullOrEmpty(password)) { return "Password cannot be empty."; }
+        if (isNullOrEmpty(firstName)) { return "First name cannot be empty."; }
+        if (isNullOrEmpty(lastName)) { return "Last name cannot be empty."; }
+        if (isNullOrEmpty(address)) { return "Address cannot be empty."; }
         if (!isValidEmail(email)) { return "Email is not valid."; }
         return null;
     }
