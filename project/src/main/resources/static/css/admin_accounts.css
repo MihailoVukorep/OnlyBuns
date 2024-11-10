@@ -91,3 +91,7 @@
 .account_info_body_address {
     color: var(--var-color-fg-post-address)
 }
+
+.searchform table th {
+    text-align: right;
+}
