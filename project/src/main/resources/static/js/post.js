@@ -23,7 +23,6 @@ async function fetch_post(json, indent = 0) {
 }
 
 async function load_posts() {
-    // Fetch the main post data
     const response = await fetch(`/api/posts/${post_id}`);
     if (!response.ok) {
         console.error("Failed to load post.");
@@ -43,7 +42,6 @@ async function load_posts() {
     //     document.getElementById("editPostButton").style.display = "block";
     // }
 
-    // Load the main post (assuming json is a single post object)
     await fetch_post(json); // Start with the main post
 }
 
