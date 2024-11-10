@@ -25,6 +25,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -33,10 +38,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -294,7 +296,7 @@ public class Service_Post {
         return new ResponseEntity<>("Post deleted.", HttpStatus.OK);
     }
 
-    @Scheduled(cron = "0 19 3 * * *")
+    @Scheduled(cron = "0 46 15 * * *")
     public void compressOldImages() {
         List<Post> allPosts = repository_post.findAll();
         LocalDateTime oneMonthAgo = LocalDateTime.now().minus(1, ChronoUnit.MINUTES);
