@@ -170,7 +170,7 @@ function make_post_controls(json) {
 
         const post_controls_delete = document.createElement("button");
         post_controls_delete.className = "post_controls_delete";
-        post_controls_delete.textContent = `🗑`;
+        post_controls_delete.textContent = `❌`;
         post_controls_delete.onclick = () => post_delete(json.id);
         post_controls.appendChild(post_controls_delete);
     }
