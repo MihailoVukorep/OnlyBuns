@@ -63,19 +63,28 @@ async function post_delete(id) {
 }
 
 let commentFormCurrentId = null;
+const commentForm = document.getElementById("commentForm");
+const commentTitle = document.getElementById("commentTitle");
+const commentText = document.getElementById("commentText");
 
 function showCommentForm(postId) {
     commentFormCurrentId = postId;
-    document.getElementById("commentForm").style.display = "block";
+    commentForm.style.display = "block";
+
+    commentTitle.select();
+    commentTitle.focus();
 }
 
 function hideCommentForm() {
-    document.getElementById("commentForm").style.display = "none";
-    document.getElementById("commentTitle").value = "";
-    document.getElementById("commentText").value = "";
+    commentForm.style.display = "none";
+    commentTitle.value = "";
+    commentText.value = "";
 }
 
 function submitCommentForm() {
-    post_reply(commentFormCurrentId, document.getElementById("commentTitle").value, document.getElementById("commentText").value);
+    post_reply(commentFormCurrentId, commentTitle.value, commentText.value);
     hideCommentForm();
 }
+
+commentTitle.addEventListener("keydown", function (event) {if (event.key == 'Enter') { commentText.focus(); event.preventDefault(); } }, false);
+commentText.addEventListener("keydown", function (event) {if (event.key == 'Enter') { submitCommentForm(); } }, false);

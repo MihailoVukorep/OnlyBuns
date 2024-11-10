@@ -68,17 +68,7 @@
         </div>
     </div>
 
-    <div id="commentForm" style="display: none;">
-        <div id="commentForm_content">
-            <input type="text" id="commentTitle" placeholder="Title">
-            <textarea id="commentText" placeholder="Text"></textarea>
-
-            <div id="commentForm_controls">
-                <button onclick="submitCommentForm()">Submit</button>
-                <button onclick="hideCommentForm()">Decline</button>
-            </div>
-        </div>
-    </div>
+    <div th:replace="~{fragments/commentForm :: commentForm}"></div>
 
     <div th:replace="~{fragments/popup :: popup}"></div>
 </body>

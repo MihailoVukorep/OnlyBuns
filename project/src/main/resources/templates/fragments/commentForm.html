@@ -1,0 +1,11 @@
+<div th:fragment="commentForm" id="commentForm" style="display: none;">
+    <div id="commentForm_content">
+        <input type="text" id="commentTitle" placeholder="Title">
+        <textarea id="commentText" placeholder="Text"></textarea>
+
+        <div id="commentForm_controls">
+            <button onclick="submitCommentForm()">Submit</button>
+            <button onclick="hideCommentForm()">Decline</button>
+        </div>
+    </div>
+</div>
