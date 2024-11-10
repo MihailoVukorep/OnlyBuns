@@ -36,7 +36,7 @@ public class Controller_Post {
         return "createpost.html";
     }
 
-    @GetMapping("/posts/{id}/edit")
+    @GetMapping("/posts/edit/{id}")
     public String editpost(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
         Account user = (Account) session.getAttribute("user");
         if (user == null) { return "error/401.html"; }

@@ -10,8 +10,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function getPostIdFromUrl() {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('id');
+    const paths = window.location.pathname.split("/");
+    const id = paths[paths.length - 1];
+
+    return id;
+
+
 }
 
 async function fetchPostData(postId) {
