@@ -5,11 +5,10 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class DTO_Get_Post {
     public Long id;
+    public Integer parentId;
     public String title;
     public String text;
     public String picture;
@@ -21,11 +20,11 @@ public class DTO_Get_Post {
     public Integer totalChildren;
     public LocalDateTime createdDate;
     public LocalDateTime updatedDate;
-
     public Boolean liked  = false;
     public Boolean myPost = false;
+    public Integer indent = 0;
 
-    public DTO_Get_Post(Post post, Boolean liked, Boolean myPost) {
+    public DTO_Get_Post(Post post, Boolean liked, Boolean myPost, Integer indent) {
         this.id = post.getId();
         this.title = post.getTitle();
         this.text = post.getText();
@@ -41,6 +40,7 @@ public class DTO_Get_Post {
         this.updatedDate = post.getUpdatedDate();
         this.liked = liked;
         this.myPost = myPost;
+        this.indent = indent;
     }
 
     private static int countReplies(Post post) {

@@ -61,33 +61,55 @@ public class Service_Post {
         Post post = postOptional.get();
 
         Account account = (Account) session.getAttribute("user");
-        return new ResponseEntity<>(getPostForUser(post, account), HttpStatus.OK);
+        return new ResponseEntity<>(getPostForUser(post, account, 0), HttpStatus.OK);
     }
-    public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_replies(Long id, HttpSession session) {
+    public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_thread(Long id, HttpSession session) {
         Optional<Post> optional_post = repository_post.findById(id);
         if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         Post post = optional_post.get();
-
         Account account = (Account) session.getAttribute("user");
-        return new ResponseEntity<>(getPostsForUser(post.getReplies(), account), HttpStatus.OK);
+        List<DTO_Get_Post> thread = new ArrayList<>();
+        getThreadForUser(thread, post, account, 0);
+        return new ResponseEntity<>(thread, HttpStatus.OK);
     }
-    public DTO_Get_Post getPostForUser(Post post, Account account) {
+    public List<DTO_Get_Post> get_api_posts_id_thread_raw(Long id, HttpSession session) {
+        Optional<Post> optional_post = repository_post.findById(id);
+        if (optional_post.isEmpty()) { return null; }
+        Post post = optional_post.get();
+        Account account = (Account) session.getAttribute("user");
+        List<DTO_Get_Post> thread = new ArrayList<>();
+        getThreadForUser(thread, post, account, 0);
+        return thread;
+    }
+    public void getThreadForUser(List<DTO_Get_Post> thread, Post post, Account account, Integer indent) {
+
+        thread.add(getPostForUser(post, account, indent));
+
+        List<Post> replies = post.getReplies();
+        if (!replies.isEmpty()) {
+            for (Post i : replies) {
+                getThreadForUser(thread, i, account, indent+20);
+            }
+        }
+    }
+    public DTO_Get_Post getPostForUser(Post post, Account account, Integer indent) {
 
         if (account == null) {
-            return new DTO_Get_Post(post, false, false);
+            return new DTO_Get_Post(post, false, false, indent);
         }
 
         return new DTO_Get_Post(
                 post,
                 repository_like.existsByPostAndAccount(post, account), // liked
-                post.getAccount().getId().equals(account.getId())  // myPost
+                post.getAccount().getId().equals(account.getId()),  // myPost
+                indent
             );
     }
     public List<DTO_Get_Post> getPostsForUser(List<Post> posts, Account account) {
 
         if (account == null) {
             return posts.stream()
-                    .map(post -> new DTO_Get_Post(post, false, false))
+                    .map(post -> new DTO_Get_Post(post, false, false, 0))
                     .collect(Collectors.toList());
         }
 
@@ -100,11 +122,7 @@ public class Service_Post {
                 .collect(Collectors.toSet());
 
         return posts.stream()
-                .map(post -> new DTO_Get_Post(
-                        post,
-                        likedPostIds.contains(post.getId()),
-                        post.getAccount().getId().equals(account.getId()))
-                )
+                .map(post -> new DTO_Get_Post(post, likedPostIds.contains(post.getId()), post.getAccount().getId().equals(account.getId()), 0))
                 .collect(Collectors.toList());
     }
 

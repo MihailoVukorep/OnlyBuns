@@ -26,7 +26,7 @@ public class Controller_Post {
 
     @GetMapping("/posts/{id}")
     public String accounts_id(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
-        model.addAttribute("post_id", id); // TODO: DRAW THREAD
+        model.addAttribute("posts", servicePost.get_api_posts_id_thread_raw(id, session)); // draw thread
         return "post.html";
     }
     @GetMapping("/createpost")

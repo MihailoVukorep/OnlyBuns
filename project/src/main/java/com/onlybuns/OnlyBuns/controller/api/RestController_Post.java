@@ -39,8 +39,8 @@ public class RestController_Post {
     }
 
     // GET REPLIES
-    @GetMapping("/api/posts/{id}/replies")
-    public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_replies(@PathVariable(name = "id") Long id, HttpSession session) { return servicePost.get_api_posts_id_replies(id, session); }
+    @GetMapping("/api/posts/{id}/thread")
+    public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_thread(@PathVariable(name = "id") Long id, HttpSession session) { return servicePost.get_api_posts_id_thread(id, session); }
 
     // POST REPLY
     // TODO: CHANGE 'Post reply' to 'DTO_Post_Post Reply'
