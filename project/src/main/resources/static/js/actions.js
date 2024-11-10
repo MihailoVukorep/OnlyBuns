@@ -86,5 +86,11 @@ function submitCommentForm() {
     hideCommentForm();
 }
 
-commentTitle.addEventListener("keydown", function (event) {if (event.key == 'Enter') { commentText.focus(); event.preventDefault(); } }, false);
-commentText.addEventListener("keydown", function (event) {if (event.key == 'Enter') { submitCommentForm(); } }, false);
+commentTitle.addEventListener("keydown", function (event) {
+    if (event.key == 'Enter') { commentText.focus(); event.preventDefault(); }
+    if (event.key == 'Escape') { hideCommentForm(); }
+}, false);
+commentText.addEventListener("keydown", function (event) {
+    if (event.key == 'Enter') { submitCommentForm(); }
+    if (event.key == 'Escape') { hideCommentForm(); }
+}, false);
