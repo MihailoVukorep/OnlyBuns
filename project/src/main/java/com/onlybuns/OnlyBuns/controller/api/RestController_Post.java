@@ -1,4 +1,5 @@
 package com.onlybuns.OnlyBuns.controller.api;
+import com.onlybuns.OnlyBuns.dto.DTO_Post_Reply;
 import com.onlybuns.OnlyBuns.dto.DTO_Put_Post;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Like;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Post;
@@ -43,9 +44,8 @@ public class RestController_Post {
     public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_replies(@PathVariable(name = "id") Long id, HttpSession session) { return servicePost.get_api_posts_id_replies(id, session); }
 
     // POST REPLY
-    // TODO: CHANGE 'Post reply' to 'DTO_Post_Post Reply'
     @PostMapping("/api/posts/{id}/replies")
-    public ResponseEntity<String> post_api_posts_id_replies(@PathVariable(name = "id") Long id, @RequestBody Post reply, HttpSession session) { return servicePost.post_api_posts_id_replies(id, reply, session); }
+    public ResponseEntity<String> post_api_posts_id_replies(@PathVariable(name = "id") Long id, @RequestBody DTO_Post_Reply replyDTO, HttpSession session) { return servicePost.post_api_posts_id_replies(id, replyDTO, session); }
 
     // LIKE POST
     @PostMapping("/api/posts/{id}/like")
