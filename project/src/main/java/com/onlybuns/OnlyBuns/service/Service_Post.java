@@ -1,5 +1,6 @@
 package com.onlybuns.OnlyBuns.service;
 
+import com.onlybuns.OnlyBuns.dto.DTO_Post_Reply;
 import com.onlybuns.OnlyBuns.dto.DTO_Put_Post;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Like;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Post;
@@ -11,27 +12,36 @@ import com.onlybuns.OnlyBuns.repository.Repository_Like;
 import com.onlybuns.OnlyBuns.util.VarConverter;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import com.onlybuns.OnlyBuns.repository.Repository_Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class Service_Post {
 
@@ -162,9 +172,9 @@ public class Service_Post {
         Post newPost = new Post(title, description, location, filePath, sessionAccount);
         repository_post.save(newPost);
 
-        System.out.println("Post kreiran: " + newPost);
+        System.out.println("Post created: " + newPost);
         if (filePath != null) {
-            System.out.println("Putanja do slike: " + filePath);
+            System.out.println("Image path: " + filePath);
         }
 
         return new ResponseEntity<>("Post created successfully.", HttpStatus.OK);
@@ -214,7 +224,7 @@ public class Service_Post {
 
     // COMMENT
     @Transactional
-    public ResponseEntity<String> post_api_posts_id_replies(Long postId, Post reply, HttpSession session) {
+    public ResponseEntity<String> post_api_posts_id_replies(Long postId, DTO_Post_Reply replyDTO, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) {
             return new ResponseEntity<>("Can't comment when logged out.", HttpStatus.UNAUTHORIZED);
@@ -226,6 +236,7 @@ public class Service_Post {
         }
 
         Post parentPost = originalPost.get();
+        Post reply = new Post(replyDTO.getTitle(), replyDTO.getText());
         reply.setAccount(sessionAccount);
         reply.setParentPost(parentPost);
         parentPost.getReplies().add(reply);
@@ -283,5 +294,47 @@ public class Service_Post {
 
         repository_post.delete(post);
         return new ResponseEntity<>("Post deleted.", HttpStatus.OK);
+    }
+
+    @Scheduled(cron = "0 46 15 * * *")
+    public void compressOldImages() {
+        List<Post> allPosts = repository_post.findAll();
+        LocalDateTime oneMonthAgo = LocalDateTime.now().minus(1, ChronoUnit.MINUTES);
+
+        for (Post post : allPosts) {
+            if (post.getPicture() != null && post.getCreatedDate().isBefore(oneMonthAgo)) {
+                try {
+                    String baseDir = System.getProperty("user.dir");
+                    String relativePath = post.getPicture();
+
+                    Path inputPath = Paths.get(baseDir, relativePath.replaceFirst("^/", ""));  // Uklonite početni "/" ako postoji
+                    File inputImage = inputPath.toFile();
+
+                    if (inputImage.exists()) {
+                    } else {
+                        log.warn("File for Post ID {} not found: {}", post.getId(), post.getPicture());
+                    }
+                    String fileName = inputImage.getName();
+
+                    Path outputDir = Paths.get("uploads/compressed");
+
+                    if (!Files.exists(outputDir)) {
+                        Files.createDirectories(outputDir);
+                    }
+
+                    File outputImage = outputDir.resolve(fileName).toFile();
+
+                    Thumbnails.of(inputImage)
+                            .scale(1)
+                            .outputQuality(0.3)
+                            .toFile(outputImage);
+
+                    log.info("Image for post ID " + post.getId() + " is compressed.");
+
+                } catch (IOException e) {
+                    log.error("Error compressing image ID {}: {}", post.getId(), e.getMessage());
+                }
+            }
+        }
     }
 }

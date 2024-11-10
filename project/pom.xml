@@ -62,7 +62,6 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 
-
 		<!-- Swagger -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
@@ -80,6 +79,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>0.4.19</version>
 		</dependency>
 
 		<!-- REMOVED LOGIN PAGE

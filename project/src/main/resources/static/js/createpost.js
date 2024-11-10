@@ -3,12 +3,10 @@ let fileImage = document.getElementById("file_image");
 let imagePreview = document.getElementById("image-preview");
 let pStatus = document.getElementById("p_status");
 
-// Kada se promeni odabrana slika, prikazujemo je
 fileImage.addEventListener("change", function(e) {
     handleImageUpload(e.target.files[0]);
 });
 
-// Funkcija za prikaz slike u elementu za pregled
 function handleImageUpload(file) {
     if (file) {
         const reader = new FileReader();
@@ -23,7 +21,6 @@ function handleImageUpload(file) {
     }
 }
 
-// Funkcija za kreiranje posta
 async function api_createpost() {
     const formData = new FormData(document.getElementById('postForm'));
     const imageFile = fileImage.files[0];
