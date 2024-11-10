@@ -18,15 +18,19 @@ public class RestController_Post {
     @Autowired
     private Service_Post servicePost;
 
+    // GET POSTS
     @GetMapping(value = "/api/posts") // /api/posts?sort=newest
     public ResponseEntity<List<DTO_Get_Post>> get_api_posts(HttpSession session, @RequestParam(value = "sort", required = false) String sort) {
         return servicePost.get_api_posts(session, sort);
     }
 
+    // GET POST
     @GetMapping("/api/posts/{id}")
     public ResponseEntity<DTO_Get_Post> get_api_posts_id(@PathVariable(name = "id") Long id, HttpSession session) {
         return servicePost.get_api_posts_id(id, session);
     }
+
+    // CREATE POST
     @PostMapping("/api/createpost")
     public ResponseEntity<String> post_api_createpost(@RequestParam("title") String title,
                                                       @RequestParam("description") String description,
@@ -36,49 +40,43 @@ public class RestController_Post {
         return servicePost.post_api_createpost(title, description, location, imageFile, session);
     }
 
+    // GET REPLIES
     @GetMapping("/api/posts/{id}/replies")
     public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_replies(@PathVariable(name = "id") Long id, HttpSession session) {
         return servicePost.get_api_posts_id_replies(id, session);
     }
+
+    // POST REPLY
+    // TODO: CHANGE 'Post reply' to 'DTO_Post_Post Reply'
     @PostMapping("/api/posts/{id}/replies")
-    public ResponseEntity<String> post_api_posts_id_replies(
-            @PathVariable(name = "id") Long id,
-            @RequestBody Post reply,
-            HttpSession session) {
+    public ResponseEntity<String> post_api_posts_id_replies(@PathVariable(name = "id") Long id, @RequestBody Post reply, HttpSession session) {
 
         return servicePost.post_api_posts_id_replies(id, reply, session);
     }
 
-
+    // LIKE POST
     @PostMapping("/api/posts/{id}/like")
     public ResponseEntity<String> post_api_posts_id_like(@PathVariable(name = "id") Long id, HttpSession session) {
         return servicePost.post_api_posts_id_like(id, session);
     }
 
+    // GET LIKES
     @GetMapping("/api/posts/{id}/likes")
     public ResponseEntity<List<DTO_Get_Like>> post_api_posts_id_likes(@PathVariable(name = "id") Long id) {
         return servicePost.get_api_posts_id_likes(id);
     }
 
-    // TODO: POSTS PAGING
-
-    // TODO: UPDATE POST
+    //  UPDATE POST
     @PutMapping("/api/posts/{id}")
-    public ResponseEntity<String> put_api_posts_id(
-            @PathVariable(name = "id") Long id,
-            DTO_Put_Post dto_put_post,
-            @RequestParam(value = "image", required = false) MultipartFile imageFile,
-            HttpSession session) {
-
+    public ResponseEntity<String> put_api_posts_id(@PathVariable(name = "id") Long id, DTO_Put_Post dto_put_post, @RequestParam(value = "image", required = false) MultipartFile imageFile, HttpSession session) {
         return servicePost.put_api_posts_id(id, dto_put_post, imageFile, session);
     }
 
-    // TODO: DELETE POST
+    // DELETE POST
     @DeleteMapping("/api/posts/{id}")
-    public ResponseEntity<String> delete_api_posts_id(
-            @PathVariable(name = "id") Long id,
-            HttpSession session) {
-
+    public ResponseEntity<String> delete_api_posts_id(@PathVariable(name = "id") Long id, HttpSession session) {
         return servicePost.delete_api_posts_id(id, session);
     }
+
+    // TODO: POSTS PAGING
 }

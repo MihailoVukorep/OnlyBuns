@@ -191,7 +191,6 @@ public class Service_Account {
         // session.setAttribute("user", newAccount); // can't login need to verify
         return new ResponseEntity<>("Registered. Please verify email to login.", HttpStatus.OK);
     }
-
     public ResponseEntity<String> get_api_logout(HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) { return new ResponseEntity<>("Already logged out.", HttpStatus.BAD_REQUEST); }
@@ -208,7 +207,6 @@ public class Service_Account {
         Account sessionAccount = (Account) session.getAttribute("user");
         return new ResponseEntity<>(service_post.getPostsForUser(repository_post.findAllByAccount(account), sessionAccount), HttpStatus.OK);
     }
-
     public ResponseEntity<List<DTO_Get_Like>> get_api_accounts_id_likes(Long id) {
         Optional<Account> optional_account = repository_account.findById(id);
         if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
