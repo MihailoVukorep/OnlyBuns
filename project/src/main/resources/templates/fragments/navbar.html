@@ -1,0 +1,28 @@
+<div th:fragment="navbar" id="navbar">
+    <div id="navbar_left">
+        <a href="/home">🏠 Home</a>
+        <a href="/posts">📰 Posts</a>
+    </div>
+    <div id="navbar_right">
+        <div th:if="${user != null}">
+            <div th:if="${user.isAdmin}">
+                <a href="/admin/accounts">👥 Accounts</a>
+                <a href="/admin/manage">🛠️ Management</a>
+            </div>
+            <a href="/map">🗺️ View Map</a>
+            <a href="/createpost">➕ Create Post</a>
+            <div class="onlybuns_account">
+                <a href="/user" class="onlybuns_account_link">
+                    <img th:src="${user.avatar}" class="onlybuns_avatar" alt="User Avatar" />
+                    <span th:text="${user.userName}"></span>
+                </a>
+            </div>
+            <a href="/user/update">⚙️ Update</a>
+            <a href="/logout">🚪 Log out</a>
+        </div>
+        <div th:if="${user == null}">
+            <a href="/login">🔑 Log in</a>
+            <a href="/register">📝 Register</a>
+        </div>
+    </div>
+</div>

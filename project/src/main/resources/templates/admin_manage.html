@@ -11,11 +11,10 @@
     <link rel="stylesheet" href="/css/admin_manage.css">
 
     <script defer type="text/javascript" src="/js/main.js"></script>
-    <script defer type="text/javascript" src="/js/navbar.js"></script>
 </head>
 
 <body>
-    <ul id="navbar"></ul>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
 
     <h1>🛠️ MANAGE 🛠️</h1>
     <a class="onlybuns_link" href="/admin/accounts">👥 Accounts 👥</a>

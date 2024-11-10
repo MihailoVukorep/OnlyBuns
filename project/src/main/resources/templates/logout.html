@@ -3,11 +3,15 @@
 
 <head>
     <title>OnlyBuns - Log Out</title>
-
-    <script defer type="text/javascript" src="/js/logout.js"></script>
 </head>
 
 <body>
+    <script>
+        async function api_logout() {
+            await fetch('/api/logout', { method: 'POST' });
+            window.location.href = "home";
+        }
+        api_logout();
+    </script>
 </body>
-
 </html>

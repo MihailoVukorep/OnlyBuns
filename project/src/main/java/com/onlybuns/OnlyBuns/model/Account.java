@@ -92,8 +92,8 @@ public class Account {
         return new BCryptPasswordEncoder().matches(rawPassword, this.password);
     }
 
-    public boolean isAdmin(Account account) {
-        return account.getRoles().stream().anyMatch(role -> "ADMIN".equals(role.getName()));
+    public boolean isAdmin() {
+        return this.getRoles().stream().anyMatch(role -> "ADMIN".equals(role.getName()));
     }
 
     @Override

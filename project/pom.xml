@@ -76,6 +76,12 @@
 			<artifactId>spring-security-crypto</artifactId>
 		</dependency>
 
+		<!-- Aspects -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
 		<!-- REMOVED LOGIN PAGE
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

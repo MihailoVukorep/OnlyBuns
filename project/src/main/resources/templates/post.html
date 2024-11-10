@@ -14,14 +14,13 @@
 
     <script defer type="text/javascript" src="/js/main.js"></script>
     <script defer type="text/javascript" src="/js/popup.js"></script>
-    <script defer type="text/javascript" src="/js/navbar.js"></script>
     <script defer type="text/javascript" src="/js/post.js"></script>
 </head>
 
 <body>
     <input type="hidden" id="post_id" th:value="${post_id}" />
 
-    <div id="navbar"></div>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
 
     <a id="parent" style="display: none;">🔝 Parent Post</a>
 

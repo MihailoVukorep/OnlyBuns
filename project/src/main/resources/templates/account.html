@@ -11,48 +11,47 @@
     <link rel="stylesheet" href="/css/account.css">
 
     <script defer type="text/javascript" src="/js/main.js"></script>
-    <script defer type="text/javascript" src="/js/navbar.js"></script>
     <script defer type="text/javascript" src="/js/account.js"></script>
 </head>
 
 <body>
-    <div id="navbar"></div>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
 
     <input type="hidden" id="account_id" th:value="${account_id}" />
 
-    <div id="account">
+    <div th:if="${account != null}" id="account">
         <div id="account_image">
-            <img id="account_avatar" src="/avatars/default.jpg">
+            <img th:src="${account.avatar}" id="account_avatar">
         </div>
 
         <div id="account_info">
             <div id="account_names">
                 <span id="account_roles"></span>
-                <span id="account_firstName"></span>
-                <span id="account_lastName"></span>
-                <span>(</span><span id="account_userName"></span><span>)</span>
+                <span th:text="${account.firstName}" id="account_firstName"></span>
+                <span th:text="${account.lastName}" id="account_lastName"></span>
+                <span>(</span><span th:text="${account.userName}" id="account_userName"></span><span>)</span>
             </div>
 
             <div>
-                <div id="account_email"></div>
+                <div th:text="${account.email}" id="account_email"></div>
             </div>
 
             <div>
-                <div id="account_address"></div>
-                <div id="account_bio"></div>
+                <div th:text="${account.address}" id="account_address"></div>
+                <div th:text="${account.bio}" id="account_bio"></div>
             </div>
 
             <div class="account_counters">
                 <span>
-                    <span id="account_postsCount"></span>
+                    <span id="account_postsCount" th:text="${account.postsCount}"></span>
                     <span>posts,</span>
                 </span>
                 <span>
-                    <span id="account_followersCount"></span>
+                    <span id="account_followersCount" th:text="${account.followersCount}"></span>
                     <span>followers,</span>
                 </span>
                 <span>
-                    <span id="account_followingCount"></span>
+                    <span id="account_followingCount" th:text="${account.followingCount}"></span>
                     <span>following</span>
                 </span>
             </div>

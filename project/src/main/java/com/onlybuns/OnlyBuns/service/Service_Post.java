@@ -8,6 +8,8 @@ import com.onlybuns.OnlyBuns.model.Like;
 import com.onlybuns.OnlyBuns.model.Post;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
 import com.onlybuns.OnlyBuns.repository.Repository_Like;
+import com.onlybuns.OnlyBuns.util.DiskWriter;
+import com.onlybuns.OnlyBuns.util.VarConverter;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,39 +45,24 @@ public class Service_Post {
     @Autowired
     private Repository_Like repository_like;
 
-    @Value("${file.upload-dir}")
-    private String uploadDir;
+    private final DiskWriter diskWriter = new DiskWriter();
+    private final VarConverter varConverter = new VarConverter();
 
     // GETTING POSTS
     public ResponseEntity<List<DTO_Get_Post>> get_api_posts(HttpSession session, String sort) {
-
-        Sort sortOrder = Sort.unsorted();
-
-        if (sort != null && !sort.isEmpty()) {
-            String[] sortParams = sort.split(",");
-            if (sortParams.length == 2) {
-                String field = sortParams[0];
-                String direction = sortParams[1].toUpperCase();
-
-                Sort.Direction dir = Sort.Direction.fromString(direction);
-                sortOrder = Sort.by(dir, field);
-            }
-        }
-
-        Account account = (Account) session.getAttribute("account");
-
-        // parent posts with sorting
-        List<Post> posts = repository_post.findByParentPostIsNull(sortOrder);
-        List<DTO_Get_Post> dtos = getPostsForUser(posts, account);
-
-        return new ResponseEntity<>(dtos, HttpStatus.OK);
+        return new ResponseEntity<>(get_api_posts_raw(session, sort), HttpStatus.OK);
+    }
+    public List<DTO_Get_Post> get_api_posts_raw(HttpSession session, String sort) {
+        Sort sortOrder = varConverter.parseSort(sort);
+        Account account = (Account) session.getAttribute("user");
+        return  getPostsForUser(repository_post.findByParentPostIsNull(sortOrder), account);
     }
     public ResponseEntity<DTO_Get_Post> get_api_posts_id(Long id, HttpSession session) {
         Optional<Post> postOptional = repository_post.findById(id);
         if (postOptional.isEmpty()) {return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         Post post = postOptional.get();
 
-        Account account = (Account) session.getAttribute("account");
+        Account account = (Account) session.getAttribute("user");
         return new ResponseEntity<>(getPostForUser(post, account), HttpStatus.OK);
     }
     public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_replies(Long id, HttpSession session) {
@@ -83,7 +70,7 @@ public class Service_Post {
         if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         Post post = optional_post.get();
 
-        Account account = (Account) session.getAttribute("account");
+        Account account = (Account) session.getAttribute("user");
         return new ResponseEntity<>(getPostsForUser(post.getReplies(), account), HttpStatus.OK);
     }
     public DTO_Get_Post getPostForUser(Post post, Account account) {
@@ -127,7 +114,7 @@ public class Service_Post {
     @Transactional
     public ResponseEntity<String> post_api_createpost(String title, String description, String location, MultipartFile imageFile, HttpSession session) {
 
-        Account sessionAccount = (Account) session.getAttribute("account");
+        Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED); }
 
         // Validacija podataka
@@ -145,7 +132,7 @@ public class Service_Post {
 
         try {
             // Save the file to the directory
-            filePath = saveImage(imageFile);
+            filePath = diskWriter.saveImage(imageFile);
             //return ResponseEntity.ok("Image uploaded successfully: " + filePath);
         }
         catch (IOException ignored) {
@@ -168,23 +155,12 @@ public class Service_Post {
 
         return new ResponseEntity<>("Post created successfully.", HttpStatus.OK);
     }
-    private String saveImage(MultipartFile file) throws IOException {
-        Path uploadPath = Paths.get(uploadDir);
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
 
-        String fileName = file.getOriginalFilename();
-        Path filePath = uploadPath.resolve(fileName);
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-        return "/" + filePath.toString();
-    }
 
     // LIKE
     @Transactional
     public ResponseEntity<String> post_api_posts_id_like(Long id, HttpSession session) {
-        Account sessionAccount = (Account) session.getAttribute("account");
+        Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) { return new ResponseEntity<>("Can't like when logged out.", HttpStatus.BAD_REQUEST); }
 
         Optional<Account> optional_account = repository_account.findById(sessionAccount.getId());
@@ -225,7 +201,7 @@ public class Service_Post {
     // COMMENT
     @Transactional
     public ResponseEntity<String> post_api_posts_id_replies(Long postId, Post reply, HttpSession session) {
-        Account sessionAccount = (Account) session.getAttribute("account");
+        Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) {
             return new ResponseEntity<>("Can't comment when logged out.", HttpStatus.UNAUTHORIZED);
         }
@@ -258,7 +234,7 @@ public class Service_Post {
 
         if (imageFile != null && !imageFile.isEmpty()) {
             try {
-                filePath = saveImage(imageFile);
+                filePath = diskWriter.saveImage(imageFile);
             } catch (IOException e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
             }
@@ -280,7 +256,7 @@ public class Service_Post {
     @Transactional
     public ResponseEntity<String> delete_api_posts_id(@PathVariable(name = "id") Long id, HttpSession session) {
 
-        Account sessionAccount = (Account) session.getAttribute("account");
+        Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED); }
 
         Optional<Post> optional_post = repository_post.findById(id);

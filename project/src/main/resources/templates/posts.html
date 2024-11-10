@@ -1,42 +1,78 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/x-icon" href="/img/favicon.png">
-    <link rel="stylesheet" href="/css/main.css">
 
     <title>OnlyBuns - Posts</title>
+    <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/posts.css">
-    <link rel="stylesheet" href="/css/popup.css">
     <link rel="stylesheet" href="/css/commentform.css">
+    <link rel="stylesheet" href="/css/popup.css">
 
-    <script defer type="text/javascript" src="/js/main.js"></script>
-    <script defer type="text/javascript" src="/js/popup.js"></script>
-    <script defer type="text/javascript" src="/js/navbar.js"></script>
     <script defer type="text/javascript" src="/js/posts.js"></script>
+    <script defer type="text/javascript" src="/js/popup.js"></script>
 </head>
 
 <body>
-    <div class="popup" id="popup" style="display: none;">
-        <p id="popup_text"></p>
-    </div>
-
-    <div id="navbar"></div>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
 
     <h1>📰 Posts 📰</h1>
 
     <div id="sort_controls">
         <label for="sortOptions">Sort by:</label>
-        <select id="sortOptions" onchange="load_posts()">
-            <option value="id,asc">ID Ascending</option>
-            <option value="id,desc">ID Descending</option>
-            <option value="title,asc">Title Ascending</option>
-            <option value="title,desc">Title Descending</option>
-        </select>
+        <form action="/posts" method="GET" id="sortForm">
+            <select id="sortOptions" name="sort" th:value="${currentSort}" onchange="this.form.submit()">
+                <option value="id,asc" th:selected="${currentSort == 'id,asc'}">ID Ascending</option>
+                <option value="id,desc" th:selected="${currentSort == 'id,desc'}">ID Descending</option>
+                <option value="title,asc" th:selected="${currentSort == 'title,asc'}">Title Ascending</option>
+                <option value="title,desc" th:selected="${currentSort == 'title,desc'}">Title Descending</option>
+            </select>
+        </form>
     </div>
 
-    <div id="posts"></div>
+    <div id="posts">
+        <div th:each="post : ${posts}" class="post">
+            <a class="post_body_link" th:href="@{/posts/{id}(id=${post.id})}">
+
+                <div class="post_body">
+                    <div class="post_content">
+                        <span class="post_title" th:text="${post.title}"></span>
+                        <span class="post_text" th:text="${post.text}"></span>
+                        <img class="post_picture" th:src="${post.picture}" th:if="${post.picture != null}" />
+                    </div>
+                </div>
+            </a>
+
+            <div class="post_controls">
+                <button class="post_controls_like" th:value="${post.likes}"
+                    th:classappend="${post.liked} ? 'liked' : ''" th:text="'❤️ ' + ${post.likes}"
+                    th:onclick="'post_like(' + ${post.id} + ', this);'">
+                </button>
+
+                <button class="post_controls_comment" th:text="'💬 ' + ${post.totalChildren}"
+                    th:onclick="'showCommentForm(' + ${post.id} + ');'">
+                </button>
+
+                <button th:if="${post.myPost}" class="post_controls_update"
+                    th:onclick="'window.location.href=\'/posts/' + ${post.id} + '/edit\''">
+                    📝
+                </button>
+                <button th:if="${post.myPost}" class="post_controls_delete"
+                    th:onclick="'post_delete(' + ${post.id} + ');'">
+                    ❌
+                </button>
+
+                <div class="post_account">
+                    <a class="post_account_link" th:href="@{/accounts/{id}(id=${post.account.id})}">
+                        <img class="post_account_image" th:src="${post.account.avatar}" />
+                        <span class="post_account_userName" th:text="${post.account.userName}"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div id="commentForm" style="display: none;">
         <div id="commentForm_content">
@@ -51,7 +87,7 @@
     </div>
 
     <div class="popup" id="popup" style="display: none;">
-        <p id="popup_text"></p>
+        <span id="popup_text"></span>
     </div>
 </body>
 

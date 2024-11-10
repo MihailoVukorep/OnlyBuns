@@ -34,7 +34,6 @@ function make_account(json) {
     // role
     const account_info_head_roles = document.createElement("span");
     account_info_head_roles.className = "account_info_body_roles";
-    account_info_head_roles.appendChild(roles(json.roles));
     account_info_head_names.appendChild(account_info_head_roles);
 
     // space
@@ -106,7 +105,7 @@ function make_account(json) {
 
 
 async function load_posts() {
-    prune(accounts);
+    while (accounts.firstChild) { accounts.removeChild(accounts.lastChild); }
     const response = await fetch("/api/admin/accounts");
     const json = await response.json();
 
@@ -116,7 +115,7 @@ async function load_posts() {
 }
 
 async function init() {
-    await loadjs('/js/roles.js');
+    //await loadjs('/js/roles.js');
     load_posts();
 }
 

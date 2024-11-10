@@ -12,12 +12,10 @@
     <link rel="stylesheet" href="/css/dataform.css">
 
     <script defer type="text/javascript" src="/js/main.js"></script>
-    <script defer type="text/javascript" src="/js/navbar.js"></script>
-    <script defer type="text/javascript" src="/js/register.js"></script>
 </head>
 
 <body>
-    <div id="navbar"></div>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
 
     <h1>📝 Register 📝</h1>
     <div class="dataform" id="form_register">
@@ -51,9 +49,52 @@
                 <td><input class="txtfld" type="text" id="txt_address" placeholder="address" /></td>
             </tr>
         </table>
-        <button id="btn_register">📝 Register</button>
+        <button id="btn_register" onclick="register()">📝 Register</button>
         <p id="p_status">...</p>
     </div>
+
+    <script>
+        async function register() {
+
+            let p_status = document.getElementById("p_status");
+            p_status.innerHTML = "Registering...";
+
+            let txt_email = document.getElementById("txt_email");
+            let txt_userName = document.getElementById("txt_userName");
+            let txt_password = document.getElementById("txt_password");
+            let txt_password_repeat = document.getElementById("txt_password_repeat");
+            let txt_firstName = document.getElementById("txt_firstName");
+            let txt_lastName = document.getElementById("txt_lastName");
+            let txt_address = document.getElementById("txt_address");
+
+            if (txt_password.value != txt_password_repeat.value) {
+                p_status.innerHTML = "Passwords don't match";
+                return;
+            }
+
+            const response = await fetch('/api/register', {
+
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+
+                ,
+                body: JSON.stringify({
+                    email: txt_email.value,
+                    userName: txt_userName.value,
+                    password: txt_password.value,
+                    firstName: txt_firstName.value,
+                    lastName: txt_lastName.value,
+                    address: txt_address.value,
+                })
+            });
+
+            const text = await response.text();
+            p_status.innerHTML = text;
+        }
+    </script>
 </body>
 
 </html>

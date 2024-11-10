@@ -62,6 +62,11 @@ body {
     gap: 5px;
 }
 
+#navbar_right div {
+    display: inherit;
+    gap: inherit;
+}
+
 #navbar a {
     display: inline-block;
     font-size: 16px;

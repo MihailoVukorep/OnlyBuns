@@ -22,7 +22,6 @@ function loadcss(url) {
     });
 }
 
-// remove children
 function prune(div) {
     while (div.firstChild) {
         div.removeChild(div.lastChild);

@@ -10,7 +10,7 @@ function index_link(text, link) {
 }
 
 async function load_index_links() {
-    const response = await fetch("/api/myaccount");
+    const response = await fetch("/api/user");
 
     if (response.ok) {
         const json = await response.json();
@@ -24,8 +24,8 @@ async function load_index_links() {
         links.append(index_link("💬 Chat", "/chat"));
         links.append(index_link("📈 Analytics", "/analytics"));
         links.append(index_link("🗺️ View Map", "/map"));
-        links.append(index_link("👤 My Account", "/myaccount"));
-        links.append(index_link("⚙️ My Account - Update", "/myaccount/update"));
+        links.append(index_link("👤 My Account", "/user"));
+        links.append(index_link("⚙️ My Account - Update", "/user/update"));
         links.append(index_link("🚪 Log out (" + json.userName + ")", "/logout"));
     }
     else {

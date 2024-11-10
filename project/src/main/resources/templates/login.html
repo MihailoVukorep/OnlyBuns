@@ -10,14 +10,10 @@
     <title>OnlyBuns - Log In</title>
     <link rel="stylesheet" href="/css/login.css">
     <link rel="stylesheet" href="/css/dataform.css">
-
-    <script defer type="text/javascript" src="/js/main.js"></script>
-    <script defer type="text/javascript" src="/js/navbar.js"></script>
-    <script defer type="text/javascript" src="/js/login.js"></script>
 </head>
 
 <body>
-    <div id="navbar"></div>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
 
     <h1>🔑 Log In 🔑</h1>
 
@@ -32,9 +28,39 @@
                 <td><input type="text" id="txt_password" placeholder="password" /></td>
             </tr>
         </table>
-        <button id="btn_login">🔑 Log In</button>
+        <button id="btn_login" onclick="login()">🔑 Log In</button>
         <p id="p_status">...</p>
     </div>
-</body>
 
+    <script>
+        let txt_email = document.getElementById("txt_email");
+        let txt_password = document.getElementById("txt_password");
+        let p_status = document.getElementById("p_status");
+        txt_email.focus();
+        txt_email.select();
+
+        txt_email.addEventListener("keydown", function (event) {if (event.key == 'Enter') { txt_password.focus(); } }, false);
+        txt_password.addEventListener("keydown", function (event) {if (event.key == 'Enter') {login();} }, false);
+
+        async function login() {
+            p_status.innerHTML = "Logging in...";
+
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({email: txt_email.value, password: txt_password.value})
+            });
+
+            const text = await response.text();
+            p_status.innerHTML = text;
+
+            if (response.ok) {
+                window.location.href = "user";
+            }
+        }
+    </script>
+</body>
 </html>

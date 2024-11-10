@@ -22,6 +22,8 @@ public class DTO_Get_Account {
     public String avatar;
     public String bio;
     public Set<Role> roles;
+    public boolean isAdmin;
+    // TODO: ADD ROLES STRING WITH EMOJIS
     public Integer postsCount;
     public Integer likesCount;
     public Integer followersCount;
@@ -38,6 +40,7 @@ public class DTO_Get_Account {
         this.avatar = account.getAvatar();
         this.bio = account.getBio();
         this.roles = account.getRoles();
+        this.isAdmin = account.isAdmin();
         this.postsCount = account.getPosts().size();
         this.likesCount = account.getLikes().size();
         this.followersCount = 0;
