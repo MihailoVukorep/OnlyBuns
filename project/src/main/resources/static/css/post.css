@@ -23,6 +23,7 @@
     flex-direction: column;
     border-bottom: 1px solid var(--var-color-border-transwhite);
     padding: 10px;
+    overflow: clip;
 }
 
 .post_body_link {
