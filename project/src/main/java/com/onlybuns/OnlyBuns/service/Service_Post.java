@@ -8,7 +8,6 @@ import com.onlybuns.OnlyBuns.model.Like;
 import com.onlybuns.OnlyBuns.model.Post;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
 import com.onlybuns.OnlyBuns.repository.Repository_Like;
-import com.onlybuns.OnlyBuns.util.DiskWriter;
 import com.onlybuns.OnlyBuns.util.VarConverter;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -45,7 +44,6 @@ public class Service_Post {
     @Autowired
     private Repository_Like repository_like;
 
-    private final DiskWriter diskWriter = new DiskWriter();
     private final VarConverter varConverter = new VarConverter();
 
     // GETTING POSTS
@@ -110,6 +108,22 @@ public class Service_Post {
                 .collect(Collectors.toList());
     }
 
+    @Value("${file.upload-dir}")
+    private String uploadDir;
+
+    public String saveImage(MultipartFile file) throws IOException {
+        Path uploadPath = Paths.get(uploadDir);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        String fileName = file.getOriginalFilename();
+        Path filePath = uploadPath.resolve(fileName);
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+        return "/" + filePath.toString();
+    }
+
     // CREATING POSTS
     @Transactional
     public ResponseEntity<String> post_api_createpost(String title, String description, String location, MultipartFile imageFile, HttpSession session) {
@@ -132,7 +146,7 @@ public class Service_Post {
 
         try {
             // Save the file to the directory
-            filePath = diskWriter.saveImage(imageFile);
+            filePath = saveImage(imageFile);
             //return ResponseEntity.ok("Image uploaded successfully: " + filePath);
         }
         catch (IOException ignored) {
@@ -234,7 +248,7 @@ public class Service_Post {
 
         if (imageFile != null && !imageFile.isEmpty()) {
             try {
-                filePath = diskWriter.saveImage(imageFile);
+                filePath = saveImage(imageFile);
             } catch (IOException e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
             }

@@ -1,28 +1,13 @@
-/* Main container for the form */
-.container {
-    display: flex;
-    justify-content: space-between; /* Razmak između dva diva */
-    margin: 20px auto;
-    max-width: 1400px;
-}
-
-/* Left part: Form container */
 .form-container {
     display: inline-block;
-    border: 3px solid #ccc;
-    padding: 20px;
-    vertical-align: middle;
-    border-radius: 8px;
-    margin-left: 3%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Form title */
-h2 {
-    color: #ccc;
+#map {
+    display: inline-block;
+    height: 300px;
+    width: 300px;
 }
 
-/* Table for form fields */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -30,7 +15,7 @@ table {
 }
 
 th {
-    text-align: left;
+    text-align: right;
     padding: 10px;
     width: 150px;
 }
@@ -39,15 +24,6 @@ td {
     padding: 10px;
 }
 
-input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-/* Submit button */
 button {
     width: 20%;
     padding: 10px;
@@ -120,3 +96,4 @@ input[type="file"] {
         font-size: 14px;
     }
 }
+

@@ -5,17 +5,11 @@
     <!-- MAIN -->
     <meta charset="UTF-8">
     <link rel="icon" type="image/x-icon" href="/img/favicon.png">
-    <link rel="stylesheet" href="/css/main.css">
     <title>Create Post</title>
-    <link rel="stylesheet" href="/css/register.css">
+    <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/createpost.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="/css/map.css" />
-
-    <script defer type="text/javascript" src="/js/main.js"></script>
     <script defer type="text/javascript" src="/js/createpost.js"></script>
-    <script defer src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script defer type="text/javascript" src="/js/map.js"></script>
 </head>
 
 <body>
@@ -26,7 +20,6 @@
         <form id="postForm" enctype="multipart/form-data">
             <!-- Left part: Form fields (post data) -->
             <div class="form-container">
-                <h2>Post Details</h2>
                 <table>
                     <tr>
                         <th>TITLE:</th>
@@ -38,8 +31,8 @@
                     <tr>
                         <th>DESCRIPTION:</th>
                         <td>
-                            <input class="txtfld" type="text" id="txt_description" name="description"
-                                placeholder="Description" required />
+                            <textarea class="txtfld" type="text" id="txt_description" name="description"
+                                placeholder="Description" required></textarea>
                         </td>
                     </tr>
                     <tr>
@@ -51,12 +44,14 @@
                     </tr>
                 </table>
             </div>
+
+            <div id="map"></div>
+            
             <!-- Right part: Image Upload Section -->
             <div class="form-container">
-                <h2>Upload Image</h2>
                 <div class="image-upload">
                     <button type="button" class="upload_button"
-                        onclick="document.getElementById('file_image').click()">Choose File</button>
+                        onclick="document.getElementById('file_image').click()">Upload Image</button>
                     <input type="file" id="file_image" name="image" accept="image/*" class="file-input" />
                     <div id="image-preview" class="image-preview">
                         <p>No image selected</p>
@@ -68,6 +63,31 @@
             <p id="p_status">...</p>
         </form>
     </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([45.2671, 19.8335], 13);
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Add a click event to the map to set the location and display it in the textbox
+        map.on('click', function(e) {
+            var lat = e.latlng.lat;
+            var lon = e.latlng.lng;
+
+            // Create a marker at the clicked position
+            L.marker([lat, lon]).addTo(map)
+                .bindPopup("You clicked the map at: " + lat.toFixed(5) + ", " + lon.toFixed(5))
+                .openPopup();
+
+            // Set the latitude and longitude in the textbox
+            document.getElementById('txt_location').value = lat.toFixed(5) + ', ' + lon.toFixed(5);
+        });
+    </script>
 </body>
 
 </html>
