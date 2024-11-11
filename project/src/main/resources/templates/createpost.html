@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/x-icon" href="/img/favicon.png">
     <title>OnlyBuns - Create Post</title>
-    
+
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/createpost.css">
 
@@ -19,78 +19,8 @@
     <div th:replace="~{fragments/navbar :: navbar}"></div>
 
     <h1>📸 Create Post 📸</h1>
-    <div class="container">
-        <form id="postForm" enctype="multipart/form-data">
-            <!-- Left part: Form fields (post data) -->
-            <div class="form-container">
-                <table>
-                    <tr>
-                        <th>TITLE:</th>
-                        <td>
-                            <input class="txtfld" type="text" id="txt_title" name="title" placeholder="Title"
-                                required />
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>DESCRIPTION:</th>
-                        <td>
-                            <textarea class="txtfld" type="text" id="txt_description" name="description"
-                                placeholder="Description" required></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>LOCATION:</th>
-                        <td>
-                            <input class="txtfld" type="text" id="txt_location" name="location"
-                                placeholder="Enter location or address" required />
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            <div id="map"></div>
-            
-            <!-- Right part: Image Upload Section -->
-            <div class="form-container">
-                <div class="image-upload">
-                    <button type="button" class="upload_button"
-                        onclick="document.getElementById('file_image').click()">Upload Image</button>
-                    <input type="file" id="file_image" name="image" accept="image/*" class="file-input" />
-                    <div id="image-preview" class="image-preview">
-                        <p>No image selected</p>
-                    </div>
-                </div>
-            </div>
-            <!-- Submit button for creating the post -->
-            <button type="button" id="btn_createpost">CREATE POST</button>
-            <p id="p_status">...</p>
-        </form>
-    </div>
-
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>
-        // Initialize the map
-        var map = L.map('map').setView([45.2671, 19.8335], 13);
-
-        // Add OpenStreetMap tile layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        // Add a click event to the map to set the location and display it in the textbox
-        map.on('click', function(e) {
-            var lat = e.latlng.lat;
-            var lon = e.latlng.lng;
-
-            // Create a marker at the clicked position
-            L.marker([lat, lon]).addTo(map)
-                .bindPopup("You clicked the map at: " + lat.toFixed(5) + ", " + lon.toFixed(5))
-                .openPopup();
-
-            // Set the latitude and longitude in the textbox
-            document.getElementById('txt_location').value = lat.toFixed(5) + ', ' + lon.toFixed(5);
-        });
-    </script>
+    
+    <div th:replace="~{fragments/createPostForm :: createPostForm}"></div>
 </body>
 
 </html>

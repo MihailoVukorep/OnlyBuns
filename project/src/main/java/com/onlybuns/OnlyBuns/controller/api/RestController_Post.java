@@ -32,11 +32,11 @@ public class RestController_Post {
     // CREATE POST
     @PostMapping("/api/createpost")
     public ResponseEntity<String> post_api_createpost(@RequestParam("title") String title,
-                                                      @RequestParam("description") String description,
+                                                      @RequestParam("text") String text,
                                                       @RequestParam("location") String location,
                                                       @RequestParam(value = "image", required = false) MultipartFile imageFile,
                                                       HttpSession session) {
-        return servicePost.post_api_createpost(title, description, location, imageFile, session);
+        return servicePost.post_api_createpost(title, text, location, imageFile, session);
     }
 
     // GET REPLIES

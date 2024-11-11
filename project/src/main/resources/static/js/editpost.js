@@ -1,4 +1,4 @@
-let btnEditPost = document.getElementById("btn_editpost");
+let btn_submit = document.getElementById("btn_submit");
 let fileImage = document.getElementById("file_image");
 let imagePreview = document.getElementById("image-preview");
 let pStatus = document.getElementById("p_status");
@@ -103,4 +103,4 @@ async function api_editpost() {
     
 }
 
-btnEditPost.onclick = api_editpost;
+btn_submit.onclick = api_editpost;

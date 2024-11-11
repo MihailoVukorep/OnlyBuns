@@ -1,4 +1,4 @@
-let btnCreatePost = document.getElementById("btn_createpost");
+let btn_submit = document.getElementById("btn_submit");
 let fileImage = document.getElementById("file_image");
 let imagePreview = document.getElementById("image-preview");
 let pStatus = document.getElementById("p_status");
@@ -41,4 +41,4 @@ async function api_createpost() {
     }
 }
 
-btnCreatePost.onclick = api_createpost;
+btn_submit.onclick = api_createpost;

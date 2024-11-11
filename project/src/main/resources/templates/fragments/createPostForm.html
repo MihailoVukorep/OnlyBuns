@@ -1,0 +1,65 @@
+
+<div th:fragment="createPostForm" id="createPostForm">
+    <form id="postForm" enctype="multipart/form-data">
+        <div class="dataform">
+            <div>
+                <div>Title:</div>
+                <input type="text" id="txt_title" name="title" placeholder="Title" required />
+            </div>
+
+            <div>
+                <div>Text:</div>
+                <textarea type="text" id="txt_text" name="text" placeholder="Text" required></textarea>
+            </div>
+
+            <div>
+                <div>Location:</div>
+                <input type="text" id="txt_location" name="location" placeholder="Enter location or address" required />
+            </div>
+
+            <div>
+                <div id="map"></div>
+            </div>
+
+            <div class="form-container">
+                <div class="image-upload">
+                    <button type="button" class="upload_button"
+                        onclick="document.getElementById('file_image').click()">Upload Image</button>
+                    <input type="file" id="file_image" name="image" accept="image/*" class="file-input" />
+                    <div id="image-preview" class="image-preview">
+                        <p>No image selected</p>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" id="btn_submit">Submit</button>
+            <span id="p_status"></span>
+        </div>
+    </form>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([45.2671, 19.8335], 13);
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Add a click event to the map to set the location and display it in the textbox
+        map.on('click', function (e) {
+            var lat = e.latlng.lat;
+            var lon = e.latlng.lng;
+
+            // Create a marker at the clicked position
+            L.marker([lat, lon]).addTo(map)
+                .bindPopup("You clicked the map at: " + lat.toFixed(5) + ", " + lon.toFixed(5))
+                .openPopup();
+
+            // Set the latitude and longitude in the textbox
+            document.getElementById('txt_location').value = lat.toFixed(5) + ', ' + lon.toFixed(5);
+        });
+    </script>
+</div>
+

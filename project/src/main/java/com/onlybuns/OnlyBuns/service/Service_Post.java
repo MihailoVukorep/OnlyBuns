@@ -137,7 +137,7 @@ public class Service_Post {
 
     // CREATING POSTS
     @Transactional
-    public ResponseEntity<String> post_api_createpost(String title, String description, String location, MultipartFile imageFile, HttpSession session) {
+    public ResponseEntity<String> post_api_createpost(String title, String text, String location, MultipartFile imageFile, HttpSession session) {
 
         Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED); }
@@ -146,8 +146,8 @@ public class Service_Post {
         if (
                 title == null ||
                         title.isEmpty() ||
-                        description == null ||
-                        description.isEmpty() ||
+                        text == null ||
+                        text.isEmpty() ||
                         location == null ||
                         location.isEmpty())
         {
@@ -155,7 +155,7 @@ public class Service_Post {
         }
 
         String diskLocation = service_diskWriter.saveImage(imageFile);;
-        Post newPost = new Post(title, description, location, diskLocation, sessionAccount);
+        Post newPost = new Post(title, text, location, diskLocation, sessionAccount);
         repository_post.save(newPost);
         System.out.println("Post created: " + newPost);
         return new ResponseEntity<>("Post created successfully.", HttpStatus.OK);

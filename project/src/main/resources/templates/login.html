@@ -38,13 +38,10 @@
     <div id="p_status"></div>
 
 
-    <script>
+    <script defer>
         let txt_email = document.getElementById("txt_email");
         let txt_password = document.getElementById("txt_password");
         let p_status = document.getElementById("p_status");
-        txt_email.focus();
-        txt_email.select();
-
         txt_email.addEventListener("keydown", function (event) {if (event.key == 'Enter') { txt_password.focus(); } }, false);
         txt_password.addEventListener("keydown", function (event) {if (event.key == 'Enter') {login();} }, false);
 
@@ -67,6 +64,9 @@
                 window.location.href = "user";
             }
         }
+
+        txt_email.focus();
+        txt_email.select();
     </script>
 </body>
 </html>
