@@ -47,6 +47,8 @@ public class Service_Post {
     @Autowired
     private Repository_Like repository_like;
 
+    public Optional<Post> findById(Long id) { return repository_post.findById(id); }
+
     @Autowired
     private Service_DiskWriter service_diskWriter;
 
@@ -131,8 +133,6 @@ public class Service_Post {
                 .map(post -> new DTO_Get_Post(post, likedPostIds.contains(post.getId()), post.getAccount().getId().equals(account.getId()), 0))
                 .collect(Collectors.toList());
     }
-
-
 
     // CREATING POSTS
     @Transactional
@@ -228,12 +228,14 @@ public class Service_Post {
     // UPDATE POST
     public ResponseEntity<String> put_api_posts_id(@PathVariable(name = "id") Long id, DTO_Put_Post dto_put_post, MultipartFile imageFile, HttpSession session) {
 
-        Optional<Post> existingPostOpt = repository_post.findById(id);
-        if (existingPostOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post not found");
-        }
+        Account sessionAccount = (Account) session.getAttribute("user");
+        if (sessionAccount == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED); }
+        Optional<Post> optional_post = repository_post.findById(id);
+        if (optional_post.isEmpty()) { return new ResponseEntity<>("Can't find post.", HttpStatus.NOT_FOUND); }
+        Post post = optional_post.get();
+        if (!post.getAccount().getId().equals(sessionAccount.getId())) { return new ResponseEntity<>("You don't own this post.", HttpStatus.FORBIDDEN); }
 
-        Post existingPost = existingPostOpt.get();
+        Post existingPost = optional_post.get();
         String filePath = existingPost.getPictureUrl();
         String oldFilePath = existingPost.getPictureLocation();
 
@@ -258,14 +260,10 @@ public class Service_Post {
 
         Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED); }
-
         Optional<Post> optional_post = repository_post.findById(id);
         if (optional_post.isEmpty()) { return new ResponseEntity<>("Can't find post.", HttpStatus.NOT_FOUND); }
         Post post = optional_post.get();
-
-        if (!post.getAccount().getId().equals(sessionAccount.getId())) {
-            return new ResponseEntity<>("You don't own this post.", HttpStatus.FORBIDDEN);
-        }
+        if (!post.getAccount().getId().equals(sessionAccount.getId())) { return new ResponseEntity<>("You don't own this post.", HttpStatus.FORBIDDEN); }
 
         // delete post
         repository_post.delete(post);

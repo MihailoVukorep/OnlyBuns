@@ -54,7 +54,7 @@ public class RestController_Post {
     @GetMapping("/api/posts/{id}/likes")
     public ResponseEntity<List<DTO_Get_Like>> post_api_posts_id_likes(@PathVariable(name = "id") Long id) { return servicePost.get_api_posts_id_likes(id); }
 
-    //  UPDATE POST
+    // UPDATE POST
     @PutMapping("/api/posts/{id}")
     public ResponseEntity<String> put_api_posts_id(@PathVariable(name = "id") Long id, DTO_Put_Post dto_put_post, @RequestParam(value = "image", required = false) MultipartFile imageFile, HttpSession session) { return servicePost.put_api_posts_id(id, dto_put_post, imageFile, session); }
 
