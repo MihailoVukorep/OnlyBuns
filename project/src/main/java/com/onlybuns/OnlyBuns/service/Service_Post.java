@@ -236,10 +236,12 @@ public class Service_Post {
 
         Post existingPost = existingPostOpt.get();
         String filePath = existingPost.getPictureUrl();
+        String oldFilePath = existingPost.getPictureLocation();
 
         if (imageFile != null && !imageFile.isEmpty()) {
             String diskLocation = service_diskWriter.saveImage(imageFile);
             existingPost.setImageLocationAndUrl(diskLocation);
+            service_diskWriter.deleteImage(oldFilePath);
         }
         existingPost.setTitle(dto_put_post.getTitle());
         existingPost.setText(dto_put_post.getText());
@@ -248,9 +250,6 @@ public class Service_Post {
 
         repository_post.save(existingPost);
         System.out.println("Post updated: " + existingPost);
-        if (filePath != null) {
-            System.out.println("Image path: " + filePath);
-        }
         return new ResponseEntity<>("Post updated successfully.", HttpStatus.OK);
     }
 
