@@ -26,7 +26,10 @@ public class Post {
     private String text;
 
     @Column
-    private String picture;
+    private String pictureLocation;
+
+    @Column
+    private String pictureUrl;
 
     @Column
     private String location;
@@ -66,11 +69,11 @@ public class Post {
         this.account = account;
     }
 
-    public Post(String title, String text, String location, String picture, Account account) {
+    public Post(String title, String text, String location, String pictureLocation, Account account) {
         this.title = title;
         this.text = text;
         this.location = location;
-        this.picture = picture;
+        setImageLocationAndUrl(pictureLocation);
         this.account = account;
     }
 
@@ -82,16 +85,23 @@ public class Post {
         this.parentPost = parentPost;
     }
 
+    public void setImageLocationAndUrl(String imageLocationOnDisk) {
+        this.pictureLocation = imageLocationOnDisk;
+        this.pictureUrl = "/" + imageLocationOnDisk;
+    }
+
     @Override
     public String toString() {
         return "Post{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", text='" + text + '\'' +
+                ", pictureLocation='" + pictureLocation + '\'' +
+                ", pictureUrl='" + pictureUrl + '\'' +
                 ", location='" + location + '\'' +
-                ", picture='" + picture + '\'' +
-                ", account=" + account.getId() +
+                ", account=" + account +
                 ", replies=" + replies.size() +
+//                ", parentPost=" + parentPost +
                 ", likes=" + likes.size() +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +

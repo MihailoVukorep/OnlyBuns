@@ -14,10 +14,10 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import com.onlybuns.OnlyBuns.repository.Repository_Post;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -25,17 +25,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.IIOImage;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriter;
-import javax.imageio.stream.ImageOutputStream;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -53,6 +47,9 @@ public class Service_Post {
 
     @Autowired
     private Repository_Like repository_like;
+
+    @Autowired
+    private Service_DiskWriter service_diskWriter;
 
     private final VarConverter varConverter = new VarConverter();
 
@@ -136,21 +133,7 @@ public class Service_Post {
                 .collect(Collectors.toList());
     }
 
-    @Value("${file.upload-dir}")
-    private String uploadDir;
 
-    public String saveImage(MultipartFile file) throws IOException {
-        Path uploadPath = Paths.get(uploadDir);
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
-
-        String fileName = file.getOriginalFilename();
-        Path filePath = uploadPath.resolve(fileName);
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-        return "/" + filePath.toString();
-    }
 
     // CREATING POSTS
     @Transactional
@@ -170,34 +153,13 @@ public class Service_Post {
         {
             return new ResponseEntity<>("All fields are required.", HttpStatus.BAD_REQUEST);
         }
-        String filePath = null;  // Inicijalizacija filePath varijable
 
-        try {
-            // Save the file to the directory
-            filePath = saveImage(imageFile);
-            //return ResponseEntity.ok("Image uploaded successfully: " + filePath);
-        }
-        catch (IOException ignored) {
-
-            // post without image
-            //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
-        }
-        catch (Exception ignored) {
-
-        }
-
-        // Kreiranje posta
-        Post newPost = new Post(title, description, location, filePath, sessionAccount);
+        String diskLocation = service_diskWriter.saveImage(imageFile);;
+        Post newPost = new Post(title, description, location, diskLocation, sessionAccount);
         repository_post.save(newPost);
-
         System.out.println("Post created: " + newPost);
-        if (filePath != null) {
-            System.out.println("Image path: " + filePath);
-        }
-
         return new ResponseEntity<>("Post created successfully.", HttpStatus.OK);
     }
-
 
     // LIKE
     @Transactional
@@ -273,19 +235,16 @@ public class Service_Post {
         }
 
         Post existingPost = existingPostOpt.get();
-        String filePath = existingPost.getPicture();
+        String filePath = existingPost.getPictureUrl();
 
         if (imageFile != null && !imageFile.isEmpty()) {
-            try {
-                filePath = saveImage(imageFile);
-            } catch (IOException e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
-            }
+            String diskLocation = service_diskWriter.saveImage(imageFile);
+            existingPost.setImageLocationAndUrl(diskLocation);
         }
         existingPost.setTitle(dto_put_post.getTitle());
         existingPost.setText(dto_put_post.getText());
         existingPost.setLocation(dto_put_post.getLocation());
-        existingPost.setPicture(filePath);
+
 
         repository_post.save(existingPost);
         System.out.println("Post updated: " + existingPost);
@@ -310,7 +269,12 @@ public class Service_Post {
             return new ResponseEntity<>("You don't own this post.", HttpStatus.FORBIDDEN);
         }
 
+        // delete post
         repository_post.delete(post);
+
+        // remove post's image if exists
+        service_diskWriter.deleteImage(post.getPictureLocation());
+
         return new ResponseEntity<>("Post deleted.", HttpStatus.OK);
     }
 
@@ -320,17 +284,17 @@ public class Service_Post {
         LocalDateTime oneMonthAgo = LocalDateTime.now().minus(1, ChronoUnit.MINUTES);
 
         for (Post post : allPosts) {
-            if (post.getPicture() != null && post.getCreatedDate().isBefore(oneMonthAgo)) {
+            if (post.getPictureUrl() != null && post.getCreatedDate().isBefore(oneMonthAgo)) {
                 try {
                     String baseDir = System.getProperty("user.dir");
-                    String relativePath = post.getPicture();
+                    String relativePath = post.getPictureUrl();
 
                     Path inputPath = Paths.get(baseDir, relativePath.replaceFirst("^/", ""));  // Uklonite početni "/" ako postoji
                     File inputImage = inputPath.toFile();
 
                     if (inputImage.exists()) {
                     } else {
-                        log.warn("File for Post ID {} not found: {}", post.getId(), post.getPicture());
+                        log.warn("File for Post ID {} not found: {}", post.getId(), post.getPictureUrl());
                     }
                     String fileName = inputImage.getName();
 

@@ -124,8 +124,8 @@ public class DatabaseConfiguration {
                 false
         );
 
-        repository_post.save(new Post("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)","location1", "/uploads/img/bunny1.png", acc_ajzak));
-        repository_post.save(new Post("Sala", "I ja i zeka volimo travu.","location2", "/uploads/img/bunny2.png", acc_ajzak));
+        repository_post.save(new Post("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)","location1", "uploads/img/bunny1.png", acc_ajzak));
+        repository_post.save(new Post("Sala", "I ja i zeka volimo travu.","location2", "uploads/img/bunny2.png", acc_ajzak));
 
 
         Account acc_ana = CreateAccount(
@@ -153,7 +153,7 @@ public class DatabaseConfiguration {
         );
 
 
-        Post r = new Post("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).","location3", "/uploads/img/bunny5.png", acc_ana);
+        Post r = new Post("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).","location3", "uploads/img/bunny5.png", acc_ana);
         repository_post.save(r);
 
         repository_post.save(new Post("e necu", "Sto bi trosio vodu nek smrdi!", acc_ajzak, r));

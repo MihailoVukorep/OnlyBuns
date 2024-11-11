@@ -30,7 +30,7 @@ public class DTO_Get_Post {
         this.text = post.getText();
         Post parent = post.getParentPost();
         if (parent != null) { this.parentPostId = parent.getId(); }
-        this.picture = post.getPicture();
+        this.picture = post.getPictureUrl();
         this.location = post.getLocation();
         this.account = new DTO_Get_Post_Account(post.getAccount());
         this.replies = post.getReplies().size();
