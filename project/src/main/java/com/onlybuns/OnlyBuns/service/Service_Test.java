@@ -24,26 +24,18 @@ public class Service_Test {
     @Autowired
     private Repository_AccountActivation repository_accountActivation;
 
-    public void printAll_accounts() {
-        List<Account> accounts = repository_account.findAll();
-        for (Account i : accounts) { System.out.println(i.toString()); }
-    }
-
-    public void printAll_posts() {
-        List<Post> posts = repository_post.findAll();
-        for (Post i : posts) { System.out.println(i.toString()); }
-    }
-
-    public void printAll_accountActivations() {
-        List<AccountActivation> accountActivations = repository_accountActivation.findAll();
-        for (AccountActivation i : accountActivations) { System.out.println(i.toString()); }
-    }
+    @Autowired
+    private Service_DiskWriter service_diskWriter;
 
     public ResponseEntity<String> get_api_test() {
 
-        printAll_accounts();
-        printAll_posts();
-        printAll_accountActivations();
+        List<Post> allPosts = repository_post.findAll();
+
+        for (Post post : allPosts) {
+            if (post.getPictureLocation() != null) {
+                service_diskWriter.compressImage(post.getPictureLocation());
+            }
+        }
 
         return new ResponseEntity<>("testing", HttpStatus.OK);
     }
