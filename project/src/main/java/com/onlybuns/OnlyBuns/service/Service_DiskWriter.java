@@ -18,6 +18,8 @@ public class Service_DiskWriter {
 
     public String saveImage(MultipartFile file) {
         try {
+            if (file.getOriginalFilename() == null || file.getOriginalFilename().isEmpty()) { return null; }
+
             Path uploadPath = Paths.get(uploadDir);
             if (!Files.exists(uploadPath)) { Files.createDirectories(uploadPath); }
 

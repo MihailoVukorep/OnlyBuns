@@ -3,7 +3,6 @@ import com.onlybuns.OnlyBuns.dto.DTO_Post_Reply;
 import com.onlybuns.OnlyBuns.dto.DTO_Put_Post;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Like;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Post;
-import com.onlybuns.OnlyBuns.model.Post;
 import com.onlybuns.OnlyBuns.service.Service_Post;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +29,13 @@ public class RestController_Post {
     public ResponseEntity<DTO_Get_Post> get_api_posts_id(@PathVariable(name = "id") Long id, HttpSession session) { return servicePost.get_api_posts_id(id, session); }
 
     // CREATE POST
-    @PostMapping("/api/createpost")
-    public ResponseEntity<String> post_api_createpost(@RequestParam("title") String title,
-                                                      @RequestParam("text") String text,
-                                                      @RequestParam("location") String location,
-                                                      @RequestParam(value = "image", required = false) MultipartFile imageFile,
-                                                      HttpSession session) {
-        return servicePost.post_api_createpost(title, text, location, imageFile, session);
+    @PostMapping("/api/posts")
+    public ResponseEntity<String> post_api_posts(@RequestParam("title") String title,
+                                                 @RequestParam("text") String text,
+                                                 @RequestParam("location") String location,
+                                                 @RequestParam(value = "image", required = false) MultipartFile imageFile,
+                                                 HttpSession session) {
+        return servicePost.post_api_posts(title, text, location, imageFile, session);
     }
 
     // GET REPLIES

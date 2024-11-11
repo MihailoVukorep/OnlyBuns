@@ -17,7 +17,6 @@ import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.data.domain.Sort;
 import com.onlybuns.OnlyBuns.repository.Repository_Post;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -137,7 +136,7 @@ public class Service_Post {
 
     // CREATING POSTS
     @Transactional
-    public ResponseEntity<String> post_api_createpost(String title, String text, String location, MultipartFile imageFile, HttpSession session) {
+    public ResponseEntity<String> post_api_posts(String title, String text, String location, MultipartFile imageFile, HttpSession session) {
 
         Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED); }

@@ -86,6 +86,7 @@ public class Post {
     }
 
     public void setImageLocationAndUrl(String imageLocationOnDisk) {
+        if (imageLocationOnDisk == null) { return; }
         this.pictureLocation = imageLocationOnDisk;
         this.pictureUrl = "/" + imageLocationOnDisk;
     }

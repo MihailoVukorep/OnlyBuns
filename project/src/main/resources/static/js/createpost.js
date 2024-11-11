@@ -28,7 +28,7 @@ async function api_createpost() {
         formData.append("image", imageFile);
     }
 
-    const response = await fetch('/api/createpost', {
+    const response = await fetch('/api/posts', {
         method: 'POST',
         body: formData
     });
