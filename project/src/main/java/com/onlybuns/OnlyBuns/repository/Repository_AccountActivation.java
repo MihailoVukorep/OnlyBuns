@@ -7,4 +7,5 @@ import java.util.Optional;
 public interface Repository_AccountActivation extends JpaRepository<AccountActivation, Long> {
     Optional<AccountActivation> findByToken(String token);
     Optional<AccountActivation> findByAccount(Account account);
+    boolean existsByToken(String token);
 }

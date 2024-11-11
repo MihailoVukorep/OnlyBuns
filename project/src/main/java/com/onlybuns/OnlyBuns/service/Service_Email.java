@@ -48,11 +48,10 @@ public class Service_Email {
 
     public AccountActivation GenerateNewAccountActivation(Account account, AccountActivationStatus status) {
         String token = UUID.randomUUID().toString();
-        Optional<AccountActivation> optional_accountActivation = repository_accountActivation.findByToken(token);
-        while (optional_accountActivation.isPresent()) {
+        do {
             token = UUID.randomUUID().toString();
-            optional_accountActivation = repository_accountActivation.findByToken(token);
-        }
+        } while (repository_accountActivation.existsByToken(token));
+
         return new AccountActivation(account, status, token);
     }
 
