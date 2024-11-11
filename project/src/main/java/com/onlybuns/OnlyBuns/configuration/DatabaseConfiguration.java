@@ -2,6 +2,7 @@ package com.onlybuns.OnlyBuns.configuration;
 
 import com.onlybuns.OnlyBuns.model.*;
 import com.onlybuns.OnlyBuns.repository.*;
+import com.onlybuns.OnlyBuns.service.Service_Email;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +29,9 @@ public class DatabaseConfiguration {
 
     @Autowired
     private Repository_Like repository_like;
+
+    @Autowired
+    private Service_Email service_email;
 
     public void printAll_accounts() {
         List<Account> accounts = repository_account.findAll();
@@ -98,7 +102,7 @@ public class DatabaseConfiguration {
                 "veoma ozbiljan lik",
                 false
         );
-        repository_accountActivation.save(new AccountActivation(acc_pera, AccountActivationStatus.APPROVED)); // approve petar on create
+        repository_accountActivation.save(service_email.GenerateNewAccountActivation(acc_pera, AccountActivationStatus.APPROVED)); // approve petar on create
 
         Account acc_ajzak = CreateAccount(
                 "killmeplzftn+ajzak@gmail.com",
@@ -171,7 +175,7 @@ public class DatabaseConfiguration {
                 "big scary admin guy",
                 true
         );
-        repository_accountActivation.save(new AccountActivation(acc_admin, AccountActivationStatus.APPROVED)); // approve petar on create
+        repository_accountActivation.save(service_email.GenerateNewAccountActivation(acc_admin, AccountActivationStatus.APPROVED)); // approve petar on create
 
 
         Post root = new Post("Dilujem Sargarepe", "10 DINARA 100 SARGAREPA!!!!", acc_ana);

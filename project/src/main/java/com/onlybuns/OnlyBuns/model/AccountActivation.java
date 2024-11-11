@@ -27,11 +27,12 @@ public class AccountActivation {
     protected AccountActivationStatus status;
 
     @Column(nullable = false, unique = true)
-    private String token = UUID.randomUUID().toString();
+    private String token;
 
-    public AccountActivation(Account account, AccountActivationStatus status) {
+    public AccountActivation(Account account, AccountActivationStatus status, String token) {
         this.account = account;
         this.status = status;
+        this.token = token;
     }
 
     @Override

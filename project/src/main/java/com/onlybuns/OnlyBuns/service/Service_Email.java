@@ -15,12 +15,13 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class Service_Email {
 
     @Autowired
-    private Repository_AccountActivation repositoryAccountActivation;
+    private Repository_AccountActivation repository_accountActivation;
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -29,7 +30,7 @@ public class Service_Email {
     private Environment env;
 
     public ResponseEntity<String> get_api_verify(@RequestParam("token") String token) {
-        Optional<AccountActivation> activationOpt = repositoryAccountActivation.findByToken(token);
+        Optional<AccountActivation> activationOpt = repository_accountActivation.findByToken(token);
         if (activationOpt.isEmpty()) {
             return new ResponseEntity<>("Invalid or expired verification token.", HttpStatus.BAD_REQUEST);
         }
@@ -40,16 +41,26 @@ public class Service_Email {
         }
 
         activation.setStatus(AccountActivationStatus.APPROVED);
-        repositoryAccountActivation.save(activation);
+        repository_accountActivation.save(activation);
 
         return new ResponseEntity<>("Account verified successfully.", HttpStatus.OK);
+    }
+
+    public AccountActivation GenerateNewAccountActivation(Account account, AccountActivationStatus status) {
+        String token = UUID.randomUUID().toString();
+        Optional<AccountActivation> optional_accountActivation = repository_accountActivation.findByToken(token);
+        while (optional_accountActivation.isPresent()) {
+            token = UUID.randomUUID().toString();
+            optional_accountActivation = repository_accountActivation.findByToken(token);
+        }
+        return new AccountActivation(account, status, token);
     }
 
     public void sendVerificationEmail(Account account) {
         // Generate a verification token and save it in the AccountActivation table
         ;
-        AccountActivation activation = new AccountActivation(account, AccountActivationStatus.WAITING);
-        repositoryAccountActivation.save(activation);
+        AccountActivation activation = GenerateNewAccountActivation(account, AccountActivationStatus.WAITING);
+        repository_accountActivation.save(activation);
 
         // Send verification email
         String verificationLink = "http://127.0.0.1:8080/api/verify?token=" + activation.getToken();
