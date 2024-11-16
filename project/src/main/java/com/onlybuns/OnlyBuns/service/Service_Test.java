@@ -1,6 +1,4 @@
 package com.onlybuns.OnlyBuns.service;
-import com.onlybuns.OnlyBuns.model.Account;
-import com.onlybuns.OnlyBuns.model.AccountActivation;
 import com.onlybuns.OnlyBuns.model.Post;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
 import com.onlybuns.OnlyBuns.repository.Repository_AccountActivation;

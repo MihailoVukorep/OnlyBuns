@@ -1,6 +1,5 @@
 package com.onlybuns.OnlyBuns.dto;
 
-import jakarta.persistence.Column;
 import lombok.*;
 
 @Getter

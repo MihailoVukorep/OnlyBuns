@@ -1,7 +1,6 @@
 package com.onlybuns.OnlyBuns.controller.api;
 
 import com.onlybuns.OnlyBuns.dto.*;
-import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.service.Service_Account;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

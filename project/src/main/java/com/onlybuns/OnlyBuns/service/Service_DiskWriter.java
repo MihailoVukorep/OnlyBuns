@@ -9,8 +9,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -57,21 +55,6 @@ public class Service_DiskWriter {
         }
         return null;
     }
-
-//    public String saveImage(MultipartFile file) {
-//        try {
-//            Path uploadPath = Paths.get(uploadDir);
-//            if (!Files.exists(uploadPath)) { Files.createDirectories(uploadPath); }
-//
-//            Path filePath = uploadPath.resolve(file.getOriginalFilename());
-//            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-//
-//            System.out.println("saveImage: " + filePath);
-//            return filePath.toString();
-//        }
-//        catch (Exception ignored) { }
-//        return null;
-//    }
 
     public void deleteImage(String path) {
         try {
@@ -125,7 +108,6 @@ public class Service_DiskWriter {
         }
         return null;
     }
-
 
     @Scheduled(cron = "0 55 16 * * *")
     public void compressOldImages() {
