@@ -49,7 +49,7 @@ public class Controller_Account {
     }
 
     @GetMapping("/admin/manage")
-    public String management(HttpSession session, Model model) {
+    public String admin_manage(HttpSession session, Model model) {
         Account user = (Account) session.getAttribute("user");
         if (user == null || !user.isAdmin()) {
             return "error/403.html";
@@ -58,7 +58,7 @@ public class Controller_Account {
     }
 
     @GetMapping("/admin/accounts")
-    public String adminAccounts(HttpSession session,
+    public String admin_accounts(HttpSession session,
                                 Model model,
                                 @RequestParam(required = false) String firstName,
                                 @RequestParam(required = false) String lastName,

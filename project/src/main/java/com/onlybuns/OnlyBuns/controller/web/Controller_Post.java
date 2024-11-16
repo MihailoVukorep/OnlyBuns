@@ -27,7 +27,7 @@ public class Controller_Post {
     }
 
     @GetMapping("/posts/{id}")
-    public String accounts_id(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
+    public String posts_id(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
         model.addAttribute("posts", service_post.get_api_posts_id_thread_raw(id, session)); // draw thread
         return "post.html";
     }
@@ -42,7 +42,7 @@ public class Controller_Post {
     }
 
     @GetMapping("/posts/{id}/edit")
-    public String editpost(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
+    public String posts_id_edit(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
         Account user = (Account) session.getAttribute("user");
         if (user == null) {
             return "error/401.html";
