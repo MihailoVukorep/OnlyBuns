@@ -1,4 +1,5 @@
 package com.onlybuns.OnlyBuns.controller.api;
+
 import com.onlybuns.OnlyBuns.service.Service_Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,5 +14,7 @@ public class RestController_Email {
     private Service_Email serviceEmail;
 
     @GetMapping("/api/verify")
-    public ResponseEntity<String> get_api_verify(@RequestParam("token") String token) { return serviceEmail.get_api_verify(token); }
+    public ResponseEntity<String> get_api_verify(@RequestParam("token") String token) {
+        return serviceEmail.get_api_verify(token);
+    }
 }

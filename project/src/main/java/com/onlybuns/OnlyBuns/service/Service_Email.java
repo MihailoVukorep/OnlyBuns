@@ -57,7 +57,6 @@ public class Service_Email {
 
     public void sendVerificationEmail(Account account) {
         // Generate a verification token and save it in the AccountActivation table
-        ;
         AccountActivation activation = GenerateNewAccountActivation(account, AccountActivationStatus.WAITING);
         repository_accountActivation.save(activation);
 

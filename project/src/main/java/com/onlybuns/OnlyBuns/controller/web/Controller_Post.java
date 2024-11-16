@@ -1,4 +1,5 @@
 package com.onlybuns.OnlyBuns.controller.web;
+
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.Post;
 import com.onlybuns.OnlyBuns.service.Service_Post;
@@ -30,10 +31,13 @@ public class Controller_Post {
         model.addAttribute("posts", servicePost.get_api_posts_id_thread_raw(id, session)); // draw thread
         return "post.html";
     }
+
     @GetMapping("/createpost")
     public String createpost(HttpSession session, Model model) {
-        Account user = (Account)session.getAttribute("user");
-        if (user == null) { return "error/401.html"; }
+        Account user = (Account) session.getAttribute("user");
+        if (user == null) {
+            return "error/401.html";
+        }
         return "createpost.html";
     }
 
@@ -41,14 +45,22 @@ public class Controller_Post {
     @GetMapping("/posts/edit/{id}")
     public String editpost(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
         Account user = (Account) session.getAttribute("user");
-        if (user == null) { return "error/401.html"; }
+        if (user == null) {
+            return "error/401.html";
+        }
 
         Account sessionAccount = (Account) session.getAttribute("user");
-        if (sessionAccount == null) { return "error/401.html";  } // Unauthorized
+        if (sessionAccount == null) {
+            return "error/401.html";
+        } // Unauthorized
         Optional<Post> optional_post = servicePost.findById(id);
-        if (optional_post.isEmpty()) { return "error/404.html";  } // Not Found
+        if (optional_post.isEmpty()) {
+            return "error/404.html";
+        } // Not Found
         Post post = optional_post.get();
-        if (!post.getAccount().getId().equals(sessionAccount.getId())) { return "error/403.html"; } // Forbidden -- not your acount
+        if (!post.getAccount().getId().equals(sessionAccount.getId())) {
+            return "error/403.html";
+        } // Forbidden -- not your acount
 
         model.addAttribute("post_id", id);
         return "editpost.html";

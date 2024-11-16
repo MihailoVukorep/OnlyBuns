@@ -1,4 +1,5 @@
 package com.onlybuns.OnlyBuns.model;
+
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -52,7 +53,7 @@ public class Account {
     @JoinTable(name = "account_roles",
             joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Set<Role> roles = new HashSet<>();;
+    private Set<Role> roles = new HashSet<>();
 
     // One-to-many relationship with Post - an account can have many posts
     @OneToMany(mappedBy = "account", cascade = CascadeType.REFRESH, orphanRemoval = true, fetch = FetchType.EAGER)

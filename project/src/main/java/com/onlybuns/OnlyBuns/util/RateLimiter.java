@@ -31,10 +31,14 @@ public class RateLimiter {
         Queue<Long> attempts = loginAttempts.get(ip);
 
         // Remove attempts that are outside the time window
-        while (!attempts.isEmpty() && currentTime - attempts.peek() > timeWindow) { attempts.poll(); }
+        while (!attempts.isEmpty() && currentTime - attempts.peek() > timeWindow) {
+            attempts.poll();
+        }
 
         // Check if the user has reached the max attempts within the time window
-        if (attempts.size() >= maxAttempts) { return true; }
+        if (attempts.size() >= maxAttempts) {
+            return true;
+        }
 
         // Record the current attempt and proceed
         attempts.offer(currentTime);

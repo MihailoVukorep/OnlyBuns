@@ -30,10 +30,14 @@ public class Service_DiskWriter {
 
     public String saveImage(MultipartFile file) {
         try {
-            if (file.getOriginalFilename() == null || file.getOriginalFilename().isEmpty()) { return null; }
+            if (file.getOriginalFilename() == null || file.getOriginalFilename().isEmpty()) {
+                return null;
+            }
 
             Path uploadPath = Paths.get(uploadDir);
-            if (!Files.exists(uploadPath)) { Files.createDirectories(uploadPath); }
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
 
             // Generate a unique filename with a UUID
             String uniqueFileName;
@@ -60,8 +64,7 @@ public class Service_DiskWriter {
         try {
             System.out.println("deleteImage: " + path);
             Files.delete(Paths.get(path));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("deleteImage fail: " + e.getMessage());
 
         }

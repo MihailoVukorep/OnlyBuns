@@ -1,4 +1,5 @@
 package com.onlybuns.OnlyBuns.dto;
+
 import lombok.*;
 
 @Getter
@@ -11,8 +12,12 @@ public class DTO_Post_AccountLogin {
     public String password;
 
     public String validate() {
-        if (isNullOrEmpty(email)) { return "Email cannot be empty."; }
-        if (isNullOrEmpty(password)) { return "Password cannot be empty."; }
+        if (isNullOrEmpty(email)) {
+            return "Email cannot be empty.";
+        }
+        if (isNullOrEmpty(password)) {
+            return "Password cannot be empty.";
+        }
         return null;
     }
 

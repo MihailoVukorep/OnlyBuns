@@ -38,7 +38,9 @@ public class Service_Post {
     @Autowired
     private Repository_Like repository_like;
 
-    public Optional<Post> findById(Long id) { return repository_post.findById(id); }
+    public Optional<Post> findById(Long id) {
+        return repository_post.findById(id);
+    }
 
     @Autowired
     private Service_DiskWriter service_diskWriter;
@@ -49,37 +51,48 @@ public class Service_Post {
     public ResponseEntity<List<DTO_Get_Post>> get_api_posts(HttpSession session, String sort) {
         return new ResponseEntity<>(get_api_posts_raw(session, sort), HttpStatus.OK);
     }
+
     public List<DTO_Get_Post> get_api_posts_raw(HttpSession session, String sort) {
         Sort sortOrder = varConverter.parseSort(sort);
         Account account = (Account) session.getAttribute("user");
-        return  getPostsForUser(repository_post.findByParentPostIsNull(sortOrder), account);
+        return getPostsForUser(repository_post.findByParentPostIsNull(sortOrder), account);
     }
+
     public ResponseEntity<DTO_Get_Post> get_api_posts_id(Long id, HttpSession session) {
         Optional<Post> postOptional = repository_post.findById(id);
-        if (postOptional.isEmpty()) {return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+        if (postOptional.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
         Post post = postOptional.get();
 
         Account account = (Account) session.getAttribute("user");
         return new ResponseEntity<>(getPostForUser(post, account, 0), HttpStatus.OK);
     }
+
     public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_thread(Long id, HttpSession session) {
         Optional<Post> optional_post = repository_post.findById(id);
-        if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+        if (optional_post.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
         Post post = optional_post.get();
         Account account = (Account) session.getAttribute("user");
         List<DTO_Get_Post> thread = new ArrayList<>();
         getThreadForUser(thread, post, account, 0);
         return new ResponseEntity<>(thread, HttpStatus.OK);
     }
+
     public List<DTO_Get_Post> get_api_posts_id_thread_raw(Long id, HttpSession session) {
         Optional<Post> optional_post = repository_post.findById(id);
-        if (optional_post.isEmpty()) { return null; }
+        if (optional_post.isEmpty()) {
+            return null;
+        }
         Post post = optional_post.get();
         Account account = (Account) session.getAttribute("user");
         List<DTO_Get_Post> thread = new ArrayList<>();
         getThreadForUser(thread, post, account, 0);
         return thread;
     }
+
     public void getThreadForUser(List<DTO_Get_Post> thread, Post post, Account account, Integer indent) {
 
         thread.add(getPostForUser(post, account, indent));
@@ -87,10 +100,11 @@ public class Service_Post {
         List<Post> replies = post.getReplies();
         if (!replies.isEmpty()) {
             for (Post i : replies) {
-                getThreadForUser(thread, i, account, indent+20);
+                getThreadForUser(thread, i, account, indent + 20);
             }
         }
     }
+
     public DTO_Get_Post getPostForUser(Post post, Account account, Integer indent) {
 
         if (account == null) {
@@ -102,8 +116,9 @@ public class Service_Post {
                 repository_like.existsByPostAndAccount(post, account), // liked
                 post.getAccount().getId().equals(account.getId()),  // myPost
                 indent
-            );
+        );
     }
+
     public List<DTO_Get_Post> getPostsForUser(List<Post> posts, Account account) {
 
         if (account == null) {
@@ -130,21 +145,24 @@ public class Service_Post {
     public ResponseEntity<String> post_api_posts(String title, String text, String location, MultipartFile imageFile, HttpSession session) {
 
         Account sessionAccount = (Account) session.getAttribute("user");
-        if (sessionAccount == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED); }
+        if (sessionAccount == null) {
+            return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED);
+        }
 
         // Validacija podataka
         if (
-           title == null ||
-           title.isEmpty() ||
-           text == null ||
-           text.isEmpty() ||
-           location == null ||
-           location.isEmpty()
-        ){
+                title == null ||
+                        title.isEmpty() ||
+                        text == null ||
+                        text.isEmpty() ||
+                        location == null ||
+                        location.isEmpty()
+        ) {
             return new ResponseEntity<>("All fields are required.", HttpStatus.BAD_REQUEST);
         }
 
-        String diskLocation = service_diskWriter.saveImage(imageFile);;
+        String diskLocation = service_diskWriter.saveImage(imageFile);
+        ;
         Post newPost = new Post(title, text, location, diskLocation, sessionAccount);
         repository_post.save(newPost);
         System.out.println("Post created: " + newPost);
@@ -155,14 +173,20 @@ public class Service_Post {
     @Transactional
     public ResponseEntity<String> post_api_posts_id_like(Long id, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("user");
-        if (sessionAccount == null) { return new ResponseEntity<>("Can't like when logged out.", HttpStatus.BAD_REQUEST); }
+        if (sessionAccount == null) {
+            return new ResponseEntity<>("Can't like when logged out.", HttpStatus.BAD_REQUEST);
+        }
 
         Optional<Account> optional_account = repository_account.findById(sessionAccount.getId());
-        if (optional_account.isEmpty()) { return new ResponseEntity<>("Can't find your account.", HttpStatus.NOT_FOUND); }
+        if (optional_account.isEmpty()) {
+            return new ResponseEntity<>("Can't find your account.", HttpStatus.NOT_FOUND);
+        }
         Account account = optional_account.get();
 
         Optional<Post> optional_post = repository_post.findById(id);
-        if (optional_post.isEmpty()) { return new ResponseEntity<>("Can't find post.", HttpStatus.NOT_FOUND); }
+        if (optional_post.isEmpty()) {
+            return new ResponseEntity<>("Can't find post.", HttpStatus.NOT_FOUND);
+        }
         Post post = optional_post.get();
 
         Optional<Like> optional_like = repository_like.findByAccountIdAndPostId(account.getId(), post.getId());
@@ -185,10 +209,14 @@ public class Service_Post {
     // GET LIKES
     public ResponseEntity<List<DTO_Get_Like>> get_api_posts_id_likes(Long id) {
         Optional<Post> optional_post = repository_post.findById(id);
-        if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+        if (optional_post.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
         Post post = optional_post.get();
         List<DTO_Get_Like> dtos = new ArrayList<>();
-        for (Like i : post.getLikes()) { dtos.add(new DTO_Get_Like(i)); }
+        for (Like i : post.getLikes()) {
+            dtos.add(new DTO_Get_Like(i));
+        }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
@@ -220,11 +248,17 @@ public class Service_Post {
     public ResponseEntity<String> put_api_posts_id(@PathVariable(name = "id") Long id, DTO_Put_Post dto_put_post, MultipartFile imageFile, HttpSession session) {
 
         Account sessionAccount = (Account) session.getAttribute("user");
-        if (sessionAccount == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED); }
+        if (sessionAccount == null) {
+            return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED);
+        }
         Optional<Post> optional_post = repository_post.findById(id);
-        if (optional_post.isEmpty()) { return new ResponseEntity<>("Can't find post.", HttpStatus.NOT_FOUND); }
+        if (optional_post.isEmpty()) {
+            return new ResponseEntity<>("Can't find post.", HttpStatus.NOT_FOUND);
+        }
         Post post = optional_post.get();
-        if (!post.getAccount().getId().equals(sessionAccount.getId())) { return new ResponseEntity<>("You don't own this post.", HttpStatus.FORBIDDEN); }
+        if (!post.getAccount().getId().equals(sessionAccount.getId())) {
+            return new ResponseEntity<>("You don't own this post.", HttpStatus.FORBIDDEN);
+        }
 
         Post existingPost = optional_post.get();
         String filePath = existingPost.getPictureUrl();
@@ -250,11 +284,17 @@ public class Service_Post {
     public ResponseEntity<String> delete_api_posts_id(@PathVariable(name = "id") Long id, HttpSession session) {
 
         Account sessionAccount = (Account) session.getAttribute("user");
-        if (sessionAccount == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED); }
+        if (sessionAccount == null) {
+            return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED);
+        }
         Optional<Post> optional_post = repository_post.findById(id);
-        if (optional_post.isEmpty()) { return new ResponseEntity<>("Can't find post.", HttpStatus.NOT_FOUND); }
+        if (optional_post.isEmpty()) {
+            return new ResponseEntity<>("Can't find post.", HttpStatus.NOT_FOUND);
+        }
         Post post = optional_post.get();
-        if (!post.getAccount().getId().equals(sessionAccount.getId())) { return new ResponseEntity<>("You don't own this post.", HttpStatus.FORBIDDEN); }
+        if (!post.getAccount().getId().equals(sessionAccount.getId())) {
+            return new ResponseEntity<>("You don't own this post.", HttpStatus.FORBIDDEN);
+        }
 
         // delete post
         repository_post.delete(post);

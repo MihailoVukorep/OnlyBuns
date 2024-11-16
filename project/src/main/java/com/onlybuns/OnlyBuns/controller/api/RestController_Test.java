@@ -1,4 +1,5 @@
 package com.onlybuns.OnlyBuns.controller.api;
+
 import com.onlybuns.OnlyBuns.service.Service_Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,5 +13,7 @@ public class RestController_Test {
     private Service_Test service_test;
 
     @GetMapping("/api/test")
-    public ResponseEntity<String> get_api_test() { return service_test.get_api_test();}
+    public ResponseEntity<String> get_api_test() {
+        return service_test.get_api_test();
+    }
 }

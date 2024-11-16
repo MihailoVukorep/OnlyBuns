@@ -1,4 +1,5 @@
 package com.onlybuns.OnlyBuns.util;
+
 import java.util.BitSet;
 
 public class SimpleBloomFilter {

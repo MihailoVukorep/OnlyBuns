@@ -1,6 +1,8 @@
 package com.onlybuns.OnlyBuns.dto;
+
 import com.onlybuns.OnlyBuns.model.Post;
 import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Getter
@@ -20,7 +22,7 @@ public class DTO_Get_Post {
     public Integer totalChildren;
     public LocalDateTime createdDate;
     public LocalDateTime updatedDate;
-    public Boolean liked  = false;
+    public Boolean liked = false;
     public Boolean myPost = false;
     public Integer indent = 0;
 
@@ -29,7 +31,9 @@ public class DTO_Get_Post {
         this.title = post.getTitle();
         this.text = post.getText();
         Post parent = post.getParentPost();
-        if (parent != null) { this.parentPostId = parent.getId(); }
+        if (parent != null) {
+            this.parentPostId = parent.getId();
+        }
         this.picture = post.getPictureUrl();
         this.location = post.getLocation();
         this.account = new DTO_Get_Post_Account(post.getAccount());
@@ -45,7 +49,9 @@ public class DTO_Get_Post {
 
     private static int countReplies(Post post) {
         int count = 0;
-        for (Post reply : post.getReplies()) { count += 1 + countReplies(reply); }
+        for (Post reply : post.getReplies()) {
+            count += 1 + countReplies(reply);
+        }
         return count;
     }
 }

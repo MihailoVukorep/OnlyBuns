@@ -15,7 +15,8 @@ public class Aspect_Main {
 
     //@Pointcut("execution(* com.onlybuns.OnlyBuns.controller.web.*.*(..))")
     @Pointcut("within(@org.springframework.stereotype.Controller *)")
-    public void controllerMethods() {}
+    public void controllerMethods() {
+    }
 
     @Before("controllerMethods() && args(session, model, ..)") // Apply to all methods with session and model as args
     public void addAccountToModel(HttpSession session, Model model) {

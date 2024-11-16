@@ -35,12 +35,16 @@ public class DatabaseConfiguration {
 
     public void printAll_accounts() {
         List<Account> accounts = repository_account.findAll();
-        for (Account i : accounts) { System.out.println(i.toString()); }
+        for (Account i : accounts) {
+            System.out.println(i.toString());
+        }
     }
 
     public void printAll_posts() {
         List<Post> posts = repository_post.findAll();
-        for (Post i : posts) { System.out.println(i.toString()); }
+        for (Post i : posts) {
+            System.out.println(i.toString());
+        }
     }
 
     public Account CreateAccount(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio, Boolean addAdminRole) {
@@ -77,8 +81,7 @@ public class DatabaseConfiguration {
             Role role = new Role(name);
             repository_role.save(role);
             return role;
-        }
-        else {
+        } else {
             return optional_role.get();
         }
     }
@@ -128,8 +131,8 @@ public class DatabaseConfiguration {
                 false
         );
 
-        repository_post.save(new Post("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)","location1", "uploads/img/bunny1.jpg", acc_ajzak));
-        repository_post.save(new Post("Sala", "I ja i zeka volimo travu.","location2", "uploads/img/bunny2.jpg", acc_ajzak));
+        repository_post.save(new Post("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)", "location1", "uploads/img/bunny1.jpg", acc_ajzak));
+        repository_post.save(new Post("Sala", "I ja i zeka volimo travu.", "location2", "uploads/img/bunny2.jpg", acc_ajzak));
 
 
         Account acc_ana = CreateAccount(
@@ -157,7 +160,7 @@ public class DatabaseConfiguration {
         );
 
 
-        Post r = new Post("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).","location3", "uploads/img/bunny5.jpg", acc_ana);
+        Post r = new Post("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).", "location3", "uploads/img/bunny5.jpg", acc_ana);
         repository_post.save(r);
 
         repository_post.save(new Post("e necu", "Sto bi trosio vodu nek smrdi!", acc_ajzak, r));

@@ -1,4 +1,5 @@
 package com.onlybuns.OnlyBuns.controller.web;
+
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Account;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.service.Service_Account;
@@ -17,18 +18,26 @@ public class Controller_Account {
     private Service_Account service_account;
 
     @GetMapping("/login")
-    public String login(HttpSession session, Model model) { return "login.html"; }
+    public String login(HttpSession session, Model model) {
+        return "login.html";
+    }
 
     @GetMapping("/register")
-    public String register(HttpSession session, Model model) { return "register.html"; }
+    public String register(HttpSession session, Model model) {
+        return "register.html";
+    }
 
     @GetMapping("/logout")
-    public String logout(HttpSession session, Model model) { return "logout.html"; }
+    public String logout(HttpSession session, Model model) {
+        return "logout.html";
+    }
 
     @GetMapping("/user")
     public String user(HttpSession session, Model model) {
         Account user = (Account) session.getAttribute("user");
-        if (user == null) { return "error/401.html"; }
+        if (user == null) {
+            return "error/401.html";
+        }
         model.addAttribute("account", new DTO_Get_Account(user));
         return "account.html";
     }
@@ -42,34 +51,11 @@ public class Controller_Account {
     @GetMapping("/admin/manage")
     public String management(HttpSession session, Model model) {
         Account user = (Account) session.getAttribute("user");
-        if (user == null || !user.isAdmin()) { return "error/403.html"; }
+        if (user == null || !user.isAdmin()) {
+            return "error/403.html";
+        }
         return "admin_manage.html";
     }
-
-//    @GetMapping("/admin/accounts")
-//    public String admin_accounts(HttpSession session,
-//                                 Model model,
-//                                 @RequestParam(required = false) String firstName,
-//                                 @RequestParam(required = false) String lastName,
-//                                 @RequestParam(required = false) String userName,
-//                                 @RequestParam(required = false) String email,
-//                                 @RequestParam(required = false) String address,
-//                                 @RequestParam(required = false) Integer minPostCount,
-//                                 @RequestParam(required = false) Integer maxPostCount
-//    ) {
-//        Account user = (Account) session.getAttribute("user");
-//        if (user == null || !user.isAdmin()) { return "error/403.html"; }
-//
-//        model.addAttribute("accounts", service_account.get_api_admin_accounts_raw(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount));
-//        return "admin_accounts.html";
-//    }
-//
-//    @GetMapping("/admin/accounts/sort")
-//    public String posts(HttpSession session, Model model, @RequestParam(value = "sort", required = false) String sort) {
-//        model.addAttribute("accounts", service_account.getSortedAccounts(session, sort));
-//        model.addAttribute("currentSort", sort);
-//        return "admin_accounts.html";
-//    }
 
     @GetMapping("/admin/accounts")
     public String adminAccounts(HttpSession session,

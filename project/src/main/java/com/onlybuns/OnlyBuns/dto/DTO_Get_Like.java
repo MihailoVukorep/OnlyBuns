@@ -1,4 +1,5 @@
 package com.onlybuns.OnlyBuns.dto;
+
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.Like;
 import com.onlybuns.OnlyBuns.model.Post;

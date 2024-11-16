@@ -1,4 +1,5 @@
 package com.onlybuns.OnlyBuns.controller.api;
+
 import com.onlybuns.OnlyBuns.dto.DTO_Post_Reply;
 import com.onlybuns.OnlyBuns.dto.DTO_Put_Post;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Like;
@@ -26,7 +27,9 @@ public class RestController_Post {
 
     // GET POST
     @GetMapping("/api/posts/{id}")
-    public ResponseEntity<DTO_Get_Post> get_api_posts_id(@PathVariable(name = "id") Long id, HttpSession session) { return servicePost.get_api_posts_id(id, session); }
+    public ResponseEntity<DTO_Get_Post> get_api_posts_id(@PathVariable(name = "id") Long id, HttpSession session) {
+        return servicePost.get_api_posts_id(id, session);
+    }
 
     // CREATE POST
     @PostMapping("/api/posts")
@@ -40,27 +43,39 @@ public class RestController_Post {
 
     // GET REPLIES
     @GetMapping("/api/posts/{id}/thread")
-    public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_thread(@PathVariable(name = "id") Long id, HttpSession session) { return servicePost.get_api_posts_id_thread(id, session); }
+    public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_thread(@PathVariable(name = "id") Long id, HttpSession session) {
+        return servicePost.get_api_posts_id_thread(id, session);
+    }
 
     // POST REPLY
     @PostMapping("/api/posts/{id}/replies")
-    public ResponseEntity<String> post_api_posts_id_replies(@PathVariable(name = "id") Long id, @RequestBody DTO_Post_Reply replyDTO, HttpSession session) { return servicePost.post_api_posts_id_replies(id, replyDTO, session); }
+    public ResponseEntity<String> post_api_posts_id_replies(@PathVariable(name = "id") Long id, @RequestBody DTO_Post_Reply replyDTO, HttpSession session) {
+        return servicePost.post_api_posts_id_replies(id, replyDTO, session);
+    }
 
     // LIKE POST
     @PostMapping("/api/posts/{id}/like")
-    public ResponseEntity<String> post_api_posts_id_like(@PathVariable(name = "id") Long id, HttpSession session) { return servicePost.post_api_posts_id_like(id, session); }
+    public ResponseEntity<String> post_api_posts_id_like(@PathVariable(name = "id") Long id, HttpSession session) {
+        return servicePost.post_api_posts_id_like(id, session);
+    }
 
     // GET LIKES
     @GetMapping("/api/posts/{id}/likes")
-    public ResponseEntity<List<DTO_Get_Like>> post_api_posts_id_likes(@PathVariable(name = "id") Long id) { return servicePost.get_api_posts_id_likes(id); }
+    public ResponseEntity<List<DTO_Get_Like>> post_api_posts_id_likes(@PathVariable(name = "id") Long id) {
+        return servicePost.get_api_posts_id_likes(id);
+    }
 
     // UPDATE POST
     @PutMapping("/api/posts/{id}")
-    public ResponseEntity<String> put_api_posts_id(@PathVariable(name = "id") Long id, DTO_Put_Post dto_put_post, @RequestParam(value = "image", required = false) MultipartFile imageFile, HttpSession session) { return servicePost.put_api_posts_id(id, dto_put_post, imageFile, session); }
+    public ResponseEntity<String> put_api_posts_id(@PathVariable(name = "id") Long id, DTO_Put_Post dto_put_post, @RequestParam(value = "image", required = false) MultipartFile imageFile, HttpSession session) {
+        return servicePost.put_api_posts_id(id, dto_put_post, imageFile, session);
+    }
 
     // DELETE POST
     @DeleteMapping("/api/posts/{id}")
-    public ResponseEntity<String> delete_api_posts_id(@PathVariable(name = "id") Long id, HttpSession session) { return servicePost.delete_api_posts_id(id, session); }
+    public ResponseEntity<String> delete_api_posts_id(@PathVariable(name = "id") Long id, HttpSession session) {
+        return servicePost.delete_api_posts_id(id, session);
+    }
 
     // TODO: POSTS PAGING
 }

@@ -1,8 +1,10 @@
 package com.onlybuns.OnlyBuns.model;
+
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +48,8 @@ public class Post {
     private Post parentPost; // This will reference the parent post (if any)
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REFRESH, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Like> likes = new ArrayList<>();;
+    private List<Like> likes = new ArrayList<>();
+    ;
 
     @CreationTimestamp
     private LocalDateTime createdDate;
@@ -58,6 +61,7 @@ public class Post {
         this.text = text;
         this.account = account;
     }
+
     public Post(String title, String text) {
         this.title = title;
         this.text = text;
@@ -86,7 +90,9 @@ public class Post {
     }
 
     public void setImageLocationAndUrl(String imageLocationOnDisk) {
-        if (imageLocationOnDisk == null) { return; }
+        if (imageLocationOnDisk == null) {
+            return;
+        }
         this.pictureLocation = imageLocationOnDisk;
         this.pictureUrl = "/" + imageLocationOnDisk;
     }
