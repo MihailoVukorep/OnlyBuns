@@ -283,4 +283,45 @@ public class Service_Account {
         return accounts;
     }
 
+    // Find account by ID
+    public Account findAccountById(Long id) {
+        return repository_account.findById(id).orElseThrow(() -> new RuntimeException("Account not found with ID: " + id));
+    }
+
+    // Follow another account
+    public void followAccount(Long followerId, Long followeeId) {
+        Account follower = findAccountById(followerId);
+        Account followee = findAccountById(followeeId);
+
+        if (follower.equals(followee)) {
+            throw new IllegalArgumentException("Account cannot follow itself.");
+        }
+
+        follower.follow(followee);
+        repository_account.save(follower);
+        repository_account.save(followee);
+    }
+
+    // Unfollow an account
+    public void unfollowAccount(Long followerId, Long followeeId) {
+        Account follower = findAccountById(followerId);
+        Account followee = findAccountById(followeeId);
+
+        follower.unfollow(followee);
+        repository_account.save(follower);
+        repository_account.save(followee);
+    }
+
+    // Get followers of an account
+    public Set<Account> getFollowers(Long accountId) {
+        Account account = findAccountById(accountId);
+        return account.getFollowers();
+    }
+
+    // Get accounts followed by an account
+    public Set<Account> getFollowing(Long accountId) {
+        Account account = findAccountById(accountId);
+        return account.getFollowing();
+    }
+
 }
