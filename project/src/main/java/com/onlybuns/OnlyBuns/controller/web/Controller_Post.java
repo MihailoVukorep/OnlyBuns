@@ -17,18 +17,18 @@ import java.util.Optional;
 public class Controller_Post {
 
     @Autowired
-    private Service_Post servicePost;
+    private Service_Post service_post;
 
     @GetMapping("/posts")
     public String posts(HttpSession session, Model model, @RequestParam(value = "sort", required = false) String sort) {
-        model.addAttribute("posts", servicePost.get_api_posts_raw(session, sort));
+        model.addAttribute("posts", service_post.get_api_posts_raw(session, sort));
         model.addAttribute("currentSort", sort);
         return "posts.html";
     }
 
     @GetMapping("/posts/{id}")
     public String accounts_id(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
-        model.addAttribute("posts", servicePost.get_api_posts_id_thread_raw(id, session)); // draw thread
+        model.addAttribute("posts", service_post.get_api_posts_id_thread_raw(id, session)); // draw thread
         return "post.html";
     }
 
@@ -53,7 +53,7 @@ public class Controller_Post {
         if (sessionAccount == null) {
             return "error/401.html";
         } // Unauthorized
-        Optional<Post> optional_post = servicePost.findById(id);
+        Optional<Post> optional_post = service_post.findById(id);
         if (optional_post.isEmpty()) {
             return "error/404.html";
         } // Not Found

@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class RestController_Email {
 
     @Autowired
-    private Service_Email serviceEmail;
+    private Service_Email service_email;
 
     @GetMapping("/api/verify")
     public ResponseEntity<String> get_api_verify(@RequestParam("token") String token) {
-        return serviceEmail.get_api_verify(token);
+        return service_email.get_api_verify(token);
     }
 }
