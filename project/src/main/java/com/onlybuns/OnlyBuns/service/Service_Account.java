@@ -238,24 +238,11 @@ public class Service_Account {
         return repository_account.findAll(sort);
     }
 
-    public List<DTO_Get_Account> getFilteredAndSortedAccounts(HttpSession session,
-                                                              String firstName,
-                                                              String lastName,
-                                                              String userName,
-                                                              String email,
-                                                              String address,
-                                                              Integer minPostCount,
-                                                              Integer maxPostCount,
-                                                              String sortOption) {
-        List<DTO_Get_Account> accounts = get_api_admin_accounts_raw(
-                session, firstName, lastName, userName, email, address, minPostCount, maxPostCount);
+    public List<DTO_Get_Account> getFilteredAndSortedAccounts(HttpSession session, String firstName, String lastName, String userName, String email, String address, Integer minPostCount, Integer maxPostCount, String sortOption) {
+        List<DTO_Get_Account> accounts = get_api_admin_accounts_raw(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount);
 
-        if (accounts == null || accounts.isEmpty()) {
-            return accounts;
-        }
-        if (sortOption == null) {
-            return accounts;
-        }
+        if (accounts == null || accounts.isEmpty()) { return accounts; }
+        if (sortOption == null) { return accounts; }
 
         Comparator<DTO_Get_Account> comparator = null;
 

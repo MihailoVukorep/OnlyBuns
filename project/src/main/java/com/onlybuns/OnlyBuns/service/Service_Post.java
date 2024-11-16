@@ -134,13 +134,13 @@ public class Service_Post {
 
         // Validacija podataka
         if (
-                title == null ||
-                        title.isEmpty() ||
-                        text == null ||
-                        text.isEmpty() ||
-                        location == null ||
-                        location.isEmpty())
-        {
+           title == null ||
+           title.isEmpty() ||
+           text == null ||
+           text.isEmpty() ||
+           location == null ||
+           location.isEmpty()
+        ){
             return new ResponseEntity<>("All fields are required.", HttpStatus.BAD_REQUEST);
         }
 
