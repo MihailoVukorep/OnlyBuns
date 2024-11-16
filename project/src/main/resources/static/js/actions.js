@@ -49,7 +49,7 @@ async function post_reply(id, title, text) {
 }
 
 async function post_update(id) {
-    window.location.href = `/posts/edit/${id}`;
+    window.location.href = `/posts/${id}/edit`;
 }
 
 async function post_delete(id) {

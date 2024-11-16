@@ -3,20 +3,7 @@ let fileImage = document.getElementById("file_image");
 let imagePreview = document.getElementById("image-preview");
 let pStatus = document.getElementById("p_status");
 
-let postId = getPostIdFromUrl();
-
-document.addEventListener('DOMContentLoaded', function() {
-    fetchPostData(postId);
-});
-
-function getPostIdFromUrl() {
-    const paths = window.location.pathname.split("/");
-    const id = paths[paths.length - 1];
-
-    return id;
-
-
-}
+let postId = document.getElementById("post_id").value;
 
 async function fetchPostData(postId) {
     const response = await fetch(`/api/posts/${postId}`);
@@ -85,9 +72,7 @@ async function post_update(id) {
 
 
 async function api_editpost() {
-    console.log(`api_editpost called with id: ${postId}`);
     const formData = new FormData(document.getElementById('postForm'));
-    const id = getPostIdFromUrl();
 
     const response = await fetch(`/api/posts/${postId}`, {
         method: 'PUT',
@@ -100,7 +85,8 @@ async function api_editpost() {
     if (response.ok) {
         window.location.href = `/posts/${postId}`;
     }
-    
 }
 
 btn_submit.onclick = api_editpost;
+
+fetchPostData(postId);

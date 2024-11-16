@@ -41,8 +41,7 @@ public class Controller_Post {
         return "createpost.html";
     }
 
-    // TODO: change to /posts/{id}/edit
-    @GetMapping("/posts/edit/{id}")
+    @GetMapping("/posts/{id}/edit")
     public String editpost(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
         Account user = (Account) session.getAttribute("user");
         if (user == null) {
