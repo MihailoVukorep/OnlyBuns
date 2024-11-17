@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@Transactional
 public class Service_Post {
 
     @Autowired
@@ -48,19 +49,16 @@ public class Service_Post {
     private final VarConverter varConverter = new VarConverter();
 
     // GETTING POSTS
-    @Transactional
     public ResponseEntity<List<DTO_Get_Post>> get_api_posts(HttpSession session, String sort) {
         return new ResponseEntity<>(get_api_posts_raw(session, sort), HttpStatus.OK);
     }
 
-    @Transactional
     public List<DTO_Get_Post> get_api_posts_raw(HttpSession session, String sort) {
         Sort sortOrder = varConverter.parseSort(sort);
         Account account = (Account) session.getAttribute("user");
         return getPostsForUser(repository_post.findByParentPostIsNull(sortOrder), account);
     }
 
-    @Transactional
     public ResponseEntity<DTO_Get_Post> get_api_posts_id(Long id, HttpSession session) {
         Optional<Post> postOptional = repository_post.findById(id);
         if (postOptional.isEmpty()) {
@@ -72,7 +70,6 @@ public class Service_Post {
         return new ResponseEntity<>(getPostForUser(post, account, 0), HttpStatus.OK);
     }
 
-    @Transactional
     public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_thread(Long id, HttpSession session) {
         Optional<Post> optional_post = repository_post.findById(id);
         if (optional_post.isEmpty()) {
@@ -85,7 +82,6 @@ public class Service_Post {
         return new ResponseEntity<>(thread, HttpStatus.OK);
     }
 
-    @Transactional
     public List<DTO_Get_Post> get_api_posts_id_thread_raw(Long id, HttpSession session) {
         Optional<Post> optional_post = repository_post.findById(id);
         if (optional_post.isEmpty()) {
@@ -98,7 +94,6 @@ public class Service_Post {
         return thread;
     }
 
-    @Transactional
     public void getThreadForUser(List<DTO_Get_Post> thread, Post post, Account account, Integer indent) {
 
         thread.add(getPostForUser(post, account, indent));
@@ -111,7 +106,6 @@ public class Service_Post {
         }
     }
 
-    @Transactional
     public DTO_Get_Post getPostForUser(Post post, Account account, Integer indent) {
 
         if (account == null) {
@@ -126,7 +120,6 @@ public class Service_Post {
         );
     }
 
-    @Transactional
     public List<DTO_Get_Post> getPostsForUser(List<Post> posts, Account account) {
 
         if (account == null) {
@@ -149,7 +142,6 @@ public class Service_Post {
     }
 
     // CREATING POSTS
-    @Transactional
     public ResponseEntity<String> post_api_posts(String title, String text, String location, MultipartFile imageFile, HttpSession session) {
 
         Account sessionAccount = (Account) session.getAttribute("user");
@@ -178,7 +170,6 @@ public class Service_Post {
     }
 
     // LIKE
-    @Transactional
     public ResponseEntity<String> post_api_posts_id_like(Long id, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) {
@@ -215,7 +206,6 @@ public class Service_Post {
     }
 
     // GET LIKES
-    @Transactional
     public ResponseEntity<List<DTO_Get_Like>> get_api_posts_id_likes(Long id) {
         Optional<Post> optional_post = repository_post.findById(id);
         if (optional_post.isEmpty()) {
@@ -230,7 +220,6 @@ public class Service_Post {
     }
 
     // COMMENT
-    @Transactional
     public ResponseEntity<String> post_api_posts_id_replies(Long postId, DTO_Post_Reply replyDTO, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) {
@@ -254,7 +243,6 @@ public class Service_Post {
     }
 
     // UPDATE POST
-    @Transactional
     public ResponseEntity<String> put_api_posts_id(@PathVariable(name = "id") Long id, DTO_Put_Post dto_put_post, MultipartFile imageFile, HttpSession session) {
 
         Account sessionAccount = (Account) session.getAttribute("user");
@@ -290,7 +278,6 @@ public class Service_Post {
     }
 
     // DELETE POST
-    @Transactional
     public ResponseEntity<String> delete_api_posts_id(@PathVariable(name = "id") Long id, HttpSession session) {
 
         Account sessionAccount = (Account) session.getAttribute("user");
@@ -314,6 +301,4 @@ public class Service_Post {
 
         return new ResponseEntity<>("Post deleted.", HttpStatus.OK);
     }
-
-
 }
