@@ -42,7 +42,7 @@ async function post_reply(id, title, text) {
     });
     const response_text = await response.text();
 
-    if (response.ok) { popup(`✅ ${response_text}`); }
+    if (response.ok) { popup(`✅ ${response_text}`); window.location.reload(); }
     else             { popup(`❌ ${response_text}`); }
 
     hideCommentForm();
