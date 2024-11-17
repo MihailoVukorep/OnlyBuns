@@ -55,10 +55,12 @@ public class Service_Account {
     private final RateLimiter rateLimiter = new RateLimiter();
     private final VarConverter varConverter = new VarConverter();
 
+    @Transactional
     public ResponseEntity<List<DTO_Get_Account>> get_api_admin_accounts(HttpSession session, String firstName, String lastName, String userName, String email, String address, Integer minPostCount, Integer maxPostCount) {
         return new ResponseEntity<>(get_api_admin_accounts_raw(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount), HttpStatus.OK);
     }
 
+    @Transactional
     public List<DTO_Get_Account> get_api_admin_accounts_raw(HttpSession session, String firstName, String lastName, String userName, String email, String address, Integer minPostCount, Integer maxPostCount) {
         Account user = (Account) session.getAttribute("user");
         if (user == null || !user.isAdmin()) {
@@ -73,6 +75,7 @@ public class Service_Account {
         return accountDTOS;
     }
 
+    @Transactional
     public ResponseEntity<DTO_Get_Account> get_api_accounts_id(Long id) {
         Optional<Account> foundAccount = repository_account.findById(id);
         if (foundAccount.isEmpty()) {
@@ -81,11 +84,13 @@ public class Service_Account {
         return new ResponseEntity<>(new DTO_Get_Account(foundAccount.get()), HttpStatus.OK);
     }
 
+    @Transactional
     public DTO_Get_Account get_api_accounts_id_raw(Long id) {
         Optional<Account> foundAccount = repository_account.findById(id);
         return foundAccount.isEmpty() ? null : new DTO_Get_Account(foundAccount.get());
     }
 
+    @Transactional
     public ResponseEntity<DTO_Get_Account> get_api_user(HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) {
@@ -98,6 +103,7 @@ public class Service_Account {
         return new ResponseEntity<>(new DTO_Get_Account(foundAccount.get()), HttpStatus.OK);
     }
 
+    @Transactional
     public ResponseEntity<String> get_api_login(DTO_Post_AccountLogin dto_post_accountLogin, HttpServletRequest request, HttpSession session) {
 
         // already logged in
@@ -220,6 +226,7 @@ public class Service_Account {
         return new ResponseEntity<>("Registered. Please verify email to login.", HttpStatus.OK);
     }
 
+    @Transactional
     public ResponseEntity<String> get_api_logout(HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) {
@@ -230,6 +237,7 @@ public class Service_Account {
         return new ResponseEntity<>("Logged out: " + sessionAccount.getUserName(), HttpStatus.OK);
     }
 
+    @Transactional
     public ResponseEntity<List<DTO_Get_Post>> get_api_accounts_id_posts(Long id, HttpSession session) {
         Optional<Account> optional_account = repository_account.findById(id);
         if (optional_account.isEmpty()) {
@@ -241,6 +249,7 @@ public class Service_Account {
         return new ResponseEntity<>(service_post.getPostsForUser(repository_post.findAllByAccount(account), sessionAccount), HttpStatus.OK);
     }
 
+    @Transactional
     public ResponseEntity<List<DTO_Get_Like>> get_api_accounts_id_likes(Long id) {
         Optional<Account> optional_account = repository_account.findById(id);
         if (optional_account.isEmpty()) {
@@ -257,6 +266,7 @@ public class Service_Account {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    @Transactional
     public List<Account> getSortedAccounts(HttpSession session, String sortOption) {
         Sort sort = switch (sortOption) {
             case "follow_count,asc" -> Sort.by(Sort.Direction.ASC, "followCount");
@@ -269,6 +279,7 @@ public class Service_Account {
         return repository_account.findAll(sort);
     }
 
+    @Transactional
     public List<DTO_Get_Account> getFilteredAndSortedAccounts(HttpSession session, String firstName, String lastName, String userName, String email, String address, Integer minPostCount, Integer maxPostCount, String sortOption) {
         List<DTO_Get_Account> accounts = get_api_admin_accounts_raw(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount);
 
@@ -305,12 +316,12 @@ public class Service_Account {
         return accounts;
     }
 
-    // Find account by ID
+    @Transactional
     public Account findAccountById(Long id) {
         return repository_account.findById(id).orElseThrow(() -> new RuntimeException("Account not found with ID: " + id));
     }
 
-    // Follow another account
+    @Transactional
     public void followAccount(Long followerId, Long followeeId) {
         Account follower = findAccountById(followerId);
         Account followee = findAccountById(followeeId);
@@ -324,7 +335,7 @@ public class Service_Account {
         repository_account.save(followee);
     }
 
-    // Unfollow an account
+    @Transactional
     public void unfollowAccount(Long followerId, Long followeeId) {
         Account follower = findAccountById(followerId);
         Account followee = findAccountById(followeeId);
@@ -334,13 +345,13 @@ public class Service_Account {
         repository_account.save(followee);
     }
 
-    // Get followers of an account
+    @Transactional
     public Set<Account> getFollowers(Long accountId) {
         Account account = findAccountById(accountId);
         return account.getFollowers();
     }
 
-    // Get accounts followed by an account
+    @Transactional
     public Set<Account> getFollowing(Long accountId) {
         Account account = findAccountById(accountId);
         return account.getFollowing();

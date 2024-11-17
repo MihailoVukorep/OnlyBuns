@@ -21,7 +21,7 @@ public class AccountActivation {
     @CreationTimestamp
     private LocalDateTime createdDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     protected Account account;
 
     @Column
