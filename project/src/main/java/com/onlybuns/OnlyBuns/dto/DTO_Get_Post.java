@@ -4,13 +4,13 @@ import com.onlybuns.OnlyBuns.model.Post;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
 @ToString
 public class DTO_Get_Post {
     public Long id;
-    public Integer parentId;
     public String title;
     public String text;
     public String picture;
@@ -21,12 +21,14 @@ public class DTO_Get_Post {
     public Integer likes;
     public Integer totalChildren;
     public LocalDateTime createdDate;
+    public String createdDateStr;      // TODO: DISPLAY THIS ON FRONTEND
     public LocalDateTime updatedDate;
-    public Boolean liked = false;
-    public Boolean myPost = false;
-    public Integer indent = 0;
+    public String updatedDateStr;      // TODO: DISPLAY THIS ON FRONTEND
+    public Boolean isLiked;
+    public Boolean isMyPost;
+    public Integer indent;
 
-    public DTO_Get_Post(Post post, Boolean liked, Boolean myPost, Integer indent) {
+    public DTO_Get_Post(Post post, Boolean isLiked, Boolean isMyPost, Integer indent) {
         this.id = post.getId();
         this.title = post.getTitle();
         this.text = post.getText();
@@ -41,9 +43,11 @@ public class DTO_Get_Post {
         this.likes = post.getLikes().size();
         this.totalChildren = countReplies(post);
         this.createdDate = post.getCreatedDate();
+        this.createdDateStr = this.createdDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         this.updatedDate = post.getUpdatedDate();
-        this.liked = liked;
-        this.myPost = myPost;
+        this.updatedDateStr = this.updatedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.isLiked = isLiked;
+        this.isMyPost = isMyPost;
         this.indent = indent;
     }
 

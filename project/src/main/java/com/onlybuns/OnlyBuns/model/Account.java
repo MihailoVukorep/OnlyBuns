@@ -3,6 +3,7 @@ package com.onlybuns.OnlyBuns.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
@@ -49,6 +50,9 @@ public class Account {
     @CreationTimestamp
     private LocalDateTime createdDate;
 
+    @UpdateTimestamp
+    private LocalDateTime updatedDate;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "account_roles",
             joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),
@@ -62,7 +66,7 @@ public class Account {
     @OneToMany(mappedBy = "account", cascade = CascadeType.REFRESH, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Like> likes;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "account_followers",
             joinColumns = @JoinColumn(name = "account_id"),
@@ -70,7 +74,7 @@ public class Account {
     )
     private Set<Account> followers = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "account_following",
             joinColumns = @JoinColumn(name = "follower_id"),

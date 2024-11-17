@@ -4,6 +4,7 @@ import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.Role;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
@@ -23,14 +24,17 @@ public class DTO_Get_Account {
     public String address;
     public String avatar;
     public String bio;
-    public Set<Role> roles;
+    public Set<Role> roles; // TODO: ADD ROLES STRING WITH EMOJIS
     public boolean isAdmin;
-    // TODO: ADD ROLES STRING WITH EMOJIS
-    public String created;
+    public LocalDateTime createdDate;
+    public String createdDateStr;  // TODO: DISPLAY THIS ON FRONTEND
+    public LocalDateTime updatedDate;
+    public String updatedDateStr;  // TODO: DISPLAY THIS ON FRONTEND
     public Integer postsCount;
     public Integer likesCount;
     public Integer followersCount;
     public Integer followingCount;
+    public boolean following;
 
     public DTO_Get_Account(Account account) {
         this.id = account.getId();
@@ -44,10 +48,13 @@ public class DTO_Get_Account {
         this.bio = account.getBio();
         this.roles = account.getRoles();
         this.isAdmin = account.isAdmin();
-        this.created = account.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.createdDate = account.getCreatedDate();
+        this.createdDateStr = this.createdDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.updatedDate = account.getUpdatedDate();
+        this.updatedDateStr = this.updatedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         this.postsCount = account.getPosts().size();
         this.likesCount = account.getLikes().size();
-        this.followersCount = 0;
-        this.followingCount = 0;
+        this.followersCount = account.getFollowers().size();
+        this.followingCount = account.getFollowing().size();
     }
 }

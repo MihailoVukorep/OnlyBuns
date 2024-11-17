@@ -42,8 +42,8 @@
             <div class="post_controls">
                 <button class="post_controls_like" 
                         th:value="${post.likes}"
-                        th:classappend="${post.liked} ? 'liked' : ''" 
-                        th:text="${post.liked ? '💗' : '❤️'} + ' ' + ${post.likes}"
+                        th:classappend="${post.isLiked} ? 'liked' : ''" 
+                        th:text="${post.isLiked ? '💗' : '❤️'} + ' ' + ${post.likes}"
                         th:onclick="'post_like(' + ${post.id} + ', this);'">
                 </button>
 
@@ -51,11 +51,11 @@
                     th:onclick="'showCommentForm(' + ${post.id} + ');'">
                 </button>
 
-                <button th:if="${post.myPost}" class="post_controls_update"
+                <button th:if="${post.isMyPost}" class="post_controls_update"
                     th:onclick="'post_update(' + ${post.id} + ');'">
                     📝
                 </button>
-                <button th:if="${post.myPost}" class="post_controls_delete"
+                <button th:if="${post.isMyPost}" class="post_controls_delete"
                     th:onclick="'post_delete(' + ${post.id} + ');'">
                     ❌
                 </button>
