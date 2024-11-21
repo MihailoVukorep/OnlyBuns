@@ -7,3 +7,10 @@
 - createpost / editpost add ENTER evets to textbox
 - register fix no wifi error msg
 
+
+- account.html page
+    - embed /account/{id}/posts
+    - embed /account/{id}/following
+    - embed /account/{id}/followers
+
+- do posts paging
