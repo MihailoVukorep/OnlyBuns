@@ -70,6 +70,7 @@ public class Service_DiskWriter {
         }
     }
 
+    // TODO: image needs to be jpg --- fix this so it's any image type
     public String compressImage(String imagePath) {
         try {
             // Get the original file
