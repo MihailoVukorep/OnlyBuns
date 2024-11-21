@@ -1,0 +1,80 @@
+<div th:fragment="parentPosts" id="parentPosts">
+    <div id="sort_controls">
+        <label for="sortOptions">Sort by:</label>
+        <form id="sortForm" method="GET">
+            <select id="sortOptions" name="sort" onchange="updateSortAndSubmit()">
+                <option value="id,asc" th:selected="${currentSort == 'id,asc'}">ID Ascending</option>
+                <option value="id,desc" th:selected="${currentSort == 'id,desc'}">ID Descending</option>
+                <option value="title,asc" th:selected="${currentSort == 'title,asc'}">Title Ascending</option>
+                <option value="title,desc" th:selected="${currentSort == 'title,desc'}">Title Descending</option>
+            </select>
+        </form>
+    </div>
+
+    <script>
+        function updateSortAndSubmit() {
+            const sortForm = document.getElementById('sortForm');
+            const sortOptions = document.getElementById('sortOptions');
+            const currentUrl = window.location.pathname; // Get the current path (e.g., /current-page)
+            const currentParams = new URLSearchParams(window.location.search); // Get existing query params
+    
+            // Update or add the "sort" parameter
+            currentParams.set('sort', sortOptions.value);
+    
+            // Update the dropdown to reflect the selected option
+            Array.from(sortOptions.options).forEach(option => {
+                option.selected = option.value === sortOptions.value;
+            });
+
+            // Set the form's action to the updated URL
+            sortForm.action = `${currentUrl}?${currentParams.toString()}`;
+    
+            // Submit the form
+            sortForm.submit();
+        }
+    </script>
+
+    <div id="posts">
+        <div th:each="post : ${posts}" class="post">
+            <a class="post_body_link" th:href="@{/posts/{id}(id=${post.id})}">
+
+                <div class="post_body">
+                    <div class="post_content">
+                        <span class="post_title" th:text="${post.title}"></span>
+                        <span class="post_text" th:text="${post.text}"></span>
+                        <img class="post_picture" th:src="${post.picture}" th:if="${post.picture != null}" />
+                    </div>
+                </div>
+            </a>
+
+            <div class="post_controls">
+                <button class="post_controls_like" 
+                        th:value="${post.likes}"
+                        th:classappend="${post.isLiked} ? 'liked' : ''" 
+                        th:text="${post.isLiked ? '💗' : '❤️'} + ' ' + ${post.likes}"
+                        th:onclick="'post_like(' + ${post.id} + ', this);'">
+                </button>
+
+                <button class="post_controls_comment" th:text="'💬 ' + ${post.totalChildren}"
+                    th:onclick="'showCommentForm(' + ${post.id} + ');'">
+                </button>
+
+                <button th:if="${post.isMyPost}" class="post_controls_update"
+                    th:onclick="'post_update(' + ${post.id} + ');'">
+                    📝
+                </button>
+                <button th:if="${post.isMyPost}" class="post_controls_delete"
+                    th:onclick="'post_delete(' + ${post.id} + ');'">
+                    ❌
+                </button>
+
+                <div class="post_account">
+                    <a class="post_account_link" th:href="@{/accounts/{id}(id=${post.account.id})}">
+                        <img class="post_account_image" th:src="${post.account.avatar}" />
+                        <span class="post_account_userName" th:text="${post.account.userName}"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
