@@ -59,12 +59,14 @@
                     ❌
                 </button>
 
-                <div class="post_account">
+                <span class="post_account">
                     <a class="post_account_link" th:href="@{/accounts/{id}(id=${post.account.id})}">
                         <img class="post_account_image" th:src="${post.account.avatar}" />
                         <span class="post_account_userName" th:text="${post.account.userName}"></span>
                     </a>
-                </div>
+                </span>
+
+                <span class="post_createdDate" th:text="${post.createdDateStr}"></span>
             </div>
         </div>
     </div>
