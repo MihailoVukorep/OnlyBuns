@@ -2,8 +2,6 @@
 - reply - add picture
 - post/posts - add dates created/updated
 - createpost / editpost add ENTER evets to textbox
-- register fix no wifi error msg
-
 
 - account.html page
     - embed /account/{id}/following

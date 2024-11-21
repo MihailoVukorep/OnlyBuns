@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 import com.onlybuns.OnlyBuns.util.SimpleBloomFilter;
 import org.springframework.ui.Model;
@@ -165,7 +166,9 @@ public class Service_Account {
         Optional<AccountActivation> opt_accountActivation = repository_accountActivation.findByAccount(account);
         if (opt_accountActivation.isEmpty()) {
             // missing account activation in db -- creating...
-            service_email.sendVerificationEmail(account);
+            try { service_email.sendVerificationEmail(account); }
+            catch (Exception e) { new ResponseEntity<>("mail error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR); }
+
             return new ResponseEntity<>("Please verify email.", HttpStatus.UNAUTHORIZED);
         } else {
             AccountActivation accountActivation = opt_accountActivation.get();
@@ -243,7 +246,8 @@ public class Service_Account {
         repository_account.save(newAccount);
 
         // send verification email
-        service_email.sendVerificationEmail(newAccount);
+        try { service_email.sendVerificationEmail(newAccount); }
+        catch (Exception e) { new ResponseEntity<>("mail error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR); }
 
         // session.setAttribute("user", newAccount); // can't login need to verify
         return new ResponseEntity<>("Registered. Please verify email to login.", HttpStatus.OK);
