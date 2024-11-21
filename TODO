@@ -1,7 +1,0 @@
-- TODO: delete post - confirmation dialogue (YES/NO)
-- TODO: reply - add picture
-- TODO: try to rm login/register js / use simple post form
-- TODO: add DTO with multipartdata
-- TODO: register form needs ENTER events
-- TODO: post/posts - add dates created/updated
-- TODO: createpost / editpost add evets to textbox
