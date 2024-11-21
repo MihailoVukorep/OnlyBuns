@@ -30,11 +30,9 @@
             <a class="post_body_link" th:href="@{/posts/{id}(id=${post.id})}">
 
                 <div class="post_body">
-                    <div class="post_content">
-                        <span class="post_title" th:text="${post.title}"></span>
-                        <span class="post_text" th:text="${post.text}"></span>
-                        <img class="post_picture" th:src="${post.picture}" th:if="${post.picture != null}" />
-                    </div>
+                    <span class="post_title" th:text="${post.title}"></span>
+                    <span class="post_text" th:text="${post.text}"></span>
+                    <img class="post_picture" th:src="${post.picture}" th:if="${post.picture != null}" />
                 </div>
             </a>
 
