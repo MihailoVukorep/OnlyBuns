@@ -1,8 +1,16 @@
-#posts {
+#posts.parentPosts {
     padding: 10px;
 }
 
-.post {
+#posts.thread {
+    display: block;
+    padding: 10px;
+    width: fit-content;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+#posts.parentPosts .post {
     width: 300px;
     height: 300px;
     display: inline-block;
@@ -10,14 +18,29 @@
     border-radius: 5px;
     background-color: var(--var-color-bg-trans-sub1);
     margin: 3px;
+}
+
+
+#posts.thread .post {
+    display: block;
+    border: 1px solid var(--var-color-border-transwhite);
+    border-radius: 5px;
+    background-color: var(--var-color-bg-trans-sub1);
     overflow: hidden;
     overflow-wrap: anywhere;
 }
 
-.post_body {
+#posts.parentPosts .post .post_body {
+    height: 245px;
+    flex-direction: column;
+    border-bottom: 1px solid var(--var-color-border-transwhite);
+    padding: 10px;
+    overflow: clip;
+}
+
+#posts.thread .post .post_body {
     display: flex;
     flex-direction: column;
-    height: 240px;
     border-bottom: 1px solid var(--var-color-border-transwhite);
     padding: 10px;
     overflow: clip;
@@ -33,9 +56,12 @@
 }
 
 .post_controls {
-    padding: 3px;
+    padding: 6px;
     display: flex;
+    align-items: center;
     gap: 2px;
+    height: 20px;
+    bottom: 0;
 }
 
 .post_controls button {
@@ -113,6 +139,11 @@
     display: block;
     max-height: 200px;
     max-width: 90%;
+}
+
+.post_createdDate {
+    color: var(--var-color-fg-post-date);
+    font-size: small;
 }
 
 #sort_controls {

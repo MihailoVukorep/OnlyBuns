@@ -25,7 +25,7 @@
         }
     </script>
 
-    <div id="posts">
+    <div id="posts" class="parentPosts">
         <div th:each="post : ${posts}" class="post">
             <a class="post_body_link" th:href="@{/posts/{id}(id=${post.id})}">
 

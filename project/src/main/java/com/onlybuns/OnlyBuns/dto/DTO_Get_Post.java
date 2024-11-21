@@ -21,9 +21,9 @@ public class DTO_Get_Post {
     public Integer likes;
     public Integer totalChildren;
     public LocalDateTime createdDate;
-    public String createdDateStr;      // TODO: DISPLAY THIS ON FRONTEND
+    public String createdDateStr;
     public LocalDateTime updatedDate;
-    public String updatedDateStr;      // TODO: DISPLAY THIS ON FRONTEND
+    public String updatedDateStr; // TODO: DISPLAY THIS ON FRONTEND
     public Boolean isLiked;
     public Boolean isMyPost;
     public Integer indent;
