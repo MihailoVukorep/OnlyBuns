@@ -1,9 +1,11 @@
 package com.onlybuns.OnlyBuns.controller.web;
 
+import com.onlybuns.OnlyBuns.dto.DTO_Get_Account;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.Post;
 import com.onlybuns.OnlyBuns.service.Service_Account;
 import com.onlybuns.OnlyBuns.service.Service_Post;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +35,16 @@ public class Controller_Post {
     @GetMapping("/accounts/{id}/posts")
     public String accounts_id_posts(HttpSession session, Model model, @PathVariable(name = "id") Long id, @RequestParam(value = "sort", required = false) String sort) {
         model.addAttribute("posts", service_account.get_api_accounts_id_posts_raw(id, session, sort));
+        model.addAttribute("currentSort", sort);
+        return "posts_raw.html";
+    }
+
+    @GetMapping("/user/posts")
+    public String user_posts(HttpSession session, Model model, @RequestParam(value = "sort", required = false) String sort) {
+        Account user = (Account) session.getAttribute("user");
+        if (user == null) { return "error/401.html"; }
+
+        model.addAttribute("posts", service_account.get_api_accounts_id_posts_raw(user.getId(), session, sort));
         model.addAttribute("currentSort", sort);
         return "posts_raw.html";
     }

@@ -37,13 +37,14 @@ public class Controller_Account {
     }
 
     @GetMapping("/user")
-    public String user(HttpSession session, Model model) {
+    public String user(HttpSession session, Model model, HttpServletRequest request) {
         Account user = (Account) session.getAttribute("user");
         if (user == null) {
             return "error/401.html";
         }
 
         model.addAttribute("account", new DTO_Get_Account(service_account.eager(user.getId())));
+        model.addAttribute("request", request);
         return "account.html";
     }
 
