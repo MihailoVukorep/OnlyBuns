@@ -61,6 +61,14 @@
     </div>
 
     <h1></h1>
+
+    <iframe id="account_posts" th:src="${request.requestURL + '/posts'}" title="account's posts"></iframe> 
+
+    <script>
+        function resizeIframeToFitContent(iframe) { iframe.style.height = iframe.contentWindow.document.body.scrollHeight + "px"; }
+        const iframe = document.getElementById('account_posts');
+        iframe.onload = function () { resizeIframeToFitContent(iframe); };
+    </script>
 </body>
 
 </html>

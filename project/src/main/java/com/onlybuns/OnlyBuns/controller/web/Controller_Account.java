@@ -3,6 +3,7 @@ package com.onlybuns.OnlyBuns.controller.web;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Account;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.service.Service_Account;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.hibernate.Hibernate;
@@ -47,8 +48,9 @@ public class Controller_Account {
     }
 
     @GetMapping("/accounts/{id}")
-    public String accounts_id(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
+    public String accounts_id(HttpSession session, Model model, HttpServletRequest request, @PathVariable(name = "id") Long id) {
         model.addAttribute("account", service_account.get_api_accounts_id_raw(id));
+        model.addAttribute("request", request);
         return "account.html";
     }
 
