@@ -17,4 +17,6 @@ public interface Repository_Post extends JpaRepository<Post, Long> {
     List<Post> findByParentPostIsNull(Sort sort);
 
     List<Post> findAllByAccount(Account account);
+
+    List<Post> findAllByAccount(Account account, Sort sort);
 }

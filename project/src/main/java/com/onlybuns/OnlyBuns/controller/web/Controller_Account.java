@@ -52,6 +52,16 @@ public class Controller_Account {
         return "account.html";
     }
 
+    @GetMapping("/accounts/{id}/following")
+    public String accounts_id_following(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
+        return "errors/501.html";
+    }
+
+    @GetMapping("/accounts/{id}/followers")
+    public String accounts_id_followers(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
+        return "errors/501.html";
+    }
+
     @GetMapping("/admin/manage")
     public String admin_manage(HttpSession session, Model model) {
         Account user = (Account) session.getAttribute("user");

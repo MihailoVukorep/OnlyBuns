@@ -24,8 +24,8 @@
 
     <div id="sort_controls">
         <label for="sortOptions">Sort by:</label>
-        <form action="/posts" method="GET" id="sortForm">
-            <select id="sortOptions" name="sort" th:value="${currentSort}" onchange="this.form.submit()">
+        <form id="sortForm" method="GET">
+            <select id="sortOptions" name="sort" onchange="updateSortAndSubmit()">
                 <option value="id,asc" th:selected="${currentSort == 'id,asc'}">ID Ascending</option>
                 <option value="id,desc" th:selected="${currentSort == 'id,desc'}">ID Descending</option>
                 <option value="title,asc" th:selected="${currentSort == 'title,asc'}">Title Ascending</option>
@@ -33,6 +33,24 @@
             </select>
         </form>
     </div>
+
+    <script>
+        function updateSortAndSubmit() {
+            const sortForm = document.getElementById('sortForm');
+            const sortOptions = document.getElementById('sortOptions');
+            const currentUrl = window.location.pathname; // Get the current path (e.g., /current-page)
+            const currentParams = new URLSearchParams(window.location.search); // Get existing query params
+    
+            // Update or add the "sort" parameter
+            currentParams.set('sort', sortOptions.value);
+    
+            // Set the form's action to the updated URL
+            sortForm.action = `${currentUrl}?${currentParams.toString()}`;
+    
+            // Submit the form
+            sortForm.submit();
+        }
+    </script>
 
     <div id="posts">
         <div th:each="post : ${posts}" class="post">
