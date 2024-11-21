@@ -15,21 +15,12 @@
         function updateSortAndSubmit() {
             const sortForm = document.getElementById('sortForm');
             const sortOptions = document.getElementById('sortOptions');
-            const currentUrl = window.location.pathname; // Get the current path (e.g., /current-page)
-            const currentParams = new URLSearchParams(window.location.search); // Get existing query params
-    
-            // Update or add the "sort" parameter
+            const currentUrl = window.location.pathname;
+            const currentParams = new URLSearchParams(window.location.search);
             currentParams.set('sort', sortOptions.value);
-    
-            // Update the dropdown to reflect the selected option
-            Array.from(sortOptions.options).forEach(option => {
-                option.selected = option.value === sortOptions.value;
-            });
-
-            // Set the form's action to the updated URL
-            sortForm.action = `${currentUrl}?${currentParams.toString()}`;
-    
-            // Submit the form
+            sortOptions.value = currentParams.get('sort');
+            const newUrl = `${currentUrl}?${currentParams.toString()}`;
+            sortForm.action = newUrl;
             sortForm.submit();
         }
     </script>

@@ -33,6 +33,7 @@ public class Controller_Post {
     @GetMapping("/accounts/{id}/posts")
     public String accounts_id_posts(HttpSession session, Model model, @PathVariable(name = "id") Long id, @RequestParam(value = "sort", required = false) String sort) {
         model.addAttribute("posts", service_account.get_api_accounts_id_posts_raw(id, session, sort));
+        model.addAttribute("currentSort", sort);
         return "posts_raw.html";
     }
 
