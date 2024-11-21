@@ -139,7 +139,6 @@
     border: 1px solid var(--var-color-border-transwhite);
     display: block;
     max-height: 200px;
-    max-width: 90%;
 }
 
 .post_createdDate {
