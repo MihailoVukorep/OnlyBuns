@@ -96,6 +96,25 @@
             const text = await response.text();
             morph(p_status, "Registering...", text);
         }
+
+        function moveToNextField(event, nextFieldId) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent form submission on Enter
+                const nextField = document.getElementById(nextFieldId);
+                if (nextField) {
+                    nextField.focus(); // Focus on the next field
+                }
+            }
+        }
+
+        // Add event listeners for each input field
+        document.getElementById('txt_email').addEventListener('keydown', function (event) {moveToNextField(event, 'txt_userName');});
+        document.getElementById('txt_userName').addEventListener('keydown', function (event) {moveToNextField(event, 'txt_password');});
+        document.getElementById('txt_password').addEventListener('keydown', function (event) {moveToNextField(event, 'txt_password_repeat');});
+        document.getElementById('txt_password_repeat').addEventListener('keydown', function (event) {moveToNextField(event, 'txt_firstName');});
+        document.getElementById('txt_firstName').addEventListener('keydown', function (event) {moveToNextField(event, 'txt_lastName');});
+        document.getElementById('txt_lastName').addEventListener('keydown', function (event) {moveToNextField(event, 'txt_address');});
+        document.getElementById('txt_address').addEventListener('keydown', function (event) {moveToNextField(event, 'btn_register');});
     </script>
 </body>
 
