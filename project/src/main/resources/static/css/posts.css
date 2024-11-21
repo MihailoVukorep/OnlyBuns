@@ -20,7 +20,6 @@
     margin: 3px;
 }
 
-
 #posts.thread .post {
     display: block;
     border: 1px solid var(--var-color-border-transwhite);
@@ -28,6 +27,8 @@
     background-color: var(--var-color-bg-trans-sub1);
     overflow: hidden;
     overflow-wrap: anywhere;
+    margin: 5px;
+    width: fit-content;
 }
 
 #posts.parentPosts .post .post_body {

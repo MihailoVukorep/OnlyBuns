@@ -114,6 +114,10 @@ h2 {
     background-color: var(--var-color-bg-link);
 }
 
+.onlybuns_link:hover {
+    background-color: transparent;
+}
+
 .onlybuns_link_block {
     display: block;
     width: fit-content;

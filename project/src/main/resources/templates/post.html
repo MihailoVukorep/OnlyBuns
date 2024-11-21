@@ -23,9 +23,9 @@
     <div th:replace="~{fragments/navbar :: navbar}"></div>
 
     <a id="parent"
+    class="onlybuns_link onlybuns_link_block"
     th:if="${posts != null and posts.size() > 0 and posts[0].parentPostId != null}"
-    th:href="@{/posts/{id}(id=${posts[0].parentPostId})}"
-    style="display: block;">🔝 Parent Post</a>
+    th:href="@{/posts/{id}(id=${posts[0].parentPostId})}">🔝 Parent Post</a>
 
     <div th:replace="~{fragments/thread :: thread}"></div>
 
