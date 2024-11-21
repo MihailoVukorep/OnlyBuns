@@ -14,30 +14,34 @@
                         th:value="${post.likes}"
                         th:classappend="${post.isLiked} ? 'liked' : ''" 
                         th:text="${post.isLiked ? '💗' : '❤️'} + ' ' + ${post.likes}"
-                        th:onclick="'post_like(' + ${post.id} + ', this);'">
+                        th:onclick="'post_like(' + ${post.id} + ', this);'"
+                        title="Like">
                 </button>
     
                 <button class="post_controls_comment" th:text="'💬 ' + ${post.totalChildren}"
-                    th:onclick="'showCommentForm(' + ${post.id} + ');'">
+                    th:onclick="'showCommentForm(' + ${post.id} + ');'"
+                    title="Reply">
                 </button>
     
                 <button th:if="${post.isMyPost}" class="post_controls_update"
-                    th:onclick="'post_update(' + ${post.id} + ');'">
+                    th:onclick="'post_update(' + ${post.id} + ');'"
+                    title="Edit post">
                     📝
                 </button>
                 <button th:if="${post.isMyPost}" class="post_controls_delete"
-                    th:onclick="'post_delete(' + ${post.id} + ');'">
+                    th:onclick="'post_delete(' + ${post.id} + ');'"
+                    title="Delete post">
                     ❌
                 </button>
     
-                <span class="post_account">
+                <span class="post_account" th:title="${post.account.userName}">
                     <a class="post_account_link" th:href="@{/accounts/{id}(id=${post.account.id})}">
                         <img class="post_account_image" th:src="${post.account.avatar}" />
                         <span class="post_account_userName" th:text="${post.account.userName}"></span>
                     </a>
                 </span>
 
-                <span class="post_createdDate" th:text="${post.createdDateStr}"></span>
+                <span class="post_createdDate" th:text="${post.createdDateStr}" th:title="${post.createdDateStr}"></span>
             </div>
         </div>
     </div>
