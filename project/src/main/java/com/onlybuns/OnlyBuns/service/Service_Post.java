@@ -72,21 +72,13 @@ public class Service_Post {
     }
     // /api/posts/{id}/thread
     public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_thread(Long id, HttpSession session) {
-        Optional<Post> optional_post = repository_post.findById(id);
-        if (optional_post.isEmpty()) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-        Post post = optional_post.get();
-        Account account = (Account) session.getAttribute("user");
-        List<DTO_Get_Post> thread = new ArrayList<>();
-        getThreadForUser(thread, post, account, 0);
-        return new ResponseEntity<>(thread, HttpStatus.OK);
+        List<DTO_Get_Post> posts = get_api_posts_id_thread_raw(id, session);
+        if (posts == null) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+        return new ResponseEntity<>(posts, HttpStatus.OK);
     }
     public List<DTO_Get_Post> get_api_posts_id_thread_raw(Long id, HttpSession session) {
         Optional<Post> optional_post = repository_post.findById(id);
-        if (optional_post.isEmpty()) {
-            return null;
-        }
+        if (optional_post.isEmpty()) { return null; }
         Post post = optional_post.get();
         Account account = (Account) session.getAttribute("user");
         List<DTO_Get_Post> thread = new ArrayList<>();
