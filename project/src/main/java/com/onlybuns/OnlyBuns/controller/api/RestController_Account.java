@@ -33,18 +33,18 @@ public class RestController_Account {
     }
 
     @PostMapping("/api/login")
-    public ResponseEntity<String> get_api_login(@RequestBody DTO_Post_AccountLogin dto_post_accountLogin, HttpServletRequest request, HttpSession session) {
-        return service_account.get_api_login(dto_post_accountLogin, request, session);
+    public ResponseEntity<String> post_api_login(@RequestBody DTO_Post_AccountLogin dto_post_accountLogin, HttpServletRequest request, HttpSession session) {
+        return service_account.post_api_login(dto_post_accountLogin, request, session);
     }
 
     @PostMapping("/api/register")
-    public ResponseEntity<String> get_api_register(@RequestBody DTO_Post_AccountRegister dto_post_accountRegister, HttpSession session) {
-        return service_account.get_api_register(dto_post_accountRegister, session);
+    public ResponseEntity<String> post_api_register(@RequestBody DTO_Post_AccountRegister dto_post_accountRegister, HttpSession session) {
+        return service_account.post_api_register(dto_post_accountRegister, session);
     }
 
     @PostMapping("/api/logout")
-    public ResponseEntity<String> get_api_logout(HttpSession session) {
-        return service_account.get_api_logout(session);
+    public ResponseEntity<String> post_api_logout(HttpSession session) {
+        return service_account.post_api_logout(session);
     }
 
     @GetMapping("/api/admin/accounts")

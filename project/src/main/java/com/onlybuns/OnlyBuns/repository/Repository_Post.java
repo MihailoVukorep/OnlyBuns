@@ -20,6 +20,4 @@ public interface Repository_Post extends JpaRepository<Post, Long> {
     List<Post> findAllByAccount(Account account);
 
     List<Post> findAllByAccount(Account account, Sort sort);
-
-    List<Post> findAll(Sort sort, PageRequest pageRequest);
 }

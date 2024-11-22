@@ -100,6 +100,52 @@ public class Service_Account {
         }
         return accountDTOS;
     }
+    public List<Account> getSortedAccounts(HttpSession session, String sortOption) {
+        Sort sort = switch (sortOption) {
+            case "follow_count,asc" -> Sort.by(Sort.Direction.ASC, "followCount");
+            case "follow_count,desc" -> Sort.by(Sort.Direction.DESC, "followCount");
+            case "email,asc" -> Sort.by(Sort.Direction.ASC, "email");
+            case "email,desc" -> Sort.by(Sort.Direction.DESC, "email");
+            default -> Sort.unsorted();
+        };
+
+        return repository_account.findAll(sort);
+    }
+    public List<DTO_Get_Account> getFilteredAndSortedAccounts(HttpSession session, String firstName, String lastName, String userName, String email, String address, Integer minPostCount, Integer maxPostCount, String sortOption) {
+        List<DTO_Get_Account> accounts = get_api_admin_accounts_raw(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount);
+
+        if (accounts == null || accounts.isEmpty()) {
+            return accounts;
+        }
+        if (sortOption == null) {
+            return accounts;
+        }
+
+        Comparator<DTO_Get_Account> comparator = null;
+
+        switch (sortOption) {
+            case "follow_count,asc":
+//                comparator = Comparator.comparingInt(DTO_Get_Account::getFollowCount);
+                comparator = Comparator.comparing(DTO_Get_Account::getEmail);
+                break;
+            case "follow_count,desc":
+//                comparator = Comparator.comparingInt(DTO_Get_Account::getFollowCount).reversed();
+                comparator = Comparator.comparing(DTO_Get_Account::getEmail);
+                break;
+            case "email,asc":
+                comparator = Comparator.comparing(DTO_Get_Account::getEmail);
+                break;
+            case "email,desc":
+                comparator = Comparator.comparing(DTO_Get_Account::getEmail).reversed();
+                break;
+            default:
+                return accounts;
+        }
+
+        accounts.sort(comparator);
+
+        return accounts;
+    }
 
     // /accounts/{id}
     public ResponseEntity<DTO_Get_Account> get_api_accounts_id(Long id) {
@@ -128,7 +174,7 @@ public class Service_Account {
     }
 
     // login / register / logout
-    public ResponseEntity<String> get_api_login(DTO_Post_AccountLogin dto_post_accountLogin, HttpServletRequest request, HttpSession session) {
+    public ResponseEntity<String> post_api_login(DTO_Post_AccountLogin dto_post_accountLogin, HttpServletRequest request, HttpSession session) {
 
         // already logged in
         Account sessionAccount = (Account) session.getAttribute("user");
@@ -182,7 +228,7 @@ public class Service_Account {
         session.setAttribute("user", account);
         return new ResponseEntity<>("Logged in as: " + account.getUserName(), HttpStatus.OK);
     }
-    public ResponseEntity<String> get_api_register(DTO_Post_AccountRegister dto_post_accountRegister, HttpSession session) {
+    public ResponseEntity<String> post_api_register(DTO_Post_AccountRegister dto_post_accountRegister, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount != null) {
             return new ResponseEntity<>("Already logged in.", HttpStatus.BAD_REQUEST);
@@ -250,7 +296,7 @@ public class Service_Account {
         // session.setAttribute("user", newAccount); // can't login need to verify
         return new ResponseEntity<>("Registered. Please verify email to login.", HttpStatus.OK);
     }
-    public ResponseEntity<String> get_api_logout(HttpSession session) {
+    public ResponseEntity<String> post_api_logout(HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) {
             return new ResponseEntity<>("Already logged out.", HttpStatus.BAD_REQUEST);
@@ -258,22 +304,6 @@ public class Service_Account {
 
         session.invalidate();
         return new ResponseEntity<>("Logged out: " + sessionAccount.getUserName(), HttpStatus.OK);
-    }
-
-    // /accounts/{id}/posts
-    public ResponseEntity<List<DTO_Get_Post>> get_api_accounts_id_posts(Long id, HttpSession session, String sort) {
-        List<DTO_Get_Post> posts = get_api_accounts_id_posts_raw(id, session, sort);
-        if (posts == null) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
-        return new ResponseEntity<>(posts, HttpStatus.OK);
-    }
-    public List<DTO_Get_Post> get_api_accounts_id_posts_raw(Long id, HttpSession session, String sort) {
-        Optional<Account> optional_account = repository_account.findById(id);
-        if (optional_account.isEmpty()) { return null; }
-        Account account = optional_account.get();
-
-        Sort sortOrder = varConverter.parseSort(sort);
-        Account sessionAccount = (Account) session.getAttribute("user");
-        return service_post.getPostsForUser(repository_post.findAllByAccount(account, sortOrder), sessionAccount);
     }
 
     // /accounts/{id}/likes
@@ -291,54 +321,6 @@ public class Service_Account {
             dtos.add(new DTO_Get_Like(like));
         }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
-    }
-
-    public List<Account> getSortedAccounts(HttpSession session, String sortOption) {
-        Sort sort = switch (sortOption) {
-            case "follow_count,asc" -> Sort.by(Sort.Direction.ASC, "followCount");
-            case "follow_count,desc" -> Sort.by(Sort.Direction.DESC, "followCount");
-            case "email,asc" -> Sort.by(Sort.Direction.ASC, "email");
-            case "email,desc" -> Sort.by(Sort.Direction.DESC, "email");
-            default -> Sort.unsorted();
-        };
-
-        return repository_account.findAll(sort);
-    }
-
-    public List<DTO_Get_Account> getFilteredAndSortedAccounts(HttpSession session, String firstName, String lastName, String userName, String email, String address, Integer minPostCount, Integer maxPostCount, String sortOption) {
-        List<DTO_Get_Account> accounts = get_api_admin_accounts_raw(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount);
-
-        if (accounts == null || accounts.isEmpty()) {
-            return accounts;
-        }
-        if (sortOption == null) {
-            return accounts;
-        }
-
-        Comparator<DTO_Get_Account> comparator = null;
-
-        switch (sortOption) {
-            case "follow_count,asc":
-//                comparator = Comparator.comparingInt(DTO_Get_Account::getFollowCount);
-                comparator = Comparator.comparing(DTO_Get_Account::getEmail);
-                break;
-            case "follow_count,desc":
-//                comparator = Comparator.comparingInt(DTO_Get_Account::getFollowCount).reversed();
-                comparator = Comparator.comparing(DTO_Get_Account::getEmail);
-                break;
-            case "email,asc":
-                comparator = Comparator.comparing(DTO_Get_Account::getEmail);
-                break;
-            case "email,desc":
-                comparator = Comparator.comparing(DTO_Get_Account::getEmail).reversed();
-                break;
-            default:
-                return accounts;
-        }
-
-        accounts.sort(comparator);
-
-        return accounts;
     }
 
     // follow
