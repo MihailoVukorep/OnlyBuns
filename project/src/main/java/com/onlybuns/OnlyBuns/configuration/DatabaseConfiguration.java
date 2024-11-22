@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -32,20 +31,6 @@ public class DatabaseConfiguration {
 
     @Autowired
     private Service_Email service_email;
-
-    public void printAll_accounts() {
-        List<Account> accounts = repository_account.findAll();
-        for (Account i : accounts) {
-            System.out.println(i.toString());
-        }
-    }
-
-    public void printAll_posts() {
-        List<Post> posts = repository_post.findAll();
-        for (Post i : posts) {
-            System.out.println(i.toString());
-        }
-    }
 
     public Account CreateAccount(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio, Boolean addAdminRole) {
 
@@ -221,9 +206,6 @@ public class DatabaseConfiguration {
         repository_like.save(new Like(acc_sara, root));
         repository_like.save(new Like(acc_sara2, root));
 
-        printAll_accounts();
-        printAll_posts();
-
         // // UNCOMMENT TO SPAM POSTS
         // for (int i = 0; i < 100; i++) {
         //     repository_post.save(new Post("Testing" + i, "Testing a lot of posts " + i, acc_ana));
@@ -315,6 +297,7 @@ public class DatabaseConfiguration {
         repository_post.save(new Post("Rabbit Digestive Health", "What should I do if my bunny isn't eating?", acc_pera));
         repository_post.save(new Post("Rabbits and Teeth", "How can I tell if my bunny's teeth are overgrown?", acc_pera));
 
+        System.out.println("INIT DB");
         return true;
     }
 }

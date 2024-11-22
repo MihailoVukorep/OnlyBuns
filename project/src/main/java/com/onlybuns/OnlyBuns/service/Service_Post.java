@@ -53,9 +53,8 @@ public class Service_Post {
         return new ResponseEntity<>(get_api_posts_raw(session, sort), HttpStatus.OK);
     }
     public List<DTO_Get_Post> get_api_posts_raw(HttpSession session, String sort) {
-        Sort sortOrder = varConverter.parseSort(sort);
         Account account = (Account) session.getAttribute("user");
-        return getPostsForUser(repository_post.findByParentPostIsNull(sortOrder), account);
+        return getPostsForUser(repository_post.findByParentPostIsNull(varConverter.parseSort(sort)), account);
     }
 
     // /posts/{id}
