@@ -50,7 +50,7 @@ public class Service_Post {
 
     private final VarConverter varConverter = new VarConverter();
 
-    // /posts
+    // /api/posts
     public ResponseEntity<List<DTO_Get_Post>> get_api_posts(HttpSession session, Integer page, Integer size, String sort) {
         return new ResponseEntity<>(get_api_posts_raw(session, page, size, sort), HttpStatus.OK);
     }
@@ -59,7 +59,7 @@ public class Service_Post {
         return getPostsForUser(repository_post.findByParentPostIsNull(varConverter.pageable(page, size, sort)), account);
     }
 
-    // /posts/{id}
+    // /api/posts/{id}
     public ResponseEntity<DTO_Get_Post> get_api_posts_id(Long id, HttpSession session) {
         Optional<Post> postOptional = repository_post.findById(id);
         if (postOptional.isEmpty()) {
@@ -70,6 +70,7 @@ public class Service_Post {
         Account account = (Account) session.getAttribute("user");
         return new ResponseEntity<>(getPostForUser(post, account, 0), HttpStatus.OK);
     }
+    // /api/posts/{id}/thread
     public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_thread(Long id, HttpSession session) {
         Optional<Post> optional_post = repository_post.findById(id);
         if (optional_post.isEmpty()) {
