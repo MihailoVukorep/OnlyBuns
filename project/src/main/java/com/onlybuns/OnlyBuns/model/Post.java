@@ -56,6 +56,12 @@ public class Post {
     @UpdateTimestamp
     private LocalDateTime updatedDate;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE) // Ensure cascade is set
+    private List<TrendingWeeklyPost> trendingWeeklyPosts;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<TrendingAllTimePost> trendingAllTimePosts;
+
     public Post(String text, Account account) {
         this.text = text;
         this.account = account;

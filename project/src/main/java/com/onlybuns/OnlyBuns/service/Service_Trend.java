@@ -1,11 +1,7 @@
 package com.onlybuns.OnlyBuns.service;
 
-import com.onlybuns.OnlyBuns.model.Account;
-import com.onlybuns.OnlyBuns.model.Post;
-import com.onlybuns.OnlyBuns.model.Trend;
-import com.onlybuns.OnlyBuns.repository.Repository_Account;
-import com.onlybuns.OnlyBuns.repository.Repository_Post;
-import com.onlybuns.OnlyBuns.repository.Repository_Trend;
+import com.onlybuns.OnlyBuns.model.*;
+import com.onlybuns.OnlyBuns.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -22,6 +18,15 @@ public class Service_Trend {
     private Repository_Trend repository_trend;
 
     @Autowired
+    private Repository_TrendingWeeklyPost repository_trendingWeeklyPost;
+
+    @Autowired
+    private Repository_TrendingActiveUser repository_trendingActiveUser;
+
+    @Autowired
+    private Repository_TrendingAllTimePost repository_trendingAllTimePost;
+
+    @Autowired
     private Repository_Post repository_post;
 
     @Autowired
@@ -32,13 +37,14 @@ public class Service_Trend {
         return repository_trend.findFirstByOrderByLastUpdatedDesc();
     }
 
-    @Scheduled(fixedRate = 3600000) // Update every hour
-    //@Scheduled(fixedRate = 5000) // Update every 5 sec
+    //@Scheduled(fixedRate = 3600000) // Update every hour
+    @Scheduled(fixedRate = 5000) // Update every 5 sec
     @Transactional
     public void updateTrends() {
 
+        // delete last trend ; used for debug ; remove this so we have history
         Trend currentTrend = getCurrentTrends();
-        if (currentTrend != null) { repository_trend.delete(currentTrend); } // remove last trend -- this needs fixing unique constraint
+        if (currentTrend != null) { repository_trend.delete(currentTrend); }
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime monthAgo = now.minusMonths(1);
@@ -57,13 +63,59 @@ public class Service_Trend {
         // Get top 10 users who gave most likes in last 7 days
         List<Account> mostActiveLikers = repository_account.findTopAccountsByLikes(weekAgo, 10);
 
-        Trend trend = new Trend(totalPosts, postsLastMonth, topWeeklyPosts, topAllTimePosts, mostActiveLikers);
+        Trend trend = new Trend(totalPosts, postsLastMonth);
+        repository_trend.save(trend);
 
-        try {
-            repository_trend.save(trend);
-            System.out.println("NEW TREND: " + trend);
+        List<TrendingWeeklyPost> trendingWeeklyPosts = topWeeklyPosts.stream().map(post -> { return new TrendingWeeklyPost(trend.getId(), post); }).toList();
+        repository_trendingWeeklyPost.saveAll(trendingWeeklyPosts);
+        trend.setTopWeeklyPosts(trendingWeeklyPosts);
+
+        List<TrendingAllTimePost> trendingAllTimePosts = topAllTimePosts.stream().map(post -> { return new TrendingAllTimePost(trend.getId(), post); }).toList();
+        repository_trendingAllTimePost.saveAll(trendingAllTimePosts);
+        trend.setTopAllTimePosts(trendingAllTimePosts);
+
+        List<TrendingActiveUser> activeUsersEntities = mostActiveLikers.stream().map(account -> { return new TrendingActiveUser(trend.getId(), account); }).toList();
+        repository_trendingActiveUser.saveAll(activeUsersEntities);
+        trend.setMostActiveLikers(activeUsersEntities);
+
+        System.out.println("NEW TREND: " + trend);
+        System.out.println("=== NEW TREND WEEKLY POSTS");
+        for (TrendingWeeklyPost i : trend.getTopWeeklyPosts()) {
+            Post post = i.getPost();
+            System.out.println(
+                    "Post{" +
+                    "id=" + post.getId() +
+                    ", title='" + post.getTitle() + '\'' +
+                    ", text='" + post.getText() + '\'' +
+                    ", likes=" + post.getLikes().size() +
+                    '}'
+            );
         }
-        catch (Exception e) { }
-
+        System.out.println();
+        System.out.println("=== NEW TREND ALL TIME POSTS");
+        for (TrendingAllTimePost i : trend.getTopAllTimePosts()) {
+            Post post = i.getPost();
+            System.out.println(
+                    "Post{" +
+                            "id=" + post.getId() +
+                            ", title='" + post.getTitle() + '\'' +
+                            ", text='" + post.getText() + '\'' +
+                            ", likes=" + post.getLikes().size() +
+                            '}'
+            );
+        }
+        System.out.println();
+        System.out.println("=== NEW TREND ACCOUNTS");
+        for (TrendingActiveUser i : trend.getMostActiveLikers()) {
+            Account account = i.getAccount();
+            System.out.println(
+                    "Acccount{" +
+                            "id=" + account.getId() +
+                            ", username='" + account.getUserName() + '\'' +
+                            ", likes=" + account.getLikes().size() +
+                            '}'
+            );
+        }
+        System.out.println();
     }
 }
