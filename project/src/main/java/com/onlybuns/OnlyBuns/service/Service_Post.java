@@ -80,9 +80,6 @@ public class Service_Post {
         getThreadForUser(thread, post, account, 0);
         return new ResponseEntity<>(thread, HttpStatus.OK);
     }
-
-
-
     public List<DTO_Get_Post> get_api_posts_id_thread_raw(Long id, HttpSession session) {
         Optional<Post> optional_post = repository_post.findById(id);
         if (optional_post.isEmpty()) {
@@ -110,7 +107,6 @@ public class Service_Post {
         Account sessionAccount = (Account) session.getAttribute("user");
         return getPostsForUser(repository_post.findAllByAccount(account, sortOrder), sessionAccount);
     }
-
     public void getThreadForUser(List<DTO_Get_Post> thread, Post post, Account account, Integer indent) {
 
         thread.add(getPostForUser(post, account, indent));
@@ -122,7 +118,6 @@ public class Service_Post {
             }
         }
     }
-
     public DTO_Get_Post getPostForUser(Post post, Account account, Integer indent) {
 
         if (account == null) {
@@ -136,7 +131,6 @@ public class Service_Post {
                 indent
         );
     }
-
     public List<DTO_Get_Post> getPostsForUser(List<Post> posts, Account account) {
 
         if (account == null) {
@@ -158,7 +152,7 @@ public class Service_Post {
                 .collect(Collectors.toList());
     }
 
-    // CREATING POSTS
+    // create post
     public ResponseEntity<String> post_api_posts(String title, String text, String location, MultipartFile imageFile, HttpSession session) {
 
         Account sessionAccount = (Account) session.getAttribute("user");
@@ -186,7 +180,7 @@ public class Service_Post {
         return new ResponseEntity<>("Post created successfully.", HttpStatus.OK);
     }
 
-    // LIKE
+    // like post
     public ResponseEntity<String> post_api_posts_id_like(Long id, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) {
@@ -222,7 +216,7 @@ public class Service_Post {
         return new ResponseEntity<>("Post unliked.", HttpStatus.OK);
     }
 
-    // GET LIKES
+    // get posts likes
     public ResponseEntity<List<DTO_Get_Like>> get_api_posts_id_likes(Long id) {
         Optional<Post> optional_post = repository_post.findById(id);
         if (optional_post.isEmpty()) {
@@ -236,7 +230,7 @@ public class Service_Post {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    // COMMENT
+    // reply to post
     public ResponseEntity<String> post_api_posts_id_replies(Long postId, DTO_Post_Reply replyDTO, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) {
@@ -259,7 +253,7 @@ public class Service_Post {
         return new ResponseEntity<>("Post commented.", HttpStatus.OK);
     }
 
-    // UPDATE POST
+    // update post
     public ResponseEntity<String> put_api_posts_id(@PathVariable(name = "id") Long id, DTO_Put_Post dto_put_post, MultipartFile imageFile, HttpSession session) {
 
         Account sessionAccount = (Account) session.getAttribute("user");
@@ -294,7 +288,7 @@ public class Service_Post {
         return new ResponseEntity<>("Post updated successfully.", HttpStatus.OK);
     }
 
-    // DELETE POST
+    // delete post
     public ResponseEntity<String> delete_api_posts_id(@PathVariable(name = "id") Long id, HttpSession session) {
 
         Account sessionAccount = (Account) session.getAttribute("user");
