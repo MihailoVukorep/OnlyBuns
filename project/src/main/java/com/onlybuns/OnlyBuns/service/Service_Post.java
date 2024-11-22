@@ -142,6 +142,26 @@ public class Service_Post {
 
         return posts.map(post -> new DTO_Get_Post(post, likedPostIds.contains(post.getId()), post.getAccount().getId().equals(account.getId()), 0));
     }
+    public List<DTO_Get_Post> getPostsForUser(List<Post> posts, Account account) {
+
+        if (account == null) {
+            return posts.stream()
+                    .map(post -> new DTO_Get_Post(post, false, false, 0))
+                    .collect(Collectors.toList());
+        }
+
+        List<Long> postIds = posts.stream().map(Post::getId).collect(Collectors.toList());
+
+        // Retrieve likes for the current user in a single query to avoid multiple calls
+        List<Like> userLikes = repository_like.findByPostIdInAndAccount(postIds, account);
+        Set<Long> likedPostIds = userLikes.stream()
+                .map(like -> like.getPost().getId())
+                .collect(Collectors.toSet());
+
+        return posts.stream()
+                .map(post -> new DTO_Get_Post(post, likedPostIds.contains(post.getId()), post.getAccount().getId().equals(account.getId()), 0))
+                .collect(Collectors.toList());
+    }
 
     // create post
     public ResponseEntity<String> post_api_posts(String title, String text, String location, MultipartFile imageFile, HttpSession session) {

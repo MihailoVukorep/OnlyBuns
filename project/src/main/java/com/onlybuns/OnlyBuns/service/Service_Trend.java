@@ -1,7 +1,10 @@
 package com.onlybuns.OnlyBuns.service;
 
+import com.onlybuns.OnlyBuns.dto.DTO_Get_Account;
+import com.onlybuns.OnlyBuns.dto.DTO_Get_Post;
 import com.onlybuns.OnlyBuns.model.*;
 import com.onlybuns.OnlyBuns.repository.*;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -12,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Transactional
 public class Service_Trend {
 
     @Autowired
@@ -32,9 +36,32 @@ public class Service_Trend {
     @Autowired
     private Repository_Account repository_account;
 
+    @Autowired
+    private Service_Post service_post;
+
     @Cacheable("trends")
-    public Trend getCurrentTrends() {
+    public Trend getCurrentTrend() {
         return repository_trend.findFirstByOrderByLastUpdatedDesc();
+    }
+
+    public List<DTO_Get_Post> getWeekly(HttpSession session) {
+        Trend currentTrend = getCurrentTrend();
+        Account account = (Account) session.getAttribute("user");
+        List<Post> weekly = currentTrend.getTopWeeklyPosts().stream().map(TrendingWeeklyPost::getPost).toList();
+        return service_post.getPostsForUser(weekly, account);
+    }
+
+    public List<DTO_Get_Post> getTop(HttpSession session) {
+        Trend currentTrend = getCurrentTrend();
+        Account account = (Account) session.getAttribute("user");
+        List<Post> top = currentTrend.getTopAllTimePosts().stream().map(TrendingAllTimePost::getPost).toList();
+        return service_post.getPostsForUser(top, account);
+    }
+
+    public List<DTO_Get_Account> getLikers(HttpSession session) {
+        Trend currentTrend = getCurrentTrend();
+        Account account = (Account) session.getAttribute("user");
+        return currentTrend.getMostActiveLikers().stream().map(i -> { return new DTO_Get_Account(i.getAccount()); }).toList();
     }
 
     @Scheduled(fixedRate = 3600000) // Update every hour
@@ -43,7 +70,7 @@ public class Service_Trend {
     public void updateTrends() {
 
         // delete last trend ; used for debug ; remove this so we have history
-        Trend currentTrend = getCurrentTrends();
+        Trend currentTrend = getCurrentTrend();
         if (currentTrend != null) { repository_trend.delete(currentTrend); }
 
         LocalDateTime now = LocalDateTime.now();

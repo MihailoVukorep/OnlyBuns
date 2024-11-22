@@ -306,7 +306,7 @@ public class DatabaseConfiguration {
         System.out.println("INIT DB");
 
 
-        service_trend.getCurrentTrends();
+        service_trend.getCurrentTrend();
 
         return true;
     }

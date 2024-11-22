@@ -1,82 +1,4 @@
 <div th:fragment="parentPosts" id="parentPosts">
-    <div id="postnav">
-        <span id="postnav_sort">
-            <label for="sortOptions">Sort by:</label>
-            <form id="sortForm" method="GET">
-                <select id="sortOptions" name="sort" onchange="updateSortAndSubmit()">
-                    <option value="id,asc" th:selected="${currentSort == 'id,asc'}">ID Ascending</option>
-                    <option value="id,desc" th:selected="${currentSort == 'id,desc'}">ID Descending</option>
-                    <option value="title,asc" th:selected="${currentSort == 'title,asc'}">Title Ascending</option>
-                    <option value="title,desc" th:selected="${currentSort == 'title,desc'}">Title Descending</option>
-                </select>
-            </form>
-        </span>
-
-    <nav id="postnav_page" aria-label="Page navigation">
-        <ul id="postnav_page_ul">
-            <!-- First Page -->
-            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                <a class="page-link" 
-                   th:href="@{(${baseUrl} + '?page=0&size=' + ${pageSize} + '&sort=' + ${currentSort})}" 
-                   th:if="${currentPage > 0}" 
-                   aria-disabled="${currentPage == 0}">&#171;</a>
-                <span class="page-link" th:if="${currentPage == 0}">&#171;</span>
-            </li>
-
-            <!-- Previous Page -->
-            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                <a class="page-link" 
-                   th:href="@{(${baseUrl} + '?page=' + (${currentPage} - 1) + '&size=' + ${pageSize} + '&sort=' + ${currentSort})}"
-                   th:if="${currentPage > 0}" 
-                   aria-disabled="${currentPage == 0}">&#60;</a>
-                <span class="page-link" th:if="${currentPage == 0}">&#60;</span>
-            </li>
-
-            <!-- Page Numbers -->
-            <li th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}" 
-                class="page-item" 
-                th:classappend="${pageNum == currentPage} ? 'active'">
-                <a class="page-link" 
-                   th:href="@{(${baseUrl} + '?page=' + ${pageNum} + '&size=' + ${pageSize} + '&sort=' + ${currentSort})}"
-                   th:text="${pageNum + 1}"></a>
-            </li>
-
-            <!-- Next Page -->
-            <li class="page-item" th:classappend="${currentPage >= totalPages - 1} ? 'disabled'">
-                <a class="page-link" 
-                   th:href="@{(${baseUrl} + '?page=' + (${currentPage} + 1) + '&size=' + ${pageSize} + '&sort=' + ${currentSort})}"
-                   th:if="${currentPage < totalPages - 1}" 
-                   aria-disabled="${currentPage >= totalPages - 1}">&#62;</a>
-                <span class="page-link" th:if="${currentPage >= totalPages - 1}">&#62;</span>
-            </li>
-
-            <!-- Last Page -->
-            <li class="page-item" th:classappend="${currentPage >= totalPages - 1} ? 'disabled'">
-                <a class="page-link" 
-                   th:href="@{(${baseUrl} + '?page=' + (${totalPages - 1}) + '&size=' + ${pageSize} + '&sort=' + ${currentSort})}"
-                   th:if="${currentPage < totalPages - 1}" 
-                   aria-disabled="${currentPage >= totalPages - 1}">&#187;</a>
-                <span class="page-link" th:if="${currentPage >= totalPages - 1}">&#187;</span>
-            </li>
-        </ul>
-    </nav>
-    </div>
-
-
-    <script>
-        function updateSortAndSubmit() {
-            const sortForm = document.getElementById('sortForm');
-            const sortOptions = document.getElementById('sortOptions');
-            const currentUrl = window.location.pathname;
-            const currentParams = new URLSearchParams(window.location.search);
-            currentParams.set('sort', sortOptions.value);
-            sortOptions.value = currentParams.get('sort');
-            const newUrl = `${currentUrl}?${currentParams.toString()}`;
-            sortForm.action = newUrl;
-            sortForm.submit();
-        }
-    </script>
-
     <div id="posts" class="parentPosts">
         <div th:each="post : ${posts}" class="post">
             <a class="post_body_link" th:href="@{/posts/{id}(id=${post.id})}">
@@ -123,6 +45,4 @@
             </div>
         </div>
     </div>
-
-
 </div>
