@@ -13,6 +13,7 @@ import com.onlybuns.OnlyBuns.util.VarConverter;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -51,10 +52,10 @@ public class Service_Post {
     private final VarConverter varConverter = new VarConverter();
 
     // /api/posts
-    public ResponseEntity<List<DTO_Get_Post>> get_api_posts(HttpSession session, Integer page, Integer size, String sort) {
+    public ResponseEntity<Page<DTO_Get_Post>> get_api_posts(HttpSession session, Integer page, Integer size, String sort) {
         return new ResponseEntity<>(get_api_posts_raw(session, page, size, sort), HttpStatus.OK);
     }
-    public List<DTO_Get_Post> get_api_posts_raw(HttpSession session, Integer page, Integer size, String sort) {
+    public Page<DTO_Get_Post> get_api_posts_raw(HttpSession session, Integer page, Integer size, String sort) {
         Account account = (Account) session.getAttribute("user");
         return getPostsForUser(repository_post.findByParentPostIsNull(varConverter.pageable(page, size, sort)), account);
     }
@@ -87,12 +88,12 @@ public class Service_Post {
     }
 
     // /accounts/{id}/posts
-    public ResponseEntity<List<DTO_Get_Post>> get_api_accounts_id_posts(Long id, HttpSession session, Integer page, Integer size, String sort) {
-        List<DTO_Get_Post> posts = get_api_accounts_id_posts_raw(id, session, page, size, sort);
+    public ResponseEntity<Page<DTO_Get_Post>> get_api_accounts_id_posts(Long id, HttpSession session, Integer page, Integer size, String sort) {
+        Page<DTO_Get_Post> posts = get_api_accounts_id_posts_raw(id, session, page, size, sort);
         if (posts == null) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
-    public List<DTO_Get_Post> get_api_accounts_id_posts_raw(Long id, HttpSession session, Integer page, Integer size, String sort) {
+    public Page<DTO_Get_Post> get_api_accounts_id_posts_raw(Long id, HttpSession session, Integer page, Integer size, String sort) {
         Optional<Account> optional_account = repository_account.findById(id);
         if (optional_account.isEmpty()) { return null; }
         Account account = optional_account.get();
@@ -124,15 +125,14 @@ public class Service_Post {
                 indent
         );
     }
-    public List<DTO_Get_Post> getPostsForUser(List<Post> posts, Account account) {
+    public Page<DTO_Get_Post> getPostsForUser(Page<Post> posts, Account account) {
 
         if (account == null) {
-            return posts.stream()
-                    .map(post -> new DTO_Get_Post(post, false, false, 0))
-                    .collect(Collectors.toList());
+            return posts.map(post -> new DTO_Get_Post(post, false, false, 0));
         }
 
         List<Long> postIds = posts.stream().map(Post::getId).collect(Collectors.toList());
+
 
         // Retrieve likes for the current user in a single query to avoid multiple calls
         List<Like> userLikes = repository_like.findByPostIdInAndAccount(postIds, account);
@@ -140,9 +140,7 @@ public class Service_Post {
                 .map(like -> like.getPost().getId())
                 .collect(Collectors.toSet());
 
-        return posts.stream()
-                .map(post -> new DTO_Get_Post(post, likedPostIds.contains(post.getId()), post.getAccount().getId().equals(account.getId()), 0))
-                .collect(Collectors.toList());
+        return posts.map(post -> new DTO_Get_Post(post, likedPostIds.contains(post.getId()), post.getAccount().getId().equals(account.getId()), 0));
     }
 
     // create post

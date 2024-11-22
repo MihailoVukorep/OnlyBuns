@@ -151,6 +151,10 @@
     font-size: small;
 }
 
-#sort_controls {
-    padding: 0 0 10px 10px;
+#postnav {
+    padding: 10px;
+}
+
+#postnav_page, #sortForm, .page-item {
+    display: inline-block;
 }

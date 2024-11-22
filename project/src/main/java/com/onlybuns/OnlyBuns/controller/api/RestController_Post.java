@@ -8,6 +8,7 @@ import com.onlybuns.OnlyBuns.service.Service_Account;
 import com.onlybuns.OnlyBuns.service.Service_Post;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,7 +26,7 @@ public class RestController_Post {
 
     // posts
     @GetMapping(value = "/api/posts") // /api/posts?sort=newest
-    public ResponseEntity<List<DTO_Get_Post>> get_api_posts(
+    public ResponseEntity<Page<DTO_Get_Post>> get_api_posts(
             HttpSession session,
             @RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "size", required = false) Integer size,
@@ -37,7 +38,7 @@ public class RestController_Post {
 
     // account's posts
     @GetMapping("/api/accounts/{id}/posts")
-    public ResponseEntity<List<DTO_Get_Post>> get_api_accounts_id_posts(
+    public ResponseEntity<Page<DTO_Get_Post>> get_api_accounts_id_posts(
             HttpSession session,
             @PathVariable(name = "id") Long id,
             @RequestParam(value = "page", required = false) Integer page,

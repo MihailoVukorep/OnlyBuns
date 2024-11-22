@@ -1,6 +1,7 @@
 package com.onlybuns.OnlyBuns.repository;
 
 import com.onlybuns.OnlyBuns.model.Account;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import com.onlybuns.OnlyBuns.model.Post;
@@ -12,7 +13,7 @@ public interface Repository_Post extends JpaRepository<Post, Long> {
     List<Post> findAll();
     List<Post> findAll(Sort sort);
     //List<Post> findByParentPostIsNull();
-    List<Post> findByParentPostIsNull(Pageable pageable);
+    Page<Post> findByParentPostIsNull(Pageable pageable);
     //List<Post> findAllByAccount(Account account);
-    List<Post> findAllByAccount(Account account, Pageable pageable);
+    Page<Post> findAllByAccount(Account account, Pageable pageable);
 }
