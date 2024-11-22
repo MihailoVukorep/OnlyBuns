@@ -1,0 +1,30 @@
+<div th:fragment="accounts" id="accounts">
+    <div th:each="account : ${accounts}" class="account_link">
+        <a th:href="'/accounts/' + ${account.id}">
+            <div class="account">
+                <div class="account_img_cont">
+                    <img th:src="${account.avatar}" alt="Account Avatar" class="account_img">
+                </div>
+                
+                <div class="account_info">
+                    <div class="account_info_head">
+                        <div class="account_info_head_names">
+                            <span th:text="${account.roles[0].name}" class="account_info_body_roles"></span>
+
+                            <span th:text="${account.firstName}" class="account_info_head_firstName"></span>
+                            <span th:text="${account.lastName}" class="account_info_head_lastName"></span>
+                            <span>(</span><span th:text="${account.userName}" class="account_info_head_userName"></span><span>)</span>
+                        </div>
+                        
+                        <div class="account_info_head_email" th:text="${account.email}"></div>
+                    </div>
+                    
+                    <div class="account_info_body">
+                        <div class="account_info_body_address" th:text="${account.address}"></div>
+                        <div class="account_info_body_bio" th:text="${account.bio}"></div>
+                    </div>
+                </div>
+            </div> 
+        </a>
+    </div>
+</div>
