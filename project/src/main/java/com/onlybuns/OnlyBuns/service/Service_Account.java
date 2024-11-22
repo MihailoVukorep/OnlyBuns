@@ -14,15 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 import com.onlybuns.OnlyBuns.util.SimpleBloomFilter;
-import org.springframework.ui.Model;
 
 import java.util.*;
 
 @Service
-@Transactional
+@Transactional // TODO: change this to only be on top of the functions that actually need it (create things / have lazy fetching)
 public class Service_Account {
 
     private SimpleBloomFilter bloomFilter_userName;

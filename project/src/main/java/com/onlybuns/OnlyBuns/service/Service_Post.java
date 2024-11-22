@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-@Transactional
+@Transactional // TODO: change this to only be on top of the functions that actually need it (create things / have lazy fetching)
 public class Service_Post {
 
     @Autowired
