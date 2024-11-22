@@ -3,6 +3,7 @@ package com.onlybuns.OnlyBuns.configuration;
 import com.onlybuns.OnlyBuns.model.*;
 import com.onlybuns.OnlyBuns.repository.*;
 import com.onlybuns.OnlyBuns.service.Service_Email;
+import com.onlybuns.OnlyBuns.service.Service_Trend;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +32,9 @@ public class DatabaseConfiguration {
 
     @Autowired
     private Service_Email service_email;
+
+    @Autowired
+    private Service_Trend service_trend;
 
     public Account CreateAccount(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio, Boolean addAdminRole) {
 
@@ -300,6 +304,10 @@ public class DatabaseConfiguration {
         repository_post.save(new Post("Rabbits and Teeth", "How can I tell if my bunny's teeth are overgrown?", acc_pera));
 
         System.out.println("INIT DB");
+
+
+        service_trend.getCurrentTrends();
+
         return true;
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,4 +33,13 @@ public interface Repository_Account extends JpaRepository<Account, Long> {
             @Param("minPostCount") Integer minPostCount,
             @Param("maxPostCount") Integer maxPostCount
     );
+
+    @Query(value = "SELECT a.* FROM accounts a " +
+            "JOIN likes l ON a.id = l.account_id " +
+            "WHERE l.created_date >= :startDate " +
+            "GROUP BY a.id " +
+            "ORDER BY COUNT(l.id) DESC " +
+            "LIMIT :limit",
+            nativeQuery = true)
+    List<Account> findTopAccountsByLikes(@Param("startDate") LocalDateTime startDate, @Param("limit") int limit);
 }
