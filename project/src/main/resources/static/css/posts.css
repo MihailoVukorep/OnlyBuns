@@ -158,3 +158,19 @@
 #postnav_page, #sortForm, .page-item {
     display: inline-block;
 }
+
+.page-link {
+    text-decoration: none
+}
+
+.page-item.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d; /* Gray color */
+    cursor: not-allowed; /* Prevent pointer */
+    text-decoration: none; /* Remove underline */
+    pointer-events: none; /* Disable interaction */
+}

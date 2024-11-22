@@ -31,21 +31,13 @@ public class Controller_Post {
             @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
             @RequestParam(value = "sort", required = false, defaultValue = "id") String sort
     ) {
-        // Use defaults if parameters are null or invalid
-        if (page < 0) page = 0;
-        if (size <= 0) size = 10;
-
-        // Call service to get the posts with pagination
         Page<DTO_Get_Post> postPage = service_post.get_api_posts_raw(session, page, size, sort);
-
-        // Add attributes to the model for Thymeleaf
-        model.addAttribute("posts", postPage.getContent()); // Use getContent() for a list of posts
-        model.addAttribute("currentSort", sort); // Current sorting criteria
-        model.addAttribute("currentPage", page); // Current page number
-        model.addAttribute("totalPages", postPage.getTotalPages()); // Total number of pages
-        model.addAttribute("pageSize", size); // Page size
-
-        // Return the Thymeleaf template
+        model.addAttribute("posts", postPage.getContent());
+        model.addAttribute("currentSort", sort);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", postPage.getTotalPages());
+        model.addAttribute("pageSize", size);
+        model.addAttribute("baseUrl", "/posts");
         return "posts";
     }
 
@@ -54,12 +46,17 @@ public class Controller_Post {
             HttpSession session,
             Model model,
             @PathVariable(name = "id") Long id,
-            @RequestParam(value = "page", required = false) Integer page,
-            @RequestParam(value = "size", required = false) Integer size,
-            @RequestParam(value = "sort", required = false) String sort
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
+            @RequestParam(value = "sort", required = false, defaultValue = "id") String sort
     ) {
-        model.addAttribute("posts", service_post.get_api_accounts_id_posts_raw(id, session, page, size, sort));
+        Page<DTO_Get_Post> postPage = service_post.get_api_accounts_id_posts_raw(id, session, page, size, sort);
+        model.addAttribute("posts", postPage.getContent());
         model.addAttribute("currentSort", sort);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", postPage.getTotalPages());
+        model.addAttribute("pageSize", size);
+        model.addAttribute("baseUrl", "/accounts/" + id + "/posts");
         return "posts_raw.html";
     }
 
@@ -67,16 +64,13 @@ public class Controller_Post {
     public String user_posts(
             HttpSession session,
             Model model,
-            @RequestParam(value = "page", required = false) Integer page,
-            @RequestParam(value = "size", required = false) Integer size,
-            @RequestParam(value = "sort", required = false) String sort
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
+            @RequestParam(value = "sort", required = false, defaultValue = "id") String sort
     ) {
         Account user = (Account) session.getAttribute("user");
         if (user == null) { return "error/401.html"; }
-
-        model.addAttribute("posts", service_post.get_api_accounts_id_posts_raw(user.getId(), session, page, size, sort));
-        model.addAttribute("currentSort", sort);
-        return "posts_raw.html";
+        return accounts_id_posts(session, model, user.getId(), page, size, sort);
     }
 
     @GetMapping("/posts/{id}")
