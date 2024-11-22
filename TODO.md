@@ -6,5 +6,3 @@
 - account.html page
     - embed /account/{id}/following
     - embed /account/{id}/followers
-
-- do posts paging
