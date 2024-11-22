@@ -49,7 +49,6 @@ public class Post {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REFRESH, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Like> likes = new ArrayList<>();
-    ;
 
     @CreationTimestamp
     private LocalDateTime createdDate;
