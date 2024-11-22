@@ -37,8 +37,8 @@ public class Service_Trend {
         return repository_trend.findFirstByOrderByLastUpdatedDesc();
     }
 
-    //@Scheduled(fixedRate = 3600000) // Update every hour
-    @Scheduled(fixedRate = 5000) // Update every 5 sec
+    @Scheduled(fixedRate = 3600000) // Update every hour
+    //@Scheduled(fixedRate = 5000) // Update every 5 sec
     @Transactional
     public void updateTrends() {
 
