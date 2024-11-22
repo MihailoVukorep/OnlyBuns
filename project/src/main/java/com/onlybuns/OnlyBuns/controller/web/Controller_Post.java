@@ -21,25 +21,44 @@ public class Controller_Post {
     private Service_Post service_post;
 
     @GetMapping("/posts")
-    public String posts(HttpSession session, Model model, @RequestParam(value = "sort", required = false) String sort) {
-        model.addAttribute("posts", service_post.get_api_posts_raw(session, sort));
+    public String posts(
+            HttpSession session,
+            Model model,
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "size", required = false) Integer size,
+            @RequestParam(value = "sort", required = false) String sort
+    ) {
+        model.addAttribute("posts", service_post.get_api_posts_raw(session, page, size, sort));
         model.addAttribute("currentSort", sort);
         return "posts.html";
     }
 
     @GetMapping("/accounts/{id}/posts")
-    public String accounts_id_posts(HttpSession session, Model model, @PathVariable(name = "id") Long id, @RequestParam(value = "sort", required = false) String sort) {
-        model.addAttribute("posts", service_post.get_api_accounts_id_posts_raw(id, session, sort));
+    public String accounts_id_posts(
+            HttpSession session,
+            Model model,
+            @PathVariable(name = "id") Long id,
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "size", required = false) Integer size,
+            @RequestParam(value = "sort", required = false) String sort
+    ) {
+        model.addAttribute("posts", service_post.get_api_accounts_id_posts_raw(id, session, page, size, sort));
         model.addAttribute("currentSort", sort);
         return "posts_raw.html";
     }
 
     @GetMapping("/user/posts")
-    public String user_posts(HttpSession session, Model model, @RequestParam(value = "sort", required = false) String sort) {
+    public String user_posts(
+            HttpSession session,
+            Model model,
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "size", required = false) Integer size,
+            @RequestParam(value = "sort", required = false) String sort
+    ) {
         Account user = (Account) session.getAttribute("user");
         if (user == null) { return "error/401.html"; }
 
-        model.addAttribute("posts", service_post.get_api_accounts_id_posts_raw(user.getId(), session, sort));
+        model.addAttribute("posts", service_post.get_api_accounts_id_posts_raw(user.getId(), session, page, size, sort));
         model.addAttribute("currentSort", sort);
         return "posts_raw.html";
     }

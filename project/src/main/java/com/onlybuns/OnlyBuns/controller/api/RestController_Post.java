@@ -23,19 +23,31 @@ public class RestController_Post {
     @Autowired
     private Service_Account service_account;
 
-    // GET POSTS
+    // posts
     @GetMapping(value = "/api/posts") // /api/posts?sort=newest
-    public ResponseEntity<List<DTO_Get_Post>> get_api_posts(HttpSession session, @RequestParam(value = "sort", required = false) String sort) {
-        return service_post.get_api_posts(session, sort);
+    public ResponseEntity<List<DTO_Get_Post>> get_api_posts(
+            HttpSession session,
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "size", required = false) Integer size,
+            @RequestParam(value = "sort", required = false) String sort
+
+    ) {
+        return service_post.get_api_posts(session, page, size, sort);
     }
 
-    // GET POSTS FOR ACCOUNT
+    // account's posts
     @GetMapping("/api/accounts/{id}/posts")
-    public ResponseEntity<List<DTO_Get_Post>> get_api_accounts_id_posts(@PathVariable(name = "id") Long id, HttpSession session, @RequestParam(value = "sort", required = false) String sort) {
-        return service_post.get_api_accounts_id_posts(id, session, sort);
+    public ResponseEntity<List<DTO_Get_Post>> get_api_accounts_id_posts(
+            HttpSession session,
+            @PathVariable(name = "id") Long id,
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "size", required = false) Integer size,
+            @RequestParam(value = "sort", required = false) String sort
+    ) {
+        return service_post.get_api_accounts_id_posts(id, session, page, size, sort);
     }
 
-    // GET POST
+    // get single post
     @GetMapping("/api/posts/{id}")
     public ResponseEntity<DTO_Get_Post> get_api_posts_id(@PathVariable(name = "id") Long id, HttpSession session) {
         return service_post.get_api_posts_id(id, session);
