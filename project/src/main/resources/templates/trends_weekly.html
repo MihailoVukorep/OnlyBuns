@@ -10,6 +10,8 @@
     <title>OnlyBuns - Trends - Weekly</title>
     <link rel="stylesheet" href="/css/trends.css">
     <link rel="stylesheet" href="/css/posts.css">
+    <link rel="stylesheet" href="/css/commentform.css">
+    <link rel="stylesheet" href="/css/popup.css">
 
     <script defer type="text/javascript" src="/js/popup.js"></script>
     <script defer type="text/javascript" src="/js/actions.js"></script>
@@ -19,6 +21,9 @@
     <h1>📆 Weekly Top 📅</h1>
 
     <div th:replace="~{fragments/parentPosts :: parentPosts}"></div>
+
+    <div th:replace="~{fragments/commentForm :: commentForm}"></div>
+    <div th:replace="~{fragments/popup :: popup}"></div>
 </body>
 
 </html>

@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -20,15 +22,6 @@ public class Service_Trend {
 
     @Autowired
     private Repository_Trend repository_trend;
-
-    @Autowired
-    private Repository_TrendingWeeklyPost repository_trendingWeeklyPost;
-
-    @Autowired
-    private Repository_TrendingActiveUser repository_trendingActiveUser;
-
-    @Autowired
-    private Repository_TrendingAllTimePost repository_trendingAllTimePost;
 
     @Autowired
     private Repository_Post repository_post;
@@ -44,24 +37,46 @@ public class Service_Trend {
         return repository_trend.findFirstByOrderByLastUpdatedDesc();
     }
 
+    private final String CSV_DELIMITER = ",";
+
+    List<Post> csv2posts(String csv) {
+        String[] ids = csv.split(CSV_DELIMITER);
+        List<Post> posts = new ArrayList<>();
+        for (String id : ids) {
+            Optional<Post> post = repository_post.findById(Long.parseLong(id));
+            if (post.isEmpty()) {   continue; }
+            posts.add(post.get());
+        }
+        return posts;
+    }
+
+    List<Account> csv2accounts(String csv) {
+        String[] ids = csv.split(CSV_DELIMITER);
+        List<Account> accounts = new ArrayList<>();
+        for (String id : ids) {
+            Optional<Account> account = repository_account.findById(Long.parseLong(id));
+            if (account.isEmpty()) {   continue; }
+            accounts.add(account.get());
+        }
+        return accounts;
+    }
+
     public List<DTO_Get_Post> getWeekly(HttpSession session) {
         Trend currentTrend = getCurrentTrend();
         Account account = (Account) session.getAttribute("user");
-        List<Post> weekly = currentTrend.getTopWeeklyPosts().stream().map(TrendingWeeklyPost::getPost).toList();
-        return service_post.getPostsForUser(weekly, account);
+        return service_post.getPostsForUser(csv2posts(currentTrend.getTopWeeklyPostsCsv()), account);
     }
 
     public List<DTO_Get_Post> getTop(HttpSession session) {
         Trend currentTrend = getCurrentTrend();
         Account account = (Account) session.getAttribute("user");
-        List<Post> top = currentTrend.getTopAllTimePosts().stream().map(TrendingAllTimePost::getPost).toList();
-        return service_post.getPostsForUser(top, account);
+        return service_post.getPostsForUser(csv2posts(currentTrend.getTopAllTimePosts()), account);
     }
 
     public List<DTO_Get_Account> getLikers(HttpSession session) {
         Trend currentTrend = getCurrentTrend();
         Account account = (Account) session.getAttribute("user");
-        return currentTrend.getMostActiveLikers().stream().map(i -> { return new DTO_Get_Account(i.getAccount()); }).toList();
+        return csv2accounts(currentTrend.getMostActiveLikers()).stream().map(DTO_Get_Account::new).toList();
     }
 
     @Scheduled(fixedRate = 3600000) // Update every hour
@@ -90,56 +105,47 @@ public class Service_Trend {
         // Get top 10 users who gave most likes in last 7 days
         List<Account> mostActiveLikers = repository_account.findTopAccountsByLikes(weekAgo, 10);
 
-        Trend trend = new Trend(totalPosts, postsLastMonth);
+
+        String weekly = String.join(CSV_DELIMITER, topWeeklyPosts.stream().map(i -> i.getId().toString()).toList());
+        String top = String.join(CSV_DELIMITER, topAllTimePosts.stream().map(i -> i.getId().toString()).toList());
+        String likers = String.join(CSV_DELIMITER, mostActiveLikers.stream().map(i -> i.getId().toString()).toList());
+
+        Trend trend = new Trend(totalPosts, postsLastMonth, weekly, top, likers);
         repository_trend.save(trend);
 
-        List<TrendingWeeklyPost> trendingWeeklyPosts = topWeeklyPosts.stream().map(post -> { return new TrendingWeeklyPost(trend.getId(), post); }).toList();
-        repository_trendingWeeklyPost.saveAll(trendingWeeklyPosts);
-        trend.setTopWeeklyPosts(trendingWeeklyPosts);
-
-        List<TrendingAllTimePost> trendingAllTimePosts = topAllTimePosts.stream().map(post -> { return new TrendingAllTimePost(trend.getId(), post); }).toList();
-        repository_trendingAllTimePost.saveAll(trendingAllTimePosts);
-        trend.setTopAllTimePosts(trendingAllTimePosts);
-
-        List<TrendingActiveUser> activeUsersEntities = mostActiveLikers.stream().map(account -> { return new TrendingActiveUser(trend.getId(), account); }).toList();
-        repository_trendingActiveUser.saveAll(activeUsersEntities);
-        trend.setMostActiveLikers(activeUsersEntities);
 
         System.out.println("NEW TREND: " + trend);
         System.out.println("=== NEW TREND WEEKLY POSTS");
-        for (TrendingWeeklyPost i : trend.getTopWeeklyPosts()) {
-            Post post = i.getPost();
+        for (Post i : topWeeklyPosts) {
             System.out.println(
                     "Post{" +
-                    "id=" + post.getId() +
-                    ", title='" + post.getTitle() + '\'' +
-                    ", text='" + post.getText() + '\'' +
-                    ", likes=" + post.getLikes().size() +
+                    "id=" + i.getId() +
+                    ", title='" + i.getTitle() + '\'' +
+                    ", text='" + i.getText() + '\'' +
+                    ", likes=" + i.getLikes().size() +
                     '}'
             );
         }
         System.out.println();
         System.out.println("=== NEW TREND ALL TIME POSTS");
-        for (TrendingAllTimePost i : trend.getTopAllTimePosts()) {
-            Post post = i.getPost();
+        for (Post i : topAllTimePosts) {
             System.out.println(
                     "Post{" +
-                            "id=" + post.getId() +
-                            ", title='" + post.getTitle() + '\'' +
-                            ", text='" + post.getText() + '\'' +
-                            ", likes=" + post.getLikes().size() +
+                            "id=" + i.getId() +
+                            ", title='" + i.getTitle() + '\'' +
+                            ", text='" + i.getText() + '\'' +
+                            ", likes=" + i.getLikes().size() +
                             '}'
             );
         }
         System.out.println();
         System.out.println("=== NEW TREND ACCOUNTS");
-        for (TrendingActiveUser i : trend.getMostActiveLikers()) {
-            Account account = i.getAccount();
+        for (Account i : mostActiveLikers) {
             System.out.println(
                     "Acccount{" +
-                            "id=" + account.getId() +
-                            ", username='" + account.getUserName() + '\'' +
-                            ", likes=" + account.getLikes().size() +
+                            "id=" + i.getId() +
+                            ", username='" + i.getUserName() + '\'' +
+                            ", likes=" + i.getLikes().size() +
                             '}'
             );
         }
