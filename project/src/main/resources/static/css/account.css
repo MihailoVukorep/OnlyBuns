@@ -49,12 +49,17 @@
     color: var(--var-color-fg-post-address);
 }
 
-#account_counters {
-    font-size: medium;
-    margin: 5px;
-    padding: 5px;
-    text-align: center;
-    border-bottom: 1px dashed var(--var-color-border-transwhite);
+#account_counters_table {
+    color: var(--var-color-fg-white);
+    border-collapse: collapse; /* Removes spacing between table cells */
+    text-align: center; /* Centers text in all cells */
+    table-layout: fixed; /* Ensures columns are evenly spaced */
+    margin: 2px 0;
+}
+
+#account_counters_table th, #account_counters_table td {
+    padding: 2px;
+    border: 1px dotted var(--var-color-border-transwhite);
     font-weight: bolder;
 }
 

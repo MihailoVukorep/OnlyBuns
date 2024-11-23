@@ -176,3 +176,8 @@
     text-decoration: none; /* Remove underline */
     pointer-events: none; /* Disable interaction */
 }
+
+#sortOptions {
+    color: white;
+    background-color: transparent;
+}

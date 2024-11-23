@@ -33,9 +33,6 @@
 
 .account_info {
     padding: 0px;
-}
-
-.account_info_head {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -43,7 +40,7 @@
     margin: 0;
 }
 
-.account_info_head_names {
+.account_names {
     font-size: large;
     margin-bottom: 5px;
 }
@@ -75,17 +72,13 @@
     font-size: small;
 }
 
-.account_info_body {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+.account_info_break {
     border-top: 1px dotted #ddd;
-    padding: 5px;
+    margin: 2px 0;
 }
 
-.account_bio, .account_address {
+.account_bio, .account_address, .account_counters {
     font-size: small;
-
 }
 
 .account_bio {
@@ -94,6 +87,20 @@
 
 .account_address {
     color: var(--var-color-fg-post-address)
+}
+
+.account_counters_table {
+    color: var(--var-color-fg-white);
+    border-collapse: collapse; /* Removes spacing between table cells */
+    text-align: center; /* Centers text in all cells */
+    table-layout: fixed; /* Ensures columns are evenly spaced */
+    margin: 2px 0;
+}
+
+.account_counters_table th, .account_counters_table td {
+    padding: 2px;
+    border: 1px dotted var(--var-color-border-transwhite);
+    font-weight: bolder;
 }
 
 .searchform table th {

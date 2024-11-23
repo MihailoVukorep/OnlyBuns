@@ -19,8 +19,6 @@
     --var-color-border-transwhite: rgba(255, 255, 255, 0.5);
 }
 
-
-
 html {
     color: var(--var-color-fg-post-white);
     background-image: url("/img/bg1.png");

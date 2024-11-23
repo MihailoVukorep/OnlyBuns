@@ -49,24 +49,20 @@
                 </div>
             </div>
 
-            <div id="account_counters">
-                <span>
-                    <span id="account_postsCount" th:text="${account.postsCount}"></span>
-                    <span>posts 📰</span><span>,</span>
-                </span>
-                <span>
-                    <span id="account_likesCount" th:text="${account.likesCount}"></span>
-                    <span>likes 💗</span><span>,</span>
-                </span>
-                <span>
-                    <span id="account_followersCount" th:text="${account.followersCount}"></span>
-                    <span>followers 🙇</span><span>,</span>
-                </span>
-                <span>
-                    <span id="account_followingCount" th:text="${account.followingCount}"></span>
-                    <span>following 🧎</span>
-                </span>
-            </div>
+            <table id="account_counters_table">
+                <tr>
+                    <th>📰 Posts</th>
+                    <th>💗 Likes</th>
+                    <th>🙇 Followers</th>
+                    <th>🧎 Following</th>
+                </tr>
+                <tr>
+                    <td id="account_postsCount" th:text="${account.postsCount}"></td>
+                    <td id="account_likesCount" th:text="${account.likesCount}"></td>
+                    <td id="account_followersCount" th:text="${account.followersCount}"></td>
+                    <td id="account_followingCount" th:text="${account.followingCount}"></td>
+                </tr>
+            </table>
 
             <div id="account_created">
                 <span>📅</span>
