@@ -207,6 +207,7 @@ public class DatabaseConfiguration {
 
 
         repository_like.save(new Like(acc_ajzak, root));
+        repository_like.save(new Like(acc_ajzak, root2));
         repository_like.save(new Like(acc_sara, root));
         repository_like.save(new Like(acc_sara2, root));
 
