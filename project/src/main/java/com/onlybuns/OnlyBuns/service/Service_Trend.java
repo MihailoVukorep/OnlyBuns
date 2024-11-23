@@ -7,6 +7,9 @@ import com.onlybuns.OnlyBuns.repository.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,7 +52,6 @@ public class Service_Trend {
         }
         return posts;
     }
-
     List<Account> csv2accounts(String csv) {
         String[] ids = csv.split(CSV_DELIMITER);
         List<Account> accounts = new ArrayList<>();
@@ -60,23 +62,23 @@ public class Service_Trend {
         }
         return accounts;
     }
-
-    public List<DTO_Get_Post> getWeekly(HttpSession session) {
+    public ResponseEntity<List<DTO_Get_Post>> get_api_trends_weekly(HttpSession session) {
         Trend currentTrend = getCurrentTrend();
         Account account = (Account) session.getAttribute("user");
-        return service_post.getPostsForUser(csv2posts(currentTrend.getTopWeeklyPostsCsv()), account);
+        if (account == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); }
+        return new ResponseEntity<>(service_post.getPostsForUser(csv2posts(currentTrend.getTopWeeklyPostsCsv()), account), HttpStatus.OK);
     }
-
-    public List<DTO_Get_Post> getTop(HttpSession session) {
+    public ResponseEntity<List<DTO_Get_Post>> get_api_trends_top(HttpSession session) {
         Trend currentTrend = getCurrentTrend();
         Account account = (Account) session.getAttribute("user");
-        return service_post.getPostsForUser(csv2posts(currentTrend.getTopAllTimePosts()), account);
+        if (account == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); }
+        return new ResponseEntity<>(service_post.getPostsForUser(csv2posts(currentTrend.getTopAllTimePosts()), account), HttpStatus.OK);
     }
-
-    public List<DTO_Get_Account> getLikers(HttpSession session) {
+    public ResponseEntity<List<DTO_Get_Account>> get_api_trends_likers(HttpSession session) {
         Trend currentTrend = getCurrentTrend();
         Account account = (Account) session.getAttribute("user");
-        return csv2accounts(currentTrend.getMostActiveLikers()).stream().map(DTO_Get_Account::new).toList();
+        if (account == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); }
+        return new ResponseEntity<>(csv2accounts(currentTrend.getMostActiveLikers()).stream().map(DTO_Get_Account::new).toList(), HttpStatus.OK);
     }
 
     @Scheduled(fixedRate = 3600000) // Update every hour
