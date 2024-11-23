@@ -47,18 +47,7 @@ public class RestController_Account {
         return service_account.post_api_logout(session);
     }
 
-    @GetMapping("/api/admin/accounts")
-    public ResponseEntity<List<DTO_Get_Account>> get_api_admin_accounts(
-            HttpSession session,
-            @RequestParam(required = false) String firstName,
-            @RequestParam(required = false) String lastName,
-            @RequestParam(required = false) String userName,
-            @RequestParam(required = false) String email,
-            @RequestParam(required = false) String address,
-            @RequestParam(required = false) Integer minPostCount,
-            @RequestParam(required = false) Integer maxPostCount) {
-        return service_account.get_api_admin_accounts(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount);
-    }
+
 
     @PostMapping("/api/accounts/{id}/follow")
     public ResponseEntity<DTO_Get_Account> get_api_accounts_id_follow(@PathVariable(name = "id") Long id) {
