@@ -1,12 +1,10 @@
 package com.onlybuns.OnlyBuns.dto;
 
 import com.onlybuns.OnlyBuns.model.Account;
-import com.onlybuns.OnlyBuns.model.Role;
 import lombok.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Set;
 
 @Getter
 @Setter

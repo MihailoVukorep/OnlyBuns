@@ -157,6 +157,8 @@
 
 #postnav_page, #sortForm, .page-item {
     display: inline-block;
+    margin: 0;
+    padding: 0;
 }
 
 .page-link {
@@ -180,4 +182,10 @@
 #sortOptions {
     color: white;
     background-color: transparent;
+    border: 1px solid var(--var-color-border-transwhite);
+}
+
+#postnav_page_ul {
+    margin: 0;
+    padding: 0;
 }
