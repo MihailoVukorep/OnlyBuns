@@ -8,32 +8,27 @@
                     <img class="post_picture" th:src="${post.picture}" th:if="${post.picture != null}" />
                 </div>
             </a>
-    
+
             <div class="post_controls">
-                <button class="post_controls_like" 
-                        th:value="${post.likes}"
-                        th:classappend="${post.isLiked} ? 'liked' : ''" 
-                        th:text="${post.isLiked ? '💗' : '❤️'} + ' ' + ${post.likes}"
-                        th:onclick="'post_like(' + ${post.id} + ', this);'"
-                        title="Like">
+                <button class="post_controls_like" th:value="${post.likes}"
+                    th:classappend="${post.isLiked} ? 'liked' : ''"
+                    th:text="${post.isLiked ? '💗' : '❤️'} + ' ' + ${post.likes}"
+                    th:onclick="'post_like(' + ${post.id} + ', this);'" title="Like">
                 </button>
-    
+
                 <button class="post_controls_comment" th:text="'💬 ' + ${post.totalChildren}"
-                    th:onclick="'showCommentForm(' + ${post.id} + ');'"
-                    title="Reply">
+                    th:onclick="'showCommentForm(' + ${post.id} + ');'" title="Reply">
                 </button>
-    
+
                 <button th:if="${post.isMyPost}" class="post_controls_update"
-                    th:onclick="'post_update(' + ${post.id} + ');'"
-                    title="Edit post">
+                    th:onclick="'post_update(' + ${post.id} + ');'" title="Edit post">
                     📝
                 </button>
                 <button th:if="${post.isMyPost}" class="post_controls_delete"
-                    th:onclick="'post_delete(' + ${post.id} + ');'"
-                    title="Delete post">
+                    th:onclick="'post_delete(' + ${post.id} + ');'" title="Delete post">
                     ❌
                 </button>
-    
+
                 <span class="post_account" th:title="${post.account.userName}">
                     <a class="post_account_link" th:href="@{/accounts/{id}(id=${post.account.id})}">
                         <img class="post_account_image" th:src="${post.account.avatar}" />
@@ -41,7 +36,8 @@
                     </a>
                 </span>
 
-                <span class="post_createdDate" th:text="${post.createdDateStr}" th:title="${post.createdDateStr}"></span>
+                <span class="post_createdDate" th:text="${post.createdDateStr}"
+                    th:title="${post.createdDateStr}"></span>
             </div>
         </div>
     </div>
