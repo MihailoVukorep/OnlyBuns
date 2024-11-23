@@ -1,3 +1,14 @@
+#cont {
+    width: 100vw;
+    height: 100vh;
+}
+
+#home {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
 canvas#aclock {
     border-radius: 50%;
     border: 2px solid var(--var-color-border-transwhite);
@@ -5,6 +16,8 @@ canvas#aclock {
 }
 
 #clock {
+    width: 400px;
+    height: 400px;
     display: inline-block;
     bottom: 1px;
     color: var(--foreground-color);
@@ -17,7 +30,3 @@ canvas#aclock {
     margin-top: 5px;
 }
 
-#cont {
-    display: flex;
-    justify-content: center;
-}

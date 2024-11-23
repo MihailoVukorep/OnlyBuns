@@ -10,48 +10,52 @@
     <title>OnlyBuns - Home</title>
     <link rel="stylesheet" href="css/index.css">
     
-    <link rel="stylesheet" href="/css/animations/rainbow_h1.css">
-
     <!-- <script defer type="text/javascript" src="/js/cursoreffect.js"></script> -->
     <script defer type="text/javascript" src="/js/p5.min.js"></script>
     <script defer type="text/javascript" src="/js/p5.sound.min.js"></script>
     <script defer type="text/javascript" src="/js/clock.js"></script>
+
+    <link rel="stylesheet" href="/css/animations/rays.css">
+    <script defer type="text/javascript" src="/js/gsap.min.js"></script>
+    <script defer type="text/javascript" src="/js/rays.js"></script>
 </head>
 
 <body>
-    <div th:replace="~{fragments/navbar :: navbar}"></div>
-
-    <h1>🏠 Home 🏠</h1>
-
     <div id="cont">
-        <div id="clock_cont">
-            <div id="clock_box"></div>
-        </div>
+        <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+        <h1 id="rays">🐇 OnlyBuns 🐰</h1>
     
-        <div>
-            <div id="links">
-                <a class="onlybuns_link onlybuns_link_block" href="/">🏠 Home</a>
-                <a class="onlybuns_link onlybuns_link_block" href="/posts">📰 Posts</a>
+        <div id="home">
+            <div id="clock_cont">
+                <div id="clock_box"></div>
             </div>
         
-            <div id="links" th:if="${user != null}">
-                <a th:href="@{/createpost}" class="onlybuns_link onlybuns_link_block">➕ Create Post</a>
-                <a th:href="@{/chat}" class="onlybuns_link onlybuns_link_block">💬 Chat</a>
-                <a th:href="@{/trends}" class="onlybuns_link onlybuns_link_block">📈 Trends</a>
-                <a th:href="@{/map}" class="onlybuns_link onlybuns_link_block">🗺️ View Map</a>
-                <a th:href="@{/user}" class="onlybuns_link onlybuns_link_block">👤 My Account</a>
-                <a th:href="@{/user/update}" class="onlybuns_link onlybuns_link_block">⚙️ My Account - Update</a>
-                <a th:href="@{/logout}" class="onlybuns_link onlybuns_link_block">🚪 Log out</a>
-        
-                <div th:if="${user.isAdmin}">
-                    <a th:href="@{/admin/accounts}" class="onlybuns_link onlybuns_link_block">👥 Accounts</a>
-                    <a th:href="@{/admin/manage}" class="onlybuns_link onlybuns_link_block">🛠️ Management</a>
+            <div>
+                <div id="links">
+                    <a class="onlybuns_link onlybuns_link_block" href="/">🏠 Home</a>
+                    <a class="onlybuns_link onlybuns_link_block" href="/posts">📰 Posts</a>
                 </div>
-            </div>
-        
-            <div th:if="${user == null}">
-                <a th:href="@{/login}" class="onlybuns_link onlybuns_link_block">🔑 Log in</a>
-                <a th:href="@{/register}" class="onlybuns_link onlybuns_link_block">📝 Register</a>
+            
+                <div id="links" th:if="${user != null}">
+                    <a th:href="@{/createpost}" class="onlybuns_link onlybuns_link_block">➕ Create Post</a>
+                    <a th:href="@{/chat}" class="onlybuns_link onlybuns_link_block">💬 Chat</a>
+                    <a th:href="@{/trends}" class="onlybuns_link onlybuns_link_block">📈 Trends</a>
+                    <a th:href="@{/map}" class="onlybuns_link onlybuns_link_block">🗺️ View Map</a>
+                    <a th:href="@{/user}" class="onlybuns_link onlybuns_link_block">👤 My Account</a>
+                    <a th:href="@{/user/update}" class="onlybuns_link onlybuns_link_block">⚙️ My Account - Update</a>
+                    <a th:href="@{/logout}" class="onlybuns_link onlybuns_link_block">🚪 Log out</a>
+            
+                    <div th:if="${user.isAdmin}">
+                        <a th:href="@{/admin/accounts}" class="onlybuns_link onlybuns_link_block">👥 Accounts</a>
+                        <a th:href="@{/admin/manage}" class="onlybuns_link onlybuns_link_block">🛠️ Management</a>
+                    </div>
+                </div>
+            
+                <div th:if="${user == null}">
+                    <a th:href="@{/login}" class="onlybuns_link onlybuns_link_block">🔑 Log in</a>
+                    <a th:href="@{/register}" class="onlybuns_link onlybuns_link_block">📝 Register</a>
+                </div>
             </div>
         </div>
     </div>

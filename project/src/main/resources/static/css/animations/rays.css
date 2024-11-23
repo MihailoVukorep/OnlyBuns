@@ -1,0 +1,16 @@
+:root {
+    --x: -8px;
+    --y: -8px;
+}
+
+h1 {
+    color: #fff;
+    font-size: 120px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-shadow:
+        calc(var(--x) * -1) calc(var(--y) * -1) 0px #ff92ee,
+        calc(var(--x) * -2) calc(var(--y) * -2) 0px #fa6cff,
+        calc(var(--x) * -3) calc(var(--y) * -3) 0px #d81dc4;
+    border: 0 !important;
+}

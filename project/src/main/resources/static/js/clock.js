@@ -7,9 +7,10 @@ function setup() {
 	angleMode(DEGREES);
 }
 
-function clock_color_sec()  { stroke(46, 204, 113);  }
-function clock_color_min()  { stroke(90, 192, 204);  }
-function clock_color_hour() { stroke(174, 129, 255); }
+function clock_color_sec()    { stroke(255, 146, 238); } // #ff92ee
+function clock_color_min()    { stroke(250, 108, 255); } // #fa6cff
+function clock_color_hour()   { stroke(216, 29, 196);  } // #d81dc4
+function clock_color_button() { stroke(174, 129, 255); } // #ae81ff
 
 function draw() {
 	clear();
@@ -70,7 +71,7 @@ function draw() {
 	line(0, 0, 75, 0);
 	pop();
 	
-	stroke(232, 193, 69);
+	clock_color_button();
 	strokeWeight(20);
 	point(0, 0);
 }
