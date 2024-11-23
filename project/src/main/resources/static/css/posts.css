@@ -160,11 +160,13 @@
 }
 
 .page-link {
+    color: var(--var-color-fg-post-title);
     text-decoration: none
 }
 
 .page-item.active {
     font-weight: bold;
+    color: var(--var-color-fg-post-title);
     text-decoration: underline;
 }
 

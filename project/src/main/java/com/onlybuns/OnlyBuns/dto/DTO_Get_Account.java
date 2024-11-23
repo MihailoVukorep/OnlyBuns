@@ -24,7 +24,6 @@ public class DTO_Get_Account {
     public String address;
     public String avatar;
     public String bio;
-    public Set<Role> roles; // TODO: ADD ROLES STRING WITH EMOJIS
     public boolean isAdmin;
     public LocalDateTime createdDate;
     public String createdDateStr;  // TODO: DISPLAY THIS ON FRONTEND
@@ -46,7 +45,6 @@ public class DTO_Get_Account {
         this.address = account.getAddress();
         this.avatar = account.getAvatar();
         this.bio = account.getBio();
-        this.roles = account.getRoles();
         this.isAdmin = account.isAdmin();
         this.createdDate = account.getCreatedDate();
         this.createdDateStr = this.createdDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));

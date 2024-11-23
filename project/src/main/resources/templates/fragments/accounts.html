@@ -8,20 +8,29 @@
                 
                 <div class="account_info">
                     <div class="account_info_head">
-                        <div class="account_info_head_names">
-                            <span th:text="${account.roles[0].name}" class="account_info_body_roles"></span>
+                        <div class="account_names">
+                            <span th:if="${account.isAdmin}" class="account_isAdmin" title="Admin">👑</span>
 
-                            <span th:text="${account.firstName}" class="account_info_head_firstName"></span>
-                            <span th:text="${account.lastName}" class="account_info_head_lastName"></span>
-                            <span>(</span><span th:text="${account.userName}" class="account_info_head_userName"></span><span>)</span>
+                            <span th:text="${account.firstName}" class="account_firstName"></span>
+                            <span th:text="${account.lastName}" class="account_lastName"></span>
+                            <span class="account_userName"><span>(</span><span th:text="${account.userName}" ></span><span>)</span></span>
                         </div>
                         
-                        <div class="account_info_head_email" th:text="${account.email}"></div>
+                        <div class="account_email">
+                            <span>📧</span>
+                            <span th:text="${account.email}"></span>
+                        </div>
                     </div>
                     
                     <div class="account_info_body">
-                        <div class="account_info_body_address" th:text="${account.address}"></div>
-                        <div class="account_info_body_bio" th:text="${account.bio}"></div>
+                        <div class="account_address">
+                            <span>📍</span>
+                            <span th:text="${account.address}"></span>
+                        </div>
+                        <div class="account_bio">
+                            <span>🗣</span>
+                            <span th:text="${account.bio}"></span>
+                        </div>
                     </div>
                 </div>
             </div> 

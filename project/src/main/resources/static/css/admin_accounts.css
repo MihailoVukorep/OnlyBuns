@@ -48,29 +48,29 @@
     margin-bottom: 5px;
 }
 
-.account_info_head_firstName,
-.account_info_head_lastName {
+.account_firstName,
+.account_lastName {
     color: var(--var-color-fg-post-account);
 }
 
-.account_info_head_firstName
-.account_info_head_lastName,
-.account_info_head_userName,
-.account_info_head_email,
-.account_info_body_bio,
-.account_info_body_address,
-.account_info_body_accountRole
+.account_firstName
+.account_lastName,
+.account_userName,
+.account_email,
+.account_bio,
+.account_address,
+.account_isAdmin
 {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
-.account_info_head_userName {
+.account_userName {
     color: var(--var-color-fg-post-username);
 }
 
-.account_info_head_email {
+.account_email {
     color: var(--var-color-fg-post-email);
     font-size: small;
 }
@@ -83,12 +83,16 @@
     padding: 5px;
 }
 
-.account_info_body_bio, .account_info_body_address {
+.account_bio, .account_address {
     font-size: small;
 
 }
 
-.account_info_body_address {
+.account_bio {
+    color: var(--var-color-fg-white);
+}
+
+.account_address {
     color: var(--var-color-fg-post-address)
 }
 
