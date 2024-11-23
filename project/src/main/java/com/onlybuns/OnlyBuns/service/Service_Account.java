@@ -92,10 +92,6 @@ public class Service_Account {
         }
         return new ResponseEntity<>(new DTO_Get_Account(foundAccount.get()), HttpStatus.OK);
     }
-    public DTO_Get_Account get_api_accounts_id_raw(Long id) {
-        Optional<Account> foundAccount = repository_account.findById(id);
-        return foundAccount.isEmpty() ? null : new DTO_Get_Account(foundAccount.get());
-    }
 
     // /user
     public ResponseEntity<DTO_Get_Account> get_api_user(HttpSession session) {

@@ -53,11 +53,8 @@ public class Service_Post {
 
     // /api/posts
     public ResponseEntity<Page<DTO_Get_Post>> get_api_posts(HttpSession session, Integer page, Integer size, String sort) {
-        return new ResponseEntity<>(get_api_posts_raw(session, page, size, sort), HttpStatus.OK);
-    }
-    public Page<DTO_Get_Post> get_api_posts_raw(HttpSession session, Integer page, Integer size, String sort) {
         Account account = (Account) session.getAttribute("user");
-        return getPostsForUser(repository_post.findByParentPostIsNull(varConverter.pageable(page, size, sort)), account);
+        return new ResponseEntity<>(getPostsForUser(repository_post.findByParentPostIsNull(varConverter.pageable(page, size, sort)), account), HttpStatus.OK);
     }
 
     // /api/posts/{id}
@@ -73,33 +70,22 @@ public class Service_Post {
     }
     // /api/posts/{id}/thread
     public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_thread(Long id, HttpSession session) {
-        List<DTO_Get_Post> posts = get_api_posts_id_thread_raw(id, session);
-        if (posts == null) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
-        return new ResponseEntity<>(posts, HttpStatus.OK);
-    }
-    public List<DTO_Get_Post> get_api_posts_id_thread_raw(Long id, HttpSession session) {
         Optional<Post> optional_post = repository_post.findById(id);
-        if (optional_post.isEmpty()) { return null; }
+        if (optional_post.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         Post post = optional_post.get();
         Account account = (Account) session.getAttribute("user");
         List<DTO_Get_Post> thread = new ArrayList<>();
         getThreadForUser(thread, post, account, 0);
-        return thread;
+        return new ResponseEntity<>(thread, HttpStatus.OK);
     }
 
     // /accounts/{id}/posts
     public ResponseEntity<Page<DTO_Get_Post>> get_api_accounts_id_posts(Long id, HttpSession session, Integer page, Integer size, String sort) {
-        Page<DTO_Get_Post> posts = get_api_accounts_id_posts_raw(id, session, page, size, sort);
-        if (posts == null) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
-        return new ResponseEntity<>(posts, HttpStatus.OK);
-    }
-    public Page<DTO_Get_Post> get_api_accounts_id_posts_raw(Long id, HttpSession session, Integer page, Integer size, String sort) {
         Optional<Account> optional_account = repository_account.findById(id);
-        if (optional_account.isEmpty()) { return null; }
+        if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         Account account = optional_account.get();
-
         Account sessionAccount = (Account) session.getAttribute("user");
-        return getPostsForUser(repository_post.findAllByAccount(account, varConverter.pageable(page, size, sort)), sessionAccount);
+        return new ResponseEntity<>(getPostsForUser(repository_post.findAllByAccount(account, varConverter.pageable(page, size, sort)), sessionAccount), HttpStatus.OK);
     }
     public void getThreadForUser(List<DTO_Get_Post> thread, Post post, Account account, Integer indent) {
 

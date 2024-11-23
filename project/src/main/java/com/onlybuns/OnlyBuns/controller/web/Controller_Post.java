@@ -8,6 +8,8 @@ import com.onlybuns.OnlyBuns.service.Service_Post;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +33,7 @@ public class Controller_Post {
             @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
             @RequestParam(value = "sort", required = false, defaultValue = "id") String sort
     ) {
-        Page<DTO_Get_Post> postPage = service_post.get_api_posts_raw(session, page, size, sort);
+        Page<DTO_Get_Post> postPage = service_post.get_api_posts(session, page, size, sort).getBody();
         model.addAttribute("posts", postPage.getContent());
         model.addAttribute("currentSort", sort);
         model.addAttribute("currentPage", page);
@@ -50,7 +52,7 @@ public class Controller_Post {
             @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
             @RequestParam(value = "sort", required = false, defaultValue = "id") String sort
     ) {
-        Page<DTO_Get_Post> postPage = service_post.get_api_accounts_id_posts_raw(id, session, page, size, sort);
+        Page<DTO_Get_Post> postPage = service_post.get_api_accounts_id_posts(id, session, page, size, sort).getBody();
         model.addAttribute("posts", postPage.getContent());
         model.addAttribute("currentSort", sort);
         model.addAttribute("currentPage", page);
@@ -75,38 +77,27 @@ public class Controller_Post {
 
     @GetMapping("/posts/{id}")
     public String posts_id(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
-        model.addAttribute("posts", service_post.get_api_posts_id_thread_raw(id, session)); // draw thread
+        ResponseEntity<List<DTO_Get_Post>> response = service_post.get_api_posts_id_thread(id, session);
+        if (response.getStatusCode() == HttpStatus.NOT_FOUND) { return "errors/404.html"; }
+        model.addAttribute("posts", response.getBody()); // draw thread
         return "post.html";
     }
 
     @GetMapping("/createpost")
     public String createpost(HttpSession session, Model model) {
         Account user = (Account) session.getAttribute("user");
-        if (user == null) {
-            return "error/401.html";
-        }
+        if (user == null) { return "error/401.html"; }
         return "createpost.html";
     }
 
     @GetMapping("/posts/{id}/edit")
     public String posts_id_edit(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
         Account user = (Account) session.getAttribute("user");
-        if (user == null) {
-            return "error/401.html";
-        }
-
-        Account sessionAccount = (Account) session.getAttribute("user");
-        if (sessionAccount == null) {
-            return "error/401.html";
-        } // Unauthorized
+        if (user == null) { return "error/401.html"; } // Unauthorized
         Optional<Post> optional_post = service_post.findById(id);
-        if (optional_post.isEmpty()) {
-            return "error/404.html";
-        } // Not Found
+        if (optional_post.isEmpty()) { return "error/404.html"; } // Not Found
         Post post = optional_post.get();
-        if (!post.getAccount().getId().equals(sessionAccount.getId())) {
-            return "error/403.html";
-        } // Forbidden -- not your acount
+        if (!post.getAccount().getId().equals(user.getId())) { return "error/403.html"; } // Forbidden -- not your account's post
 
         model.addAttribute("post_id", id);
         return "editpost.html";

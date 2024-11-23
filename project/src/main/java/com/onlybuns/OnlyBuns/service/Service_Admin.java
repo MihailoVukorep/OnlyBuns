@@ -24,12 +24,9 @@ public class Service_Admin {
 
     // /admin/accounts
     public ResponseEntity<List<DTO_Get_Account>> get_api_admin_accounts(HttpSession session, String firstName, String lastName, String userName, String email, String address, Integer minPostCount, Integer maxPostCount) {
-        return new ResponseEntity<>(get_api_admin_accounts_raw(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount), HttpStatus.OK);
-    }
-    public List<DTO_Get_Account> get_api_admin_accounts_raw(HttpSession session, String firstName, String lastName, String userName, String email, String address, Integer minPostCount, Integer maxPostCount) {
         Account user = (Account) session.getAttribute("user");
         if (user == null || !user.isAdmin()) {
-            return null;
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
         List<Account> accounts = repository_account.findAccountsByAttributesLike(firstName, lastName, userName, email, address, minPostCount, maxPostCount);
@@ -37,7 +34,7 @@ public class Service_Admin {
         for (Account account : accounts) {
             accountDTOS.add(new DTO_Get_Account(account));
         }
-        return accountDTOS;
+        return new ResponseEntity<>(accountDTOS, HttpStatus.OK);
     }
     public List<Account> getSortedAccounts(HttpSession session, String sortOption) {
         Sort sort = switch (sortOption) {
@@ -51,7 +48,7 @@ public class Service_Admin {
         return repository_account.findAll(sort);
     }
     public List<DTO_Get_Account> getFilteredAndSortedAccounts(HttpSession session, String firstName, String lastName, String userName, String email, String address, Integer minPostCount, Integer maxPostCount, String sortOption) {
-        List<DTO_Get_Account> accounts = get_api_admin_accounts_raw(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount);
+        List<DTO_Get_Account> accounts = get_api_admin_accounts(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount).getBody();
 
         if (accounts == null || accounts.isEmpty()) {
             return accounts;
