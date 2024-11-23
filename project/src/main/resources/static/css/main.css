@@ -39,11 +39,6 @@ body {
     height: 100%;
 }
 
-* {
-    color: white;
-    background-color: transparent;
-}
-
 #navbar {
     padding: 5px;
     background-color: var(--var-color-bg-trans-sub1);

@@ -27,36 +27,51 @@
         <div class="appear" id="account_info">
             <div id="account_names">
                 <span id="account_roles"></span>
+                <span>👤</span>
                 <span th:text="${account.firstName}" id="account_firstName"></span>
                 <span th:text="${account.lastName}" id="account_lastName"></span>
                 <span>(</span><span th:text="${account.userName}" id="account_userName"></span><span>)</span>
             </div>
 
             <div>
-                <div th:text="${account.email}" id="account_email"></div>
+                <span>📧</span>
+                <span id="account_email" th:text="${account.email}"></span>
             </div>
 
             <div>
-                <div th:text="${account.address}" id="account_address"></div>
-                <div th:text="${account.bio}" id="account_bio"></div>
+                <div>
+                    <span>📍</span>
+                    <span id="account_address" th:text="${account.address}"></span>
+                </div>
+                <div>
+                    <span>🗣</span>
+                    <span id="account_bio" th:text="${account.bio}"></span>
+                </div>
             </div>
 
             <div id="account_counters">
                 <span>
                     <span id="account_postsCount" th:text="${account.postsCount}"></span>
-                    <span>posts</span><span>,</span>
+                    <span>posts 📰</span><span>,</span>
+                </span>
+                <span>
+                    <span id="account_likesCount" th:text="${account.likesCount}"></span>
+                    <span>likes 💗</span><span>,</span>
                 </span>
                 <span>
                     <span id="account_followersCount" th:text="${account.followersCount}"></span>
-                    <span>followers</span><span>,</span>
+                    <span>followers 🙇</span><span>,</span>
                 </span>
                 <span>
                     <span id="account_followingCount" th:text="${account.followingCount}"></span>
-                    <span>following</span>
+                    <span>following 🧎</span>
                 </span>
             </div>
 
-            <div th:text="${account.createdDateStr}" id="account_created"></div>
+            <div id="account_created">
+                <span>📅</span>
+                <span th:text="${account.createdDateStr}"></span>
+            </div>
         </div>
     </div>
 
