@@ -32,21 +32,18 @@ public class Controller_Account {
         return "logout.html";
     }
 
-    @GetMapping("/user")
-    public String user(HttpSession session, Model model, HttpServletRequest request) {
-        Account user = (Account) session.getAttribute("user");
-        if (user == null) { return "error/401.html"; }
-
-        model.addAttribute("account", new DTO_Get_Account(service_account.eager(user.getId())));
-        model.addAttribute("request", request);
-        return "account.html";
-    }
-
     @GetMapping("/accounts/{id}")
     public String accounts_id(HttpSession session, Model model, HttpServletRequest request, @PathVariable(name = "id") Long id) {
         model.addAttribute("account", service_account.get_api_accounts_id(id).getBody());
         model.addAttribute("request", request);
         return "account.html";
+    }
+
+    @GetMapping("/user")
+    public String user(HttpSession session, Model model, HttpServletRequest request) {
+        Account user = (Account) session.getAttribute("user");
+        if (user == null) { return "error/401.html"; }
+        return accounts_id(session, model, request, user.getId());
     }
 
     @GetMapping("/accounts/{id}/following")
