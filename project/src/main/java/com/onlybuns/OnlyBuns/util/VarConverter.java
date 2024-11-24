@@ -24,6 +24,8 @@ public class VarConverter {
     public Pageable pageable(Integer page, Integer size, String sort) {
         int pageNumber = (page == null) ? 0 : page;
         int pageSize = (size == null) ? 10 : size; // Default size is 10
+        if (pageNumber < 0) { pageNumber = 0; }
+        if (pageSize < 0) { pageSize = 0; }
         return PageRequest.of(pageNumber, pageSize, parseSort(sort));
     }
 }
