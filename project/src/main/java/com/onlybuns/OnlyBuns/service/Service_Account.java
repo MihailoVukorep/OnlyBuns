@@ -285,4 +285,6 @@ public class Service_Account {
         Account account = eager(accountId);
         return account.getFollowing();
     }
+
+    // TODO: delete account cron job after some time
 }
