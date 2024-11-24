@@ -1,11 +1,11 @@
 #commentForm {
-    color: var(--var-color-fg-white);
+    color: var(--var-color-white);
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: var(--var-color-bg-trans-sub1);
+    background-color: var(--var-color-bg-sub1);
     padding: 20px;
     border-radius: 10px;
     z-index: 1000;
@@ -29,7 +29,7 @@
     border: 1px solid var(--var-color-border-transwhite);
     border-radius: 5px;
     font-size: 14px;
-    background-color: var(--var-color-bg-trans-sub1);
+    background-color: var(--var-color-bg-sub1);
 }
 
 #commentForm textarea {

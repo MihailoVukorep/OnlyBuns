@@ -11,7 +11,7 @@
     height: 230px;
     max-width: 230px;
     max-height: 230px;
-    background-color: var(--var-color-bg-trans-sub1);
+    background-color: var(--var-color-bg-sub1);
     border: 1px solid var(--var-color-border-transwhite);
     padding: 3px;
     border-radius: 10px;
@@ -47,7 +47,7 @@
 
 .account_firstName,
 .account_lastName {
-    color: var(--var-color-fg-post-account);
+    color: var(--var-color-green);
 }
 
 .account_firstName .account_lastName,
@@ -62,11 +62,11 @@
 }
 
 .account_userName {
-    color: var(--var-color-fg-post-username);
+    color: var(--var-color-cyan);
 }
 
 .account_email {
-    color: var(--var-color-fg-post-email);
+    color: var(--var-color-lime);
     font-size: small;
 }
 
@@ -82,15 +82,15 @@
 }
 
 .account_bio {
-    color: var(--var-color-fg-white);
+    color: var(--var-color-white);
 }
 
 .account_address {
-    color: var(--var-color-fg-post-address)
+    color: var(--var-color-yellow)
 }
 
 .account_counters_table {
-    color: var(--var-color-fg-white);
+    color: var(--var-color-white);
     border-collapse: collapse;
     /* Removes spacing between table cells */
     text-align: center;

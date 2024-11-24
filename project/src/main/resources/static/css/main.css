@@ -1,18 +1,17 @@
 :root {
-    --var-color-fg-white: #f8f8f2;
-    --var-color-fg-post-white: #f8f8f2;
-    --var-color-fg-post-username: #5ac0cc;
-    --var-color-fg-post-title: #ae81ff;
-    --var-color-fg-post-account: #2ecc71;
-    --var-color-fg-post-address: #e2db74;
-    --var-color-fg-post-email: #a2cc28;
-    --var-color-fg-post-date: #7d7d7d;
+    --var-color-white: #f8f8f2;
+    --var-color-cyan: #5ac0cc;
+    --var-color-purple: #ae81ff;
+    --var-color-green: #2ecc71;
+    --var-color-yellow: #e2db74;
+    --var-color-lime: #a2cc28;
+    --var-color-gray: #7d7d7d;
 
-    --var-color-bg-sub1: rgba(32, 33, 28);
-    --var-color-bg-sub2: rgba(36, 37, 31);
-    --var-color-bg-sub3: rgba(39, 40, 34);
+    --var-color-bg-sub1: rgba(0, 0, 0, 0.2);
+    --var-color-bg-sub2: rgba(0, 0, 0, 0.5);
+    --var-color-bg-sub3: rgba(0, 0, 0, 0.9);
 
-    --var-color-bg-trans-sub1: rgba(0, 0, 0, 0.5);
+    --var-color-bg-sub1: rgba(0, 0, 0, 0.5);
     --var-color-bg-link: rgba(61, 89, 122, 0.372);
 
     --var-color-border-gray: #505050;
@@ -20,7 +19,7 @@
 }
 
 html {
-    color: var(--var-color-fg-post-white);
+    color: var(--var-color-white);
     background-image: url("/img/bg1.png");
     background-color: black;
     background-repeat: auto;
@@ -39,7 +38,7 @@ body {
 
 #navbar {
     padding: 5px;
-    background-color: var(--var-color-bg-trans-sub1);
+    background-color: var(--var-color-bg-sub1);
     height: fit-content;
     margin: 0;
     display: flex;
@@ -163,7 +162,7 @@ h2 {
 .onlybuns_username {
     display: inline-flex;
     text-decoration: none;
-    color: var(--var-color-fg-post-username);
+    color: var(--var-color-cyan);
     overflow-wrap: break-word;
     word-break: break-word;
 }

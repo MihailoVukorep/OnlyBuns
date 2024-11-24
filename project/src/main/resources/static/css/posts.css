@@ -15,14 +15,14 @@
     height: 300px;
     display: inline-block;
     border: 1px solid var(--var-color-border-transwhite);
-    background-color: var(--var-color-bg-trans-sub1);
+    background-color: var(--var-color-bg-sub1);
     margin: 3px;
 }
 
 #posts.thread .post {
     display: block;
     border: 1px solid var(--var-color-border-transwhite);
-    background-color: var(--var-color-bg-trans-sub1);
+    background-color: var(--var-color-bg-sub1);
     overflow: hidden;
     overflow-wrap: anywhere;
     margin: 5px;
@@ -115,7 +115,7 @@
 .post_account_userName {
     display: inline-flex;
     text-decoration: none;
-    color: var(--var-color-fg-post-username);
+    color: var(--var-color-cyan);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -131,7 +131,7 @@
 .post_title {
     font-size: medium;
     display: block;
-    color: var(--var-color-fg-post-title);
+    color: var(--var-color-purple);
     text-decoration: none;
     padding: 0;
     margin: 0;
@@ -141,13 +141,13 @@
     display: block;
     padding: 2px;
     font-size: small;
-    color: var(--var-color-fg-post-white);
+    color: var(--var-color-white);
     text-decoration: none;
     margin: 0;
 }
 
 .post_createdDate {
-    color: var(--var-color-fg-post-date);
+    color: var(--var-color-gray);
     font-size: small;
 }
 
@@ -162,13 +162,13 @@
 }
 
 .page-link {
-    color: var(--var-color-fg-post-title);
+    color: var(--var-color-purple);
     text-decoration: none
 }
 
 .page-item.active {
     font-weight: bold;
-    color: var(--var-color-fg-post-title);
+    color: var(--var-color-purple);
     text-decoration: underline;
 }
 

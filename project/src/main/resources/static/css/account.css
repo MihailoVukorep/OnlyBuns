@@ -18,13 +18,13 @@
     width: 250px;
     height: 250px;
     border-radius: 50%;
-    background: var(--var-color-bg-trans-sub1);
+    background: var(--var-color-bg-sub1);
 }
 
 #account_info {
     display: inline-block;
     /*! border: double var(--var-color-border-transwhite); */
-    background: var(--var-color-bg-trans-sub1);
+    background: var(--var-color-bg-sub1);
     padding: 10px;
     box-shadow: 5px 5px 10px black;
 }
@@ -35,23 +35,23 @@
 
 #account_firstName,
 #account_lastName {
-    color: var(--var-color-fg-post-account);
+    color: var(--var-color-green);
 }
 
 #account_userName {
-    color: var(--var-color-fg-post-username);
+    color: var(--var-color-cyan);
 }
 
 #account_email {
-    color: var(--var-color-fg-post-email);
+    color: var(--var-color-lime);
 }
 
 #account_address {
-    color: var(--var-color-fg-post-address);
+    color: var(--var-color-yellow);
 }
 
 #account_counters_table {
-    color: var(--var-color-fg-white);
+    color: var(--var-color-white);
     border-collapse: collapse;
     /* Removes spacing between table cells */
     text-align: center;
@@ -69,7 +69,7 @@
 }
 
 #account_created {
-    color: var(--var-color-fg-post-date);
+    color: var(--var-color-gray);
     font-size: small;
     text-align: right;
 }
