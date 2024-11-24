@@ -48,17 +48,17 @@ public class RestController_Account {
     }
 
     @PostMapping("/api/accounts/{id}/follow")
-    public ResponseEntity<DTO_Get_Account> get_api_accounts_id_follow(@PathVariable(name = "id") Long id) {
-        throw new NotImplementedException("not implemented");
+    public ResponseEntity<String> get_api_accounts_id_follow(HttpSession session, @PathVariable(name = "id") Long id) {
+        return service_account.post_api_accounts_id_follow(session, id);
     }
 
     @GetMapping("/api/accounts/{id}/followers")
-    public ResponseEntity<List<DTO_Get_Post>> get_api_accounts_id_followers(@PathVariable(name = "id") Long id, HttpSession session) {
-        throw new NotImplementedException("not implemented");
+    public ResponseEntity<List<DTO_Get_Account>> get_api_accounts_id_followers(@PathVariable(name = "id") Long id) {
+        return service_account.get_api_accounts_id_followers(id);
     }
 
     @GetMapping("/api/accounts/{id}/following")
-    public ResponseEntity<List<DTO_Get_Like>> get_api_accounts_id_following(@PathVariable(name = "id") Long id) {
-        throw new NotImplementedException("not implemented");
+    public ResponseEntity<List<DTO_Get_Account>> get_api_accounts_id_following(@PathVariable(name = "id") Long id) {
+        return service_account.get_api_accounts_id_following(id);
     }
 }

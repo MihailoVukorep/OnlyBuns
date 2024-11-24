@@ -77,7 +77,6 @@ public class Service_Account {
     private final RateLimiter rateLimiter = new RateLimiter();
     private final VarConverter varConverter = new VarConverter();
 
-
     // /accounts/{id}
     public ResponseEntity<DTO_Get_Account> get_api_accounts_id(Long id) {
         Optional<Account> foundAccount = repository_account.findById(id);
@@ -251,7 +250,9 @@ public class Service_Account {
     }
 
     // follow / unfollow
-    public void post_api_accounts_id_follow(Long followerId, Long followeeId) {
+    public ResponseEntity<String> post_api_accounts_id_follow(HttpSession session, Long id) {
+
+        // TODO: get current user (account) from session and follow the id
 
         // follow
 //        Account follower = eager(followerId);
@@ -272,6 +273,8 @@ public class Service_Account {
 //        follower.unfollow(followee);
 //        repository_account.save(follower);
 //        repository_account.save(followee);
+
+        return new ResponseEntity<>("Followed.", HttpStatus.OK);
     }
 
     // account's followers / following
