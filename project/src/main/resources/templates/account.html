@@ -83,12 +83,12 @@
              th:onclick="'navigateIframe(this.dataset.url, this);'">Following</div>
     </div>
 
-    <iframe id="account_posts" th:src="${request.requestURL + '/posts'}" title="account's posts"></iframe>
+    <iframe id="account_iframe" th:src="${request.requestURL + '/posts'}"></iframe>
 
     <script>
         function navigateIframe(url, tabElement) {
             // Change iframe src
-            document.getElementById('account_posts').src = url;
+            document.getElementById('account_iframe').src = url;
 
             // Update active tab
             const tabs = document.querySelectorAll('.tab');
@@ -99,7 +99,7 @@
 
     <script>
         function resizeIframeToFitContent(iframe) {iframe.style.height = iframe.contentWindow.document.body.scrollHeight + "px";}
-        const iframe = document.getElementById('account_posts');
+        const iframe = document.getElementById('account_iframe');
         iframe.onload = function () {resizeIframeToFitContent(iframe);};
     </script>
 </body>
