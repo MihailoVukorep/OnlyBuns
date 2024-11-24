@@ -4,10 +4,12 @@
             <label for="sortOptions">Sort by:</label>
             <form id="sortForm" method="GET">
                 <select id="sortOptions" name="sort" onchange="updateSortAndSubmit()">
-                    <option value="id,asc" th:selected="${currentSort == 'id,asc'}">ID Ascending</option>
-                    <option value="id,desc" th:selected="${currentSort == 'id,desc'}">ID Descending</option>
+                    <option value="id,asc" th:selected="${currentSort == 'id,asc'}">Oldest First</option>
+                    <option value="id,desc" th:selected="${currentSort == 'id,desc'}">Newest First</option>
                     <option value="title,asc" th:selected="${currentSort == 'title,asc'}">Title Ascending</option>
                     <option value="title,desc" th:selected="${currentSort == 'title,desc'}">Title Descending</option>
+                    <option value="likes,asc" th:selected="${currentSort == 'likes,asc'}">Likes Ascending</option>
+                    <option value="likes,desc" th:selected="${currentSort == 'likes,desc'}">Likes Descending</option>
                 </select>
             </form>
         </span>
