@@ -25,7 +25,7 @@ public class RestController_Post {
     private Service_Account service_account;
 
     // posts
-    @GetMapping(value = "/api/posts") // /api/posts?sort=newest
+    @GetMapping(value = "/api/posts")
     public ResponseEntity<Page<DTO_Get_Post>> get_api_posts(
             HttpSession session,
             @RequestParam(value = "page", required = false) Integer page,
@@ -34,6 +34,17 @@ public class RestController_Post {
 
     ) {
         return service_post.get_api_posts(session, page, size, sort);
+    }
+
+    @GetMapping(value = "/api/fyp")
+    public ResponseEntity<Page<DTO_Get_Post>> get_api_fyp(
+            HttpSession session,
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "size", required = false) Integer size,
+            @RequestParam(value = "sort", required = false) String sort
+
+    ) {
+        return service_post.get_api_fyp(session, page, size, sort);
     }
 
     // account's posts
