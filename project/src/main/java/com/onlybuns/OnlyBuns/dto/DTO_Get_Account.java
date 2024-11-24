@@ -24,14 +24,14 @@ public class DTO_Get_Account {
     public String bio;
     public boolean isAdmin;
     public LocalDateTime createdDate;
-    public String createdDateStr;  // TODO: DISPLAY THIS ON FRONTEND
+    public String createdDateStr;
     public LocalDateTime updatedDate;
-    public String updatedDateStr;  // TODO: DISPLAY THIS ON FRONTEND
+    public String updatedDateStr;
     public Integer postsCount;
     public Integer likesCount;
     public Integer followersCount;
     public Integer followingCount;
-    public boolean following;
+    public boolean following;   // TODO: DISPLAY THIS ON FRONT END
 
     public DTO_Get_Account(Account account) {
         this.id = account.getId();

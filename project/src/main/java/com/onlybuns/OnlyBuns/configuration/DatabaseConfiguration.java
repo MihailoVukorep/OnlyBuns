@@ -75,6 +75,14 @@ public class DatabaseConfiguration {
         }
     }
 
+
+    public void likePost(Post post, Account account) {
+        repository_like.save(new Like(account, post));
+        post.incrementLikeCount();
+        repository_post.save(post);
+    }
+
+
     @Bean
     @Transactional
     public boolean instantiate() {
@@ -149,11 +157,11 @@ public class DatabaseConfiguration {
         );
 
 
-        Post r = new Post("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).", "location3", "uploads/img/bunny5.jpg", acc_ana);
-        repository_post.save(r);
+        Post post_kupajzeku = new Post("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).", "location3", "uploads/img/bunny5.jpg", acc_ana);
+        repository_post.save(post_kupajzeku);
 
-        repository_post.save(new Post("e necu", "Sto bi trosio vodu nek smrdi!", acc_ajzak, r));
-        repository_post.save(new Post("ti se okupaj", ":)", acc_hater, r));
+        repository_post.save(new Post("e necu", "Sto bi trosio vodu nek smrdi!", acc_ajzak, post_kupajzeku));
+        repository_post.save(new Post("ti se okupaj", ":)", acc_hater, post_kupajzeku));
 
 
         Account acc_admin = CreateAccount(
@@ -170,14 +178,14 @@ public class DatabaseConfiguration {
         repository_accountActivation.save(service_email.GenerateNewAccountActivation(acc_admin, AccountActivationStatus.APPROVED)); // approve petar on create
 
 
-        Post root = new Post("Dilujem Sargarepe", "10 DINARA 100 SARGAREPA!!!!", acc_ana);
-        repository_post.save(root);
+        Post post_dilujem = new Post("Dilujem Sargarepe", "10 DINARA 100 SARGAREPA!!!!", acc_ana);
+        repository_post.save(post_dilujem);
 
-        Post root2 = new Post("NEMA SANSE", "ALA DRUZE KAKAV DEAL!!", acc_ajzak, root);
-        repository_post.save(root2);
+        Post post_nemasanse = new Post("NEMA SANSE", "ALA DRUZE KAKAV DEAL!!", acc_ajzak, post_dilujem);
+        repository_post.save(post_nemasanse);
 
-        repository_post.save(new Post("DA DA", "Rodilo drvece :^)", acc_ajzak, root2));
-        repository_post.save(new Post("HMM", "E TOSE NISAM NADO!!", acc_ajzak, root));
+        repository_post.save(new Post("DA DA", "Rodilo drvece :^)", acc_ajzak, post_nemasanse));
+        repository_post.save(new Post("HMM", "E TOSE NISAM NADO!!", acc_ajzak, post_dilujem));
 
         repository_post.save(new Post("My post", "Moj post!", acc_pera));
 
@@ -206,10 +214,13 @@ public class DatabaseConfiguration {
         );
 
 
-        repository_like.save(new Like(acc_ajzak, root));
-        repository_like.save(new Like(acc_ajzak, root2));
-        repository_like.save(new Like(acc_sara, root));
-        repository_like.save(new Like(acc_sara2, root));
+        likePost(post_dilujem, acc_ajzak);
+        likePost(post_dilujem, acc_sara);
+        likePost(post_dilujem, acc_sara2);
+        likePost(post_nemasanse, acc_ajzak);
+        likePost(post_kupajzeku, acc_ajzak);
+
+
 
         // // UNCOMMENT TO SPAM POSTS
         // for (int i = 0; i < 100; i++) {

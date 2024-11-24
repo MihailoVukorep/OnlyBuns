@@ -177,7 +177,7 @@ public class Service_Post {
         return new ResponseEntity<>("Post created successfully.", HttpStatus.OK);
     }
 
-    // like post
+    // like / unlike post
     public ResponseEntity<String> post_api_posts_id_like(Long id, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) {
@@ -203,12 +203,16 @@ public class Service_Post {
             Like newLike = new Like(account, post);
             post.getLikes().add(newLike);
             repository_like.save(newLike);
+            post.incrementLikeCount();
+            repository_post.save(post);
 
             return new ResponseEntity<>("Post liked.", HttpStatus.OK);
         }
 
         Like like = optional_like.get();
         repository_like.delete(like);
+        post.decrementLikeCount();
+        repository_post.save(post);
 
         return new ResponseEntity<>("Post unliked.", HttpStatus.OK);
     }
