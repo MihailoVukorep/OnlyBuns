@@ -224,8 +224,11 @@ public class DatabaseConfiguration {
         // follow
         acc_ajzak.follow(acc_ana);
         acc_sara2.follow(acc_ajzak);
+        acc_sara2.follow(acc_pera);
         repository_account.save(acc_ajzak);
         repository_account.save(acc_sara2);
+        acc_pera.follow(acc_ana); // follow ANA for fyp
+        repository_account.save(acc_pera);
 
         // // UNCOMMENT TO SPAM POSTS
         // for (int i = 0; i < 100; i++) {

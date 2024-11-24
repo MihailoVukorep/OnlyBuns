@@ -57,6 +57,20 @@ public class Service_Post {
         return new ResponseEntity<>(getPostsForUser(repository_post.findByParentPostIsNull(varConverter.pageable(page, size, sort)), account), HttpStatus.OK);
     }
 
+    // /api/fyp
+    public ResponseEntity<Page<DTO_Get_Post>> get_api_fyp(HttpSession session, Integer page, Integer size, String sort) {
+        Account sessionAccount = (Account) session.getAttribute("user");
+        if (sessionAccount == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); }
+        Optional<Account> optional_account = repository_account.findById(sessionAccount.getId());
+        if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+        Account account = optional_account.get();
+
+        Set<Account> followedAccounts = account.getFollowing(); // Get the accounts the user follows
+        Pageable pageable = varConverter.pageable(page, size, sort);
+        Page<Post> posts = repository_post.findPostsByFollowedAccounts(followedAccounts, pageable);
+        return new ResponseEntity<>(getPostsForUser(posts, account), HttpStatus.OK);
+    }
+
     // /api/posts/{id}
     public ResponseEntity<DTO_Get_Post> get_api_posts_id(Long id, HttpSession session) {
         Optional<Post> postOptional = repository_post.findById(id);
@@ -181,7 +195,7 @@ public class Service_Post {
     public ResponseEntity<String> post_api_posts_id_like(Long id, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) {
-            return new ResponseEntity<>("Can't like when logged out.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Can't like when logged out.", HttpStatus.UNAUTHORIZED);
         }
 
         Optional<Account> optional_account = repository_account.findById(sessionAccount.getId());

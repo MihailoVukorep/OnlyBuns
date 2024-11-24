@@ -43,6 +43,26 @@ public class Controller_Post {
         return "posts";
     }
 
+    @GetMapping("/fyp")
+    public String fyp(
+            HttpSession session,
+            Model model,
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
+            @RequestParam(value = "sort", required = false, defaultValue = "id") String sort
+    ) {
+        ResponseEntity<Page<DTO_Get_Post>> response = service_post.get_api_fyp(session, page, size, sort);
+        if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) { return "error/401.html"; }
+        Page<DTO_Get_Post> postPage = response.getBody();
+        model.addAttribute("posts", postPage.getContent());
+        model.addAttribute("currentSort", sort);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", postPage.getTotalPages());
+        model.addAttribute("pageSize", size);
+        model.addAttribute("baseUrl", "/posts");
+        return "posts";
+    }
+
     @GetMapping("/accounts/{id}/posts")
     public String accounts_id_posts(
             HttpSession session,

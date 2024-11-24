@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public interface Repository_Post extends JpaRepository<Post, Long> {
     List<Post> findAll();
@@ -21,9 +22,8 @@ public interface Repository_Post extends JpaRepository<Post, Long> {
     Page<Post> findAllByAccount(Account account, Pageable pageable);
 
 
-
-
-
+    @Query("SELECT p FROM Post p WHERE p.account IN (:followedAccounts)")
+    Page<Post> findPostsByFollowedAccounts(@Param("followedAccounts") Set<Account> followedAccounts, Pageable pageable);
 
 
     // Count posts after a certain date
