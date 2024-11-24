@@ -60,7 +60,7 @@ public class Controller_Post {
         model.addAttribute("totalPages", postPage.getTotalPages());
         model.addAttribute("pageSize", size);
         model.addAttribute("baseUrl", "/posts");
-        return "posts";
+        return "fyp";
     }
 
     @GetMapping("/accounts/{id}/posts")
