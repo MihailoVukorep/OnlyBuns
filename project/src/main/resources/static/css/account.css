@@ -78,7 +78,6 @@
     display: block;
     width: 100%;
     border: 0;
-    background-color: black;
 }
 
 .tab-container {
@@ -86,7 +85,7 @@
     align-content: center;
     align-items: center;
     justify-content: left;
-    border-bottom: 1px solid var(--var-color-fg-post-title); /* Keep the container's bottom border */
+    border-bottom: 1px solid gray; /* Keep the container's bottom border */
     position: relative; /* Ensure tabs can overlap this border */
 }
 
@@ -104,7 +103,7 @@
 }
 
 .tab.active {
-    border: 1px solid var(--var-color-fg-post-title);
+    border: 1px solid gray;
     border-bottom: none; /* Ensure the active tab has no bottom border */
     background-color: black;
     position: relative;
@@ -119,6 +118,5 @@
     left: 0;
     width: 100%;
     height: 1px;
-    background-color: var(--var-color-fg-post-title);
     z-index: 0; /* Keeps the container border below all tabs */
 }
