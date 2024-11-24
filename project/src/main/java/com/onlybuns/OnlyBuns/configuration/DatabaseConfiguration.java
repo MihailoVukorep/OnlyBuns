@@ -214,13 +214,18 @@ public class DatabaseConfiguration {
         );
 
 
+        // likes
         likePost(post_dilujem, acc_ajzak);
         likePost(post_dilujem, acc_sara);
         likePost(post_dilujem, acc_sara2);
         likePost(post_nemasanse, acc_ajzak);
         likePost(post_kupajzeku, acc_ajzak);
 
-
+        // follow
+        acc_ajzak.follow(acc_ana);
+        acc_sara2.follow(acc_ajzak);
+        repository_account.save(acc_ajzak);
+        repository_account.save(acc_sara2);
 
         // // UNCOMMENT TO SPAM POSTS
         // for (int i = 0; i < 100; i++) {
