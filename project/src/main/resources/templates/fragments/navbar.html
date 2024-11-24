@@ -2,6 +2,12 @@
     <div id="navbar_left">
         <a href="/home">🏠 Home</a>
         <a href="/posts">📰 Posts</a>
+
+        <div th:if="${user != null}">
+            <a href="/fyp">🏠 For You</a>
+            <a href="/map">🗺️ View Map</a>
+            <a href="/createpost">➕ Create Post</a>
+        </div>
     </div>
     <div id="navbar_right">
         <div th:if="${user != null}">
@@ -9,8 +15,7 @@
                 <a href="/admin/accounts">👥 Accounts</a>
                 <a href="/admin/manage">🛠️ Management</a>
             </div>
-            <a href="/map">🗺️ View Map</a>
-            <a href="/createpost">➕ Create Post</a>
+
             <div class="onlybuns_account">
                 <a href="/user" class="onlybuns_account_link">
                     <img th:src="${user.avatar}" class="onlybuns_avatar" alt="User Avatar" />
