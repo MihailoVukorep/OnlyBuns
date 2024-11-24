@@ -36,20 +36,13 @@ public class Controller_Account {
         return "logout.html";
     }
 
+    // ACCOUNT STUFF
     @GetMapping("/accounts/{id}")
     public String accounts_id(HttpSession session, Model model, HttpServletRequest request, @PathVariable(name = "id") Long id) {
         model.addAttribute("account", service_account.get_api_accounts_id(id).getBody());
         model.addAttribute("request", request);
         return "account.html";
     }
-
-    @GetMapping("/user")
-    public String user(HttpSession session, Model model, HttpServletRequest request) {
-        Account user = (Account) session.getAttribute("user");
-        if (user == null) { return "error/401.html"; }
-        return accounts_id(session, model, request, user.getId());
-    }
-
     @GetMapping("/accounts/{id}/followers")
     public String accounts_id_followers(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
         ResponseEntity<List<DTO_Get_Account>> response = service_account.get_api_accounts_id_followers(id);
@@ -57,13 +50,32 @@ public class Controller_Account {
         model.addAttribute("accounts", response.getBody());
         return "accounts_raw.html";
     }
-
     @GetMapping("/accounts/{id}/following")
     public String accounts_id_following(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
         ResponseEntity<List<DTO_Get_Account>> response = service_account.get_api_accounts_id_following(id);
         if (response.getStatusCode() == HttpStatus.NOT_FOUND) { return "error/404.html"; }
         model.addAttribute("accounts", response.getBody());
         return "accounts_raw.html";
+    }
+
+    // USER
+    @GetMapping("/user")
+    public String user(HttpSession session, Model model, HttpServletRequest request) {
+        Account user = (Account) session.getAttribute("user");
+        if (user == null) { return "error/401.html"; }
+        return accounts_id(session, model, request, user.getId());
+    }
+    @GetMapping("/user/followers")
+    public String user_followers(HttpSession session, Model model) {
+        Account user = (Account) session.getAttribute("user");
+        if (user == null) { return "error/401.html"; }
+        return accounts_id_followers(session, model, user.getId());
+    }
+    @GetMapping("/user/following")
+    public String user_following(HttpSession session, Model model) {
+        Account user = (Account) session.getAttribute("user");
+        if (user == null) { return "error/401.html"; }
+        return accounts_id_following(session, model, user.getId());
     }
 
     // TODO: UPDATE ACCOUNT
