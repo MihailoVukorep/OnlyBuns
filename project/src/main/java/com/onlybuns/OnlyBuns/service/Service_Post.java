@@ -14,9 +14,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import com.onlybuns.OnlyBuns.repository.Repository_Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -246,7 +244,7 @@ public class Service_Post {
     }
 
     // reply to post
-    public ResponseEntity<String> post_api_posts_id_replies(Long postId, DTO_Post_Reply replyDTO, HttpSession session) {
+    public ResponseEntity<String> post_api_posts_id_reply(Long postId, DTO_Post_Reply replyDTO, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) {
             return new ResponseEntity<>("Can't comment when logged out.", HttpStatus.UNAUTHORIZED);

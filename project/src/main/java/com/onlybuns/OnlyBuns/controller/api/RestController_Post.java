@@ -82,9 +82,9 @@ public class RestController_Post {
     }
 
     // POST REPLY
-    @PostMapping("/api/posts/{id}/replies")
-    public ResponseEntity<String> post_api_posts_id_replies(@PathVariable(name = "id") Long id, @RequestBody DTO_Post_Reply replyDTO, HttpSession session) {
-        return service_post.post_api_posts_id_replies(id, replyDTO, session);
+    @PostMapping("/api/posts/{id}/reply")
+    public ResponseEntity<String> post_api_posts_id_reply(@PathVariable(name = "id") Long id, @RequestBody DTO_Post_Reply replyDTO, HttpSession session) {
+        return service_post.post_api_posts_id_reply(id, replyDTO, session);
     }
 
     // LIKE POST

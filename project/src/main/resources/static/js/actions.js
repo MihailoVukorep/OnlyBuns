@@ -33,7 +33,7 @@ async function post_like(id, button) {
 }
 
 async function post_reply(id, title, text) {
-    const response = await fetch(`/api/posts/${id}/replies`, {
+    const response = await fetch(`/api/posts/${id}/reply`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
