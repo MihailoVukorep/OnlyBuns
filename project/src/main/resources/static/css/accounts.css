@@ -50,14 +50,12 @@
     color: var(--var-color-fg-post-account);
 }
 
-.account_firstName
-.account_lastName,
+.account_firstName .account_lastName,
 .account_userName,
 .account_email,
 .account_bio,
 .account_address,
-.account_isAdmin
-{
+.account_isAdmin {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -77,7 +75,9 @@
     margin: 2px 0;
 }
 
-.account_bio, .account_address, .account_counters {
+.account_bio,
+.account_address,
+.account_counters {
     font-size: small;
 }
 
@@ -91,13 +91,17 @@
 
 .account_counters_table {
     color: var(--var-color-fg-white);
-    border-collapse: collapse; /* Removes spacing between table cells */
-    text-align: center; /* Centers text in all cells */
-    table-layout: fixed; /* Ensures columns are evenly spaced */
+    border-collapse: collapse;
+    /* Removes spacing between table cells */
+    text-align: center;
+    /* Centers text in all cells */
+    table-layout: fixed;
+    /* Ensures columns are evenly spaced */
     margin: 2px 0;
 }
 
-.account_counters_table th, .account_counters_table td {
+.account_counters_table th,
+.account_counters_table td {
     padding: 2px;
     border: 1px dotted var(--var-color-border-transwhite);
     font-weight: bolder;

@@ -71,14 +71,36 @@
         </div>
     </div>
 
-    <h1></h1>
+    <div class="tab-container">
+        <div class="tab active" 
+             th:data-url="${request.requestURL + '/posts'}" 
+             th:onclick="'navigateIframe(this.dataset.url, this);'">Posts</div>
+        <div class="tab" 
+             th:data-url="${request.requestURL + '/followers'}" 
+             th:onclick="'navigateIframe(this.dataset.url, this);'">Followers</div>
+        <div class="tab" 
+             th:data-url="${request.requestURL + '/following'}" 
+             th:onclick="'navigateIframe(this.dataset.url, this);'">Following</div>
+    </div>
 
-    <iframe id="account_posts" th:src="${request.requestURL + '/posts'}" title="account's posts"></iframe> 
+    <iframe id="account_posts" th:src="${request.requestURL + '/posts'}" title="account's posts"></iframe>
 
     <script>
-        function resizeIframeToFitContent(iframe) { iframe.style.height = iframe.contentWindow.document.body.scrollHeight + "px"; }
+        function navigateIframe(url, tabElement) {
+            // Change iframe src
+            document.getElementById('account_posts').src = url;
+
+            // Update active tab
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            tabElement.classList.add('active');
+        }
+    </script>
+
+    <script>
+        function resizeIframeToFitContent(iframe) {iframe.style.height = iframe.contentWindow.document.body.scrollHeight + "px";}
         const iframe = document.getElementById('account_posts');
-        iframe.onload = function () { resizeIframeToFitContent(iframe); };
+        iframe.onload = function () {resizeIframeToFitContent(iframe);};
     </script>
 </body>
 

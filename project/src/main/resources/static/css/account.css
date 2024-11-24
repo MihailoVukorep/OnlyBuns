@@ -33,7 +33,8 @@
     font-size: xx-large;
 }
 
-#account_firstName, #account_lastName {
+#account_firstName,
+#account_lastName {
     color: var(--var-color-fg-post-account);
 }
 
@@ -51,13 +52,17 @@
 
 #account_counters_table {
     color: var(--var-color-fg-white);
-    border-collapse: collapse; /* Removes spacing between table cells */
-    text-align: center; /* Centers text in all cells */
-    table-layout: fixed; /* Ensures columns are evenly spaced */
+    border-collapse: collapse;
+    /* Removes spacing between table cells */
+    text-align: center;
+    /* Centers text in all cells */
+    table-layout: fixed;
+    /* Ensures columns are evenly spaced */
     margin: 2px 0;
 }
 
-#account_counters_table th, #account_counters_table td {
+#account_counters_table th,
+#account_counters_table td {
     padding: 2px;
     border: 1px dotted var(--var-color-border-transwhite);
     font-weight: bolder;
@@ -73,4 +78,46 @@
     display: block;
     width: 100%;
     border: 0;
+}
+
+.tab-container {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: left;
+    border-bottom: 1px solid var(--var-color-fg-post-title); /* Keep the container's bottom border */
+    position: relative; /* Ensure tabs can overlap this border */
+}
+
+.tab {
+    font-weight: bold;
+    padding: 10px 10px 10px 10px;
+    margin: 0 5px;
+    border-radius: 20px 20px 0 0;
+    cursor: pointer;
+    border: 1px dashed var(--var-color-border-transwhite);
+    border-bottom: none; /* Prevent individual tabs from having a bottom border */
+    background-color: transparent;
+    position: relative; /* Required for layering */
+    z-index: 1; /* Default z-index for inactive tabs */
+}
+
+.tab.active {
+    border: 1px solid var(--var-color-fg-post-title);
+    border-bottom: none; /* Ensure the active tab has no bottom border */
+    background-color: black;
+    position: relative;
+    z-index: 2; /* Bring the active tab above the container */
+    margin-bottom: -1px; /* Pull the active tab down slightly to overlap the container's border */
+}
+
+.tab-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--var-color-fg-post-title);
+    z-index: 0; /* Keeps the container border below all tabs */
 }
