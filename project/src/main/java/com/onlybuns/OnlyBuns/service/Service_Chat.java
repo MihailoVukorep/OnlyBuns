@@ -36,7 +36,6 @@ public class Service_Chat {
         message.setChat(chat);
         message.setSender(sender);
         message.setContent(content);
-        message.setSentDate(LocalDateTime.now());
 
         return repository_message.save(message);
     }
