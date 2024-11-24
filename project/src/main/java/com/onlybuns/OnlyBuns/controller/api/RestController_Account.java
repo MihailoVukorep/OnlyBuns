@@ -47,8 +47,6 @@ public class RestController_Account {
         return service_account.post_api_logout(session);
     }
 
-
-
     @PostMapping("/api/accounts/{id}/follow")
     public ResponseEntity<DTO_Get_Account> get_api_accounts_id_follow(@PathVariable(name = "id") Long id) {
         throw new NotImplementedException("not implemented");
