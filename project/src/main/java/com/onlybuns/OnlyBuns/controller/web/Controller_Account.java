@@ -6,10 +6,14 @@ import com.onlybuns.OnlyBuns.service.Service_Account;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 @Controller
 public class Controller_Account {
@@ -46,16 +50,21 @@ public class Controller_Account {
         return accounts_id(session, model, request, user.getId());
     }
 
-    @GetMapping("/accounts/{id}/following")
-    public String accounts_id_following(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
-        return "errors/501.html";
-    }
-
     @GetMapping("/accounts/{id}/followers")
     public String accounts_id_followers(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
-        return "errors/501.html";
+        ResponseEntity<List<DTO_Get_Account>> response = service_account.get_api_accounts_id_followers(id);
+        if (response.getStatusCode() == HttpStatus.NOT_FOUND) { return "error/404.html"; }
+        model.addAttribute("accounts", response.getBody());
+        return "accounts_raw.html";
     }
 
+    @GetMapping("/accounts/{id}/following")
+    public String accounts_id_following(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
+        ResponseEntity<List<DTO_Get_Account>> response = service_account.get_api_accounts_id_following(id);
+        if (response.getStatusCode() == HttpStatus.NOT_FOUND) { return "error/404.html"; }
+        model.addAttribute("accounts", response.getBody());
+        return "accounts_raw.html";
+    }
 
     // TODO: UPDATE ACCOUNT
 }

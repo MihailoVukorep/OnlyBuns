@@ -71,12 +71,6 @@ public class Service_Account {
         Account account = repository_account.findById(accountId)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
 
-//        Hibernate.initialize(account.getPosts());
-//        Hibernate.initialize(account.getLikes());
-//        Hibernate.initialize(account.getFollowers());
-//        Hibernate.initialize(account.getFollowing());
-//        Hibernate.initialize(account.getRoles());
-
         return account;
     }
 
@@ -256,34 +250,48 @@ public class Service_Account {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    // follow
-    public void followAccount(Long followerId, Long followeeId) {
-        Account follower = eager(followerId);
-        Account followee = eager(followeeId);
+    // follow / unfollow
+    public void post_api_accounts_id_follow(Long followerId, Long followeeId) {
 
-        if (follower.equals(followee)) {
-            throw new IllegalArgumentException("Account cannot follow itself.");
-        }
+        // follow
+//        Account follower = eager(followerId);
+//        Account followee = eager(followeeId);
+//
+//        if (follower.equals(followee)) {
+//            throw new IllegalArgumentException("Account cannot follow itself.");
+//        }
+//
+//        follower.follow(followee);
+//        repository_account.save(follower);
+//        repository_account.save(followee);
 
-        follower.follow(followee);
-        repository_account.save(follower);
-        repository_account.save(followee);
+        // unfollow
+//        Account follower = eager(followerId);
+//        Account followee = eager(followeeId);
+//
+//        follower.unfollow(followee);
+//        repository_account.save(follower);
+//        repository_account.save(followee);
     }
-    public void unfollowAccount(Long followerId, Long followeeId) {
-        Account follower = eager(followerId);
-        Account followee = eager(followeeId);
 
-        follower.unfollow(followee);
-        repository_account.save(follower);
-        repository_account.save(followee);
+    // account's followers / following
+    public ResponseEntity<List<DTO_Get_Account>> get_api_accounts_id_followers(Long id) {
+        Optional<Account> optional_account = repository_account.findById(id);
+        if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+        Account account = optional_account.get();
+
+        List<DTO_Get_Account> accounts = new ArrayList<>();
+        for (Account i : account.getFollowers()) { accounts.add(new DTO_Get_Account(i)); }
+        return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
-    public Set<Account> getFollowers(Long accountId) {
-        Account account = eager(accountId);
-        return account.getFollowers();
-    }
-    public Set<Account> getFollowing(Long accountId) {
-        Account account = eager(accountId);
-        return account.getFollowing();
+    public ResponseEntity<List<DTO_Get_Account>> get_api_accounts_id_following(Long id) {
+        Optional<Account> optional_account = repository_account.findById(id);
+        if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+        Account account = optional_account.get();
+
+        List<DTO_Get_Account> accounts = new ArrayList<>();
+        for (Account i : account.getFollowing()) { accounts.add(new DTO_Get_Account(i)); }
+        return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
 
     // TODO: delete account cron job after some time
