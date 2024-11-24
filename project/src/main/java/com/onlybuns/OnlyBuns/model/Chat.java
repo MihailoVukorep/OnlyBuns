@@ -2,6 +2,7 @@ package com.onlybuns.OnlyBuns.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,5 +30,6 @@ public class Chat {
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Message> messages;
 
+    @CreationTimestamp
     private LocalDateTime createdDate;
 }

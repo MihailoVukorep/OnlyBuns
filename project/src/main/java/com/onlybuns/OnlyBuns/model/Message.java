@@ -2,6 +2,7 @@ package com.onlybuns.OnlyBuns.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -28,5 +29,6 @@ public class Message {
     @Column(nullable = false)
     private String content;
 
-    private LocalDateTime sentDate;
+    @CreationTimestamp
+    private LocalDateTime createdDate;
 }
