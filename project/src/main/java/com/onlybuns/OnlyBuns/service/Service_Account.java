@@ -88,15 +88,15 @@ public class Service_Account {
 
     // /user
     public ResponseEntity<DTO_Get_Account> get_api_user(HttpSession session) {
-        Account sessionAccount = (Account) session.getAttribute("user");
-        if (sessionAccount == null) {
+        Account account = (Account) session.getAttribute("user");
+        if (account == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
-        Optional<Account> foundAccount = repository_account.findById(sessionAccount.getId());
-        if (foundAccount.isEmpty()) {
+        Optional<Account> optional_account = repository_account.findById(account.getId());
+        if (optional_account.isEmpty()) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(new DTO_Get_Account(foundAccount.get()), HttpStatus.OK);
+        return new ResponseEntity<>(new DTO_Get_Account(optional_account.get()), HttpStatus.OK);
     }
 
     // login / register / logout

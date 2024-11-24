@@ -50,14 +50,15 @@
         map.on('click', function (e) {
             var lat = e.latlng.lat;
             var lon = e.latlng.lng;
+            const location = `${lat},${lon}`;
 
-            // Create a marker at the clicked position
-            L.marker([lat, lon]).addTo(map)
-                .bindPopup("You clicked the map at: " + lat.toFixed(5) + ", " + lon.toFixed(5))
-                .openPopup();
+            // display location
+            L.marker([lat, lon]).addTo(map).bindPopup(`${lat.toFixed(5)},${lat.toFixed(5)}`).openPopup();
 
-            // Set the latitude and longitude in the textbox
-            document.getElementById('txt_location').value = lat.toFixed(5) + ', ' + lon.toFixed(5);
+            navigator.clipboard.writeText(location); // copy location
+            document.getElementById('txt_location').value = location;
         });
+
+
     </script>
 </div>

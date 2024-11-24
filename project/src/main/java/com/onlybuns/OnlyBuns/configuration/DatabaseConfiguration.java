@@ -128,8 +128,8 @@ public class DatabaseConfiguration {
                 false
         );
 
-        repository_post.save(new Post("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)", "location1", "uploads/img/bunny1.jpg", acc_ajzak));
-        repository_post.save(new Post("Sala", "I ja i zeka volimo travu.", "location2", "uploads/img/bunny2.jpg", acc_ajzak));
+        repository_post.save(new Post("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)", "45.242218771764854,19.83195262760878", "uploads/img/bunny1.jpg", acc_ajzak));
+        repository_post.save(new Post("Sala", "I ja i zeka volimo travu.", "45.259875842135436,19.830235540131056", "uploads/img/bunny2.jpg", acc_ajzak));
 
 
         Account acc_ana = CreateAccount(
@@ -157,11 +157,11 @@ public class DatabaseConfiguration {
         );
 
 
-        Post post_kupajzeku = new Post("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).", "location3", "uploads/img/bunny5.jpg", acc_ana);
+        Post post_kupajzeku = new Post("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).", "45.248991995657825,19.8151251703269", "uploads/img/bunny5.jpg", acc_ana);
         repository_post.save(post_kupajzeku);
 
-        repository_post.save(new Post("e necu", "Sto bi trosio vodu nek smrdi!", acc_ajzak, post_kupajzeku));
-        repository_post.save(new Post("ti se okupaj", ":)", acc_hater, post_kupajzeku));
+        repository_post.save(new Post("e necu", "Sto bi trosio vodu nek smrdi!", "45.24935482414706,19.80156017925269", acc_ajzak, post_kupajzeku));
+        repository_post.save(new Post("ti se okupaj", ":)", "45.262173276394655,19.85307280358509", acc_hater, post_kupajzeku));
 
 
         Account acc_admin = CreateAccount(
@@ -178,16 +178,16 @@ public class DatabaseConfiguration {
         repository_accountActivation.save(service_email.GenerateNewAccountActivation(acc_admin, AccountActivationStatus.APPROVED)); // approve petar on create
 
 
-        Post post_dilujem = new Post("Dilujem Sargarepe", "10 DINARA 100 SARGAREPA!!!!", acc_ana);
+        Post post_dilujem = new Post("Dilujem Sargarepe", "10 DINARA 100 SARGAREPA!!!!", "45.25818293635168,19.808943655407006", acc_ana);
         repository_post.save(post_dilujem);
 
-        Post post_nemasanse = new Post("NEMA SANSE", "ALA DRUZE KAKAV DEAL!!", acc_ajzak, post_dilujem);
+        Post post_nemasanse = new Post("NEMA SANSE", "ALA DRUZE KAKAV DEAL!!", "45.24197685597521,19.81958959776903", acc_ajzak, post_dilujem);
         repository_post.save(post_nemasanse);
 
-        repository_post.save(new Post("DA DA", "Rodilo drvece :^)", acc_ajzak, post_nemasanse));
-        repository_post.save(new Post("HMM", "E TOSE NISAM NADO!!", acc_ajzak, post_dilujem));
+        repository_post.save(new Post("DA DA", "Rodilo drvece :^)", "45.24572643495814,19.795722081828355", acc_ajzak, post_nemasanse));
+        repository_post.save(new Post("HMM", "E TOSE NISAM NADO!!", "45.25008047417238,19.847921541151837", acc_ajzak, post_dilujem));
 
-        repository_post.save(new Post("My post", "Moj post!", acc_pera));
+        repository_post.save(new Post("My post", "Moj post!", "45.23907378615232,19.812892956605797", acc_pera));
 
 
         Account acc_sara = CreateAccount(

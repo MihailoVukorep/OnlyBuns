@@ -77,6 +77,13 @@ public class Post {
         this.account = account;
     }
 
+    public Post(String title, String text, String location, Account account) {
+        this.title = title;
+        this.text = text;
+        this.location = location;
+        this.account = account;
+    }
+
     public Post(String title, String text, String location, String pictureLocation, Account account) {
         this.title = title;
         this.text = text;
@@ -89,6 +96,14 @@ public class Post {
     public Post(String title, String text, Account account, Post parentPost) {
         this.title = title;
         this.text = text;
+        this.account = account;
+        this.parentPost = parentPost;
+    }
+
+    public Post(String title, String text, String location, Account account, Post parentPost) {
+        this.title = title;
+        this.text = text;
+        this.location = location;
         this.account = account;
         this.parentPost = parentPost;
     }
