@@ -103,11 +103,11 @@ public class Controller_Post {
         return "post.html";
     }
 
-    @GetMapping("/createpost")
-    public String createpost(HttpSession session, Model model) {
+    @GetMapping("/create")
+    public String create(HttpSession session, Model model) {
         Account user = (Account) session.getAttribute("user");
         if (user == null) { return "error/401.html"; }
-        return "createpost.html";
+        return "create.html";
     }
 
     @GetMapping("/posts/{id}/edit")
@@ -120,6 +120,6 @@ public class Controller_Post {
         if (!post.getAccount().getId().equals(user.getId())) { return "error/403.html"; } // Forbidden -- not your account's post
 
         model.addAttribute("post_id", id);
-        return "editpost.html";
+        return "edit.html";
     }
 }

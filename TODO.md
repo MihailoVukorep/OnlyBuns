@@ -1,5 +1,5 @@
 - delete post frontend - confirmation dialogue (YES/NO)
 - reply - add picture
-- createpost / editpost add ENTER evets to textbox
+- create / edit add ENTER evets to textbox
 - all buttons need title="" with proper tooltip
 - remove main.js if not needed
