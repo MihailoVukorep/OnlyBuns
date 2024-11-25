@@ -66,24 +66,22 @@
                 </tr>
             </table>
 
+            <div id="account_buttons">
+                <button id="btn_follow"
+                    th:classappend="${account.following} ? 'following' : ''"
+                    th:text="${account.following ? '✅ Following' : '➕ Follow'}"
+                    th:onclick="'follow(' + ${account.id} + ');'" title="Follow">
+                </button>
+
+                <button id="btn_message" th:onclick="'message(' + ${account.id} + ');'" title="Message">📨 Message</button>
+            </div>
+
             <div id="account_created">
                 <span>📅</span>
                 <span th:text="${account.createdDateStr}"></span>
             </div>
         </div>
 
-        <div id="account_buttons">
-            <button id="btn_follow"
-                th:classappend="${account.following} ? 'following' : ''"
-                th:text="${account.following ? '✅ Following' : '➕ Follow'}"
-                th:onclick="'follow(' + ${account.id} + ');'" title="Follow">
-            </button>
-
-            <button id="btn_message"
-                th:text="📨 Message"
-                th:onclick="'message(' + ${account.id} + ');'" title="Message">
-            </button>
-        </div>
     </div>
 
     <div class="tab-container">
