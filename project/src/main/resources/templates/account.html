@@ -12,6 +12,8 @@
 
     <link rel="stylesheet" href="/css/animations/rainbow_h1.css">
     <link rel="stylesheet" href="/css/animations/blur_appear.css">
+
+    <script defer type="text/javascript" src="/js/account.js"></script>
 </head>
 
 <body>
@@ -68,6 +70,19 @@
                 <span>📅</span>
                 <span th:text="${account.createdDateStr}"></span>
             </div>
+        </div>
+
+        <div id="account_buttons">
+            <button id="btn_follow"
+                th:classappend="${account.following} ? 'following' : ''"
+                th:text="${account.following ? '✅ Following' : '➕ Follow'}"
+                th:onclick="'follow(' + ${account.id} + ');'" title="Follow">
+            </button>
+
+            <button id="btn_message"
+                th:text="Message"
+                th:onclick="'message(' + ${account.id} + ');'" title="Message">
+            </button>
         </div>
     </div>
 
