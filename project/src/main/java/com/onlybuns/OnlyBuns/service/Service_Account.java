@@ -249,30 +249,51 @@ public class Service_Account {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    public Repository_Account getRepository_account() {
+        return repository_account;
+    }
+
+    public void setRepository_account(Repository_Account repository_account) {
+        this.repository_account = repository_account;
+    }
+
+    public ResponseEntity<List<DTO_Get_Account>> get_api_accounts_id_following(Long id) {
+        Optional<Account> optional_account = repository_account.findById(id);
+        if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+        Account account = optional_account.get();
+
+        List<DTO_Get_Account> accounts = new ArrayList<>();
+        for (Account i : account.getFollowing()) { accounts.add(new DTO_Get_Account(i)); }
+        return new ResponseEntity<>(accounts, HttpStatus.OK);
+    }
+
     // follow / unfollow
     public ResponseEntity<String> post_api_accounts_id_follow(HttpSession session, Long id) {
 
-        // TODO: get current user (account) from session and follow the id
+        Account user = (Account) session.getAttribute("user");
+        if (user == null) { return new ResponseEntity<>("Error", HttpStatus.NOT_FOUND); }
 
-        // follow
-//        Account follower = eager(followerId);
-//        Account followee = eager(followeeId);
-//
-//        if (follower.equals(followee)) {
-//            throw new IllegalArgumentException("Account cannot follow itself.");
-//        }
-//
-//        follower.follow(followee);
-//        repository_account.save(follower);
-//        repository_account.save(followee);
+        long followerId = user.getId();
+        long followeeId = id;
 
-        // unfollow
-//        Account follower = eager(followerId);
-//        Account followee = eager(followeeId);
-//
-//        follower.unfollow(followee);
-//        repository_account.save(follower);
-//        repository_account.save(followee);
+        Account follower = eager(followerId);
+        Account followee = eager(followeeId);
+
+        //unfollow
+        if (follower.getFollowing().contains(followee)) {
+            follower.unfollow(followee);
+            repository_account.save(follower);
+            repository_account.save(followee);
+            return new ResponseEntity<>("Unfollowed.", HttpStatus.OK);
+        }
+
+        if (follower.equals(followee)) {
+            throw new IllegalArgumentException("Account cannot follow itself.");
+        }
+
+        follower.follow(followee);
+        repository_account.save(follower);
+        repository_account.save(followee);
 
         return new ResponseEntity<>("Followed.", HttpStatus.OK);
     }
@@ -285,15 +306,6 @@ public class Service_Account {
 
         List<DTO_Get_Account> accounts = new ArrayList<>();
         for (Account i : account.getFollowers()) { accounts.add(new DTO_Get_Account(i)); }
-        return new ResponseEntity<>(accounts, HttpStatus.OK);
-    }
-    public ResponseEntity<List<DTO_Get_Account>> get_api_accounts_id_following(Long id) {
-        Optional<Account> optional_account = repository_account.findById(id);
-        if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
-        Account account = optional_account.get();
-
-        List<DTO_Get_Account> accounts = new ArrayList<>();
-        for (Account i : account.getFollowing()) { accounts.add(new DTO_Get_Account(i)); }
         return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
 
