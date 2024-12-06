@@ -78,12 +78,23 @@ public class Service_Account {
     private final VarConverter varConverter = new VarConverter();
 
     // /accounts/{id}
-    public ResponseEntity<DTO_Get_Account> get_api_accounts_id(Long id) {
-        Optional<Account> foundAccount = repository_account.findById(id);
-        if (foundAccount.isEmpty()) {
+    public ResponseEntity<DTO_Get_Account> get_api_accounts_id(HttpSession session, Long id) {
+        Optional<Account> optional_account = repository_account.findById(id);
+        if (optional_account.isEmpty()) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(new DTO_Get_Account(foundAccount.get()), HttpStatus.OK);
+
+        Account l_user = (Account) session.getAttribute("user"); // NOTE: account from "user" is always lazy need to eager it
+        boolean isMyAccount = false;
+        boolean isFollowing = false;
+
+        if (l_user != null) {
+            Account user = eager(l_user.getId());
+            isMyAccount = user.getId().equals(id);
+            isFollowing = user.getFollowing().stream().anyMatch(i -> i.getId().equals(id));
+        }
+
+        return new ResponseEntity<>(new DTO_Get_Account(optional_account.get(), isMyAccount, isFollowing), HttpStatus.OK);
     }
 
     // /user
@@ -92,11 +103,7 @@ public class Service_Account {
         if (account == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
-        Optional<Account> optional_account = repository_account.findById(account.getId());
-        if (optional_account.isEmpty()) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(new DTO_Get_Account(optional_account.get()), HttpStatus.OK);
+        return get_api_accounts_id(session, account.getId());
     }
 
     // login / register / logout
@@ -253,7 +260,7 @@ public class Service_Account {
     public ResponseEntity<String> post_api_accounts_id_follow(HttpSession session, Long id) {
 
         Account user = (Account) session.getAttribute("user");
-        if (user == null) { return new ResponseEntity<>("Error", HttpStatus.NOT_FOUND); }
+        if (user == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.NOT_FOUND); }
 
         long followerId = user.getId();
         long followeeId = id;
@@ -270,7 +277,7 @@ public class Service_Account {
         }
 
         if (follower.equals(followee)) {
-            throw new IllegalArgumentException("Account cannot follow itself.");
+            return new ResponseEntity<>("Account cannot follow itself.", HttpStatus.CONFLICT);
         }
 
         follower.follow(followee);

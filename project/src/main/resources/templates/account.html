@@ -9,11 +9,12 @@
 
     <title>OnlyBuns - Account</title>
     <link rel="stylesheet" href="/css/account.css">
+    <link rel="stylesheet" href="/css/popup.css">
 
     <link rel="stylesheet" href="/css/animations/rainbow_h1.css">
     <link rel="stylesheet" href="/css/animations/blur_appear.css">
 
-    <script defer type="text/javascript" src="/js/account.js"></script>
+    <script defer type="text/javascript" src="/js/popup.js"></script>
 </head>
 
 <body>
@@ -66,14 +67,17 @@
                 </tr>
             </table>
 
-            <div id="account_buttons">
-                <button id="btn_follow"
-                    th:classappend="${account.following} ? 'following' : ''"
-                    th:text="${account.following ? '✅ Following' : '➕ Follow'}"
+            <div th:if="${!account.isMyAccount}" id="account_buttons">
+                <button class="account_button"
+                    id="btn_follow"
+                    th:classappend="${account.isFollowing} ? 'following' : ''"
+                    th:text="${account.isFollowing ? '✅ Following' : '➕ Follow'}"
                     th:onclick="'follow(' + ${account.id} + ');'" title="Follow">
                 </button>
 
-                <button id="btn_message" th:onclick="'message(' + ${account.id} + ');'" title="Message">📨 Message</button>
+                <button class="account_button" id="btn_message" th:onclick="'message(' + ${account.id} + ');'" title="Message">📨 Message</button>
+
+                <script defer type="text/javascript" src="/js/account.js"></script>
             </div>
 
             <div id="account_created">
@@ -115,6 +119,8 @@
         const iframe = document.getElementById('account_iframe');
         iframe.onload = function () {resizeIframeToFitContent(iframe);};
     </script>
+
+    <div th:replace="~{fragments/popup :: popup}"></div>
 </body>
 
 </html>

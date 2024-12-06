@@ -39,7 +39,7 @@ public class Controller_Account {
     // ACCOUNT STUFF
     @GetMapping("/accounts/{id}")
     public String accounts_id(HttpSession session, Model model, HttpServletRequest request, @PathVariable(name = "id") Long id) {
-        model.addAttribute("account", service_account.get_api_accounts_id(id).getBody());
+        model.addAttribute("account", service_account.get_api_accounts_id(session, id).getBody());
         model.addAttribute("request", request);
         return "account.html";
     }

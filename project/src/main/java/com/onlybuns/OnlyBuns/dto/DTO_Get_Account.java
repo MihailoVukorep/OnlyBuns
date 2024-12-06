@@ -31,7 +31,8 @@ public class DTO_Get_Account {
     public Integer likesCount;
     public Integer followersCount;
     public Integer followingCount;
-    public boolean following;   // TODO: DISPLAY THIS ON FRONT END
+    public boolean isMyAccount;
+    public boolean isFollowing;
 
     public DTO_Get_Account(Account account) {
         this.id = account.getId();
@@ -52,5 +53,28 @@ public class DTO_Get_Account {
         this.likesCount = account.getLikes().size();
         this.followersCount = account.getFollowers().size();
         this.followingCount = account.getFollowing().size();
+    }
+
+    public DTO_Get_Account(Account account, boolean myAccount, boolean following) {
+        this.id = account.getId();
+        this.email = account.getEmail();
+        this.userName = account.getUserName();
+        //this.password = account.getPassword();
+        this.firstName = account.getFirstName();
+        this.lastName = account.getLastName();
+        this.address = account.getAddress();
+        this.avatar = account.getAvatar();
+        this.bio = account.getBio();
+        this.isAdmin = account.isAdmin();
+        this.createdDate = account.getCreatedDate();
+        this.createdDateStr = this.createdDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.updatedDate = account.getUpdatedDate();
+        this.updatedDateStr = this.updatedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.postsCount = account.getPosts().size();
+        this.likesCount = account.getLikes().size();
+        this.followersCount = account.getFollowers().size();
+        this.followingCount = account.getFollowing().size();
+        this.isMyAccount = myAccount;
+        this.isFollowing = following;
     }
 }

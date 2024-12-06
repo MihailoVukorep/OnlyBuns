@@ -120,3 +120,31 @@
     height: 1px;
     z-index: 0; /* Keeps the container border below all tabs */
 }
+
+#account_buttons {
+
+}
+
+.account_button {
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bolder;
+    color: white;
+    padding: 5px;
+    border: var(--var-color-border-gray) 1px solid;
+    border-radius: 15px;
+    background-color: var(--var-color-bg-link);
+}
+
+.account_button:active {
+    background-color: #151515;
+    box-shadow: 1px 1px 1px #616161;
+    transform: translateX(2px) translateY(2px);
+}
+
+.following {
+    background-color: rgba(187, 255, 185, 0.372) !important;
+    border-color: rgb(192, 255, 213) !important;
+}
