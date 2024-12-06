@@ -1,0 +1,43 @@
+
+#chat {
+    display: flex;
+    height: 100vh; /* Full viewport height */
+}
+
+#chats_cont {
+    width: 25%; /* 25% of the screen width */
+    background-color: #f4f4f4; /* Light background for distinction */
+    border-right: 1px solid #ccc; /* Border for separation */
+    display: flex;
+    flex-direction: column;
+}
+
+#msgs_cont {
+    width: 75%; /* 75% of the screen width */
+    background-color: #fff; /* White background */
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    margin: 0;
+    padding: 10px;
+    background-color: #0078D7; /* Header background */
+    color: white; /* Header text color */
+    font-size: 18px;
+}
+
+/* Scrollable areas for content */
+#chats, #msgs {
+    flex: 1; /* Take up remaining space */
+    overflow-y: auto; /* Enable scrolling */
+    padding: 10px;
+}
+
+/* Optional styles for chat items and messages */
+#chats div, #msgs div {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+}
