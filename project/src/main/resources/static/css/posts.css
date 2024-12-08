@@ -11,8 +11,8 @@
 }
 
 #posts.parentPosts .post {
-    width: 340px;
-    height: 300px;
+    width: 350px;
+    height: 200px;
     display: inline-block;
     border: 1px solid var(--var-color-border-transwhite);
     background-color: var(--var-color-bg-sub1);
@@ -30,7 +30,7 @@
 }
 
 #posts.parentPosts .post .post_body {
-    height: 250px;
+    height: 150px;
     flex-direction: column;
     border-bottom: 1px solid var(--var-color-border-transwhite);
     padding: 10px;
