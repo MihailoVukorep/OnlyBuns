@@ -1,12 +1,13 @@
 .button-92 {
     --c: var(--var-color-white);
-    background: linear-gradient(90deg, #0000 33%, #fff5, #0000 67%) var(--_p, 100%)/300% no-repeat, var(--var-color-pink-3-trans);
+    background: linear-gradient(90deg, var(--var-color-pink-3) 33%, purple, var(--var-color-darkpurple) 67%) var(--_p, 100%)/300% no-repeat, var(--var-color-pink-3-trans);
     color: var(--var-color-white);
     border: none;
     transform: perspective(500px) rotateY(calc(20deg*var(--_i, -1)));
     text-shadow: none;
     outline-offset: .1em;
-    transition: 0.3s;
+    transition: 0.2s;
+    border: 1px solid rgba(48, 25, 52, 1);
 }
 
 .button-92:hover,

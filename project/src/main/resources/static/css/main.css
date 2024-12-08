@@ -28,6 +28,7 @@
     --var-color-pink-4-trans: #ae81ff80;
 
     --var-color-darkpurple: #180044;
+    --var-color-darkpurple-trans: #18004480;
 }
 
 html {
@@ -83,12 +84,12 @@ body {
     padding: 5px 10px;
     border-radius: 0 0 20px 20px;
     border-bottom: 1px solid rgba(48, 25, 52, 1);
-    background: linear-gradient(to bottom, rgba(48, 25, 52, 1), rgba(48, 25, 52, 0.3));
+    background: linear-gradient(to bottom, var(--var-color-darkpurple), var(--var-color-darkpurple-trans));
     transition: background 0.5s ease; /* Smooth transition effect */
 }
 
 #navbar a:hover {
-    background: linear-gradient(to bottom, rgba(48, 25, 52, 0.3), rgba(48, 25, 52, 1));
+    background: linear-gradient(to bottom, var(--var-color-darkpurple-trans),  var(--var-color-darkpurple));
 }
 
 
