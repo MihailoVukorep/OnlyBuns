@@ -27,7 +27,7 @@
     --var-color-pink-3-trans: #d81dc480;
     --var-color-pink-4-trans: #ae81ff80;
 
-    --var-color-darkpurple: #411691;
+    --var-color-darkpurple: #180044;
 }
 
 html {
@@ -48,8 +48,10 @@ body {
     height: 100%;
 }
 
+
+/* NAVBAR */
 #navbar {
-    padding: 5px;
+    padding: 0 5px;
     height: fit-content;
     margin: 0;
     display: flex;
@@ -70,11 +72,33 @@ body {
     gap: inherit;
 }
 
+
+#navbar a {
+    display: inline-block;
+    font-size: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bolder;
+    color: var(--var-color-white);
+    padding: 5px 10px;
+    border-radius: 0 0 20px 20px;
+    border-bottom: 1px solid rgba(48, 25, 52, 1);
+    background: linear-gradient(to bottom, rgba(48, 25, 52, 1), rgba(48, 25, 52, 0.3));
+    transition: background 0.5s ease; /* Smooth transition effect */
+}
+
+#navbar a:hover {
+    background: linear-gradient(to bottom, rgba(48, 25, 52, 0.3), rgba(48, 25, 52, 1));
+}
+
+
+
 .blurred-box {
     background: rgba(0, 0, 0, 0.05); /* Semi-transparent white */
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
 }
+
 
 h1,
 h2 {

@@ -162,6 +162,9 @@
 }
 
 .page-link {
+    font-size: xx-large;
+    font-weight: bold;
+    font-family: monospace;
     color: var(--var-color-purple);
     text-decoration: none
 }
