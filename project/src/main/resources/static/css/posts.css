@@ -10,39 +10,41 @@
     white-space: nowrap;
 }
 
-#posts.parentPosts .post {
-    width: 350px;
+#posts .post {
+    border-radius: 10px;
+    width: 340px;
     height: 200px;
     display: inline-block;
-    border: 1px solid var(--var-color-border-transwhite);
-    background-color: var(--var-color-bg-sub1);
-    margin: 3px;
+    margin: 15px 10px;
+    padding: 3px;
+    box-shadow: 0px 0px 10px 3px var(--var-color-pink-1-trans);
+    background: rgba(0, 0, 0, 0.05); /* Semi-transparent white */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(2px);
+}
+
+#posts .post .post_body {
+    height: 150px;
+    flex-direction: column;
+    padding: 10px;
+    overflow: clip;  
 }
  
 #posts.thread .post {
     display: block;
-    border: 1px solid var(--var-color-border-transwhite);
-    background-color: var(--var-color-bg-sub1);
     overflow: hidden;
     overflow-wrap: anywhere;
     margin: 5px;
     width: fit-content;
-}
-
-#posts.parentPosts .post .post_body {
-    height: 150px;
-    flex-direction: column;
-    border-bottom: 1px solid var(--var-color-border-transwhite);
-    padding: 10px;
-    overflow: clip;  
+    height: fit-content;
 }
 
 #posts.thread .post .post_body {
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid var(--var-color-border-transwhite);
     padding: 10px;
     overflow: clip;
+    height: fit-content;
 }
 
 #posts.parentPosts .post_picture {
@@ -56,7 +58,8 @@
     margin: 3px;
     border: 1px solid var(--var-color-border-transwhite);
     display: block;
-    max-height: 70vh;
+    max-height: 50vh;
+    width: fit-content;
 }
 
 .post_body_link {
@@ -79,9 +82,8 @@
     color: white;
     padding: 3px;
     font-size: small;
-    border: var(--var-color-border-gray) 1px solid;
-    border-radius: 2px;
-    background-color: var(--var-color-bg-link);
+    border: none;
+    background-color: transparent;
 }
 
 .liked {
@@ -186,11 +188,16 @@
 }
 
 #sortOptions {
+    border-radius: 10px;
     font-family: inherit;
-    font-size: xx-large;
+    font-size: large;
     color: white;
     background-color: transparent;
-    border: 1px solid var(--var-color-border-transwhite);
+    border: 0px solid var(--var-color-border-transwhite);
+    box-shadow: 1px 1px 5px 1px var(--var-color-pink-1-trans);
+    background: transparent;
+    backdrop-filter: blur(12px);
+    padding: 10px;
 }
 
 #postnav_page_ul {
