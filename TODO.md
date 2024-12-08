@@ -7,9 +7,14 @@
 - admin/accounts search needs paging
 - remove all exceptions -- use web error codes
 
+# look:
+- fix error page navbar
+- fix error page buttons
+
 # could be nice:
 - delete post frontend - confirmation dialogue (YES/NO)
 - reply - add picture
 - create / edit add ENTER evets to textbox
 - all buttons need title="" with proper tooltip
 - remove main.js if not needed
+
