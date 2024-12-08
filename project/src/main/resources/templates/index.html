@@ -16,6 +16,9 @@
     <script defer type="text/javascript" src="/js/clock.js"></script>
 
     <link rel="stylesheet" href="/css/animations/rays.css">
+    <link rel="stylesheet" href="/css/animations/button-92.css">
+
+
     <script defer type="text/javascript" src="/js/gsap.min.js"></script>
     <script defer type="text/javascript" src="/js/rays.js"></script>
 </head>
@@ -33,30 +36,30 @@
         
             <div>
                 <div id="links">
-                    <a class="onlybuns_link onlybuns_link_block" href="/">🏠 Home</a>
-                    <a class="onlybuns_link onlybuns_link_block" href="/posts">🧭 Explore</a>
+                    <a class="button-92" href="/">🏠 Home</a>
+                    <a class="button-92" href="/posts">🧭 Explore</a>
                 </div>
             
                 <div id="links" th:if="${user != null}">
-                    <a class="onlybuns_link onlybuns_link_block" href="/fyp">🫵 For You</a>
-                    <a class="onlybuns_link onlybuns_link_block" href="/map">🗺️ View Map</a>
-                    <a class="onlybuns_link onlybuns_link_block" href="/create">➕ Create Post</a>
-                    <a class="onlybuns_link onlybuns_link_block" href="/chat">💬 Chat</a>
-                    <a class="onlybuns_link onlybuns_link_block" href="/trends">📈 Trends</a>
+                    <a class="button-92" href="/fyp">🫵 For You</a>
+                    <a class="button-92" href="/map">🗺️ View Map</a>
+                    <a class="button-92" href="/create">➕ Create Post</a>
+                    <a class="button-92" href="/chat">💬 Chat</a>
+                    <a class="button-92" href="/trends">📈 Trends</a>
 
-                    <a class="onlybuns_link onlybuns_link_block" href="/user">👤 My Account</a>
-                    <a class="onlybuns_link onlybuns_link_block" href="/user/update">⚙️ My Account - Update</a>
-                    <a class="onlybuns_link onlybuns_link_block" href="/logout">🚪 Log out</a>
+                    <a class="button-92" href="/user">👤 My Account</a>
+                    <a class="button-92" href="/user/update">⚙️ Settings</a>
+                    <a class="button-92" href="/logout">🚪 Log out</a>
             
                     <div th:if="${user.isAdmin}">
-                        <a class="onlybuns_link onlybuns_link_block" href="/admin/accounts">👥 Accounts</a>
-                        <a class="onlybuns_link onlybuns_link_block" href="/admin/manage">🛠️ Management</a>
+                        <a class="button-92" href="/admin/accounts">👥 Accounts</a>
+                        <a class="button-92" href="/admin/manage">🛠️ Management</a>
                     </div>
                 </div>
             
                 <div th:if="${user == null}">
-                    <a class="onlybuns_link onlybuns_link_block" href="/login">🔑 Log in</a>
-                    <a class="onlybuns_link onlybuns_link_block" href="/register">📝 Register</a>
+                    <a class="button-92" href="/login">🔑 Log in</a>
+                    <a class="button-92" href="/register">📝 Register</a>
                 </div>
             </div>
         </div>

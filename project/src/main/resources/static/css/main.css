@@ -16,6 +16,18 @@
 
     --var-color-border-gray: #505050;
     --var-color-border-transwhite: rgba(255, 255, 255, 0.5);
+
+    --var-color-pink-1: #ff92ee;
+    --var-color-pink-2: #fa6cff;
+    --var-color-pink-3: #d81dc4;
+    --var-color-pink-4: #ae81ff;
+
+    --var-color-pink-1-trans: #ff92ee80;
+    --var-color-pink-2-trans: #fa6cff80;
+    --var-color-pink-3-trans: #d81dc480;
+    --var-color-pink-4-trans: #ae81ff80;
+
+    --var-color-darkpurple: #411691;
 }
 
 html {
@@ -38,7 +50,6 @@ body {
 
 #navbar {
     padding: 5px;
-    background-color: var(--var-color-bg-sub1);
     height: fit-content;
     margin: 0;
     display: flex;
@@ -59,21 +70,10 @@ body {
     gap: inherit;
 }
 
-#navbar a {
-    display: inline-block;
-    font-size: 16px;
-    cursor: pointer;
-    text-decoration: none;
-    font-weight: bolder;
-    color: white;
-    padding: 3px;
-    border: var(--var-color-border-gray) 1px solid;
-    border-radius: 2px;
-    background-color: var(--var-color-bg-link);
-}
-
-#navbar a:hover {
-    background-color: transparent;
+.blurred-box {
+    background: rgba(0, 0, 0, 0.05); /* Semi-transparent white */
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
 }
 
 h1,
@@ -89,54 +89,6 @@ h2 {
 h2 {
     text-align: left !important;
 }
-
-.onlybuns_button {
-    display: block;
-    color: rgb(218, 219, 220);
-    background-color: rgb(54, 57, 63);
-    border-width: 0px;
-    font-size: 40px;
-    margin: 3px auto;
-    padding-top: 5px;
-    padding-right: 5px;
-    padding-bottom: 5px;
-    padding-left: 5px;
-    cursor: pointer;
-    box-shadow: 3px 3px 3px #616161;
-}
-
-.onlybuns_button:active {
-    background-color: #151515;
-    box-shadow: 1px 1px 1px #616161;
-    transform: translateX(2px) translateY(2px);
-}
-
-
-
-.onlybuns_link {
-    display: inline-block;
-    cursor: pointer;
-    text-decoration: none;
-    font-weight: bolder;
-    color: white;
-    padding: 3px;
-    font-size: larger;
-    border: var(--var-color-border-gray) 1px solid;
-    border-radius: 2px;
-    margin: 0 3px;
-    background-color: var(--var-color-bg-link);
-}
-
-.onlybuns_link:hover {
-    background-color: transparent;
-}
-
-.onlybuns_link_block {
-    display: block;
-    width: fit-content;
-    margin: 10px;
-}
-
 
 .onlybuns_account {
     display: inline-block;

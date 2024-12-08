@@ -1,0 +1,16 @@
+.button-42 {
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bolder;
+    color: white;
+    padding: 3px;
+    border: var(--var-color-border-gray) 1px solid;
+    border-radius: 2px;
+    background-color: var(--var-color-bg-link);
+}
+
+.button-42:hover {
+    background-color: transparent;
+}
