@@ -87,6 +87,28 @@
 			<version>0.4.19</version>
 		</dependency>
 
+		<!-- JUnit 5 dependencies -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.7.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.7.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Spring Boot Starter Test (for JUnit 5 support) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
 		<!-- REMOVED LOGIN PAGE
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -114,6 +136,11 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M5</version> <!-- Preporučena verzija za JUnit 5 -->
 			</plugin>
 		</plugins>
 	</build>
