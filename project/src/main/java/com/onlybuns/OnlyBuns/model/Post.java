@@ -47,10 +47,14 @@ public class Post {
     @JoinColumn(name = "parent_post_id")
     private Post parentPost; // This will reference the parent post (if any)
 
+
+    @Version
+    private Long version;
+
     @Column
     private int likesCount = 0;
-    public void incrementLikeCount() { this.likesCount++; }
-    public void decrementLikeCount() { this.likesCount--; }
+    public synchronized void incrementLikeCount() { this.likesCount++; }
+    public synchronized void decrementLikeCount() { this.likesCount--; }
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REFRESH, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Like> likes = new ArrayList<>();

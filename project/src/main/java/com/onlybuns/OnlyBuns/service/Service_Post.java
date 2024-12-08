@@ -208,25 +208,27 @@ public class Service_Post {
         }
         Post post = optional_post.get();
 
-        Optional<Like> optional_like = repository_like.findByAccountIdAndPostId(account.getId(), post.getId());
-        if (optional_like.isEmpty()) {
+        synchronized (post) {
+            Optional<Like> optional_like = repository_like.findByAccountIdAndPostId(account.getId(), post.getId());
+            if (optional_like.isEmpty()) {
 
-            // create new like
-            Like newLike = new Like(account, post);
-            post.getLikes().add(newLike);
-            repository_like.save(newLike);
-            post.incrementLikeCount();
+                // create new like
+                Like newLike = new Like(account, post);
+                post.getLikes().add(newLike);
+                repository_like.save(newLike);
+                post.incrementLikeCount();
+                repository_post.save(post);
+
+                return new ResponseEntity<>("Post liked.", HttpStatus.OK);
+            }
+
+            Like like = optional_like.get();
+            repository_like.delete(like);
+            post.decrementLikeCount();
             repository_post.save(post);
 
-            return new ResponseEntity<>("Post liked.", HttpStatus.OK);
+            return new ResponseEntity<>("Post unliked.", HttpStatus.OK);
         }
-
-        Like like = optional_like.get();
-        repository_like.delete(like);
-        post.decrementLikeCount();
-        repository_post.save(post);
-
-        return new ResponseEntity<>("Post unliked.", HttpStatus.OK);
     }
 
     // get posts likes
