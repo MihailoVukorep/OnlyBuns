@@ -1,0 +1,191 @@
+/* ========================================
+   Recursive Casual Fonts
+======================================== */
+
+/* Casual Regular */
+@font-face {
+    font-family: 'Recursive Casual';
+    src: url('/fonts/Recursive/RecMonoCasualNerdFont-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Casual Bold */
+@font-face {
+    font-family: 'Recursive Casual';
+    src: url('/fonts/Recursive/RecMonoCasualNerdFont-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Casual Italic */
+@font-face {
+    font-family: 'Recursive Casual';
+    src: url('/fonts/Recursive/RecMonoCasualNerdFont-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+/* Casual Bold Italic */
+@font-face {
+    font-family: 'Recursive Casual';
+    src: url('/fonts/Recursive/RecMonoCasualNerdFont-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* Casual Mono Regular */
+@font-face {
+    font-family: 'Recursive Casual Mono';
+    src: url('/fonts/Recursive/RecMonoCasualNerdFontMono-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Casual Mono Bold */
+@font-face {
+    font-family: 'Recursive Casual Mono';
+    src: url('/fonts/Recursive/RecMonoCasualNerdFontMono-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Casual Proportional Regular */
+@font-face {
+    font-family: 'Recursive Casual Propo';
+    src: url('/fonts/Recursive/RecMonoCasualNerdFontPropo-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Casual Proportional Bold */
+@font-face {
+    font-family: 'Recursive Casual Propo';
+    src: url('/fonts/Recursive/RecMonoCasualNerdFontPropo-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* ========================================
+   Recursive Linear Fonts
+======================================== */
+
+/* Linear Regular */
+@font-face {
+    font-family: 'Recursive Linear';
+    src: url('/fonts/Recursive/RecMonoLinearNerdFont-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Linear Bold */
+@font-face {
+    font-family: 'Recursive Linear';
+    src: url('/fonts/Recursive/RecMonoLinearNerdFont-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Linear Italic */
+@font-face {
+    font-family: 'Recursive Linear';
+    src: url('/fonts/Recursive/RecMonoLinearNerdFont-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+/* Linear Bold Italic */
+@font-face {
+    font-family: 'Recursive Linear';
+    src: url('/fonts/Recursive/RecMonoLinearNerdFont-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* Linear Mono Regular */
+@font-face {
+    font-family: 'Recursive Linear Mono';
+    src: url('/fonts/Recursive/RecMonoLinearNerdFontMono-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Linear Proportional Bold */
+@font-face {
+    font-family: 'Recursive Linear Propo';
+    src: url('/fonts/Recursive/RecMonoLinearNerdFontPropo-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* ========================================
+   Recursive Duotone Fonts
+======================================== */
+
+/* Duotone Regular */
+@font-face {
+    font-family: 'Recursive Duotone';
+    src: url('/fonts/Recursive/RecMonoDuotoneNerdFont-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Duotone Bold */
+@font-face {
+    font-family: 'Recursive Duotone';
+    src: url('/fonts/Recursive/RecMonoDuotoneNerdFont-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Duotone Italic */
+@font-face {
+    font-family: 'Recursive Duotone';
+    src: url('/fonts/Recursive/RecMonoDuotoneNerdFont-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+/* Duotone Bold Italic */
+@font-face {
+    font-family: 'Recursive Duotone';
+    src: url('/fonts/Recursive/RecMonoDuotoneNerdFont-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* ========================================
+   Recursive Small Casual Fonts
+======================================== */
+
+/* Small Casual Regular */
+@font-face {
+    font-family: 'Recursive Sm Casual';
+    src: url('/fonts/Recursive/RecMonoSmCasualNerdFont-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Small Casual Bold */
+@font-face {
+    font-family: 'Recursive Sm Casual';
+    src: url('/fonts/Recursive/RecMonoSmCasualNerdFont-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Small Casual Italic */
+@font-face {
+    font-family: 'Recursive Sm Casual';
+    src: url('/fonts/Recursive/RecMonoSmCasualNerdFont-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+/* Small Casual Bold Italic */
+@font-face {
+    font-family: 'Recursive Sm Casual';
+    src: url('/fonts/Recursive/RecMonoSmCasualNerdFont-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}

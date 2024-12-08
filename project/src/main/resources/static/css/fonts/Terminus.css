@@ -1,0 +1,95 @@
+/* Terminus Regular */
+@font-face {
+    font-family: 'Terminus';
+    src: url('/fonts/Terminus/TerminessNerdFont-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Terminus Bold */
+@font-face {
+    font-family: 'Terminus';
+    src: url('/fonts/Terminus/TerminessNerdFont-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Terminus Italic */
+@font-face {
+    font-family: 'Terminus';
+    src: url('/fonts/Terminus/TerminessNerdFont-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+/* Terminus Bold Italic */
+@font-face {
+    font-family: 'Terminus';
+    src: url('/fonts/Terminus/TerminessNerdFont-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* Terminus Mono Regular */
+@font-face {
+    font-family: 'TerminusMono';
+    src: url('/fonts/Terminus/TerminessNerdFontMono-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Terminus Mono Bold */
+@font-face {
+    font-family: 'TerminusMono';
+    src: url('/fonts/Terminus/TerminessNerdFontMono-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Terminus Mono Italic */
+@font-face {
+    font-family: 'TerminusMono';
+    src: url('/fonts/Terminus/TerminessNerdFontMono-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+/* Terminus Mono Bold Italic */
+@font-face {
+    font-family: 'TerminusMono';
+    src: url('/fonts/Terminus/TerminessNerdFontMono-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* Terminus Proportional Regular */
+@font-face {
+    font-family: 'TerminusPropo';
+    src: url('/fonts/Terminus/TerminessNerdFontPropo-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Terminus Proportional Bold */
+@font-face {
+    font-family: 'TerminusPropo';
+    src: url('/fonts/Terminus/TerminessNerdFontPropo-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Terminus Proportional Italic */
+@font-face {
+    font-family: 'TerminusPropo';
+    src: url('/fonts/Terminus/TerminessNerdFontPropo-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+/* Terminus Proportional Bold Italic */
+@font-face {
+    font-family: 'TerminusPropo';
+    src: url('/fonts/Terminus/TerminessNerdFontPropo-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}

@@ -1,0 +1,47 @@
+/* BigBlueTermPlus Regular */
+@font-face {
+    font-family: 'BigBlueTermPlus';
+    src: url('/fonts/BigBlueTerminal/BigBlueTermPlusNerdFont-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* BigBlueTermPlus Mono Regular */
+@font-face {
+    font-family: 'BigBlueTermPlusMono';
+    src: url('/fonts/BigBlueTerminal/BigBlueTermPlusNerdFontMono-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* BigBlueTermPlus Proportional Regular */
+@font-face {
+    font-family: 'BigBlueTermPlusPropo';
+    src: url('/fonts/BigBlueTerminal/BigBlueTermPlusNerdFontPropo-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* BigBlueTerm437 Proportional Regular */
+@font-face {
+    font-family: 'BigBlueTerm437Propo';
+    src: url('/fonts/BigBlueTerminal/BigBlueTerm437NerdFontPropo-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* BigBlueTerm437 Regular */
+@font-face {
+    font-family: 'BigBlueTerm437';
+    src: url('/fonts/BigBlueTerminal/BigBlueTerm437NerdFont-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* BigBlueTerm437 Mono Regular */
+@font-face {
+    font-family: 'BigBlueTerm437Mono';
+    src: url('/fonts/BigBlueTerminal/BigBlueTerm437NerdFontMono-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

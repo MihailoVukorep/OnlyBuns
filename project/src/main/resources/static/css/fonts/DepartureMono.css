@@ -1,0 +1,23 @@
+/* DepartureMono Proportional Regular */
+@font-face {
+    font-family: 'DepartureMonoPropo';
+    src: url('/fonts/DepartureMono/DepartureMonoNerdFontPropo-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* DepartureMono Regular */
+@font-face {
+    font-family: 'DepartureMono';
+    src: url('/fonts/DepartureMono/DepartureMonoNerdFont-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* DepartureMono Mono Regular */
+@font-face {
+    font-family: 'DepartureMonoMono';
+    src: url('/fonts/DepartureMono/DepartureMonoNerdFontMono-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}

@@ -1,3 +1,9 @@
+@import url('/css/fonts/BigBlueTerm.css');
+@import url('/css/fonts/DepartureMono.css');
+/* @import url('/css/fonts/OpenDyslexic.css'); */
+/* @import url('/css/fonts/RecMonoCasual.css'); */
+/* @import url('/css/fonts/Terminus.css'); */
+
 :root {
     --var-color-white: #f8f8f2;
     --var-color-cyan: #5ac0cc;
@@ -36,19 +42,18 @@ html {
     background-image: url("/img/bg1.png");
     background-color: black;
     background-repeat: auto;
+    font-family: 'Recursive Casual Mono', monospace;
 }
 
-
-body {
-    background-color: transparent;
+h1 {
+    font-family: 'BigBlueTermPlus', sans-serif;
 }
 
 body {
     margin: 0;
-    width: 100%;
-    height: 100%;
+    padding: 0;
+    background-color: transparent;
 }
-
 
 /* NAVBAR */
 #navbar {

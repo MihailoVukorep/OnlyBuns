@@ -1,0 +1,143 @@
+/* OpenDyslexic Regular */
+@font-face {
+    font-family: 'OpenDyslexic';
+    src: url('/fonts/OpenDyslexic/OpenDyslexicNerdFont-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* OpenDyslexic Bold */
+@font-face {
+    font-family: 'OpenDyslexic';
+    src: url('/fonts/OpenDyslexic/OpenDyslexicNerdFont-Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* OpenDyslexic Italic */
+@font-face {
+    font-family: 'OpenDyslexic';
+    src: url('/fonts/OpenDyslexic/OpenDyslexicNerdFont-Italic.otf') format('opentype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+/* OpenDyslexic Bold Italic */
+@font-face {
+    font-family: 'OpenDyslexic';
+    src: url('/fonts/OpenDyslexic/OpenDyslexicNerdFont-BoldItalic.otf') format('opentype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* OpenDyslexic Mono Regular */
+@font-face {
+    font-family: 'OpenDyslexicMono';
+    src: url('/fonts/OpenDyslexic/OpenDyslexicMNerdFontMono-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* OpenDyslexic Mono Proportional Regular */
+@font-face {
+    font-family: 'OpenDyslexicMonoPropo';
+    src: url('/fonts/OpenDyslexic/OpenDyslexicMNerdFontPropo-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* OpenDyslexic Proportional Regular */
+@font-face {
+    font-family: 'OpenDyslexicPropo';
+    src: url('/fonts/OpenDyslexic/OpenDyslexicNerdFontPropo-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* OpenDyslexic Proportional Bold */
+@font-face {
+    font-family: 'OpenDyslexicPropo';
+    src: url('/fonts/OpenDyslexic/OpenDyslexicNerdFontPropo-Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* OpenDyslexic Proportional Italic */
+@font-face {
+    font-family: 'OpenDyslexicPropo';
+    src: url('/fonts/OpenDyslexic/OpenDyslexicNerdFontPropo-Italic.otf') format('opentype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+/* OpenDyslexic Proportional Bold Italic */
+@font-face {
+    font-family: 'OpenDyslexicPropo';
+    src: url('/fonts/OpenDyslexic/OpenDyslexicNerdFontPropo-BoldItalic.otf') format('opentype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* OpenDyslexic Alternate Regular */
+@font-face {
+    font-family: 'OpenDyslexicAlt';
+    src: url('/fonts/OpenDyslexic/OpenDyslexicAltNerdFont-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* OpenDyslexic Alternate Bold */
+@font-face {
+    font-family: 'OpenDyslexicAlt';
+    src: url('/fonts/OpenDyslexic/OpenDyslexicAltNerdFont-Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* OpenDyslexic Alternate Italic */
+@font-face {
+    font-family: 'OpenDyslexicAlt';
+    src: url('/fonts/OpenDyslexic/OpenDyslexicAltNerdFont-Italic.otf') format('opentype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+/* OpenDyslexic Alternate Bold Italic */
+@font-face {
+    font-family: 'OpenDyslexicAlt';
+    src: url('/fonts/OpenDyslexic/OpenDyslexicAltNerdFont-BoldItalic.otf') format('opentype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* OpenDyslexic Alternate Proportional Regular */
+@font-face {
+    font-family: 'OpenDyslexicAltPropo';
+    src: url('/fonts/OpenDyslexic/OpenDyslexicAltNerdFontPropo-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* OpenDyslexic Alternate Proportional Bold */
+@font-face {
+    font-family: 'OpenDyslexicAltPropo';
+    src: url('/fonts/OpenDyslexic/OpenDyslexicAltNerdFontPropo-Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* OpenDyslexic Alternate Proportional Italic */
+@font-face {
+    font-family: 'OpenDyslexicAltPropo';
+    src: url('/fonts/OpenDyslexic/OpenDyslexicAltNerdFontPropo-Italic.otf') format('opentype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+/* OpenDyslexic Alternate Proportional Bold Italic */
+@font-face {
+    font-family: 'OpenDyslexicAltPropo';
+    src: url('/fonts/OpenDyslexic/OpenDyslexicAltNerdFontPropo-BoldItalic.otf') format('opentype');
+    font-weight: bold;
+    font-style: italic;
+}

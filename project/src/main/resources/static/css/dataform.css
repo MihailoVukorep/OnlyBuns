@@ -17,6 +17,7 @@
 }
 
 .dataform input[type="text"], .dataform input[type="password"] {
+    font-family: inherit;
     color: white;
     background-color: transparent;
     font-size: inherit;
@@ -37,6 +38,7 @@
 }
 
 .dataform button  {
+    font-family: inherit;
     font-size: inherit;
     margin: 30px auto auto auto;
     display: block;
