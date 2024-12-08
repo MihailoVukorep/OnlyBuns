@@ -18,7 +18,7 @@
     background-color: var(--var-color-bg-sub1);
     margin: 3px;
 }
-
+ 
 #posts.thread .post {
     display: block;
     border: 1px solid var(--var-color-border-transwhite);
