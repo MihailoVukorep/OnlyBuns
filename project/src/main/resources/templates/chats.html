@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="/css/main.css">
+
+    <title>OnlyBuns - Chat</title>
+    <link rel="stylesheet" href="/css/chats.css">
+
+    <link rel="stylesheet" href="/css/animations/rainbow_h1.css">
+    
+    <script defer type="text/javascript" src="/js/chats.js"></script>
+</head>
+
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <div id="chat">
+        <div id="chats_cont">
+            <h2>💬 Chats:</h2>
+            <div id="chats">
+    
+            </div>
+        </div>
+
+        <div id="msgs_cont">
+            <h2>📜 Messages:</h2>
+            <div id="msgs">
+    
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

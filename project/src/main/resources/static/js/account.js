@@ -25,8 +25,3 @@ async function follow(id) {
 
     // TODO: maybe refresh page so the counter updates, or do it manually
 }
-
-
-function message(id) {
-    window.location.href = `/accounts/${id}/message`;
-}

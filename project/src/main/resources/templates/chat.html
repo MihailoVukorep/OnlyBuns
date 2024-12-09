@@ -2,36 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 
 <head>
-    <meta charset="UTF-8">
-    <link rel="icon" type="image/x-icon" href="/img/favicon.png">
-    <link rel="stylesheet" href="/css/main.css">
-
     <title>OnlyBuns - Chat</title>
-    <link rel="stylesheet" href="/css/chat.css">
-
-    <link rel="stylesheet" href="/css/animations/rainbow_h1.css">
-    
-    <script defer type="text/javascript" src="/js/chat.js"></script>
 </head>
 
 <body>
-    <div th:replace="~{fragments/navbar :: navbar}"></div>
-
-    <div id="chat">
-        <div id="chats_cont">
-            <h2>💬 Chats:</h2>
-            <div id="chats">
-    
-            </div>
-        </div>
-
-        <div id="msgs_cont">
-            <h2>📜 Messages:</h2>
-            <div id="msgs">
-    
-            </div>
-        </div>
-    </div>
+    <script>
+        async function api_chat() {
+            await fetch('/api/logout', { method: 'POST' });
+            window.location.href = "/chats";
+        }
+        api_chat();
+    </script>
 </body>
-
 </html>

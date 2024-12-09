@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -19,13 +20,23 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
+    private String name;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "chat_participants",
+            name = "chat_members",
             joinColumns = @JoinColumn(name = "chat_id"),
             inverseJoinColumns = @JoinColumn(name = "account_id")
     )
-    private List<Account> participants;
+    private List<Account> members;
+
+    public Chat(Account sender, Account receiver) {
+        this.name = sender.getFirstName() + ", " + receiver.getUserName();
+        this.members = new ArrayList<>();
+        members.add(sender);
+        members.add(receiver);
+    }
 
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Message> messages;

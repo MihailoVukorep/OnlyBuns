@@ -84,7 +84,9 @@
                         th:onclick="'follow(' + ${account.id} + ');'" title="Follow">
                     </button>
         
-                    <button class="account_button" id="btn_message" th:onclick="'message(' + ${account.id} + ');'" title="Message">📨 Message</button>
+                    <a th:href="'/accounts/' + ${account.id} + '/chat'">
+                        <button class="account_button" id="btn_message" title="Message">📨 Message</button>
+                    </a>
         
                     <script defer type="text/javascript" src="/js/account.js"></script>
                 </div>

@@ -33,7 +33,8 @@ public class Controller_Account {
 
     @GetMapping("/logout")
     public String logout(HttpSession session, Model model) {
-        return "logout.html";
+        service_account.post_api_logout(session);
+        return "redirect:/";
     }
 
     // ACCOUNT STUFF
