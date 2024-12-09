@@ -117,7 +117,7 @@
 .tab {
     font-size: x-large;
     padding: 10px 50px;
-    margin: 0 5px;
+    margin: 0 30px;
     border-radius: 20px 20px 0 0;
     cursor: pointer;
     border: 1px dashed var(--var-color-pink-4-trans);
@@ -125,6 +125,16 @@
     background-color: transparent;
     position: relative; /* Required for layering */
     z-index: 1; /* Default z-index for inactive tabs */
+    transform: scaleX(1) scaleY(1) translateY(0);
+    transition: transform 0.1s ease;
+}
+
+.tab:hover {
+    transform: scaleX(1.09) scaleY(1.09) translateY(-2px);
+}
+
+.tab:active {
+    transform: scaleX(1.3) scaleY(1.3) translateY(-6px);
 }
 
 .tab.active {
