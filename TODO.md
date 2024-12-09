@@ -7,6 +7,9 @@
 - admin/accounts search needs paging
 - remove all exceptions -- use web error codes
 
+- fix popup css
+- admin account search: tymeleaf needs to draw what you're searching inside textbox
+
 # look:
 - fix error page navbar
 - fix error page buttons
