@@ -27,31 +27,31 @@
             <table>
                 <tr>
                     <th><span class="title-word title-word-1">✍️ First Name:</span></th>
-                    <td><input type="text" id="firstName" name="firstName" placeholder="Enter first name"></td>
+                    <td><input type="text" id="firstName" name="firstName" placeholder="Enter first name" th:value="${firstName}"></td>
                 </tr>
                 <tr>
                     <th><span class="title-word title-word-2">✍️ Last Name:</span></th>
-                    <td><input type="text" id="lastName" name="lastName" placeholder="Enter last name"></td>
+                    <td><input type="text" id="lastName" name="lastName" placeholder="Enter last name" th:value="${lastName}"></td>
                 </tr>
                 <tr>
                     <th><span class="title-word title-word-3">👤 Username:</span></th>
-                    <td><input type="text" id="userName" name="userName" placeholder="Enter username"></td>
+                    <td><input type="text" id="userName" name="userName" placeholder="Enter username" th:value="${userName}"></td>
                 </tr>
                 <tr>
                     <th><span class="title-word title-word-4">📧 Email:</span></th>
-                    <td><input type="email" id="email" name="email" placeholder="Enter email address"></td>
+                    <td><input type="email" id="email" name="email" placeholder="Enter email address" th:value="${email}"></td>
                 </tr>
                 <tr>
                     <th><span class="title-word title-word-5">📍 Address:</span></th>
-                    <td><input type="text" id="address" name="address" placeholder="Enter address"></td>
+                    <td><input type="text" id="address" name="address" placeholder="Enter address" th:value="${address}"></td>
                 </tr>
                 <tr>
                     <th><span class="title-word title-word-6">🔻 Minimum Post Count:</span></th>
-                    <td><input type="number" id="minPostCount" name="minPostCount" placeholder="0" min="0"></td>
+                    <td><input type="number" id="minPostCount" name="minPostCount" placeholder="0" min="0" th:value="${minPostCount}"></td>
                 </tr>
                 <tr>
                     <th><span class="title-word title-word-7">🔺 Maximum Post Count:</span></th>
-                    <td><input type="number" id="maxPostCount" name="maxPostCount" placeholder="1000" min="0"></td>
+                    <td><input type="number" id="maxPostCount" name="maxPostCount" placeholder="1000" min="0" th:value="${maxPostCount}"></td>
                 </tr>
                 <tr>
                     <td colspan="2" style="text-align: center;">

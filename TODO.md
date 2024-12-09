@@ -7,8 +7,6 @@
 - admin/accounts search needs paging
 - remove all exceptions -- use web error codes
 
-- admin account search: tymeleaf needs to draw what you're searching inside textbox
-
 # NEW CSS NEEDED:
 - popup
 - comment form

@@ -43,6 +43,16 @@ public class Controller_Admin {
         // Fetch filtered and sorted accounts
         model.addAttribute("accounts", service_admin.getFilteredAndSortedAccounts(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount, sort));
         model.addAttribute("currentSort", sort);
+
+        // Add filter values to the model
+        model.addAttribute("firstName", firstName);
+        model.addAttribute("lastName", lastName);
+        model.addAttribute("userName", userName);
+        model.addAttribute("email", email);
+        model.addAttribute("address", address);
+        model.addAttribute("minPostCount", minPostCount);
+        model.addAttribute("maxPostCount", maxPostCount);
+
         return "admin_accounts.html";
     }
 }
