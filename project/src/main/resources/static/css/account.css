@@ -155,6 +155,10 @@
     margin-bottom: 20px;
 }
 
+#account_buttons a {
+    text-decoration: none;
+}
+
 .account_button {
     font-family: inherit;
     font-size: inherit;
