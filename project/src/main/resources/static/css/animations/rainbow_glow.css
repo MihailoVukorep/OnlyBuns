@@ -1,0 +1,39 @@
+/* h1 animation */
+h1 {
+    position: relative;
+    font-size: 30px;
+    color: #fff;
+    display: inline-block;
+    animation: textclip 2s linear infinite;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 1), /* Initial red shadow */
+                 0 0 15px rgba(255, 165, 0, 1), /* Initial orange shadow */
+                 0 0 20px rgba(255, 255, 0, 1), /* Initial yellow shadow */
+                 0 0 25px rgba(0, 255, 0, 1),   /* Initial green shadow */
+                 0 0 30px rgba(0, 0, 255, 1),   /* Initial blue shadow */
+                 0 0 35px rgba(75, 0, 130, 1),  /* Initial indigo shadow */
+                 0 0 40px rgba(238, 130, 238, 1); /* Initial violet shadow */
+}
+
+/* Animation for the rainbow shadow effect */
+@keyframes textclip {
+    0% {
+        text-shadow: 
+            2px 2px 10px rgba(255, 0, 0, 1),   /* red */
+            2px 2px 15px rgba(255, 165, 0, 1), /* orange */
+            2px 2px 20px rgba(255, 255, 0, 1), /* yellow */
+            2px 2px 25px rgba(0, 255, 0, 1),   /* green */
+            2px 2px 30px rgba(0, 0, 255, 1),   /* blue */
+            2px 2px 35px rgba(75, 0, 130, 1),  /* indigo */
+            2px 2px 40px rgba(238, 130, 238, 1); /* violet */
+    }
+    100% {
+        text-shadow: 
+            2px 2px 10px rgba(255, 0, 0, 1),   /* red */
+            2px 2px 15px rgba(255, 165, 0, 1), /* orange */
+            2px 2px 20px rgba(255, 255, 0, 1), /* yellow */
+            2px 2px 25px rgba(0, 255, 0, 1),   /* green */
+            2px 2px 30px rgba(0, 0, 255, 1),   /* blue */
+            2px 2px 35px rgba(75, 0, 130, 1),  /* indigo */
+            2px 2px 40px rgba(238, 130, 238, 1); /* violet */
+    }
+}
