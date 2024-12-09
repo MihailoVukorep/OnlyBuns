@@ -89,6 +89,7 @@
 .liked {
     background-color: rgba(255, 192, 203, 0.372) !important;
     border-color: rgba(255, 192, 203) !important;
+    border-radius: 40px;
 }
 
 .post_account_link {
