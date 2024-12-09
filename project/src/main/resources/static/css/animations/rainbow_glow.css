@@ -1,7 +1,6 @@
 /* h1 animation */
-h1 {
+h1, h2 {
     position: relative;
-    font-size: 30px;
     color: #fff;
     display: inline-block;
     animation: textclip 2s linear infinite;
@@ -12,6 +11,14 @@ h1 {
                  0 0 30px rgba(0, 0, 255, 1),   /* Initial blue shadow */
                  0 0 35px rgba(75, 0, 130, 1),  /* Initial indigo shadow */
                  0 0 40px rgba(238, 130, 238, 1); /* Initial violet shadow */
+}
+
+h1 {
+    font-size: 30px;
+}
+
+h2 {
+    font-size: 15px;
 }
 
 /* Animation for the rainbow shadow effect */

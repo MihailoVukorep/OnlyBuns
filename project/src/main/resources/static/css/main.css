@@ -111,15 +111,10 @@ body {
 h1,
 h2 {
     text-align: center;
-    text-decoration: double;
     border-bottom: 3px var(--var-color-border-transwhite) dotted;
     margin: 10px auto;
     width: 100%;
     padding: 0px;
-}
-
-h2 {
-    text-align: left !important;
 }
 
 .onlybuns_account {
