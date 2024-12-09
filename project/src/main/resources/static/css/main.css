@@ -23,7 +23,7 @@
     --var-color-bg-link: rgba(61, 89, 122, 0.372);
 
     --var-color-border-gray: #505050;
-    --var-color-border-transwhite: rgba(255, 255, 255, 0.5);
+    --var-color-barely: #ffffff20;;
 
     --var-color-pink-1: #ff92ee;
     --var-color-pink-2: #fa6cff;
@@ -111,7 +111,7 @@ body {
 h1,
 h2 {
     text-align: center;
-    border-bottom: 3px var(--var-color-border-transwhite) dotted;
+    border-bottom: 3px dotted var(--var-color-barely);
     margin: 10px auto;
     width: 100%;
     padding: 0px;
