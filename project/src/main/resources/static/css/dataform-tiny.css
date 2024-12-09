@@ -5,6 +5,9 @@
     margin: 30px auto;
     width: fit-content;
     padding: 4px;
+    background: rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 }
 
 .dataform-tiny th {

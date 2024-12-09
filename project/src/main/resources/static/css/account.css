@@ -23,11 +23,13 @@
 
 .account_info {
     display: inline-block;
-    background: var(--var-color-bg-sub1);
     padding: 10px;
     box-shadow: 0px 0px 10px 5px var(--var-color-pink-3-trans);
     margin: 10px;
     height: fit-content;
+    background: rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 }
 
 #account_names {
