@@ -20,7 +20,6 @@
 .account_content {
     display: flex;
     justify-content: left;
-    align-content: left;
     gap: 5px;
 }
 
@@ -35,27 +34,31 @@
 
 .account_info {
     display: inline-block;
+    width: 100%;
 }
 
 .account_counters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 80%;
+    font-size: large;
     color: var(--var-color-white);
     margin: 1px;
     padding: 1px;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    justify-content: space-between;
+
 }
 
 .account_counter {
+    width: fit-content;
+    display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: row;
-    gap: 1px;
+    gap: 5px;
 }
 
-.account_counters_number { font-size: small; }
-.account_counters_label { font-size: smaller; }
 .account_firstName, .account_lastName { color: var(--var-color-green); }
 .account_userName { color: var(--var-color-cyan); }
 .account_email { color: var(--var-color-lime); }
