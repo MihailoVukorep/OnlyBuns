@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="/css/animations/blur_appear.css">
 
     <script defer type="text/javascript" src="/js/popup.js"></script>
+
+    <script type="text/javascript" src="/js/iframe_init.js"></script>
 </head>
 
 <body>
@@ -111,6 +113,10 @@
     <iframe id="account_iframe" th:src="${request.requestURL + '/posts'}"></iframe>
 
     <script>
+        iframe_init("account_iframe");
+    </script>
+
+    <script>
         function navigateIframe(url, tabElement) {
             // Change iframe src
             document.getElementById('account_iframe').src = url;
@@ -120,12 +126,6 @@
             tabs.forEach(tab => tab.classList.remove('active'));
             tabElement.classList.add('active');
         }
-    </script>
-
-    <script>
-        function resizeIframeToFitContent(iframe) {iframe.style.height = iframe.contentWindow.document.body.scrollHeight + "px";}
-        const iframe = document.getElementById('account_iframe');
-        iframe.onload = function () {resizeIframeToFitContent(iframe);};
     </script>
 
     <div th:replace="~{fragments/popup :: popup}"></div>

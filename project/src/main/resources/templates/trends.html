@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="/css/trends.css">
     
     <link rel="stylesheet" href="/css/animations/rainbow_h1.css">
+
+    <script type="text/javascript" src="/js/iframe_init.js"></script>
 </head>
 
 <body>
@@ -18,23 +20,15 @@
 
     <h1>📈 Trends 📈</h1>
 
-    <iframe id="weekly" src="/trends/weekly" title="weekly posts"></iframe> 
-    <iframe id="top" src="/trends/top" title="top posts"></iframe> 
-    <iframe id="likers" src="/trends/likers" title="likers"></iframe> 
+    <iframe id="weekly" src="/trends/weekly" onload="iframe_init(this)" title="weekly posts"></iframe> 
+    <iframe id="top" src="/trends/top" onload="iframe_init(this)" title="top posts"></iframe> 
+    <iframe id="likers" src="/trends/likers" onload="iframe_init(this)" title="likers"></iframe> 
 
     <script>
-        function resizeIframeToFitContent(iframe) { iframe.style.height = (iframe.contentWindow.document.body.scrollHeight + 50) + "px"; }
-
-        function resize(name) {
-            const iframe = document.getElementById(name);
-            iframe.onload = function () { resizeIframeToFitContent(iframe); };
-        }
-
-        resize("weekly");
-        resize("top");
-        resize("likers");
+        iframe_init("weekly");
+        iframe_init("top");
+        iframe_init("likers");
     </script>
-
 </body>
 
 </html>
