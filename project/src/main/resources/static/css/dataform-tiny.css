@@ -36,10 +36,22 @@
     opacity: 0.4;
 }
 
+.dataform-tiny-buttons {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.dataform-tiny-buttons a {
+    text-decoration: none;
+}
+
 .dataform-tiny button  {
     font-family: inherit;
     font-size: inherit;
-    margin: 30px auto auto auto;
+    margin: 15px 15px 0 15px;
     display: block;
     width: fit-content;
     cursor: pointer;

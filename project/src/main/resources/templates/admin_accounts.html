@@ -53,12 +53,15 @@
                     <th><span class="title-word title-word-7">🔺 Maximum Post Count:</span></th>
                     <td><input type="number" id="maxPostCount" name="maxPostCount" placeholder="1000" min="0" th:value="${maxPostCount}"></td>
                 </tr>
-                <tr>
-                    <td colspan="2" style="text-align: center;">
-                        <button type="submit">Search</button>
-                    </td>
-                </tr>
             </table>
+
+            <div class="dataform-tiny-buttons">
+                <button type="submit">Search</button>
+                <button type="reset">Reset Input</button>
+                <a href="/admin/accounts">
+                    <button type="button">Clear All</button>
+                </a>
+            </div>
         </form>
     
         <div id="sort_controls">
