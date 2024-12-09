@@ -86,11 +86,11 @@
 }
 
 #account_followersCount, #tab_followers {
-    color: var(--var-color-green);
+    color: var(--var-color-orange);
 }
 
 #account_followingCount, #tab_following {
-    color: var(--var-color-orange);
+    color: var(--var-color-green);
 }
 
 #account_created {
@@ -156,25 +156,31 @@
 }
 
 .account_button {
-    display: inline-block;
-    font-size: 16px;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 8px;
+    display: block;
+    width: fit-content;
     cursor: pointer;
     text-decoration: none;
-    font-weight: bolder;
-    color: white;
-    padding: 5px;
-    border: var(--var-color-border-gray) 1px solid;
-    border-radius: 15px;
-    background-color: var(--var-color-bg-link);
+    color: var(--var-color-white);
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(48, 25, 52, 1);
+    background: linear-gradient(to bottom, rgba(48, 25, 52, 1), rgba(48, 25, 52, 0.3));
+    transform: scaleX(1) scaleY(1);
+    transition: transform 0.1s ease;
+}
+
+.account_button:hover {
+    transform: scaleX(1.1) scaleY(1.1);
 }
 
 .account_button:active {
-    background-color: #151515;
-    box-shadow: 1px 1px 1px #616161;
-    transform: translateX(2px) translateY(2px);
+    transform: scaleX(1.2) scaleY(1.2);
 }
 
 .following {
-    background-color: rgba(187, 255, 185, 0.372) !important;
     border-color: rgb(192, 255, 213) !important;
+    background: linear-gradient(to bottom, rgba(43, 77, 0, 0.747), rgba(126, 212, 104, 0.3));
 }

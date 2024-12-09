@@ -55,13 +55,11 @@
 }
 
 .dataform button:hover {
-    transform: scaleY(1.1) scaleX(1.1);
+    transform: scaleX(1.1) scaleY(1.1);
 }
 
 .dataform button:active {
-    background-color: #151515;
-    box-shadow: 1px 1px 1px #303030;
-    transform: translateX(2px) translateY(2px);
+    transform: scaleX(1.2) scaleY(1.2);
 }
 
 .dataform p {
