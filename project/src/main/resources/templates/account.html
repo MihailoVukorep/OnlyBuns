@@ -27,75 +27,83 @@
             <img th:src="${account.avatar}" id="account_avatar">
         </div>
 
-        <div class="appear" id="account_info">
-            <div id="account_names">
-                <span id="account_roles"></span>
-                <span>👤</span>
-                <span th:text="${account.firstName}" id="account_firstName"></span>
-                <span th:text="${account.lastName}" id="account_lastName"></span>
-                <span>(</span><span th:text="${account.userName}" id="account_userName"></span><span>)</span>
-            </div>
-
-            <div>
-                <span>📧</span>
-                <span id="account_email" th:text="${account.email}"></span>
-            </div>
-
-            <div>
-                <div>
-                    <span>📍</span>
-                    <span id="account_address" th:text="${account.address}"></span>
+        <div class="account_info appear">
+            <span>
+                <div id="account_names">
+                    <span id="account_roles"></span>
+                    <span>👤</span>
+                    <span th:text="${account.firstName}" id="account_firstName"></span>
+                    <span th:text="${account.lastName}" id="account_lastName"></span>
+                    <span>(</span><span th:text="${account.userName}" id="account_userName"></span><span>)</span>
                 </div>
+    
                 <div>
-                    <span>🗣</span>
-                    <span id="account_bio" th:text="${account.bio}"></span>
+                    <span>📧</span>
+                    <span id="account_email" th:text="${account.email}"></span>
                 </div>
-            </div>
+    
+                <div>
+                    <div>
+                        <span>📍</span>
+                        <span id="account_address" th:text="${account.address}"></span>
+                    </div>
+                    <div>
+                        <span>🗣</span>
+                        <span id="account_bio" th:text="${account.bio}"></span>
+                    </div>
+                </div>
 
-            <table id="account_counters_table">
-                <tr>
-                    <th><span>📰 Posts</span></th>
-                    <th><span>💗 Likes</span></th>
-                    <th><span>🙇 Followers</span></th>
-                    <th><span>🧎 Following</span></th>
-                </tr>
-                <tr>
-                    <td><span id="account_postsCount" th:text="${account.postsCount}"></span></td>
-                    <td><span id="account_likesCount" th:text="${account.likesCount}"></span></td>
-                    <td><span id="account_followersCount" th:text="${account.followersCount}"></span></td>
-                    <td><span id="account_followingCount" th:text="${account.followingCount}"></span></td>
-                </tr>
-            </table>
+                <div id="account_counters">
+                    <span class="account_counter" id="account_postsCount">
+                        <div class="account_counters_number" th:text="${account.postsCount}"></div>
+                        <div class="account_counters_label">📰 Posts</div>
+                    </span>
+        
+                    <span class="account_counter" id="account_likesCount">
+                        <div class="account_counters_number" th:text="${account.likesCount}"></div>
+                        <div class="account_counters_label">💗 Likes</div>
+                    </span>
+        
+                    <span class="account_counter" id="account_followersCount">
+                        <div class="account_counters_number" th:text="${account.followersCount}"></div>
+                        <div class="account_counters_label">🙇 Followers</div>
+                    </span>
+        
+                    <span class="account_counter" id="account_followingCount">
+                        <div class="account_counters_number" th:text="${account.followingCount}"></div>
+                        <div class="account_counters_label">🧎 Following</div>
+                    </span>
+                </div>
+    
+                <div th:if="${!account.isMyAccount}" id="account_buttons">
+                    <button class="account_button"
+                        id="btn_follow"
+                        th:classappend="${account.isFollowing} ? 'following' : ''"
+                        th:text="${account.isFollowing ? '✅ Following' : '➕ Follow'}"
+                        th:onclick="'follow(' + ${account.id} + ');'" title="Follow">
+                    </button>
+        
+                    <button class="account_button" id="btn_message" th:onclick="'message(' + ${account.id} + ');'" title="Message">📨 Message</button>
+        
+                    <script defer type="text/javascript" src="/js/account.js"></script>
+                </div>
 
-            <div th:if="${!account.isMyAccount}" id="account_buttons">
-                <button class="account_button"
-                    id="btn_follow"
-                    th:classappend="${account.isFollowing} ? 'following' : ''"
-                    th:text="${account.isFollowing ? '✅ Following' : '➕ Follow'}"
-                    th:onclick="'follow(' + ${account.id} + ');'" title="Follow">
-                </button>
-
-                <button class="account_button" id="btn_message" th:onclick="'message(' + ${account.id} + ');'" title="Message">📨 Message</button>
-
-                <script defer type="text/javascript" src="/js/account.js"></script>
-            </div>
-
-            <div id="account_created">
-                <span>📅</span>
-                <span th:text="${account.createdDateStr}"></span>
-            </div>
+                <div id="account_created">
+                    <span>📅</span>
+                    <span th:text="${account.createdDateStr}"></span>
+                </div>
+            </span>
         </div>
-
     </div>
 
     <div class="tab-container">
-        <div class="tab active" 
+        <div id="tab_posts" class="tab active" 
              th:data-url="${request.requestURL + '/posts'}" 
              th:onclick="'navigateIframe(this.dataset.url, this);'">Posts</div>
-        <div class="tab" 
+        <div id="tab_followers" class="tab" 
              th:data-url="${request.requestURL + '/followers'}" 
              th:onclick="'navigateIframe(this.dataset.url, this);'">Followers</div>
-        <div class="tab" 
+        <div id="tab_following" class="tab" 
              th:data-url="${request.requestURL + '/following'}" 
              th:onclick="'navigateIframe(this.dataset.url, this);'">Following</div>
     </div>

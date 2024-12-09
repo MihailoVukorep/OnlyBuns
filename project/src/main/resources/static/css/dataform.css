@@ -10,7 +10,7 @@
 .dataform th {
     font-size: inherit;
     text-align: right;
-    color: gray;
+    color: var(--var-color-pink-4-trans);
     border-color: rgb(64, 68, 75);
     border-radius: 50px;
     width: fit-content;
@@ -22,18 +22,18 @@
     background-color: transparent;
     font-size: inherit;
     border: none;
-    border-bottom: 1px dashed gray;
+    border-bottom: 1px dashed var(--var-color-pink-4-trans);
     display: block;
     padding: 10px;
 }
 
 .dataform input:focus {
-  outline: 1px dashed gray; /* Custom outline */
+  outline: 1px dashed var(--var-color-pink-4-trans); /* Custom outline */
 }
 
 
 .dataform ::placeholder {
-    color: gray;
+    color: var(--var-color-pink-4-trans);
     opacity: 0.4;
 }
 
@@ -50,11 +50,12 @@
     border-radius: 20px;
     border: 1px solid rgba(48, 25, 52, 1);
     background: linear-gradient(to bottom, rgba(48, 25, 52, 1), rgba(48, 25, 52, 0.3));
-    transition: background 1s ease;
+    transform: scaleX(1) scaleY(1);
+    transition: transform 0.1s ease;
 }
 
 .dataform button:hover {
-    background: linear-gradient(to bottom, rgba(48, 25, 52, 0.3), rgba(48, 25, 52, 1));
+    transform: scaleY(1.1) scaleX(1.1);
 }
 
 .dataform button:active {

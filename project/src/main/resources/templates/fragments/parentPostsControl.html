@@ -1,7 +1,6 @@
 <div th:fragment="parentPostsControl" id="parentPostsControl" th:if="${totalPages != 0}">
     <div id="postnav">
         <span id="postnav_sort">
-            <label id="sortOptions_label" for="sortOptions">Sort by:</label>
             <form id="sortForm" method="GET">
                 <select id="sortOptions" name="sort" onchange="updateSortAndSubmit()">
                     <option value="" th:selected="${currentSort == ''}"></option>

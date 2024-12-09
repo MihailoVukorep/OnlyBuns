@@ -176,15 +176,10 @@
 }
 
 .page-item.disabled .page-link {
-    color: #6c757d; /* Gray color */
+    color: var(--var-color-pink-4-trans);
     cursor: not-allowed; /* Prevent pointer */
     text-decoration: none; /* Remove underline */
     pointer-events: none; /* Disable interaction */
-}
-
-#sortOptions_label {
-    font-family: inherit;
-    font-size: xx-large;
 }
 
 #sortOptions {

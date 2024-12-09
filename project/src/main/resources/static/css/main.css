@@ -7,8 +7,10 @@
 :root {
     --var-color-white: #f8f8f2;
     --var-color-cyan: #5ac0cc;
+    --var-color-pink: #ff92ee;
     --var-color-purple: #ae81ff;
     --var-color-green: #2ecc71;
+    --var-color-orange: #df722a;
     --var-color-yellow: #e2db74;
     --var-color-lime: #a2cc28;
     --var-color-gray: #7d7d7d;
@@ -88,16 +90,16 @@ body {
     color: var(--var-color-white);
     padding: 5px 10px;
     border-radius: 0 0 20px 20px;
+    border-top: 0px solid rgba(48, 25, 52, 1);
     border-bottom: 1px solid rgba(48, 25, 52, 1);
     background: linear-gradient(to bottom, var(--var-color-darkpurple), var(--var-color-darkpurple-trans));
-    transition: background 0.5s ease; /* Smooth transition effect */
+    transform: scaleY(1) translateY(0);
+    transition: transform 0.1s ease;
 }
 
 #navbar a:hover {
-    background: linear-gradient(to bottom, var(--var-color-darkpurple-trans),  var(--var-color-darkpurple));
+    transform: scaleY(1.3) translateY(4px);
 }
-
-
 
 .blurred-box {
     background: rgba(0, 0, 0, 0.05); /* Semi-transparent white */

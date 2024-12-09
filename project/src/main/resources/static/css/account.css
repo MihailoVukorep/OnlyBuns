@@ -1,32 +1,33 @@
 #account {
-    display: block;
+    display: flex;
+    justify-content: left;
+    align-items: center;
 }
 
 #account img {
     display: inline-block;
     object-fit: cover;
     border-radius: 50%;
-    width: 250px;
-    height: 250px;
+    width: 300px;
+    height: 300px;
 }
 
 #account_image {
     display: inline-block;
-    /*! border: dotted 3px var(--var-color-border-transwhite); */
     margin: 10px;
-    padding: 10px;
-    width: 250px;
-    height: 250px;
+    width: 300px;
+    height: 300px;
     border-radius: 50%;
     background: var(--var-color-bg-sub1);
 }
 
-#account_info {
+.account_info {
     display: inline-block;
-    /*! border: double var(--var-color-border-transwhite); */
     background: var(--var-color-bg-sub1);
     padding: 10px;
-    box-shadow: 5px 5px 10px black;
+    box-shadow: 0px 0px 10px 5px var(--var-color-pink-3-trans);
+    margin: 10px;
+    height: fit-content;
 }
 
 #account_names {
@@ -50,22 +51,46 @@
     color: var(--var-color-yellow);
 }
 
-#account_counters_table {
+#account_counters {
     color: var(--var-color-white);
-    border-collapse: collapse;
-    /* Removes spacing between table cells */
-    text-align: center;
-    /* Centers text in all cells */
-    table-layout: fixed;
-    /* Ensures columns are evenly spaced */
-    margin: 2px 0;
+    margin: 1px;
+    padding: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
 }
 
-#account_counters_table th,
-#account_counters_table td {
-    padding: 2px;
-    border: 1px dotted var(--var-color-border-transwhite);
-    font-weight: bolder;
+.account_counter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 10px 20px;
+}
+
+.account_counters_number {
+    font-size: xx-large;
+}
+
+.account_counters_label {
+    font-size: small;
+}
+
+#account_postsCount, #tab_posts {
+    color: var(--var-color-purple);
+}
+
+#account_likesCount {
+    color: var(--var-color-pink);
+}
+
+#account_followersCount, #tab_followers {
+    color: var(--var-color-green);
+}
+
+#account_followingCount, #tab_following {
+    color: var(--var-color-orange);
 }
 
 #account_created {
@@ -85,7 +110,7 @@
     align-content: center;
     align-items: center;
     justify-content: left;
-    border-bottom: 1px solid gray; /* Keep the container's bottom border */
+    border-bottom: 1px solid var(--var-color-pink-4-trans); /* Keep the container's bottom border */
     position: relative; /* Ensure tabs can overlap this border */
 }
 
@@ -95,7 +120,7 @@
     margin: 0 5px;
     border-radius: 20px 20px 0 0;
     cursor: pointer;
-    border: 1px dashed var(--var-color-border-transwhite);
+    border: 1px dashed var(--var-color-pink-4-trans);
     border-bottom: none; /* Prevent individual tabs from having a bottom border */
     background-color: transparent;
     position: relative; /* Required for layering */
@@ -104,7 +129,7 @@
 
 .tab.active {
     font-weight: bolder;
-    border: 1px solid gray;
+    border: 1px solid var(--var-color-pink-4-trans);
     border-bottom: none; /* Ensure the active tab has no bottom border */
     background-color: black;
     position: relative;
@@ -123,7 +148,11 @@
 }
 
 #account_buttons {
-
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 5px;
+    margin-bottom: 20px;
 }
 
 .account_button {
