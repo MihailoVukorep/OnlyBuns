@@ -34,38 +34,26 @@
                 <div id="clock_box"></div>
             </span>
         
-            <span class="links">
+            <span id="links">
                 <a class="button-92" href="/">🏠 Home</a>
                 <a class="button-92" href="/posts">🧭 Explore</a>
 
-                <div class="links" th:if="${user != null}">
-                    <a class="button-92" href="/fyp">🫵 For You</a>
-                    <a class="button-92" href="/map">🗺️ View Map</a>
-                    <a class="button-92" href="/create">➕ Create Post</a>
-                </div>
-            </span>
-        
-            <span class="links">
-                <div th:if="${user == null}">
-                    <a class="button-92" href="/login">🔑 Log in</a>
-                    <a class="button-92" href="/register">📝 Register</a>
-                </div>
+                <a th:if="${user != null}" class="button-92" href="/fyp">🫵 For You</a>
+                <a th:if="${user != null}" class="button-92" href="/map">🗺️ View Map</a>
+                <a th:if="${user != null}" class="button-92" href="/create">➕ Create Post</a>
 
-                <div th:if="${user != null}">
-                    <a class="button-92" href="/chat">💬 Chat</a>
-                    <a class="button-92" href="/trends">📈 Trends</a>
+                <a th:if="${user == null}" class="button-92" href="/login">🔑 Log in</a>
+                <a th:if="${user == null}" class="button-92" href="/register">📝 Register</a>
 
-                    <a class="button-92" href="/user">👤 Profile</a>
-                    <a class="button-92" href="/user/update">⚙️ Settings</a>
-                    <a class="button-92" href="/logout">🚪 Log out</a>
-                </div>
-            </span>
+                <a th:if="${user != null}" class="button-92" href="/chat">💬 Chat</a>
+                <a th:if="${user != null}" class="button-92" href="/trends">📈 Trends</a>
 
-            <span th:if="${user != null}">
-                <div th:if="${user.isAdmin}">
-                    <a class="button-92" href="/admin/accounts">👥 Accounts</a>
-                    <a class="button-92" href="/admin/manage">🛠️ Management</a>
-                </div>
+                <a th:if="${user != null}" class="button-92" href="/user">👤 Profile</a>
+                <a th:if="${user != null}" class="button-92" href="/user/update">⚙️ Settings</a>
+                <a th:if="${user != null}" class="button-92" href="/logout">🚪 Log out</a>
+
+                <a th:if="${user != null and user.isAdmin}" class="button-92" href="/admin/accounts">👥 Accounts</a>
+                <a th:if="${user != null and user.isAdmin}" class="button-92" href="/admin/manage">🛠️ Management</a>
             </span>
         </div>
     </div>

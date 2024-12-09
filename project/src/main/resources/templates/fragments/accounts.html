@@ -1,6 +1,6 @@
 <div th:fragment="accounts" id="accounts">
     <div th:each="account : ${accounts}" class="account_link">
-        <a th:href="'/accounts/' + ${account.id}">
+        <a th:href="'/accounts/' + ${account.id}" target="_top">
             <div class="account">
                 <div class="account_img_cont">
                     <img th:src="${account.avatar}" alt="Account Avatar" class="account_img">

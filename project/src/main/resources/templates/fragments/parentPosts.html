@@ -1,7 +1,7 @@
 <div th:fragment="parentPosts" id="parentPosts">
     <div id="posts" class="parentPosts">
         <div th:each="post : ${posts}" class="post blurred-box">
-            <a class="post_body_link" th:href="@{/posts/{id}(id=${post.id})}">
+            <a class="post_body_link" th:href="@{/posts/{id}(id=${post.id})}" target="_top">
                 <div class="post_body">
                     <span class="post_title" th:text="${post.title}"></span>
                     <span class="post_text" th:text="${post.text}"></span>
@@ -30,7 +30,7 @@
                 </button>
 
                 <span class="post_account" th:title="${post.account.userName}">
-                    <a class="post_account_link" th:href="@{/accounts/{id}(id=${post.account.id})}">
+                    <a class="post_account_link" th:href="@{/accounts/{id}(id=${post.account.id})}" target="_top">
                         <img class="post_account_image" th:src="${post.account.avatar}" />
                         <span class="post_account_userName" th:text="${post.account.userName}"></span>
                     </a>

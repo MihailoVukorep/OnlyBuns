@@ -24,9 +24,9 @@
 }
 
 .button-92 {
+    display: inline-block;
     border-radius: 10px;
     text-decoration: none;
-    display: block;
     font-weight: bold;
     font-size: 2rem;
     width: fit-content;

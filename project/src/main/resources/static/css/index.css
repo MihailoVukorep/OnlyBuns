@@ -9,6 +9,10 @@
     margin-top: 50px;
 }
 
+#links {
+    max-width: 25%;
+}
+
 canvas#aclock {
     border-radius: 50%;
     border: 2px solid var(--var-color-border-transwhite);
