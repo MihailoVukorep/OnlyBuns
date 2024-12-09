@@ -10,25 +10,40 @@
     <link rel="stylesheet" href="/css/chats.css">
 
     <link rel="stylesheet" href="/css/animations/rainbow_h1.css">
-    
+
     <script defer type="text/javascript" src="/js/chats.js"></script>
 </head>
 
 <body>
     <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-    <div id="chat">
+    <div id="dm">
         <div id="chats_cont">
             <h2>💬 Chats:</h2>
             <div id="chats">
-    
+                <div th:each="chat : ${chats}" class="chat">
+                    <button class="chat_button" th:onclick="'chat(' + ${chat.id} + ');'" >
+                        <span class="chat_name" th:title="${chat.name}" th:text="${chat.name}"></span>
+                        <span class="chat_createdDate" th:text="${chat.createdDateStr}" th:title="${chat.createdDateStr}"></span>
+                    </button>
+
+                    <div class="chat_members">
+                        <div th:each="account : ${chat.members}" class="account" th:title="${account.userName}">
+                            <a class="account_link" th:href="@{/accounts/{id}(id=${account.id})}" target="_top">
+                                <img class="account_image" th:src="${account.avatar}" />
+                                <span class="account_userName" th:text="${account.userName}"></span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
 
         <div id="msgs_cont">
             <h2>📜 Messages:</h2>
             <div id="msgs">
-    
+
             </div>
         </div>
     </div>

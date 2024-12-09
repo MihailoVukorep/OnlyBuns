@@ -2,7 +2,6 @@ package com.onlybuns.OnlyBuns.controller.web;
 
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.service.Service_Chat;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +20,8 @@ public class Controller_Chat {
         Account user = (Account) session.getAttribute("user");
         if (user == null) { return "error/401.html"; }
 
-        // todo: set chats
+        // set chats
+        model.addAttribute("chats", service_chat.get_api_chats(session).getBody());
 
         return "chats";
     }
