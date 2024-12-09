@@ -1,112 +1,66 @@
-.account_link {
-    text-decoration: none;
-    width: fit-content;
+.account_link { 
     display: inline-block;
-    height: fit-content;
 }
 
 .account {
     display: inline-block;
-    width: 230px;
-    height: 230px;
-    max-width: 230px;
-    max-height: 230px;
-    background-color: var(--var-color-bg-sub1);
-    border: 1px solid var(--var-color-border-transwhite);
-    padding: 3px;
-    border-radius: 10px;
-    margin: 5px;
+    margin: 10px;
+    padding: 10px;
+    width: 400px;
+    height: 110px;
+    font-size: small;
+    color: var(--var-color-white);
+    box-shadow: 0px 0px 10px 3px var(--var-color-pink-3-trans);
+    background: rgba(0, 0, 0, 0.05); /* Semi-transparent white */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 20px;
 }
 
-.account_img_cont {
+.account_content {
     display: flex;
+    justify-content: left;
+    align-content: left;
+    gap: 5px;
 }
 
-.account img {
+.account_img_cont, .account_img {
     display: inline-block;
     width: 100px;
     height: 100px;
-    border: 3px solid var(--var-color-border-transwhite);
-    border-radius: 100px;
-    margin: 0 auto;
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 100%;
 }
 
 .account_info {
-    padding: 0px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    padding: 5px;
-    margin: 0;
+    display: inline-block;
 }
 
-.account_names {
-    font-size: large;
-    margin-bottom: 5px;
-}
-
-.account_firstName,
-.account_lastName {
-    color: var(--var-color-green);
-}
-
-.account_firstName .account_lastName,
-.account_userName,
-.account_email,
-.account_bio,
-.account_address,
-.account_isAdmin {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.account_userName {
-    color: var(--var-color-cyan);
-}
-
-.account_email {
-    color: var(--var-color-lime);
-    font-size: small;
-}
-
-.account_info_break {
-    border-top: 1px dotted #ddd;
-    margin: 2px 0;
-}
-
-.account_bio,
-.account_address,
 .account_counters {
-    font-size: small;
-}
-
-.account_bio {
     color: var(--var-color-white);
+    margin: 1px;
+    padding: 1px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
 }
 
-.account_address {
-    color: var(--var-color-yellow)
+.account_counter {
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 1px;
 }
 
-.account_counters_table {
-    color: var(--var-color-white);
-    border-collapse: collapse;
-    /* Removes spacing between table cells */
-    text-align: center;
-    /* Centers text in all cells */
-    table-layout: fixed;
-    /* Ensures columns are evenly spaced */
-    margin: 2px 0;
-}
-
-.account_counters_table th,
-.account_counters_table td {
-    padding: 2px;
-    border: 1px dotted var(--var-color-border-transwhite);
-    font-weight: bolder;
-}
-
-.searchform table th {
-    text-align: right;
-}
+.account_counters_number { font-size: small; }
+.account_counters_label { font-size: smaller; }
+.account_firstName, .account_lastName { color: var(--var-color-green); }
+.account_userName { color: var(--var-color-cyan); }
+.account_email { color: var(--var-color-lime); }
+.account_address { color: var(--var-color-yellow); }
+.account_postsCount { color: var(--var-color-purple); }
+.account_likesCount { color: var(--var-color-pink); }
+.account_followersCount { color: var(--var-color-orange); }
+.account_followingCount { color: var(--var-color-green); }

@@ -1,13 +1,13 @@
-.dataform {
-    font-size: clamp(10px, 2vw, 30px);;
+.dataform-tiny {
+    font-size: 15px;
     border-radius: 20px;
     box-shadow: 0px 0px 100px 2px var(--var-color-pink-4-trans);
     margin: 30px auto;
     width: fit-content;
-    padding: 40px;
+    padding: 4px;
 }
 
-.dataform th {
+.dataform-tiny th {
     font-size: inherit;
     text-align: right;
     color: var(--var-color-pink-4-trans);
@@ -16,7 +16,7 @@
     width: fit-content;
 }
 
-.dataform input[type="text"], .dataform input[type="password"] {
+.dataform-tiny input {
     font-family: inherit;
     color: white;
     background-color: transparent;
@@ -27,16 +27,16 @@
     padding: 10px;
 }
 
-.dataform input:focus {
+.dataform-tiny input:focus {
   outline: 1px dashed var(--var-color-pink-4-trans); /* Custom outline */
 }
 
-.dataform ::placeholder {
+.dataform-tiny ::placeholder {
     color: var(--var-color-pink-4-trans);
     opacity: 0.4;
 }
 
-.dataform button  {
+.dataform-tiny button  {
     font-family: inherit;
     font-size: inherit;
     margin: 30px auto auto auto;
@@ -53,15 +53,15 @@
     transition: transform 0.1s ease;
 }
 
-.dataform button:hover {
+.dataform-tiny button:hover {
     transform: scaleX(1.1) scaleY(1.1);
 }
 
-.dataform button:active {
+.dataform-tiny button:active {
     transform: scaleX(1.2) scaleY(1.2);
 }
 
-.dataform p {
+.dataform-tiny p {
     margin: 10px auto;
     display: block;
     text-align: center;

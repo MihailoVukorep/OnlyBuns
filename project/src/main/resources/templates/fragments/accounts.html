@@ -2,59 +2,60 @@
     <div th:each="account : ${accounts}" class="account_link">
         <a th:href="'/accounts/' + ${account.id}" target="_top">
             <div class="account">
-                <div class="account_img_cont">
-                    <img th:src="${account.avatar}" alt="Account Avatar" class="account_img">
-                </div>
+                <div class="account_content">
+                    <span class="account_img_cont">
+                        <img th:src="${account.avatar}" alt="Account Avatar" class="account_img">
+                    </span>
+    
+                    <span class="account_info">
+                        <div class="account_names">
+                            <span th:text="${account.firstName}" class="account_firstName"></span>
+                            <span th:text="${account.lastName}" class="account_lastName"></span>
+                            <span class="account_userName"><span>(</span><span th:text="${account.userName}"></span><span>)</span></span>
+                            <span th:if="${account.isAdmin}" class="account_isAdmin" title="Admin">👑</span>
+                        </div>
+    
+                        <div class="account_email">
+                            <span>📧</span>
+                            <span th:text="${account.email}"></span>
+                        </div>
+    
+                        <div class="account_info_break"></div>
+    
+                        <div class="account_address">
+                            <span>📍</span>
+                            <span th:text="${account.address}"></span>
+                        </div>
+                        <div class="account_bio">
+                            <span>🗣</span>
+                            <span th:text="${account.bio}"></span>
+                        </div>
+    
+                        <div class="account_info_break"></div>
+    
 
-                <div class="account_info">
-
-                    <div class="account_names">
-                        <span th:if="${account.isAdmin}" class="account_isAdmin" title="Admin">👑</span>
-
-                        <span th:text="${account.firstName}" class="account_firstName"></span>
-                        <span th:text="${account.lastName}" class="account_lastName"></span>
-                        <span class="account_userName"><span>(</span><span
-                                th:text="${account.userName}"></span><span>)</span></span>
-                    </div>
-
-                    <div class="account_email">
-                        <span>📧</span>
-                        <span th:text="${account.email}"></span>
-                    </div>
-
-                    <div class="account_info_break"></div>
-
-                    <div class="account_address">
-                        <span>📍</span>
-                        <span th:text="${account.address}"></span>
-                    </div>
-                    <div class="account_bio">
-                        <span>🗣</span>
-                        <span th:text="${account.bio}"></span>
-                    </div>
-
-                    <div class="account_info_break"></div>
-
-                    <table class="account_counters_table">
-                        <tr>
-                            <th>
-                                <span>📰</span>
-                                <span class="account_postsCount" th:text="${account.postsCount}"></span>
-                            </th>
-                            <th>
-                                <span>💗</span>
-                                <span class="account_likesCount" th:text="${account.likesCount}"></span>
-                            </th>
-                            <th>
-                                <span>🙇</span>
-                                <span class="account_followersCount" th:text="${account.followersCount}"></span>
-                            </th>
-                            <th>
-                                <span>🧎</span>
-                                <span class="account_followingCount" th:text="${account.followingCount}"></span>
-                            </th>
-                        </tr>
-                    </table>
+                        <div class="account_counters">
+                            <span class="account_counter account_postsCount">
+                                <span class="account_counters_label">📰</span>
+                                <span class="account_counters_number" th:text="${account.postsCount}"></span>
+                            </span>
+                
+                            <span class="account_counter account_likesCount">
+                                <span class="account_counters_label">💗</span>
+                                <span class="account_counters_number" th:text="${account.likesCount}"></span>
+                            </span>
+                
+                            <span class="account_counter account_followersCount">
+                                <span class="account_counters_label">🙇</span>
+                                <span class="account_counters_number" th:text="${account.followersCount}"></span>
+                            </span>
+                
+                            <span class="account_counteraccount_followingCount">
+                                <span class="account_counters_label">🧎</span>
+                                <span class="account_counters_number" th:text="${account.followingCount}"></span>
+                            </span>
+                        </div>
+                    </span>
                 </div>
             </div>
         </a>

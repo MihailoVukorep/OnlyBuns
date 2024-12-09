@@ -1,37 +1,147 @@
 .title-word {
-    animation: color-animation 4s linear infinite;
+    animation: color-animation 10s linear infinite; /* Increased duration for smooth transitions */
 }
 
 .title-word-1 {
     --color-1: #DF8453;
     --color-2: #3D8DAE;
     --color-3: #E4A9A8;
+    --color-4: #F3C178;
+    --color-5: #A4B8C4;
+    --color-6: #F0A6CA;
+    --color-7: #90A4AE;
+    --color-8: #D9B88C;
+    --color-9: #C2847A;
+    --color-10: #457D8A;
 }
 
 .title-word-2 {
     --color-1: #DBAD4A;
     --color-2: #ACCFCB;
     --color-3: #17494D;
+    --color-4: #EAD99C;
+    --color-5: #C57A4A;
+    --color-6: #F4B3A1;
+    --color-7: #758DA5;
+    --color-8: #C89F72;
+    --color-9: #5E7C8A;
+    --color-10: #9D8E7F;
 }
 
 .title-word-3 {
-    --color-1: #ACCFCB;
-    --color-2: #E4A9A8;
-    --color-3: #ACCFCB;
+    --color-1: #E4A9A8;
+    --color-2: #C57E5B;
+    --color-3: #A3C8D8;
+    --color-4: #B49286;
+    --color-5: #DDBCA0;
+    --color-6: #7D9DA6;
+    --color-7: #D19C7C;
+    --color-8: #9DBCC0;
+    --color-9: #F0C5B0;
+    --color-10: #8A6E61;
 }
 
 .title-word-4 {
     --color-1: #3D8DAE;
     --color-2: #DF8453;
     --color-3: #E4A9A8;
+    --color-4: #7FB8C5;
+    --color-5: #D67E5C;
+    --color-6: #F4C5A5;
+    --color-7: #588FA7;
+    --color-8: #C79482;
+    --color-9: #A5C7D1;
+    --color-10: #B57C7E;
+}
+
+.title-word-5 {
+    --color-1: #B49F6D;
+    --color-2: #7DA8B6;
+    --color-3: #A9786C;
+    --color-4: #EAC19E;
+    --color-5: #8D8C76;
+    --color-6: #A4C4D4;
+    --color-7: #F2D1B6;
+    --color-8: #6D8E9B;
+    --color-9: #C5A387;
+    --color-10: #86745A;
+}
+
+.title-word-6 {
+    --color-1: #8FB8B4;
+    --color-2: #C49E82;
+    --color-3: #A7B49E;
+    --color-4: #E8C2A5;
+    --color-5: #7E9992;
+    --color-6: #D4A484;
+    --color-7: #B2C8C3;
+    --color-8: #9E7D6F;
+    --color-9: #C5D9D1;
+    --color-10: #826A5C;
+}
+
+.title-word-7 {
+    --color-1: #C79482;
+    --color-2: #6D9FB3;
+    --color-3: #B57C7E;
+    --color-4: #E8BFA6;
+    --color-5: #8DA7B5;
+    --color-6: #DFA889;
+    --color-7: #99B8C7;
+    --color-8: #C37F6D;
+    --color-9: #A3C4D1;
+    --color-10: #6F847F;
+}
+
+.title-word-8 {
+    --color-1: #B9A594;
+    --color-2: #8AA6B3;
+    --color-3: #C79982;
+    --color-4: #E7D0B5;
+    --color-5: #9D8B7C;
+    --color-6: #A4B9C7;
+    --color-7: #F2CBA9;
+    --color-8: #7A9AA5;
+    --color-9: #C5A182;
+    --color-10: #6D8472;
+}
+
+.title-word-9 {
+    --color-1: #A3B3C1;
+    --color-2: #D1A17E;
+    --color-3: #98B5C3;
+    --color-4: #DDB799;
+    --color-5: #7F9CA9;
+    --color-6: #C89C85;
+    --color-7: #A9C8D3;
+    --color-8: #C3966E;
+    --color-9: #849FAF;
+    --color-10: #B18568;
+}
+
+.title-word-10 {
+    --color-1: #8FB0C0;
+    --color-2: #DCA689;
+    --color-3: #A5C7D5;
+    --color-4: #C8916F;
+    --color-5: #7EA4B0;
+    --color-6: #E5B898;
+    --color-7: #9CB8C3;
+    --color-8: #C7856D;
+    --color-9: #B2C5D0;
+    --color-10: #7D6F64;
 }
 
 @keyframes color-animation {
-    0% { color: var(--color-1) }
-    32% { color: var(--color-1) }
-    33% { color: var(--color-2) }
-    65% { color: var(--color-2) }
-    66% { color: var(--color-3) }
-    99% { color: var(--color-3) }
-    100% { color: var(--color-1) }
+    0% { color: var(--color-1); }
+    10% { color: var(--color-2); }
+    20% { color: var(--color-3); }
+    30% { color: var(--color-4); }
+    40% { color: var(--color-5); }
+    50% { color: var(--color-6); }
+    60% { color: var(--color-7); }
+    70% { color: var(--color-8); }
+    80% { color: var(--color-9); }
+    90% { color: var(--color-10); }
+    100% { color: var(--color-1); }
 }

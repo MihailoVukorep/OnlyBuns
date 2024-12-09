@@ -34,3 +34,8 @@
     cursor: pointer;
     padding: .1em .3em;
 }
+
+.button-92-block {
+    display: block;
+    margin: 5px auto;
+}

@@ -116,15 +116,15 @@ public class DatabaseConfiguration {
                 false
         );
 
-        Account acc_ranka = CreateAccount(
-                "rankaradulovic70@gmail.com",
-                "ranxx",
+        Account acc_patrik = CreateAccount(
+                "killmeplzftn+patrik@gmail.com",
+                "patrik",
                 "123",
-                "Ranka",
-                "Radulovic",
-                "sutjeska 13",
-                "/avatars/default.jpg",
-                "gengsta lik",
+                "Patrik",
+                "Zvezda",
+                "ispod kamena",
+                "/avatars/patrik.png",
+                "koga ti nazivas glavonjom?",
                 false
         );
 
@@ -190,43 +190,31 @@ public class DatabaseConfiguration {
         repository_post.save(new Post("My post", "Moj post!", "45.23907378615232,19.812892956605797", acc_pera));
 
 
-        Account acc_sara = CreateAccount(
-                "sapundzijas@gmail.com",
-                "sarahah",
+        Account acc_andjela = CreateAccount(
+                "killmeplzftn+anakonda@gmail.com",
+                "anakonda",
                 "123",
-                "Sara",
-                "Sara",
-                "tu tamo",
-                "/avatars/default.jpg",
-                "sara",
-                true
-        );
-        Account acc_sara2 = CreateAccount(
-                "sapundzijas+superlongemail@gmail.com",
-                "sara",
-                "123",
-                "Sara",
-                "Sara",
-                "bulevar 22",
-                "/avatars/default.jpg",
-                "veoma ozbiljan lik",
+                "Andjela",
+                "Anakonda",
+                "mocvara",
+                "/avatars/andjela.png",
+                "zivot je kratak pojedi batak",
                 false
         );
 
-
         // likes
         likePost(post_dilujem, acc_ajzak);
-        likePost(post_dilujem, acc_sara);
-        likePost(post_dilujem, acc_sara2);
+        likePost(post_dilujem, acc_andjela);
+        likePost(post_dilujem, acc_patrik);
         likePost(post_nemasanse, acc_ajzak);
         likePost(post_kupajzeku, acc_ajzak);
 
         // follow
         acc_ajzak.follow(acc_ana);
-        acc_sara2.follow(acc_ajzak);
-        acc_sara2.follow(acc_pera);
+        acc_patrik.follow(acc_ajzak);
+        acc_patrik.follow(acc_pera);
         repository_account.save(acc_ajzak);
-        repository_account.save(acc_sara2);
+        repository_account.save(acc_patrik);
         acc_pera.follow(acc_ana); // follow ANA for fyp
         repository_account.save(acc_pera);
 

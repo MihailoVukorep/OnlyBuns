@@ -32,11 +32,10 @@
         <div class="account_info appear">
             <span>
                 <div id="account_names">
-                    <span id="account_roles"></span>
-                    <span>👤</span>
                     <span th:text="${account.firstName}" id="account_firstName"></span>
                     <span th:text="${account.lastName}" id="account_lastName"></span>
                     <span>(</span><span th:text="${account.userName}" id="account_userName"></span><span>)</span>
+                    <span th:if="${account.isAdmin}" class="account_isAdmin" title="Admin">👑</span>
                 </div>
     
                 <div>

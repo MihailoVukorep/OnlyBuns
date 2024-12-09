@@ -7,9 +7,12 @@
     <link rel="stylesheet" href="/css/main.css">
 
     <title>OnlyBuns - Admin - Accounts</title>
+    <link rel="stylesheet" href="/css/admin_accounts.css">
     <link rel="stylesheet" href="/css/accounts.css">
+    <link rel="stylesheet" href="/css/dataform-tiny.css">
 
     <link rel="stylesheet" href="/css/animations/rainbow_h1.css">
+    <link rel="stylesheet" href="/css/animations/titleword.css">
 
     <script defer type="text/javascript" src="/js/main.js"></script>
 </head>
@@ -19,55 +22,57 @@
 
     <h1>👥 Accounts 👥</h1>
 
-    <form class="searchform" action="/admin/accounts" method="get">
-        <table>
-            <tr>
-                <th><label for="firstName">First Name:</label></th>
-                <td><input type="text" id="firstName" name="firstName" placeholder="Enter first name"></td>
-            </tr>
-            <tr>
-                <th><label for="lastName">Last Name:</label></th>
-                <td><input type="text" id="lastName" name="lastName" placeholder="Enter last name"></td>
-            </tr>
-            <tr>
-                <th><label for="userName">Username:</label></th>
-                <td><input type="text" id="userName" name="userName" placeholder="Enter username"></td>
-            </tr>
-            <tr>
-                <th><label for="email">Email:</label></th>
-                <td><input type="email" id="email" name="email" placeholder="Enter email address"></td>
-            </tr>
-            <tr>
-                <th><label for="address">Address:</label></th>
-                <td><input type="text" id="address" name="address" placeholder="Enter address"></td>
-            </tr>
-            <tr>
-                <th><label for="minPostCount">Minimum Post Count:</label></th>
-                <td><input type="number" id="minPostCount" name="minPostCount" placeholder="0" min="0"></td>
-            </tr>
-            <tr>
-                <th><label for="maxPostCount">Maximum Post Count:</label></th>
-                <td><input type="number" id="maxPostCount" name="maxPostCount" placeholder="1000" min="0"></td>
-            </tr>
-            <tr>
-                <td colspan="2" style="text-align: center;">
-                    <button type="submit">Search</button>
-                </td>
-            </tr>
-        </table>
-    </form>
-
-    <div id="sort_controls">
-        <label for="sortOptions">Sort by:</label>
-        <form action="/admin/accounts" method="GET" id="sortForm">
-            <select id="sortOptions" name="sort" th:value="${currentSort}" onchange="this.form.submit()">
-                <option value="follow_count,asc" th:selected="${currentSort == 'follow_count,asc'}">Followers Ascending</option>
-                <option value="follow_count,desc" th:selected="${currentSort == 'follow_count,desc'}">Followers Descending</option>
-                <option value="email,asc" th:selected="${currentSort == 'email,asc'}">Email Ascending</option>
-                <option value="email,desc" th:selected="${currentSort == 'email,desc'}">Email Descending</option>
-            </select>
+    <span id="search">
+        <form class="dataform-tiny" action="/admin/accounts" method="get">
+            <table>
+                <tr>
+                    <th><span class="title-word title-word-1">✍️ First Name:</span></th>
+                    <td><input type="text" id="firstName" name="firstName" placeholder="Enter first name"></td>
+                </tr>
+                <tr>
+                    <th><span class="title-word title-word-2">✍️ Last Name:</span></th>
+                    <td><input type="text" id="lastName" name="lastName" placeholder="Enter last name"></td>
+                </tr>
+                <tr>
+                    <th><span class="title-word title-word-3">👤 Username:</span></th>
+                    <td><input type="text" id="userName" name="userName" placeholder="Enter username"></td>
+                </tr>
+                <tr>
+                    <th><span class="title-word title-word-4">📧 Email:</span></th>
+                    <td><input type="email" id="email" name="email" placeholder="Enter email address"></td>
+                </tr>
+                <tr>
+                    <th><span class="title-word title-word-5">📍 Address:</span></th>
+                    <td><input type="text" id="address" name="address" placeholder="Enter address"></td>
+                </tr>
+                <tr>
+                    <th><span class="title-word title-word-6">🔻 Minimum Post Count:</span></th>
+                    <td><input type="number" id="minPostCount" name="minPostCount" placeholder="0" min="0"></td>
+                </tr>
+                <tr>
+                    <th><span class="title-word title-word-7">🔺 Maximum Post Count:</span></th>
+                    <td><input type="number" id="maxPostCount" name="maxPostCount" placeholder="1000" min="0"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <button type="submit">Search</button>
+                    </td>
+                </tr>
+            </table>
         </form>
-    </div>
+    
+        <div id="sort_controls">
+            <form action="/admin/accounts" method="GET" id="sortForm">
+                <select id="sortOptions" name="sort" th:value="${currentSort}" onchange="this.form.submit()">
+                    <option value="follow_count,asc" th:selected="${currentSort == 'follow_count,asc'}">Followers Ascending</option>
+                    <option value="follow_count,desc" th:selected="${currentSort == 'follow_count,desc'}">Followers Descending</option>
+                    <option value="email,asc" th:selected="${currentSort == 'email,asc'}">Email Ascending</option>
+                    <option value="email,desc" th:selected="${currentSort == 'email,desc'}">Email Descending</option>
+                </select>
+            </form>
+        </div>
+    </span>
+    
 
     <div th:replace="~{fragments/accounts :: accounts}"></div>
 </body>

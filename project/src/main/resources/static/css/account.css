@@ -34,22 +34,10 @@
     font-size: xx-large;
 }
 
-#account_firstName,
-#account_lastName {
-    color: var(--var-color-green);
-}
-
-#account_userName {
-    color: var(--var-color-cyan);
-}
-
-#account_email {
-    color: var(--var-color-lime);
-}
-
-#account_address {
-    color: var(--var-color-yellow);
-}
+#account_firstName, #account_lastName { color: var(--var-color-green); }
+#account_userName { color: var(--var-color-cyan); }
+#account_email { color: var(--var-color-lime); }
+#account_address { color: var(--var-color-yellow); }
 
 #account_counters {
     color: var(--var-color-white);

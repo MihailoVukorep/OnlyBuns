@@ -1,0 +1,23 @@
+#search {
+    float: left;
+    margin: 0 50px;
+}
+
+#sortOptions {
+    display: block;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: large;
+    color: white;
+    background-color: transparent;
+    border: 0px solid var(--var-color-border-transwhite);
+    box-shadow: 1px 1px 5px 1px var(--var-color-pink-1-trans);
+    background: transparent;
+    backdrop-filter: blur(12px);
+    margin: 20px auto;
+    padding: 15px;
+}
+
+#thread {
+    display: inline;
+}
