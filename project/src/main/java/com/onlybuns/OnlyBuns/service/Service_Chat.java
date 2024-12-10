@@ -1,6 +1,7 @@
 package com.onlybuns.OnlyBuns.service;
 
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Chat;
+import com.onlybuns.OnlyBuns.dto.DTO_Get_Message;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.Chat;
 import com.onlybuns.OnlyBuns.model.Message;
@@ -30,7 +31,7 @@ public class Service_Chat {
     @Autowired
     private Repository_Account repository_account;
 
-    // create chat
+    // create chat (user & account id)
     public ResponseEntity<String> get_api_accounts_id_chat(HttpSession session, Long id) {
 
         Account user = (Account) session.getAttribute("user");
@@ -53,8 +54,24 @@ public class Service_Chat {
         return new ResponseEntity<>(dto_chats, HttpStatus.OK);
     }
 
+    // get chat's messages
+    public ResponseEntity<List<DTO_Get_Message>> get_api_chats_id(HttpSession session, Long id) {
+
+        Account user = (Account) session.getAttribute("user");
+        if (user == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); }
+
+        Optional<Chat> optional_chat = repository_chat.findById(id);
+        if (optional_chat.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+
+        Chat chat = optional_chat.get();
+        if (chat.getMembers().stream().noneMatch(member -> member.getId().equals(user.getId()))) { return new ResponseEntity<>(null, HttpStatus.FORBIDDEN); }
+
+        List<DTO_Get_Message> messages = chat.getMessages().stream().map(DTO_Get_Message::new).toList();
+        return new ResponseEntity<>(messages, HttpStatus.OK);
+    }
+
     // send message to chats
-    public ResponseEntity<String> post_api_chats_id_message(HttpSession session, Long id, String text) {
+    public ResponseEntity<String> post_api_chats_id(HttpSession session, Long id, String text) {
 
         Account user = (Account) session.getAttribute("user");
         if (user == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED); }
@@ -63,14 +80,14 @@ public class Service_Chat {
         if (optional_chat.isEmpty()) { return new ResponseEntity<>("Can't find chat.", HttpStatus.NOT_FOUND); }
 
         Chat chat = optional_chat.get();
-        if (!chat.getMembers().contains(user)) {  return new ResponseEntity<>("Not your chat.", HttpStatus.FORBIDDEN); }
+        if (chat.getMembers().stream().noneMatch(member -> member.getId().equals(user.getId()))) { return new ResponseEntity<>("Not your chat.", HttpStatus.FORBIDDEN); }
 
         Optional<Account> optional_account = repository_account.findById(id);
         if (optional_account.isEmpty()) { return new ResponseEntity<>("Can't find account.", HttpStatus.NOT_FOUND); }
 
         Message message = new Message();
         message.setChat(chat);
-        message.setSender(user);
+        message.setAccount(user);
         message.setContent(text);
         repository_message.save(message);
         return new ResponseEntity<>("Message sent.", HttpStatus.OK);

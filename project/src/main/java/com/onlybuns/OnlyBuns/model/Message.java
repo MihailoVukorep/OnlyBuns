@@ -24,7 +24,7 @@ public class Message {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_id", nullable = false)
-    private Account sender;
+    private Account account;
 
     @Column(nullable = false)
     private String content;

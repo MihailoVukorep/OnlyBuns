@@ -60,6 +60,7 @@ public class DatabaseConfiguration {
         }
 
         repository_account.save(account);
+        repository_accountActivation.save(service_email.GenerateNewAccountActivation(account, AccountActivationStatus.APPROVED)); // approve all accounts when created
 
         return account;
     }
@@ -102,7 +103,6 @@ public class DatabaseConfiguration {
                 "veoma ozbiljan lik",
                 false
         );
-        repository_accountActivation.save(service_email.GenerateNewAccountActivation(acc_pera, AccountActivationStatus.APPROVED)); // approve petar on create
 
         Account acc_ajzak = CreateAccount(
                 "killmeplzftn+ajzak@gmail.com",

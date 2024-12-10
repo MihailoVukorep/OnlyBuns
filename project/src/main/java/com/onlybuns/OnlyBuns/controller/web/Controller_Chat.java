@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class Controller_Chat {
@@ -22,13 +24,36 @@ public class Controller_Chat {
 
         // set chats
         model.addAttribute("chats", service_chat.get_api_chats(session).getBody());
+        return "chats";
+    }
 
+    @GetMapping("/chats/{id}")
+    public String chats_id(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
+        Account user = (Account) session.getAttribute("user");
+        if (user == null) { return "error/401.html"; }
+
+        // set chats
+        model.addAttribute("chats", service_chat.get_api_chats(session).getBody());
+        model.addAttribute("messages", service_chat.get_api_chats_id(session, id).getBody());
         return "chats";
     }
 
     @GetMapping("/accounts/{id}/chat")
     public String accounts_id_chat(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
+        Account user = (Account) session.getAttribute("user");
+        if (user == null) { return "error/401.html"; }
+
         service_chat.get_api_accounts_id_chat(session, id);
         return "redirect:/chats";
+    }
+
+    @PostMapping("/chats/{id}")
+    public String post_chats_id(HttpSession session, Model model, @PathVariable(name = "id") Long id, @RequestParam(required = true) String text) {
+
+        Account user = (Account) session.getAttribute("user");
+        if (user == null) { return "error/401.html"; }
+
+        service_chat.post_api_chats_id(session, id, text);
+        return chats_id(session, model, id);
     }
 }
