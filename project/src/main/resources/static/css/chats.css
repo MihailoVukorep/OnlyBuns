@@ -52,14 +52,16 @@ h2 {
     cursor: pointer;
     background: transparent;
     color: white;
-    display: block;
     text-align: left;
     font-size: large;
     margin: 0 auto;
-    width: 100%;
     border: none;
     border-bottom: 1px dashed gray;
     padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    text-decoration: none;
 }
 
 .chat_name {
@@ -110,3 +112,44 @@ h2 {
     font-size: small;
 }
 
+.message {
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+    justify-content: left;
+    align-items: center;
+    margin: 10px;
+}
+
+
+#msgform {
+    display: flex;
+}
+
+#msgform input {
+    font-family: inherit;
+    color: white;
+    background-color: transparent;
+    font-size: inherit;
+    border: 1px dashed var(--var-color-pink-4-trans);
+    display: block;
+    padding: 10px;
+    width: 100%;
+}
+
+
+#msgform input:focus {
+    outline: 1px dashed var(--var-color-pink-4-trans); /* Custom outline */
+}
+
+#msgform input::placeholder {
+    color: var(--var-color-pink-4-trans);
+    opacity: 0.9;
+}
+
+#msgform button {
+    color: white;
+    padding: 3px;
+    border: 1px dashed var(--var-color-pink-4-trans);
+    background-color: transparent;
+}

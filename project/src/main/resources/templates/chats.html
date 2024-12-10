@@ -44,21 +44,36 @@
             <h2>📜 Messages:</h2>
             <div id="msgs">
                 <div th:each="message : ${messages}" class="message">
-                    <a class="account_link" th:href="@{/accounts/{id}(id=${message.account.id})}" target="_top">
-                        <img class="account_image" th:src="${message.account.avatar}" />
-                        <span class="account_userName" th:text="${message.account.userName}"></span>
-                    </a>
-
-                    <span>:</span>
-
-                    <span th:text="${message.content}"></span>
+                    <div>
+                        <a class="account_link" th:href="@{/accounts/{id}(id=${message.account.id})}" target="_top">
+                            <img class="account_image" th:src="${message.account.avatar}" />
+                            <span class="account_userName" th:text="${message.account.userName}"></span>
+                        </a>
+                    </div>
+                    <div>:</div>
+                    <div th:text="${message.content}"></div>
                 </div>
+
+                <script defer>
+                    window.addEventListener('load', () => {
+                        const msgsContainer = document.getElementById("msgs");
+                        requestAnimationFrame(() => {
+                            msgsContainer.scrollTop = msgsContainer.scrollHeight;
+                        });
+                    });
+                </script>
             </div>
             <div>
-                <form th:action="@{/chats/{id}(id=${id})}" method="post">
-                    <input type="text" name="text" placeholder="Type your message..." required />
-                    <button type="submit">Send</button>
+                <form id="msgform" th:action="@{/chats/{id}(id=${id})}" method="post">
+                    <input id="txt_text" type="text" name="text" placeholder="Type your message..." required />
+                    <button type="submit">🚀 Send</button>
                 </form>
+                
+                <script defer>
+                    let txt_text = document.getElementById("txt_text");
+                    txt_text.focus();
+                    txt_text.select();
+                </script>
             </div>
         </div>
     </div>
