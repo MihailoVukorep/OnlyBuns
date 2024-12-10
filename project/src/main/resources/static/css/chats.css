@@ -128,9 +128,11 @@ h2 {
   
 }
 
-
 #msgform {
     display: flex;
+    gap: 5px;
+    padding: 5px;
+    border-top: 3px dotted var(--var-color-barely);
 }
 
 #msgform input {
