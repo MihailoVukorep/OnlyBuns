@@ -30,7 +30,7 @@ public class Controller_Post {
             HttpSession session,
             Model model,
             @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
+            @RequestParam(value = "size", required = false, defaultValue = "12") Integer size,
             @RequestParam(value = "sort", required = false, defaultValue = "id") String sort
     ) {
         Page<DTO_Get_Post> postPage = service_post.get_api_posts(session, page, size, sort).getBody();
@@ -48,7 +48,7 @@ public class Controller_Post {
             HttpSession session,
             Model model,
             @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
+            @RequestParam(value = "size", required = false, defaultValue = "12") Integer size,
             @RequestParam(value = "sort", required = false, defaultValue = "id") String sort
     ) {
         ResponseEntity<Page<DTO_Get_Post>> response = service_post.get_api_fyp(session, page, size, sort);
@@ -69,7 +69,7 @@ public class Controller_Post {
             Model model,
             @PathVariable(name = "id") Long id,
             @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
+            @RequestParam(value = "size", required = false, defaultValue = "12") Integer size,
             @RequestParam(value = "sort", required = false, defaultValue = "id") String sort
     ) {
         Page<DTO_Get_Post> postPage = service_post.get_api_accounts_id_posts(id, session, page, size, sort).getBody();
@@ -87,7 +87,7 @@ public class Controller_Post {
             HttpSession session,
             Model model,
             @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-            @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
+            @RequestParam(value = "size", required = false, defaultValue = "12") Integer size,
             @RequestParam(value = "sort", required = false, defaultValue = "id") String sort
     ) {
         Account user = (Account) session.getAttribute("user");

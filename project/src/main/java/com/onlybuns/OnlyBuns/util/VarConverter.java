@@ -23,7 +23,7 @@ public class VarConverter {
 
     public Pageable pageable(Integer page, Integer size, String sort) {
         int pageNumber = (page == null) ? 0 : page;
-        int pageSize = (size == null) ? 10 : size; // Default size is 10
+        int pageSize = (size == null) ? 12 : size; // Default size is 12
         if (pageNumber < 0) { pageNumber = 0; } // Page num can't be negative
         if (pageSize < 1) { pageSize = 1; } // Page size must not be less than one
         return PageRequest.of(pageNumber, pageSize, parseSort(sort));

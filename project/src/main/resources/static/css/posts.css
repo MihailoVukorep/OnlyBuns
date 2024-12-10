@@ -12,7 +12,7 @@
 
 #posts .post {
     border-radius: 10px;
-    width: 340px;
+    width: 430px;
     height: 200px;
     display: inline-block;
     margin: 15px 10px;
@@ -126,8 +126,8 @@
     font-size: small;
 }
 
-#posts.parentPosts .post_account_userName {
-    max-width: 70px;
+.post_account_userName {
+    max-width: 130px;
 }
 
 .post_title {
