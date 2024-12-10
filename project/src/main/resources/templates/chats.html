@@ -21,7 +21,7 @@
         <div id="chats_cont">
             <h2>💬 Chats:</h2>
             <div id="chats">
-                <div th:each="chat : ${chats}" class="chat">
+                <div th:each="chat : ${chats}" th:classappend="${chat.id == id} ? 'selected'" class="chat">
                     <a class="chat_button" th:href="@{/chats/{id}(id=${chat.id})}">
                         <span class="chat_name" th:title="${chat.name}" th:text="${chat.name}"></span>
                         <span class="chat_createdDate" th:text="${chat.createdDateStr}" th:title="${chat.createdDateStr}"></span>
