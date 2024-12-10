@@ -115,10 +115,17 @@ h2 {
 .message {
     display: flex;
     flex-direction: row;
-    gap: 2px;
+    gap: 10px;
     justify-content: left;
     align-items: center;
     margin: 10px;
+}
+
+.message_date {
+    color: white;
+    font-size: small;
+    opacity: 0.6;
+  
 }
 
 

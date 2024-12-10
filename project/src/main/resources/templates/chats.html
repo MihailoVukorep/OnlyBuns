@@ -44,14 +44,16 @@
             <h2>📜 Messages:</h2>
             <div id="msgs">
                 <div th:each="message : ${messages}" class="message">
-                    <div>
+                    <div class="message_date" th:text="${message.createdDateStr}"></div>
+                    <div>|</div>
+                    <div class="message_account">
                         <a class="account_link" th:href="@{/accounts/{id}(id=${message.account.id})}" target="_top">
                             <img class="account_image" th:src="${message.account.avatar}" />
                             <span class="account_userName" th:text="${message.account.userName}"></span>
                         </a>
                     </div>
                     <div>:</div>
-                    <div th:text="${message.content}"></div>
+                    <div class="message_content" th:text="${message.content}"></div>
                 </div>
 
                 <script defer>
