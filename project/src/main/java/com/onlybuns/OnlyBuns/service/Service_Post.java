@@ -23,7 +23,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.Instant;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -46,6 +48,9 @@ public class Service_Post {
 
     @Autowired
     private Service_DiskWriter service_diskWriter;
+
+    private final ConcurrentHashMap<Long, List<Instant>> userCommentTimestamps = new ConcurrentHashMap<>();
+    private static final int MAX_COMMENTS_PER_HOUR = 60;
 
     private final VarConverter varConverter = new VarConverter();
 
@@ -252,6 +257,10 @@ public class Service_Post {
             return new ResponseEntity<>("Can't comment when logged out.", HttpStatus.UNAUTHORIZED);
         }
 
+        if (!canUserComment(sessionAccount.getId())) {
+            return new ResponseEntity<>("Comment limit reached. Please wait before commenting again.", HttpStatus.TOO_MANY_REQUESTS);
+        }
+
         Optional<Post> originalPost = repository_post.findById(postId);
         if (originalPost.isEmpty()) {
             return new ResponseEntity<>("Can't find post.", HttpStatus.NOT_FOUND);
@@ -264,8 +273,26 @@ public class Service_Post {
         parentPost.getReplies().add(reply);
 
         repository_post.save(reply);
+        addCommentTimestamp(sessionAccount.getId());
 
         return new ResponseEntity<>("Post commented.", HttpStatus.OK);
+    }
+
+    private boolean canUserComment(Long userId) {
+        List<Instant> timestamps = userCommentTimestamps.getOrDefault(userId, new ArrayList<>());
+        Instant oneHourAgo = Instant.now().minusSeconds(3600);
+
+        timestamps.removeIf(timestamp -> timestamp.isBefore(oneHourAgo));
+
+        userCommentTimestamps.put(userId, timestamps);
+
+        return timestamps.size() < MAX_COMMENTS_PER_HOUR;
+    }
+
+    private void addCommentTimestamp(Long userId) {
+        List<Instant> timestamps = userCommentTimestamps.getOrDefault(userId, new ArrayList<>());
+        timestamps.add(Instant.now());
+        userCommentTimestamps.put(userId, timestamps);
     }
 
     // update post
