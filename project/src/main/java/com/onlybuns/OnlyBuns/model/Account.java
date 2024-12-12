@@ -53,6 +53,9 @@ public class Account {
     @UpdateTimestamp
     private LocalDateTime updatedDate;
 
+    @Column
+    private LocalDateTime lastActivityDate;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "account_roles",
             joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),

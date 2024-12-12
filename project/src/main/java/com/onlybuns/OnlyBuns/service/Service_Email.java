@@ -3,8 +3,10 @@ package com.onlybuns.OnlyBuns.service;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.AccountActivation;
 import com.onlybuns.OnlyBuns.model.AccountActivationStatus;
+import com.onlybuns.OnlyBuns.repository.Repository_Account;
 import com.onlybuns.OnlyBuns.repository.Repository_AccountActivation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,6 +26,9 @@ public class Service_Email {
 
     @Autowired
     private Repository_AccountActivation repository_accountActivation;
+
+    @Autowired
+    private Repository_Account repositoryAccount;
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -70,4 +77,36 @@ public class Service_Email {
         mail.setText("Hello, Please visit the following link to verify your email: " + verificationLink);
         javaMailSender.send(mail);
     }
+
+    @Value("${spring.mail.username}")
+    private String mailSender;
+
+    public void sendNotificationsToInactiveUsers() {
+        LocalDateTime thresholdDate = LocalDateTime.now().minusMinutes(1);
+        List<Account> inactiveAccounts = repositoryAccount.findInactiveAccounts(thresholdDate);
+
+        for (Account account : inactiveAccounts) {
+            SimpleMailMessage mail = new SimpleMailMessage();
+            mail.setTo(account.getEmail());
+            mail.setFrom(mailSender);
+            mail.setSubject("We miss you at OnlyBuns!");
+            mail.setText(generateEmailContent(account));
+            javaMailSender.send(mail);
+        }
+    }
+
+    private String generateEmailContent(Account account) {
+        long newFollowersCount = repositoryAccount.countNewFollowers(account.getId(), account.getLastActivityDate());
+        long newLikesCount = repositoryAccount.countLikesOnUsersPosts(account.getId(), account.getLastActivityDate());
+        long newPostsCount = repositoryAccount.countOtherUsersPosts(account.getId(), account.getLastActivityDate());
+
+        return "Hello " + account.getUserName() + ",\n\n"
+                + "You haven't visited OnlyBuns for a while. Here's what you've missed:\n"
+                + "- New followers: " + newFollowersCount + "\n"
+                + "- New likes: " + newLikesCount + "\n"
+                + "- New posts: " + newPostsCount + "\n\n"
+                + "Come back and see what's new!\n\n"
+                + "Best regards,\nOnlyBuns Team";
+    }
+
 }

@@ -187,6 +187,8 @@ public class DatabaseConfiguration {
         repository_post.save(new Post("DA DA", "Rodilo drvece :^)", "45.24572643495814,19.795722081828355", acc_ajzak, post_nemasanse));
         repository_post.save(new Post("HMM", "E TOSE NISAM NADO!!", "45.25008047417238,19.847921541151837", acc_ajzak, post_dilujem));
 
+        repository_post.save(new Post("HMM", "E TOSE NISAM NADO!!", "45.25008047417238,19.847921541151837", acc_ajzak, post_dilujem));
+
         repository_post.save(new Post("My post", "Moj post!", "45.23907378615232,19.812892956605797", acc_pera));
 
 
@@ -199,6 +201,18 @@ public class DatabaseConfiguration {
                 "mocvara",
                 "/avatars/andjela.png",
                 "zivot je kratak pojedi batak",
+                false
+        );
+
+        Account acc_icy = CreateAccount(
+                "rankaradulovic70@gmail.com",
+                "icy",
+                "123",
+                "Icy",
+                "Trix",
+                "cloud tower",
+                "/avatars/icy.png",
+                "...",
                 false
         );
 
@@ -217,6 +231,7 @@ public class DatabaseConfiguration {
         repository_account.save(acc_patrik);
         acc_pera.follow(acc_ana); // follow ANA for fyp
         repository_account.save(acc_pera);
+        repository_account.save(acc_icy);
 
         // // UNCOMMENT TO SPAM POSTS
         // for (int i = 0; i < 100; i++) {

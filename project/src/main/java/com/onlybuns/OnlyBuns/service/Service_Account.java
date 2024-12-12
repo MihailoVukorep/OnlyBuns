@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.onlybuns.OnlyBuns.util.SimpleBloomFilter;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -159,6 +160,8 @@ public class Service_Account {
         }
 
         session.setAttribute("user", account);
+        account.setLastActivityDate(LocalDateTime.now());
+        repository_account.save(account);
         return new ResponseEntity<>("Logged in as: " + account.getUserName(), HttpStatus.OK);
     }
     public ResponseEntity<String> post_api_register(DTO_Post_AccountRegister dto_post_accountRegister, HttpSession session) {
@@ -220,6 +223,8 @@ public class Service_Account {
                 "...",
                 role
         );
+
+        newAccount.setLastActivityDate(LocalDateTime.now());
         repository_account.save(newAccount);
 
         // send verification email
@@ -306,6 +311,28 @@ public class Service_Account {
         for (Account i : account.getFollowing()) { accounts.add(new DTO_Get_Account(i)); }
         return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
+//    public long getNewFollowersCount(Account account) {
+//        LocalDateTime lastActiveDate = account.getLastActivityDate();
+//
+//        return account.getFollowers().stream()
+//                .filter(follower -> follower.getLastActivityDate().isAfter(lastActiveDate))
+//                .count();
+//    }
+//    public long getNewLikesCount(Account account) {
+//        LocalDateTime lastActiveDate = account.getLastActivityDate();
+//
+//        return account.getLikes().stream()
+//                .filter(like -> like.getCreatedDate().isAfter(lastActiveDate))
+//                .count();
+//    }
+//    public long getNewPostsCount(Account account) {
+//        LocalDateTime lastActiveDate = account.getLastActivityDate();
+//
+//        return account.getPosts().stream()
+//                .filter(post -> post.getCreatedDate().isAfter(lastActiveDate))
+//                .count();
+//    }
+
 
     // TODO: delete account cron job after some time
 }
