@@ -175,7 +175,7 @@ public class DatabaseConfiguration {
                 "big scary admin guy",
                 true
         );
-        repository_accountActivation.save(service_email.GenerateNewAccountActivation(acc_admin, AccountActivationStatus.APPROVED)); // approve petar on create
+        //repository_accountActivation.save(service_email.GenerateNewAccountActivation(acc_admin, AccountActivationStatus.APPROVED)); // approve petar on create
 
 
         Post post_dilujem = new Post("Dilujem Sargarepe", "10 DINARA 100 SARGAREPA!!!!", "45.25818293635168,19.808943655407006", acc_ana);
