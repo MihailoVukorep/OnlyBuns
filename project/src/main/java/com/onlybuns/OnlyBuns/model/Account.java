@@ -69,32 +69,15 @@ public class Account {
     @OneToMany(mappedBy = "account", cascade = CascadeType.REFRESH, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Like> likes;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "account_followers",
-            joinColumns = @JoinColumn(name = "account_id"),
-            inverseJoinColumns = @JoinColumn(name = "follower_id")
-    )
-    private Set<Account> followers = new HashSet<>();
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "account_following",
-            joinColumns = @JoinColumn(name = "follower_id"),
-            inverseJoinColumns = @JoinColumn(name = "account_id")
-    )
-    private Set<Account> following = new HashSet<>();
-
-    public void follow(Account account) {
-        this.following.add(account);
-        account.getFollowers().add(this);
-    }
-
-    public void unfollow(Account account) {
-        this.following.remove(account);
-        account.getFollowers().remove(this);
-    }
-
+//    public void follow(Account account) {
+//        this.following.add(account);
+//        account.getFollowers().add(this);
+//    }
+//
+//    public void unfollow(Account account) {
+//        this.following.remove(account);
+//        account.getFollowers().remove(this);
+//    }
 
     public Account(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio) {
         this.email = email;

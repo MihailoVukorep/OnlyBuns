@@ -16,9 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.onlybuns.OnlyBuns.util.SimpleBloomFilter;
-
+import java.util.Optional;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional // TODO: change this to only be on top of the functions that actually need it (create things / have lazy fetching)
@@ -48,6 +49,8 @@ public class Service_Account {
 
     @Autowired
     private Repository_Like repository_likes;
+    @Autowired
+    private Repository_Follow repository_follow;
 
     @Autowired
     private Service_Email service_email;
@@ -61,8 +64,8 @@ public class Service_Account {
 
         Hibernate.initialize(account.getPosts());
         Hibernate.initialize(account.getLikes());
-        Hibernate.initialize(account.getFollowers());
-        Hibernate.initialize(account.getFollowing());
+        Hibernate.initialize(repository_follow.findFollowersByFollowee(account));
+        Hibernate.initialize(repository_follow.findFolloweesByFollower(account));
         Hibernate.initialize(account.getRoles());
 
         return account;
@@ -85,17 +88,19 @@ public class Service_Account {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
 
-        Account l_user = (Account) session.getAttribute("user"); // NOTE: account from "user" is always lazy need to eager it
+        Account l_user = (Account) session.getAttribute("user"); // Lazy-loaded user
         boolean isMyAccount = false;
         boolean isFollowing = false;
 
         if (l_user != null) {
-            Account user = eager(l_user.getId());
+            Account user = eager(l_user.getId()); // Fetch eagerly loaded account
             isMyAccount = user.getId().equals(id);
-            isFollowing = user.getFollowing().stream().anyMatch(i -> i.getId().equals(id));
+            isFollowing = repository_follow.existsByFollowerAndFollowee(user, id);
         }
 
-        return new ResponseEntity<>(new DTO_Get_Account(optional_account.get(), isMyAccount, isFollowing), HttpStatus.OK);
+        DTO_Get_Account dto = new DTO_Get_Account(optional_account.get(), isMyAccount, isFollowing, repository_follow);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     // /user
@@ -263,76 +268,97 @@ public class Service_Account {
 
     // follow / unfollow
     public ResponseEntity<String> post_api_accounts_id_follow(HttpSession session, Long id) {
-
         Account user = (Account) session.getAttribute("user");
-        if (user == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.NOT_FOUND); }
-
-        long followerId = user.getId();
-        long followeeId = id;
-
-        Account follower = eager(followerId);
-        Account followee = eager(followeeId);
-
-        //unfollow
-        if (follower.getFollowing().contains(followee)) {
-            follower.unfollow(followee);
-            repository_account.save(follower);
-            repository_account.save(followee);
-            return new ResponseEntity<>("Unfollowed.", HttpStatus.OK);
+        if (user == null) {
+            return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED);
         }
+
+        Account follower = repository_account.findById(user.getId())
+                .orElseThrow(() -> new RuntimeException("Follower not found with ID: " + user.getId()));
+        Account followee = repository_account.findById(id)
+                .orElseThrow(() -> new RuntimeException("Followee not found with ID: " + id));
 
         if (follower.equals(followee)) {
             return new ResponseEntity<>("Account cannot follow itself.", HttpStatus.CONFLICT);
         }
 
-        follower.follow(followee);
-        repository_account.save(follower);
-        repository_account.save(followee);
+        Optional<Follow> existingFollow = repository_follow.findByFollowerAndFollowee(follower, followee);
 
-        return new ResponseEntity<>("Followed.", HttpStatus.OK);
+        if (existingFollow.isPresent()) {
+            // Unfollow
+            repository_follow.delete(existingFollow.get());
+            return new ResponseEntity<>("Unfollowed.", HttpStatus.OK);
+        } else {
+            // Follow
+            Follow follow = new Follow(follower, followee, LocalDateTime.now());
+            repository_follow.save(follow);
+            return new ResponseEntity<>("Followed.", HttpStatus.OK);
+        }
     }
+
+//    public ResponseEntity<DTO_Get_Account> get_api_accounts_id(HttpSession session, Long id) {
+//        Optional<Account> optional_account = repository_account.findById(id);
+//        if (optional_account.isEmpty()) {
+//            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+//        }
+//
+//        Account account = optional_account.get();
+//
+//        // Koristite repozitorijum za brojanje
+//        int followersCount = repository_follow.countFollowersByAccountId(id);
+//        int followingCount = repository_follow.findFollowersByFollowee(account).size();
+//
+//        // Proverite da li je u pitanju moj nalog i da li korisnik prati taj nalog
+//        Account sessionUser = (Account) session.getAttribute("user");
+//        boolean isMyAccount = sessionUser != null && sessionUser.getId().equals(id);
+//        boolean isFollowing = sessionUser != null &&
+//                repository_follow.findByFollowerAndFollowee(sessionUser, account).isPresent();
+//
+//        // Napravite DTO koristeći sve podatke
+//        DTO_Get_Account dto = new DTO_Get_Account(
+//                account,
+//                account.getPosts().size(),
+//                account.getLikes().size(),
+//                followersCount,
+//                followingCount,
+//                isMyAccount,
+//                isFollowing
+//        );
+//
+//        return new ResponseEntity<>(dto, HttpStatus.OK);
+//    }
 
     // account's followers / following
     public ResponseEntity<List<DTO_Get_Account>> get_api_accounts_id_followers(Long id) {
         Optional<Account> optional_account = repository_account.findById(id);
-        if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
-        Account account = optional_account.get();
+        if (optional_account.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
 
-        List<DTO_Get_Account> accounts = new ArrayList<>();
-        for (Account i : account.getFollowers()) { accounts.add(new DTO_Get_Account(i)); }
+        Account account = optional_account.get();
+        List<DTO_Get_Account> accounts = repository_follow.findFollowersByFollowee(account)
+                .stream()
+                .map(follower -> new DTO_Get_Account(follower, repository_follow))
+                .collect(Collectors.toList());
+
         return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
+
+    // Fetch users a user is following
     public ResponseEntity<List<DTO_Get_Account>> get_api_accounts_id_following(Long id) {
         Optional<Account> optional_account = repository_account.findById(id);
-        if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
-        Account account = optional_account.get();
+        if (optional_account.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
 
-        List<DTO_Get_Account> accounts = new ArrayList<>();
-        for (Account i : account.getFollowing()) { accounts.add(new DTO_Get_Account(i)); }
+        Account account = optional_account.get();
+        List<DTO_Get_Account> accounts = repository_follow.findFolloweesByFollower(account)
+                .stream()
+                .map(following -> new DTO_Get_Account(following, repository_follow))
+                .collect(Collectors.toList());
+
         return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
-//    public long getNewFollowersCount(Account account) {
-//        LocalDateTime lastActiveDate = account.getLastActivityDate();
-//
-//        return account.getFollowers().stream()
-//                .filter(follower -> follower.getLastActivityDate().isAfter(lastActiveDate))
-//                .count();
-//    }
-//    public long getNewLikesCount(Account account) {
-//        LocalDateTime lastActiveDate = account.getLastActivityDate();
-//
-//        return account.getLikes().stream()
-//                .filter(like -> like.getCreatedDate().isAfter(lastActiveDate))
-//                .count();
-//    }
-//    public long getNewPostsCount(Account account) {
-//        LocalDateTime lastActiveDate = account.getLastActivityDate();
-//
-//        return account.getPosts().stream()
-//                .filter(post -> post.getCreatedDate().isAfter(lastActiveDate))
-//                .count();
-//    }
-
 
     // TODO: delete account cron job after some time
 }

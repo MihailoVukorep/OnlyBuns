@@ -5,6 +5,7 @@ import com.onlybuns.OnlyBuns.model.AccountActivation;
 import com.onlybuns.OnlyBuns.model.AccountActivationStatus;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
 import com.onlybuns.OnlyBuns.repository.Repository_AccountActivation;
+import com.onlybuns.OnlyBuns.repository.Repository_Follow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,9 @@ public class Service_Email {
 
     @Autowired
     private Repository_Account repositoryAccount;
+
+    @Autowired
+    private Repository_Follow repositoryFollow;
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -96,7 +100,7 @@ public class Service_Email {
     }
 
     private String generateEmailContent(Account account) {
-        long newFollowersCount = repositoryAccount.countNewFollowers(account.getId(), account.getLastActivityDate());
+        long newFollowersCount = repositoryFollow.countNewFollowers(account.getId(), account.getLastActivityDate());
         long newLikesCount = repositoryAccount.countLikesOnUsersPosts(account.getId(), account.getLastActivityDate());
         long newPostsCount = repositoryAccount.countOtherUsersPosts(account.getId(), account.getLastActivityDate());
 

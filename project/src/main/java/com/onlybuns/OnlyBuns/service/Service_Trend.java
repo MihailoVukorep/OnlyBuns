@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -31,6 +32,9 @@ public class Service_Trend {
 
     @Autowired
     private Repository_Account repository_account;
+
+    @Autowired
+    private Repository_Follow repository_follow;
 
     @Autowired
     private Service_Post service_post;
@@ -78,7 +82,12 @@ public class Service_Trend {
         Trend currentTrend = getCurrentTrend();
         Account account = (Account) session.getAttribute("user");
         if (account == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); }
-        return new ResponseEntity<>(csv2accounts(currentTrend.getMostActiveLikers()).stream().map(DTO_Get_Account::new).toList(), HttpStatus.OK);
+        List<DTO_Get_Account> dtoAccounts = csv2accounts(currentTrend.getMostActiveLikers())
+                .stream()
+                .map(a -> new DTO_Get_Account(a, repository_follow))
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(dtoAccounts, HttpStatus.OK);
     }
 
     @Scheduled(fixedRate = 3600000) // Update every hour

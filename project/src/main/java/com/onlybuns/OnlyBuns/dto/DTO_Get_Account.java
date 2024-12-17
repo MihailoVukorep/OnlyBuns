@@ -1,6 +1,7 @@
 package com.onlybuns.OnlyBuns.dto;
 
 import com.onlybuns.OnlyBuns.model.Account;
+import com.onlybuns.OnlyBuns.repository.Repository_Follow;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -34,7 +35,7 @@ public class DTO_Get_Account {
     public boolean isMyAccount;
     public boolean isFollowing;
 
-    public DTO_Get_Account(Account account) {
+    public DTO_Get_Account(Account account, Repository_Follow repository_follow) {
         this.id = account.getId();
         this.email = account.getEmail();
         this.userName = account.getUserName();
@@ -51,11 +52,11 @@ public class DTO_Get_Account {
         this.updatedDateStr = this.updatedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         this.postsCount = account.getPosts().size();
         this.likesCount = account.getLikes().size();
-        this.followersCount = account.getFollowers().size();
-        this.followingCount = account.getFollowing().size();
+        this.followersCount = repository_follow.countFollowers(account);
+        this.followingCount = repository_follow.countFollowees(account);
     }
 
-    public DTO_Get_Account(Account account, boolean myAccount, boolean following) {
+    public DTO_Get_Account(Account account, boolean myAccount, boolean following, Repository_Follow repository_follow) {
         this.id = account.getId();
         this.email = account.getEmail();
         this.userName = account.getUserName();
@@ -72,8 +73,8 @@ public class DTO_Get_Account {
         this.updatedDateStr = this.updatedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         this.postsCount = account.getPosts().size();
         this.likesCount = account.getLikes().size();
-        this.followersCount = account.getFollowers().size();
-        this.followingCount = account.getFollowing().size();
+        this.followersCount = repository_follow.countFollowers(account);
+        this.followingCount = repository_follow.countFollowees(account);
         this.isMyAccount = myAccount;
         this.isFollowing = following;
     }

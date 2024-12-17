@@ -46,8 +46,8 @@ public interface Repository_Account extends JpaRepository<Account, Long> {
     @Query("SELECT a FROM Account a WHERE a.lastActivityDate < :thresholdDate")
     List<Account> findInactiveAccounts(@Param("thresholdDate") LocalDateTime thresholdDate);
 
-    @Query("SELECT COUNT(f) FROM Account a JOIN a.followers f WHERE a.id = :accountId AND f.lastActivityDate > :lastActivityDate")
-    long countNewFollowers(@Param("accountId") Long accountId, @Param("lastActivityDate")LocalDateTime lastActivityDate);
+//    @Query("SELECT COUNT(f) FROM Account a JOIN a.followers f WHERE a.id = :accountId AND f.lastActivityDate > :lastActivityDate")
+//    long countNewFollowers(@Param("accountId") Long accountId, @Param("lastActivityDate")LocalDateTime lastActivityDate);
 
     @Query("SELECT COUNT(l) FROM Like l WHERE l.post.account.id = :accountId AND l.createdDate > :lastActivityDate")
     long countLikesOnUsersPosts(@Param("accountId") Long accountId, @Param("lastActivityDate") LocalDateTime lastActivityDate);

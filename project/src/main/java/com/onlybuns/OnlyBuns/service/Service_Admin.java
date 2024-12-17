@@ -3,6 +3,7 @@ package com.onlybuns.OnlyBuns.service;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Account;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
+import com.onlybuns.OnlyBuns.repository.Repository_Follow;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional // TODO: change this to only be on top of the functions that actually need it (create things / have lazy fetching)
@@ -21,6 +23,9 @@ public class Service_Admin {
 
     @Autowired
     private Repository_Account repository_account;
+
+    @Autowired
+    private Repository_Follow repository_follow;
 
     // /admin/accounts
     public ResponseEntity<List<DTO_Get_Account>> get_api_admin_accounts(HttpSession session, String firstName, String lastName, String userName, String email, String address, Integer minPostCount, Integer maxPostCount) {
@@ -30,10 +35,10 @@ public class Service_Admin {
         }
 
         List<Account> accounts = repository_account.findAccountsByAttributesLike(firstName, lastName, userName, email, address, minPostCount, maxPostCount);
-        List<DTO_Get_Account> accountDTOS = new ArrayList<>();
-        for (Account account : accounts) {
-            accountDTOS.add(new DTO_Get_Account(account));
-        }
+        List<DTO_Get_Account> accountDTOS = accounts.stream()
+                .map(a -> new DTO_Get_Account(a, repository_follow))
+                .collect(Collectors.toList());
+
         return new ResponseEntity<>(accountDTOS, HttpStatus.OK);
     }
     public List<Account> getSortedAccounts(HttpSession session, String sortOption) {

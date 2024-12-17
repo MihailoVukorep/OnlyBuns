@@ -5,9 +5,11 @@ import com.onlybuns.OnlyBuns.dto.DTO_Put_Post;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Like;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Post;
 import com.onlybuns.OnlyBuns.model.Account;
+import com.onlybuns.OnlyBuns.model.Follow;
 import com.onlybuns.OnlyBuns.model.Like;
 import com.onlybuns.OnlyBuns.model.Post;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
+import com.onlybuns.OnlyBuns.repository.Repository_Follow;
 import com.onlybuns.OnlyBuns.repository.Repository_Like;
 import com.onlybuns.OnlyBuns.util.VarConverter;
 import jakarta.servlet.http.HttpSession;
@@ -35,6 +37,9 @@ public class Service_Post {
 
     @Autowired
     private Repository_Account repository_account;
+
+    @Autowired
+    private Repository_Follow repository_follow;
 
     @Autowired
     private Repository_Post repository_post;
@@ -68,7 +73,7 @@ public class Service_Post {
         if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         Account account = optional_account.get();
 
-        Set<Account> followedAccounts = account.getFollowing(); // Get the accounts the user follows
+        Set<Account> followedAccounts = repository_follow.findFolloweesByFollower(account);
         Pageable pageable = varConverter.pageable(page, size, sort);
         Page<Post> posts = repository_post.findPostsByFollowedAccounts(followedAccounts, pageable);
         return new ResponseEntity<>(getPostsForUser(posts, account), HttpStatus.OK);

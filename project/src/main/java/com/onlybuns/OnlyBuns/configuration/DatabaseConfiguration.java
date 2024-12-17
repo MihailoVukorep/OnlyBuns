@@ -224,14 +224,14 @@ public class DatabaseConfiguration {
         likePost(post_kupajzeku, acc_ajzak);
 
         // follow
-        acc_ajzak.follow(acc_ana);
-        acc_patrik.follow(acc_ajzak);
-        acc_patrik.follow(acc_pera);
-        repository_account.save(acc_ajzak);
-        repository_account.save(acc_patrik);
-        acc_pera.follow(acc_ana); // follow ANA for fyp
-        repository_account.save(acc_pera);
-        repository_account.save(acc_icy);
+//        acc_ajzak.follow(acc_ana);
+//        acc_patrik.follow(acc_ajzak);
+//        acc_patrik.follow(acc_pera);
+//        repository_account.save(acc_ajzak);
+//        repository_account.save(acc_patrik);
+//        acc_pera.follow(acc_ana); // follow ANA for fyp
+//        repository_account.save(acc_pera);
+//        repository_account.save(acc_icy);
 
         // // UNCOMMENT TO SPAM POSTS
         // for (int i = 0; i < 100; i++) {
