@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 
@@ -20,6 +21,9 @@ public class DatabaseConfiguration {
 
     @Autowired
     private Repository_Post repository_post;
+
+    @Autowired
+    private Repository_Follow repository_follow;
 
     @Autowired
     private Repository_AccountActivation repository_accountActivation;
@@ -81,6 +85,11 @@ public class DatabaseConfiguration {
         repository_like.save(new Like(account, post));
         post.incrementLikeCount();
         repository_post.save(post);
+    }
+
+    public void follow(Account follower, Account followee) {
+        Follow follow = new Follow(follower, followee, LocalDateTime.now());
+        repository_follow.save(follow);
     }
 
 
@@ -224,14 +233,10 @@ public class DatabaseConfiguration {
         likePost(post_kupajzeku, acc_ajzak);
 
         // follow
-//        acc_ajzak.follow(acc_ana);
-//        acc_patrik.follow(acc_ajzak);
-//        acc_patrik.follow(acc_pera);
-//        repository_account.save(acc_ajzak);
-//        repository_account.save(acc_patrik);
-//        acc_pera.follow(acc_ana); // follow ANA for fyp
-//        repository_account.save(acc_pera);
-//        repository_account.save(acc_icy);
+        follow(acc_ajzak, acc_icy);
+        follow(acc_icy, acc_ajzak);
+        follow(acc_ajzak, acc_ana);
+        follow(acc_ajzak, acc_andjela);
 
         // // UNCOMMENT TO SPAM POSTS
         // for (int i = 0; i < 100; i++) {
