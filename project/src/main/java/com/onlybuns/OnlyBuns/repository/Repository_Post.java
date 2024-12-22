@@ -1,11 +1,13 @@
 package com.onlybuns.OnlyBuns.repository;
 
 import com.onlybuns.OnlyBuns.model.Account;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import com.onlybuns.OnlyBuns.model.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -43,4 +45,9 @@ public interface Repository_Post extends JpaRepository<Post, Long> {
             "ORDER BY SIZE(p.likes) DESC " +
             "LIMIT 10")
     List<Post> findTop10ByOrderByLikesSizeDesc();
+
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM Post p WHERE p.account.id = :accountId")
+    void deleteByAccountId(@Param("accountId") Long accountId);
 }

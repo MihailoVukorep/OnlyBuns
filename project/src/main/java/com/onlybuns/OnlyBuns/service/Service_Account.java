@@ -9,6 +9,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.Null;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -398,11 +399,8 @@ public class Service_Account {
         List<Account> all_acc = repository_account.findAll();
         List<Account> unactive_acc = new ArrayList<>();
         for(Account account : all_acc){
-            Optional<AccountActivation> opt_accountActivation = repository_accountActivation.findByAccount(account);
-            if(opt_accountActivation.isPresent() && opt_accountActivation.get().getStatus() == AccountActivationStatus.WAITING){
-                if (account.getCreatedDate().isBefore(thresholdDate)) {
+            if(account.getLastActivityDate() == null || account.getLastActivityDate().isBefore(thresholdDate)){
                     unactive_acc.add(account);
-                }
             }
         }
 

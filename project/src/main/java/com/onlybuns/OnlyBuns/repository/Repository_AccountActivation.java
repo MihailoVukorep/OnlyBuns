@@ -12,4 +12,6 @@ public interface Repository_AccountActivation extends JpaRepository<AccountActiv
     Optional<AccountActivation> findByAccount(Account account);
 
     boolean existsByToken(String token);
+
+    void deleteAccountActivationByAccount_Id(Long id);
 }
