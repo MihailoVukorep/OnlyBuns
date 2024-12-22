@@ -19,6 +19,7 @@ import com.onlybuns.OnlyBuns.util.SimpleBloomFilter;
 import java.util.Optional;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Service
@@ -149,8 +150,11 @@ public class Service_Account {
         Optional<AccountActivation> opt_accountActivation = repository_accountActivation.findByAccount(account);
         if (opt_accountActivation.isEmpty()) {
             // missing account activation in db -- creating...
-            try { service_email.sendVerificationEmail(account); }
-            catch (Exception e) { new ResponseEntity<>("mail error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR); }
+            try {
+                service_email.sendVerificationEmail(account);
+            } catch (Exception e) {
+                new ResponseEntity<>("mail error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
 
             return new ResponseEntity<>("Please verify email.", HttpStatus.UNAUTHORIZED);
         } else {
@@ -273,6 +277,10 @@ public class Service_Account {
             return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED);
         }
 
+        if (!canFollow(user.getId())) {
+            return new ResponseEntity<>("Follow limit exceeded. Try again later.", HttpStatus.TOO_MANY_REQUESTS);
+        }
+
         Account follower = repository_account.findById(user.getId())
                 .orElseThrow(() -> new RuntimeException("Follower not found with ID: " + user.getId()));
         Account followee = repository_account.findById(id)
@@ -290,10 +298,36 @@ public class Service_Account {
             return new ResponseEntity<>("Unfollowed.", HttpStatus.OK);
         } else {
             // Follow
-            Follow follow = new Follow(follower, followee, LocalDateTime.now());
-            repository_follow.save(follow);
+            followTransactional(follower, followee);
             return new ResponseEntity<>("Followed.", HttpStatus.OK);
         }
+    }
+
+    @Transactional
+    public void followTransactional(Account follower, Account followee) {
+        Follow follow = new Follow(follower, followee, LocalDateTime.now());
+        repository_follow.save(follow);
+        repository_account.save(followee);
+    }
+
+    private final Map<Long, Deque<LocalDateTime>> followRequests = new ConcurrentHashMap<>();
+
+    public synchronized boolean canFollow(Long userId) {
+        LocalDateTime now = LocalDateTime.now();
+        followRequests.putIfAbsent(userId, new LinkedList<>());
+        Deque<LocalDateTime> requests = followRequests.get(userId);
+
+        //ne racunamo zahteve starije od minut
+        while (!requests.isEmpty() && requests.peekFirst().isBefore(now.minusMinutes(1))) {
+            requests.pollFirst();
+        }
+
+        if (requests.size() >= 50) {
+            return false;
+        }
+
+        requests.addLast(now);
+        return true;
     }
 
 //    public ResponseEntity<DTO_Get_Account> get_api_accounts_id(HttpSession session, Long id) {
@@ -360,5 +394,20 @@ public class Service_Account {
         return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
 
+    public List<Account> findUnactivatedAccounts(LocalDateTime thresholdDate) {
+        List<Account> all_acc = repository_account.findAll();
+        List<Account> unactive_acc = new ArrayList<>();
+        for(Account account : all_acc){
+            Optional<AccountActivation> opt_accountActivation = repository_accountActivation.findByAccount(account);
+            if(opt_accountActivation.isPresent() && opt_accountActivation.get().getStatus() == AccountActivationStatus.WAITING){
+                if (account.getCreatedDate().isBefore(thresholdDate)) {
+                    unactive_acc.add(account);
+                }
+            }
+        }
+
+        return unactive_acc;
+
+    }
     // TODO: delete account cron job after some time
 }

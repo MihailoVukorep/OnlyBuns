@@ -102,6 +102,19 @@ public class Account {
         this.roles.add(role);
     }
 
+    public Account(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio, Role role, LocalDateTime creation) {
+        this.email = email;
+        this.userName = userName;
+        this.password = hashPassword(password);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.avatar = avatar;
+        this.bio = bio;
+        this.roles.add(role);
+        this.createdDate = creation;
+    }
+
     private String hashPassword(String rawPassword) {
         return new BCryptPasswordEncoder().encode(rawPassword);
     }

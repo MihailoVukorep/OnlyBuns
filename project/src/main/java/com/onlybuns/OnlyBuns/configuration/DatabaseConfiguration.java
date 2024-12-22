@@ -68,6 +68,35 @@ public class DatabaseConfiguration {
 
         return account;
     }
+    public Account TESTCreateAccount(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio, Boolean addAdminRole, LocalDateTime created) {
+
+        Role role_user = init_role("USER");
+        Role role_admin = init_role("ADMIN");
+
+        Account account = new Account(
+                email,
+                userName,
+                password,
+                firstName,
+                lastName,
+                address,
+                avatar,
+                bio,
+                role_user,
+                created
+        );
+
+        if (addAdminRole) {
+            Set<Role> roles = account.getRoles();
+            roles.add(role_admin);
+            account.setRoles(roles);
+        }
+
+        repository_account.save(account);
+        repository_accountActivation.save(service_email.GenerateNewAccountActivation(account, AccountActivationStatus.APPROVED)); // approve all accounts when created
+
+        return account;
+    }
 
     public Role init_role(String name) {
         Optional<Role> optional_role = repository_role.findByName(name);
@@ -183,6 +212,19 @@ public class DatabaseConfiguration {
                 "/avatars/bigboss.png",
                 "big scary admin guy",
                 true
+        );
+
+        Account acc_test = TESTCreateAccount(
+                "killmeplzftn+test@gmail.com",
+                "testacc",
+                "123",
+                "Pera",
+                "Peric",
+                "bulevar 22",
+                "/avatars/default.jpg",
+                "veoma ozbiljan lik",
+                false,
+                LocalDateTime.of(2022, 12, 22, 15, 30, 45)
         );
         //repository_accountActivation.save(service_email.GenerateNewAccountActivation(acc_admin, AccountActivationStatus.APPROVED)); // approve petar on create
 
