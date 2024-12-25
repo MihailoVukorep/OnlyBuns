@@ -33,6 +33,9 @@ function init_map() {
         // display location
         L.marker([lat, lon]).addTo(markers).bindPopup(`${lat.toFixed(5)},${lat.toFixed(5)}`).openPopup();
         navigator.clipboard.writeText(location); // copy location
+
+        const locationTxt = document.getElementById('txt_location');
+        if (locationTxt != null) { locationTxt.value = location; }
     });
 
     fetch_locations();

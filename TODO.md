@@ -1,11 +1,11 @@
 # must do:
-- chat:
-    - account/{id}/message - create chat for current session user and user from id ; should redirect to /chat
-    - /chat - fetch Chats and display them (clickable)
-    - /chat - when clicked fetch messages - display next to
 - delete account cron job after some time
 - admin/accounts search needs paging
 - remove all exceptions -- use web error codes
+
+# to fix:
+- use ratelimiter class to limit follow / reply ??
+- when counting things: dont do collection.size() call repository.countSomething (ex. rep.countLikes...) - WHY: since .size() is int it won't overflow on large numbers
 
 # NEW CSS NEEDED:
 - popup
