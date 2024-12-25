@@ -40,6 +40,9 @@ public class DatabaseConfiguration {
     @Autowired
     private Service_Trend service_trend;
 
+    private final String LOCATION_NOVI_SAD = "45.25120485988152,19.82688903808594";
+    private final String LOCATION_BELGRADE = "44.81423651177903,20.45860290527344";
+
     public Account CreateAccount(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio, Boolean addAdminRole) {
 
         Role role_user = init_role("USER");
@@ -136,7 +139,7 @@ public class DatabaseConfiguration {
                 "123",
                 "Pera",
                 "Peric",
-                "bulevar 22",
+                LOCATION_NOVI_SAD,
                 "/avatars/default.jpg",
                 "veoma ozbiljan lik",
                 false
@@ -148,7 +151,7 @@ public class DatabaseConfiguration {
                 "123",
                 "Ajs",
                 "Nigrutin",
-                "sutjeska 13",
+                LOCATION_BELGRADE,
                 "/avatars/ajs.png",
                 "gengsta lik",
                 false
@@ -160,14 +163,14 @@ public class DatabaseConfiguration {
                 "123",
                 "Patrik",
                 "Zvezda",
-                "ispod kamena",
+                LOCATION_BELGRADE,
                 "/avatars/patrik.png",
                 "koga ti nazivas glavonjom?",
                 false
         );
 
-        repository_post.save(new Post("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)", "45.242218771764854,19.83195262760878", "uploads/img/bunny1.jpg", acc_ajzak));
-        repository_post.save(new Post("Sala", "I ja i zeka volimo travu.", "45.259875842135436,19.830235540131056", "uploads/img/bunny2.jpg", acc_ajzak));
+        repository_post.save(new Post("3 zeca piveks", "Prodajem 3 zeca. Treba mi za gajbu piva. ;)", "44.8184772717805,20.466587343599706", "uploads/img/bunny1.jpg", acc_ajzak));
+        repository_post.save(new Post("Sala", "I ja i zeka volimo travu.", "44.813968405692904,20.48101087841278", "uploads/img/bunny2.jpg", acc_ajzak));
 
 
         Account acc_ana = CreateAccount(
@@ -176,7 +179,7 @@ public class DatabaseConfiguration {
                 "123",
                 "Ana",
                 "Djuric",
-                "tu na keju",
+                LOCATION_NOVI_SAD,
                 "/avatars/kons.png",
                 "umetnica moze biti zdrava",
                 false
@@ -188,7 +191,7 @@ public class DatabaseConfiguration {
                 "123",
                 "Hejter",
                 "McLovin",
-                "laze teleckog",
+                LOCATION_NOVI_SAD,
                 "/avatars/mclovin.png",
                 "mrzim zeceve",
                 false
@@ -198,7 +201,7 @@ public class DatabaseConfiguration {
         Post post_kupajzeku = new Post("zeka mora biti zdrav", "Morate kupati svog zeku da bi bio zdrav i prav :^).", "45.248991995657825,19.8151251703269", "uploads/img/bunny5.jpg", acc_ana);
         repository_post.save(post_kupajzeku);
 
-        repository_post.save(new Post("e necu", "Sto bi trosio vodu nek smrdi!", "45.24935482414706,19.80156017925269", acc_ajzak, post_kupajzeku));
+        repository_post.save(new Post("e necu", "Sto bi trosio vodu nek smrdi!", "44.80909355927732,20.472940567267337", acc_ajzak, post_kupajzeku));
         repository_post.save(new Post("ti se okupaj", ":)", "45.262173276394655,19.85307280358509", acc_hater, post_kupajzeku));
 
 
@@ -208,7 +211,7 @@ public class DatabaseConfiguration {
                 "123",
                 "Big",
                 "Boss",
-                "motherbase",
+                LOCATION_NOVI_SAD,
                 "/avatars/bigboss.png",
                 "big scary admin guy",
                 true
@@ -220,7 +223,7 @@ public class DatabaseConfiguration {
                 "123",
                 "Pera",
                 "Peric",
-                "bulevar 22",
+                LOCATION_NOVI_SAD,
                 "/avatars/default.jpg",
                 "veoma ozbiljan lik",
                 false,
@@ -235,9 +238,7 @@ public class DatabaseConfiguration {
         Post post_nemasanse = new Post("NEMA SANSE", "ALA DRUZE KAKAV DEAL!!", "45.24197685597521,19.81958959776903", acc_ajzak, post_dilujem);
         repository_post.save(post_nemasanse);
 
-        repository_post.save(new Post("DA DA", "Rodilo drvece :^)", "45.24572643495814,19.795722081828355", acc_ajzak, post_nemasanse));
-        repository_post.save(new Post("HMM", "E TOSE NISAM NADO!!", "45.25008047417238,19.847921541151837", acc_ajzak, post_dilujem));
-
+        repository_post.save(new Post("DA DA", "Rodilo drvece :^)", "45.24572643495814,19.795722081828355", acc_ana, post_nemasanse));
         repository_post.save(new Post("HMM", "E TOSE NISAM NADO!!", "45.25008047417238,19.847921541151837", acc_ajzak, post_dilujem));
 
         repository_post.save(new Post("My post", "Moj post!", "45.23907378615232,19.812892956605797", acc_pera));
@@ -249,7 +250,7 @@ public class DatabaseConfiguration {
                 "123",
                 "Andjela",
                 "Anakonda",
-                "mocvara",
+                LOCATION_NOVI_SAD,
                 "/avatars/andjela.png",
                 "zivot je kratak pojedi batak",
                 false
@@ -261,9 +262,9 @@ public class DatabaseConfiguration {
                 "123",
                 "Icy",
                 "Trix",
-                "cloud tower",
+                LOCATION_NOVI_SAD,
                 "/avatars/icy.png",
-                "...",
+                "abrakadabra",
                 false
         );
 

@@ -11,9 +11,9 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class DTO_Get_Like {
-    private Long id;
-    private Account account;
-    private Post post;
+    public Long id;
+    public Account account;
+    public Post post;
 
     public DTO_Get_Like(Like like) {
         this.id = like.getId();

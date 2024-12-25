@@ -1,5 +1,6 @@
 package com.onlybuns.OnlyBuns.service;
 
+import com.onlybuns.OnlyBuns.dto.DTO_Get_Location;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.Post;
 import com.onlybuns.OnlyBuns.repository.Repository_Post;
@@ -18,17 +19,18 @@ public class Service_Map {
     @Autowired
     private Repository_Post repository_post;
 
-    public ResponseEntity<List<String>> get_api_map_locations(HttpSession session) {
+    public ResponseEntity<DTO_Get_Location> get_api_map_locations(HttpSession session) {
 
         Account account = (Account) session.getAttribute("user");
         if (account == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
-        List<String> locations = new ArrayList<>();
+        List<String> coordinates = new ArrayList<>();
         for (Post i : repository_post.findAll()) {
-            locations.add(i.getLocation());
+            coordinates.add(i.getLocation());
         }
-        return new ResponseEntity<>(locations, HttpStatus.OK);
+
+        return new ResponseEntity<>(new DTO_Get_Location(account.getAddress(), coordinates), HttpStatus.OK);
     }
 }
