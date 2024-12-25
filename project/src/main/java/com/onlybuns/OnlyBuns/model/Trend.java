@@ -29,10 +29,10 @@ public class Trend {
     private String topWeeklyPostsCsv;
 
     @Column(columnDefinition = "TEXT")
-    private String topAllTimePosts;
+    private String topAllTimePostsCsv;
 
     @Column(columnDefinition = "TEXT")
-    private String mostActiveLikers;
+    private String mostActiveLikersCsv;
 
     @CreationTimestamp
     private LocalDateTime lastUpdated;
@@ -41,7 +41,7 @@ public class Trend {
         this.totalPosts = totalPosts;
         this.postsLastMonth = postsLastMonth;
         this.topWeeklyPostsCsv = topWeeklyPostsCsv;
-        this.topAllTimePosts = topAllTimePosts;
-        this.mostActiveLikers = mostActiveLikers;
+        this.topAllTimePostsCsv = topAllTimePosts;
+        this.mostActiveLikersCsv = mostActiveLikers;
     }
 }

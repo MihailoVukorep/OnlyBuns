@@ -20,11 +20,13 @@
 
     <h1>📈 Trends 📈</h1>
 
+    <iframe id="counts" src="/trends/counts" onload="iframe_init(this)" title="site counts"></iframe> 
     <iframe id="weekly" src="/trends/weekly" onload="iframe_init(this)" title="weekly posts"></iframe> 
     <iframe id="top" src="/trends/top" onload="iframe_init(this)" title="top posts"></iframe> 
     <iframe id="likers" src="/trends/likers" onload="iframe_init(this)" title="likers"></iframe> 
 
     <script>
+        iframe_init("counts");
         iframe_init("weekly");
         iframe_init("top");
         iframe_init("likers");

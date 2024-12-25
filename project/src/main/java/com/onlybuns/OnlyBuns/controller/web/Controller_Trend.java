@@ -2,6 +2,8 @@ package com.onlybuns.OnlyBuns.controller.web;
 
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Account;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Post;
+import com.onlybuns.OnlyBuns.dto.DTO_Get_Trend;
+import com.onlybuns.OnlyBuns.dto.DTO_Get_Trend_Counts;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.service.Service_Trend;
 import jakarta.servlet.http.HttpSession;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -25,6 +28,17 @@ public class Controller_Trend {
         Account user = (Account) session.getAttribute("user");
         if (user == null) { return "error/401.html"; }
         return "trends.html";
+    }
+
+    @GetMapping("/trends/counts")
+    public String trends_counts(HttpSession session, Model model) {
+        ResponseEntity<DTO_Get_Trend_Counts> response = service_trend.get_api_trends_counts(session);
+        if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) { return "error/401.html"; }
+        DTO_Get_Trend_Counts trend = response.getBody();
+        model.addAttribute("totalPosts", trend.getTotalPosts());
+        model.addAttribute("postsLastMonth", trend.getPostsLastMonth());
+        model.addAttribute("lastUpdatedStr", trend.getLastUpdatedStr());
+        return "trends_counts.html";
     }
 
     @GetMapping("/trends/weekly")
