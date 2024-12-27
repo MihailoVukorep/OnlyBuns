@@ -1,0 +1,86 @@
+<span th:fragment="navpage">
+
+    <style>
+        #navpage {
+            display: inline-block;
+        }
+        
+        #navpage_ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        .page-item {
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+        }
+
+        .page-item.active {
+            font-weight: bold;
+            color: var(--var-color-purple);
+            text-decoration: underline;
+        }
+
+        .page-item.disabled .page-link {
+            color: var(--var-color-pink-4-trans);
+            cursor: not-allowed; /* Prevent pointer */
+            text-decoration: none; /* Remove underline */
+            pointer-events: none; /* Disable interaction */
+        }
+
+        .page-link {
+            font-size: xx-large;
+            font-weight: bold;
+            color: var(--var-color-purple);
+            text-decoration: none
+        }
+    </style>
+
+    <nav id="navpage" aria-label="Page navigation">
+        <ul id="navpage_ul">
+            <!-- First Page -->
+            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                <a class="page-link"
+                    th:href="@{(${baseUrl} + '?page=0&size=' + ${pageSize} + '&sort=' + ${currentSort})}"
+                    th:if="${currentPage > 0}" aria-disabled="${currentPage == 0}">&#171;</a>
+                <span class="page-link" th:if="${currentPage == 0}">&#171;</span>
+            </li>
+    
+            <!-- Previous Page -->
+            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                <a class="page-link"
+                    th:href="@{(${baseUrl} + '?page=' + (${currentPage} - 1) + '&size=' + ${pageSize} + '&sort=' + ${currentSort})}"
+                    th:if="${currentPage > 0}" aria-disabled="${currentPage == 0}">&#60;</a>
+                <span class="page-link" th:if="${currentPage == 0}">&#60;</span>
+            </li>
+    
+            <!-- Page Numbers -->
+            <li th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}" class="page-item"
+                th:classappend="${pageNum == currentPage} ? 'active'">
+                <a class="page-link"
+                    th:href="@{(${baseUrl} + '?page=' + ${pageNum} + '&size=' + ${pageSize} + '&sort=' + ${currentSort})}"
+                    th:text="${pageNum + 1}"></a>
+            </li>
+    
+            <!-- Next Page -->
+            <li class="page-item" th:classappend="${currentPage >= totalPages - 1} ? 'disabled'">
+                <a class="page-link"
+                    th:href="@{(${baseUrl} + '?page=' + (${currentPage} + 1) + '&size=' + ${pageSize} + '&sort=' + ${currentSort})}"
+                    th:if="${currentPage < totalPages - 1}"
+                    aria-disabled="${currentPage >= totalPages - 1}">&#62;</a>
+                <span class="page-link" th:if="${currentPage >= totalPages - 1}">&#62;</span>
+            </li>
+    
+            <!-- Last Page -->
+            <li class="page-item" th:classappend="${currentPage >= totalPages - 1} ? 'disabled'">
+                <a class="page-link"
+                    th:href="@{(${baseUrl} + '?page=' + (${totalPages - 1}) + '&size=' + ${pageSize} + '&sort=' + ${currentSort})}"
+                    th:if="${currentPage < totalPages - 1}"
+                    aria-disabled="${currentPage >= totalPages - 1}">&#187;</a>
+                <span class="page-link" th:if="${currentPage >= totalPages - 1}">&#187;</span>
+            </li>
+        </ul>
+    </nav>
+</span>
+
