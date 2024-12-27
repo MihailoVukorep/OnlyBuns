@@ -6,7 +6,6 @@
 # to fix:
 - use ratelimiter class to limit follow / reply ??
 - when counting things: dont do collection.size() call repository.countSomething (ex. rep.countLikes...) - WHY: since .size() is int it won't overflow on large numbers
-- fix paging on fyp
 
 # NEW CSS NEEDED:
 - popup

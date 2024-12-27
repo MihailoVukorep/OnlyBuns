@@ -59,7 +59,7 @@ public class Controller_Post {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", postPage.getTotalPages());
         model.addAttribute("pageSize", size);
-        model.addAttribute("baseUrl", "/posts");
+        model.addAttribute("baseUrl", "/fyp");
         return "fyp";
     }
 
