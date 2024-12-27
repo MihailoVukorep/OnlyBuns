@@ -331,38 +331,6 @@ public class Service_Account {
         return true;
     }
 
-//    public ResponseEntity<DTO_Get_Account> get_api_accounts_id(HttpSession session, Long id) {
-//        Optional<Account> optional_account = repository_account.findById(id);
-//        if (optional_account.isEmpty()) {
-//            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//        }
-//
-//        Account account = optional_account.get();
-//
-//        // Koristite repozitorijum za brojanje
-//        int followersCount = repository_follow.countFollowersByAccountId(id);
-//        int followingCount = repository_follow.findFollowersByFollowee(account).size();
-//
-//        // Proverite da li je u pitanju moj nalog i da li korisnik prati taj nalog
-//        Account sessionUser = (Account) session.getAttribute("user");
-//        boolean isMyAccount = sessionUser != null && sessionUser.getId().equals(id);
-//        boolean isFollowing = sessionUser != null &&
-//                repository_follow.findByFollowerAndFollowee(sessionUser, account).isPresent();
-//
-//        // Napravite DTO koristeći sve podatke
-//        DTO_Get_Account dto = new DTO_Get_Account(
-//                account,
-//                account.getPosts().size(),
-//                account.getLikes().size(),
-//                followersCount,
-//                followingCount,
-//                isMyAccount,
-//                isFollowing
-//        );
-//
-//        return new ResponseEntity<>(dto, HttpStatus.OK);
-//    }
-
     // account's followers / following
     public ResponseEntity<List<DTO_Get_Account>> get_api_accounts_id_followers(Long id) {
         Optional<Account> optional_account = repository_account.findById(id);

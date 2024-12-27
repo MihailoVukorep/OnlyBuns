@@ -1,6 +1,8 @@
 package com.onlybuns.OnlyBuns.repository;
 
 import com.onlybuns.OnlyBuns.model.Account;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -55,4 +57,22 @@ public interface Repository_Account extends JpaRepository<Account, Long> {
     @Query("SELECT COUNT(p) FROM Post p WHERE p.account.id != :accountId AND p.createdDate > :lastActivityDate")
     long countOtherUsersPosts(@Param("accountId") Long accountId, @Param("lastActivityDate") LocalDateTime lastActivityDate);
 
+
+    @Query("SELECT a FROM Account a WHERE " +
+            "(COALESCE(LOWER(a.firstName), '') LIKE LOWER(CONCAT('%', COALESCE(:firstName, ''), '%'))) AND " +
+            "(COALESCE(LOWER(a.lastName), '') LIKE LOWER(CONCAT('%', COALESCE(:lastName, ''), '%'))) AND " +
+            "(COALESCE(LOWER(a.userName), '') LIKE LOWER(CONCAT('%', COALESCE(:userName, ''), '%'))) AND " +
+            "(COALESCE(LOWER(a.email), '') LIKE LOWER(CONCAT('%', COALESCE(:email, ''), '%'))) AND " +
+            "(COALESCE(LOWER(a.address), '') LIKE LOWER(CONCAT('%', COALESCE(:address, ''), '%'))) AND " +
+            "((:minPostCount IS NULL OR SIZE(a.posts) >= :minPostCount) AND " +
+            "(:maxPostCount IS NULL OR SIZE(a.posts) <= :maxPostCount))")
+    Page<Account> findAllAccountsByAttributesLike(
+            @Param("firstName") String firstName,
+            @Param("lastName") String lastName,
+            @Param("userName") String userName,
+            @Param("email") String email,
+            @Param("address") String address,
+            @Param("minPostCount") Integer minPostCount,
+            @Param("maxPostCount") Integer maxPostCount,
+            Pageable pageable);
 }

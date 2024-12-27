@@ -7,6 +7,9 @@ import com.onlybuns.OnlyBuns.repository.Repository_Follow;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,7 @@ import java.util.stream.Collectors;
 @Transactional // TODO: change this to only be on top of the functions that actually need it (create things / have lazy fetching)
 public class Service_Admin {
 
+    final int PAGE_SIZE = 6;
     @Autowired
     private Repository_Account repository_account;
 
@@ -28,14 +32,16 @@ public class Service_Admin {
     private Repository_Follow repository_follow;
 
     // /admin/accounts
-    public ResponseEntity<List<DTO_Get_Account>> get_api_admin_accounts(HttpSession session, String firstName, String lastName, String userName, String email, String address, Integer minPostCount, Integer maxPostCount) {
+    public ResponseEntity<List<DTO_Get_Account>> get_api_admin_accounts(HttpSession session, String firstName, String lastName, String userName, String email, String address, Integer minPostCount, Integer maxPostCount, int pageNum) {
         Account user = (Account) session.getAttribute("user");
         if (user == null || !user.isAdmin()) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
-        List<Account> accounts = repository_account.findAccountsByAttributesLike(firstName, lastName, userName, email, address, minPostCount, maxPostCount);
-        List<DTO_Get_Account> accountDTOS = accounts.stream()
+        Pageable pageable = PageRequest.of(pageNum, PAGE_SIZE);
+
+        Page<Account> accountsPage = repository_account.findAllAccountsByAttributesLike(firstName, lastName, userName, email, address, minPostCount, maxPostCount, pageable);
+        List<DTO_Get_Account> accountDTOS = accountsPage.stream()
                 .map(a -> new DTO_Get_Account(a, repository_follow))
                 .collect(Collectors.toList());
 
@@ -53,7 +59,7 @@ public class Service_Admin {
         return repository_account.findAll(sort);
     }
     public List<DTO_Get_Account> getFilteredAndSortedAccounts(HttpSession session, String firstName, String lastName, String userName, String email, String address, Integer minPostCount, Integer maxPostCount, String sortOption) {
-        List<DTO_Get_Account> accounts = get_api_admin_accounts(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount).getBody();
+        List<DTO_Get_Account> accounts = get_api_admin_accounts(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount, 0).getBody();
 
         if (accounts == null || accounts.isEmpty()) {
             return accounts;

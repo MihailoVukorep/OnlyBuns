@@ -26,7 +26,8 @@ public class RestController_Admin {
             @RequestParam(required = false) String email,
             @RequestParam(required = false) String address,
             @RequestParam(required = false) Integer minPostCount,
-            @RequestParam(required = false) Integer maxPostCount) {
-        return service_admin.get_api_admin_accounts(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount);
+            @RequestParam(required = false) Integer maxPostCount,
+            @RequestParam(defaultValue = "0") Integer pageNum) {
+        return service_admin.get_api_admin_accounts(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount, pageNum);
     }
 }
