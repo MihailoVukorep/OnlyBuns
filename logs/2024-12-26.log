@@ -1,0 +1,72 @@
+
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.5)
+
+2024-12-26T20:42:35.157+01:00  INFO 37762 --- [OnlyBuns] [           main] c.onlybuns.OnlyBuns.OnlyBunsApplication  : Starting OnlyBunsApplication using Java 21.0.5 with PID 37762 (/home/user/Documents/OnlyBuns/project/target/classes started by user in /home/user/Documents/OnlyBuns/project)
+2024-12-26T20:42:35.159+01:00  INFO 37762 --- [OnlyBuns] [           main] c.onlybuns.OnlyBuns.OnlyBunsApplication  : No active profile set, falling back to 1 default profile: "default"
+2024-12-26T20:42:35.589+01:00  INFO 37762 --- [OnlyBuns] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-26T20:42:35.625+01:00  INFO 37762 --- [OnlyBuns] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 31 ms. Found 9 JPA repository interfaces.
+2024-12-26T20:42:36.048+01:00  INFO 37762 --- [OnlyBuns] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-12-26T20:42:36.058+01:00  INFO 37762 --- [OnlyBuns] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-26T20:42:36.058+01:00  INFO 37762 --- [OnlyBuns] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
+2024-12-26T20:42:36.106+01:00  INFO 37762 --- [OnlyBuns] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-26T20:42:36.108+01:00  INFO 37762 --- [OnlyBuns] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 915 ms
+2024-12-26T20:42:36.261+01:00  INFO 37762 --- [OnlyBuns] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-26T20:42:36.293+01:00  INFO 37762 --- [OnlyBuns] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2024-12-26T20:42:36.311+01:00  INFO 37762 --- [OnlyBuns] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-26T20:42:36.475+01:00  INFO 37762 --- [OnlyBuns] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-26T20:42:36.492+01:00  INFO 37762 --- [OnlyBuns] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-12-26T20:42:36.541+01:00  INFO 37762 --- [OnlyBuns] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1ba35152
+2024-12-26T20:42:36.541+01:00  INFO 37762 --- [OnlyBuns] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-12-26T20:42:37.078+01:00  INFO 37762 --- [OnlyBuns] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-26T20:42:37.334+01:00  INFO 37762 --- [OnlyBuns] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-26T20:42:37.501+01:00  INFO 37762 --- [OnlyBuns] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+INIT DB
+2024-12-26T20:42:38.842+01:00  INFO 37762 --- [OnlyBuns] [           main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2024-12-26T20:42:39.119+01:00  INFO 37762 --- [OnlyBuns] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-12-26T20:42:39.127+01:00  INFO 37762 --- [OnlyBuns] [           main] c.onlybuns.OnlyBuns.OnlyBunsApplication  : Started OnlyBunsApplication in 4.198 seconds (process running for 4.451)
+NEW TREND: Trend(id=1, totalPosts=94, postsLastMonth=94, topWeeklyPostsCsv=6,7,3,23,91, topAllTimePostsCsv=6,7,3,23,58,8,91,74,54,87, mostActiveLikersCsv=2,3,8, lastUpdated=2024-12-26T20:42:39.172257)
+=== NEW TREND WEEKLY POSTS
+Post{id=6, title='Dilujem Sargarepe', text='10 DINARA 100 SARGAREPA!!!!', likes=3}
+Post{id=7, title='NEMA SANSE', text='ALA DRUZE KAKAV DEAL!!', likes=1}
+Post{id=3, title='zeka mora biti zdrav', text='Morate kupati svog zeku da bi bio zdrav i prav :^).', likes=1}
+Post{id=23, title='Favorite Bunny Names', text='What are some of the cutest bunny names you've heard?', likes=0}
+Post{id=91, title='Bunny Winter Playtime', text='Do indoor rabbits still need outdoor playtime in winter?', likes=0}
+
+=== NEW TREND ALL TIME POSTS
+Post{id=6, title='Dilujem Sargarepe', text='10 DINARA 100 SARGAREPA!!!!', likes=3}
+Post{id=7, title='NEMA SANSE', text='ALA DRUZE KAKAV DEAL!!', likes=1}
+Post{id=3, title='zeka mora biti zdrav', text='Morate kupati svog zeku da bi bio zdrav i prav :^).', likes=1}
+Post{id=23, title='Favorite Bunny Names', text='What are some of the cutest bunny names you've heard?', likes=0}
+Post{id=58, title='Bunny Toy Recommendations', text='What are your bunny's favorite toys?', likes=0}
+Post{id=8, title='DA DA', text='Rodilo drvece :^)', likes=0}
+Post{id=91, title='Bunny Winter Playtime', text='Do indoor rabbits still need outdoor playtime in winter?', likes=0}
+Post{id=74, title='Bunny Nighttime Behavior', text='My rabbit makes noise at night. How can I help?', likes=0}
+Post{id=54, title='Bunny Nail Trimming', text='How do you trim your rabbit's nails without stressing them?', likes=0}
+Post{id=87, title='Bunny-Proof Fences', text='What fencing works best for indoor free-range rabbits?', likes=0}
+
+=== NEW TREND ACCOUNTS
+Acccount{id=2, username='ajzak', likes=3}
+Acccount{id=3, username='patrik', likes=1}
+Acccount{id=8, username='anakonda', likes=1}
+
+2024-12-26T20:42:40.924+01:00  INFO 37762 --- [OnlyBuns] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-26T20:42:40.924+01:00  INFO 37762 --- [OnlyBuns] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-12-26T20:42:40.925+01:00  INFO 37762 --- [OnlyBuns] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+Post created: Post{id=96, title='hjghjg', text='gghjfg', pictureLocation='null', pictureUrl='null', location='45.23373941191965,19.849634170532227', account=Account{id=1, email='killmeplzftn+pera@gmail.com', userName='rope', password='$2a$10$oM2hgDhSBl4oNTV2JkYe2.pADSGr9WiC0YbV7UBR09RjiYSTBlAoS', firstName='Pera', lastName='Peric', address='45.25120485988152,19.82688903808594', avatar='/avatars/default.jpg', bio='veoma ozbiljan lik', createdDate=2024-12-26T20:42:38.242071}, replies=0, likes=0, createdDate=2024-12-26T20:45:55.856935, updatedDate=2024-12-26T20:45:55.856949}
+2024-12-26T20:49:57.128+01:00  WARN 37762 --- [OnlyBuns] [nio-8080-exec-9] ration$PageModule$WarningLoggingModifier : Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2024-12-26T20:55:57.755+01:00  INFO 37762 --- [OnlyBuns] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-26T20:55:57.807+01:00  INFO 37762 --- [OnlyBuns] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-12-26T20:55:57.808+01:00  INFO 37762 --- [OnlyBuns] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+
+Process finished with exit code 130 (interrupted by signal 2:SIGINT)
