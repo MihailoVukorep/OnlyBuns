@@ -119,7 +119,7 @@ public class Service_Trend {
 
         // delete last trend ; used for debug ; remove this so we have history
         Trend currentTrend = getCurrentTrend();
-        if (currentTrend != null) { repository_trend.delete(currentTrend); }
+        // if (currentTrend != null) { repository_trend.delete(currentTrend); }
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime monthAgo = now.minusMonths(1);
