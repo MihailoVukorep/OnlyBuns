@@ -125,6 +125,82 @@ public class DatabaseConfiguration {
     }
 
 
+    private void gen_accounts() {
+        String[] firstNames = {"Alice", "Bob", "Charlie", "Daisy", "Ethan", "Fiona", "George", "Hannah", "Ian", "Jenny", "Kevin", "Laura", "Mason", "Nina", "Oliver", "Paula", "Quincy", "Rachel", "Sam", "Tina", "Uma", "Victor", "Wendy", "Xander", "Yvonne", "Zack", "Ella", "Liam", "Sophia", "Noah", "Emma", "James", "Isabella", "Benjamin", "Mia", "Lucas", "Amelia", "Logan", "Harper", "Jacob", "Evelyn", "Michael", "Abigail", "Elijah", "Emily", "Alexander", "Avery", "Daniel", "Scarlett", "Henry", "Sofia"};
+        String[] lastNames = {"Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez", "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin", "Lee", "Perez", "Thompson", "White", "Harris", "Sanchez", "Clark", "Walker", "Young", "Allen", "King", "Wright", "Scott", "Torres", "Nguyen", "Hill", "Flores", "Green", "Adams", "Nelson", "Baker", "Hall", "Rivera", "Campbell", "Mitchell", "Carter", "Roberts", "Gomez", "Phillips"};
+        String[] bios = {
+                "Loves bunnies and carrots.",
+                "Bunny whisperer.",
+                "Hop into my world of bunnies!",
+                "Raising the fluffiest bunnies.",
+                "Carrot connoisseur.",
+                "Big fan of floppy ears.",
+                "Guardian of the cutest buns.",
+                "Living the bunny life.",
+                "Carrot farming for my buns.",
+                "Dedicated bunny caretaker.",
+                "Proud owner of 3 rabbits.",
+                "Loves rabbits more than people.",
+                "Exploring bunny habitats.",
+                "Sharing bunny cuddles.",
+                "Fur and fluff everywhere!",
+                "Hoppy days are the best.",
+                "Bunny tales and adventures.",
+                "All about bunny adoption.",
+                "Carrot lover, bunny owner.",
+                "Floppy ears, full heart.",
+                "Bunny mom/dad extraordinaire.",
+                "Caring for the cutest creatures.",
+                "Bunny love knows no bounds.",
+                "Life with bunnies is better.",
+                "Champion of bunny rescue.",
+                "A true bunny lover.",
+                "Hopping through life with my buns.",
+                "Always surrounded by fluffy tails.",
+                "Expert in bunny cuddles.",
+                "Bunnies are my happiness.",
+                "Sharing the joy of bunny life.",
+                "Dedicated to bunny welfare.",
+                "Forever a bunny enthusiast.",
+                "My world revolves around bunnies.",
+                "Lover of all things fluffy.",
+                "Bringing joy to bunnies everywhere.",
+                "Hoppy and thriving.",
+                "Living for bunny snuggles.",
+                "Fluffiest member of the bunny community.",
+                "Providing the best for my buns.",
+                "A hoppy life is a happy life.",
+                "Rabbit lover, carrot grower.",
+                "Caring for every bunny I meet.",
+                "Sharing bunny joy, one hop at a time.",
+                "Forever enchanted by floppy ears.",
+                "Advocate for bunny happiness.",
+                "All bunnies deserve love and care.",
+                "Living my best bunny-filled life."
+        };
+
+        for (int i = 0; i < 50; i++) {
+            String email = "killmeplzftn+bunnyLover" + (i + 1) + "@gmail.com";
+            String username = "bunnyLover" + (i + 1);
+            String password = "123";
+            String firstName = firstNames[i % firstNames.length];
+            String lastName = lastNames[i % lastNames.length];
+            String bio = bios[i % bios.length];
+
+            CreateAccount(
+                    email,                // email
+                    username,             // username
+                    password,             // password
+                    firstName,            // first name
+                    lastName,             // last name
+                    LOCATION_NOVI_SAD,    // location
+                    "/avatars/default.jpg", // avatar
+                    bio,                  // bio
+                    false                 // some boolean flag
+            );
+        }
+    }
+
     @Bean
     @Transactional
     public boolean instantiate() {
@@ -374,8 +450,10 @@ public class DatabaseConfiguration {
         repository_post.save(new Post("Rabbit Digestive Health", "What should I do if my bunny isn't eating?", acc_pera));
         repository_post.save(new Post("Rabbits and Teeth", "How can I tell if my bunny's teeth are overgrown?", acc_pera));
 
-        System.out.println("INIT DB");
+        // init users for paging testing
+        gen_accounts();
 
+        System.out.println("INIT DB");
 
         service_trend.getCurrentTrend();
 
