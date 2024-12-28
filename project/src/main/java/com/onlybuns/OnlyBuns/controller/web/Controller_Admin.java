@@ -69,4 +69,13 @@ public class Controller_Admin {
 
         return "admin_accounts.html";
     }
+
+    @GetMapping("/admin/analytics")
+    public String admin_analytics(HttpSession session, Model model) {
+        Account user = (Account) session.getAttribute("user");
+        if (user == null || !user.isAdmin()) {
+            return "error/403.html";
+        }
+        return "admin_analytics.html";
+    }
 }
