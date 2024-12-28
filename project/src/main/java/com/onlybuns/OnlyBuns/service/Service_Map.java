@@ -33,4 +33,6 @@ public class Service_Map {
 
         return new ResponseEntity<>(new DTO_Get_Location(account.getAddress(), coordinates), HttpStatus.OK);
     }
+
+    // TODO: FETCH LOCATION DATA FROM ANOTHER APP AND SERVE MAP
 }
