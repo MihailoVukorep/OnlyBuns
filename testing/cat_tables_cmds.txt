@@ -1,0 +1,4 @@
+\l
+\c jpa
+\dt
+SELECT * from messages;
