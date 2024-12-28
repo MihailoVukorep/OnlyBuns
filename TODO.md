@@ -9,10 +9,7 @@
 ## CHAT:
 - live chat done?
 - send message when user joins/leaves chat
-- add the ability to add users to chat
-- chat admin
-- make chat admin be able to delete chat
-- make chat admin be able to add/kick users
+- chat admin: delete chat / add account / remove account
 - make users be able to leave chat
 ## ADMIN:
 - admin/accounts search needs paging
