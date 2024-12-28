@@ -19,16 +19,20 @@
 - use ratelimiter class to limit follow / reply ??
 - when counting things: dont do collection.size() call repository.countSomething (ex. rep.countLikes...) - WHY: since .size() is int it won't overflow on large numbers
 
-# NEW CSS NEEDED:
+
+
+
+# OPTIONAL STUFF:
+## NEW CSS NEEDED:
 - popup
 - comment form
 - create/edit post
 
-# look:
+## look:
 - fix error page navbar
 - fix error page buttons
 
-# could be nice:
+## could be nice:
 - delete post frontend - confirmation dialogue (YES/NO)
 - reply - add picture
 - create / edit add ENTER evets to textbox
