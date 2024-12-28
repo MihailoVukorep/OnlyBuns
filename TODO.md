@@ -1,19 +1,29 @@
 # must do:
+## SIMPLE?
 - delete account cron job after some time
+- sending info with protobuf or self-made buf from another apps
+- send email to inactive users
+- OpenAPI
+- Caching ; /posts cache images ; createpost cache location ; 
+- remove all exceptions -- use web error codes
+## CHAT:
+- live chat done?
+- send message when user joins/leaves chat
+- add the ability to add users to chat
+- chat admin
+- make chat admin be able to delete chat
+- make chat admin be able to add/kick users
+- make users be able to leave chat
+## ADMIN:
 - admin/accounts search needs paging
 - admin analytics
-- send email to inactive users
+## IDK
 - load balancer -- https://medium.com/@apurvaagrawal_95485/load-balancing-algorithms-01d86a2a48c7
 - activity monitor Prometheus/Grafana
     - HTTP ms createPost
     - CPU % usage for one timespan
     - currently active users in 24h
-- sending info with protobuf or self-made buf from another apps
-- OpenAPI
-- Caching ; /posts cache images ; createpost cache location ; 
 - ADs
-- finish chat app - make it live with websockets
-- remove all exceptions -- use web error codes
 
 # to fix:
 - add all lombok to DTOs
