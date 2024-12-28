@@ -7,8 +7,8 @@
 }
 
 #map {
-    height: 60vh;
-    width: 80vh;
+    height: 80vh;
+    width: 98vw;
     border-radius: 20px;
     background-color: rgba(64, 68, 75, 0.4);
 }
@@ -25,3 +25,7 @@
     font-size: 14px;
 }
 
+.emoji-icon {
+    font-size: 50px;
+    line-height: 1; /* Avoid extra spacing */
+}

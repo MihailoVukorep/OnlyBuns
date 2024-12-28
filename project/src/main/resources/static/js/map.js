@@ -2,6 +2,8 @@ var map = L.map('map').setView([45.25120485988152, 19.82688903808594], 13);
 
 var markers = L.layerGroup().addTo(map);
 
+const ICON_SIZE = 50;
+
 const emojiIcon_post = L.divIcon({
     className: 'emoji-icon',
     html: '📰',
