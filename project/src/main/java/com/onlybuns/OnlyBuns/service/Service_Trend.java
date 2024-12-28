@@ -8,6 +8,7 @@ import com.onlybuns.OnlyBuns.model.*;
 import com.onlybuns.OnlyBuns.repository.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,10 +41,7 @@ public class Service_Trend {
     @Autowired
     private Service_Post service_post;
 
-    @Cacheable("trends")
-    public Trend getCurrentTrend() {
-        return repository_trend.findFirstByOrderByLastUpdatedDesc();
-    }
+
 
     private final String CSV_DELIMITER = ",";
 
@@ -112,9 +110,16 @@ public class Service_Trend {
         return new ResponseEntity<>(likers, HttpStatus.OK);
     }
 
+    // Cache the latest trend
+    @Cacheable(value = "trends", key = "'latestTrend'")
+    public Trend getCurrentTrend() {
+        return repository_trend.findFirstByOrderByLastUpdatedDesc();
+    }
+
     @Scheduled(fixedRate = 3600000) // Update every hour
     //@Scheduled(fixedRate = 5000) // Update every 5 sec
     @Transactional
+    @CacheEvict(value = "trends", key = "'latestTrend'")
     public void updateTrends() {
 
         // delete last trend ; used for debug ; remove this so we have history
