@@ -17,14 +17,15 @@
 </head>
 
 <body>
-    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    <div id="cont">
+        <div th:replace="~{fragments/navbar :: navbar}"></div>
     
-    <h1 style="text-align: center;">🗺️ View Map 🗺️</h1>
-    <div class="map-container">
-        <div id="map"></div>
+        <h1 style="text-align: center;">🗺️ View Map 🗺️</h1>
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
     </div>
 
-    <button class="button-92 button-92-block" onclick="fetch_locations()">📍 Get Post Locations</button>
 </body>
 
 </html>
