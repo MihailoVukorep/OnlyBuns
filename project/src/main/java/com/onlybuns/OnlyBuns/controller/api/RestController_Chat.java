@@ -35,7 +35,7 @@ public class RestController_Chat {
 
     // send message to chat
     @PostMapping("/api/chats/{id}")
-    public ResponseEntity<String> post_api_chats_id(HttpSession session, @PathVariable(name = "id") Long id, @RequestParam(required = true) String text) {
+    public ResponseEntity<DTO_Get_Message> post_api_chats_id(HttpSession session, @PathVariable(name = "id") Long id, @RequestParam(required = true) String text) {
         return service_chat.post_api_chats_id(session, id, text);
     }
 

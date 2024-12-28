@@ -71,25 +71,47 @@ public class Service_Chat {
     }
 
     // send message to chats
-    public ResponseEntity<String> post_api_chats_id(HttpSession session, Long id, String text) {
+    public ResponseEntity<DTO_Get_Message> post_api_chats_id(HttpSession session, Long id, String text) {
 
         Account user = (Account) session.getAttribute("user");
-        if (user == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED); }
+        if (user == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); } // Not logged in.
 
         Optional<Chat> optional_chat = repository_chat.findById(id);
-        if (optional_chat.isEmpty()) { return new ResponseEntity<>("Can't find chat.", HttpStatus.NOT_FOUND); }
+        if (optional_chat.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); } // Can't find chat.
 
         Chat chat = optional_chat.get();
-        if (chat.getMembers().stream().noneMatch(member -> member.getId().equals(user.getId()))) { return new ResponseEntity<>("Not your chat.", HttpStatus.FORBIDDEN); }
+        if (chat.getMembers().stream().noneMatch(member -> member.getId().equals(user.getId()))) { return new ResponseEntity<>(null, HttpStatus.FORBIDDEN); } // Not your chat.
 
         Optional<Account> optional_account = repository_account.findById(id);
-        if (optional_account.isEmpty()) { return new ResponseEntity<>("Can't find account.", HttpStatus.NOT_FOUND); }
+        if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); } // Can't find account.
 
         Message message = new Message();
         message.setChat(chat);
         message.setAccount(user);
         message.setContent(text);
         repository_message.save(message);
-        return new ResponseEntity<>("Message sent.", HttpStatus.OK);
+        return new ResponseEntity<>(new DTO_Get_Message(message), HttpStatus.OK);
+    }
+
+    public ResponseEntity<DTO_Get_Message> post_api_chats_id(String userName, Long id, String text) {
+
+        Optional<Account> optional_user = repository_account.findByUserName(userName);
+        Account user = optional_user.get();
+
+        Optional<Chat> optional_chat = repository_chat.findById(id);
+        if (optional_chat.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); } // Can't find chat.
+
+        Chat chat = optional_chat.get();
+        if (chat.getMembers().stream().noneMatch(member -> member.getId().equals(user.getId()))) { return new ResponseEntity<>(null, HttpStatus.FORBIDDEN); } // Not your chat.
+
+        Optional<Account> optional_account = repository_account.findById(id);
+        if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); } // Can't find account.
+
+        Message message = new Message();
+        message.setChat(chat);
+        message.setAccount(user);
+        message.setContent(text);
+        repository_message.save(message);
+        return new ResponseEntity<>(new DTO_Get_Message(message), HttpStatus.OK);
     }
 }
