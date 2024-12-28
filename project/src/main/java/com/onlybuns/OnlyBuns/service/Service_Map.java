@@ -1,6 +1,8 @@
 package com.onlybuns.OnlyBuns.service;
 
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Location;
+import com.onlybuns.OnlyBuns.dto.DTO_Get_Location_Type;
+import com.onlybuns.OnlyBuns.dto.DTO_Get_Locations;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.Post;
 import com.onlybuns.OnlyBuns.repository.Repository_Post;
@@ -19,20 +21,27 @@ public class Service_Map {
     @Autowired
     private Repository_Post repository_post;
 
-    public ResponseEntity<DTO_Get_Location> get_api_map_locations(HttpSession session) {
+    public ResponseEntity<DTO_Get_Locations> get_api_map_locations(HttpSession session) {
 
         Account account = (Account) session.getAttribute("user");
         if (account == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
-        List<String> coordinates = new ArrayList<>();
+        // add posts coords to locations
+        List<DTO_Get_Location> locations = new ArrayList<>();
         for (Post i : repository_post.findAll()) {
-            coordinates.add(i.getLocation());
+            locations.add(new DTO_Get_Location("/posts/" + i.getId(), i.getLocation(), DTO_Get_Location_Type.POST));
         }
 
-        return new ResponseEntity<>(new DTO_Get_Location(account.getAddress(), coordinates), HttpStatus.OK);
-    }
+        // TODO: FETCH LOCATION DATA FROM ANOTHER APP AND SERVE MAP
 
-    // TODO: FETCH LOCATION DATA FROM ANOTHER APP AND SERVE MAP
+        // TEMP HARDCODED LOCATIONS
+        locations.add((new DTO_Get_Location("", "45.257026373153415,19.833277742498918", DTO_Get_Location_Type.SHELTER)));
+        locations.add((new DTO_Get_Location("", "45.23924745297107,19.840661218653235", DTO_Get_Location_Type.SHELTER)));
+        locations.add((new DTO_Get_Location("", "45.23552480014842,19.801602339283836", DTO_Get_Location_Type.VETERINARIAN)));
+        locations.add((new DTO_Get_Location("", "45.288969219446976,19.819460049052395", DTO_Get_Location_Type.VETERINARIAN)));
+
+        return new ResponseEntity<>(new DTO_Get_Locations(account.getAddress(), locations), HttpStatus.OK);
+    }
 }
