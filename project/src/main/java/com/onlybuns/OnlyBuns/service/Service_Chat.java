@@ -5,6 +5,7 @@ import com.onlybuns.OnlyBuns.dto.DTO_Get_Message;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.Chat;
 import com.onlybuns.OnlyBuns.model.Message;
+import com.onlybuns.OnlyBuns.model.Message_Type;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
 import com.onlybuns.OnlyBuns.repository.Repository_Chat;
 import com.onlybuns.OnlyBuns.repository.Repository_Message;
@@ -39,9 +40,13 @@ public class Service_Chat {
 
         Optional<Account> optional_account = repository_account.findById(id);
         if (optional_account.isEmpty()) { return new ResponseEntity<>("Can't find account.", HttpStatus.NOT_FOUND); }
+        Account account = optional_account.get();
 
-        Chat chat = new Chat(user, optional_account.get());
+        Chat chat = new Chat(user, account);
         repository_chat.save(chat);
+        repository_message.save(new Message(chat, user, "", Message_Type.JOINED));
+        repository_message.save(new Message(chat, account, "", Message_Type.JOINED));
+
         return new ResponseEntity<>("Chat created.", HttpStatus.NOT_FOUND);
     }
 
@@ -86,6 +91,7 @@ public class Service_Chat {
         if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); } // Can't find account.
 
         Message message = new Message();
+        message.setType(Message_Type.MESSAGE);
         message.setChat(chat);
         message.setAccount(user);
         message.setContent(text);

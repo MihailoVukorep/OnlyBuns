@@ -23,6 +23,10 @@ public class Chat {
     @Column
     private String name;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin_id", nullable = false)
+    private Account admin;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "chat_members",
@@ -32,6 +36,7 @@ public class Chat {
     private List<Account> members;
 
     public Chat(Account sender, Account receiver) {
+        this.admin = sender;
         this.name = sender.getFirstName() + ", " + receiver.getUserName();
         this.members = new ArrayList<>();
         members.add(sender);

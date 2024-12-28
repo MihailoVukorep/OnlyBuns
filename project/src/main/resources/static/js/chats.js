@@ -25,17 +25,19 @@ function displayMessage(message) {
     messageElement.classList.add("message");
 
     messageElement.innerHTML = `
-                <div class="message_date">${message.createdDateStr}</div>
-                <div>|</div>
-                <div class="message_account">
-                    <a class="account_link" href="/accounts/${message.account.id}" target="_top">
-                        <img class="account_image" src="${message.account.avatar}" />
-                        <span class="account_userName">${message.account.userName}</span>
-                    </a>
-                </div>
-                <div>:</div>
-                <div class="message_content">${message.content}</div>
-            `;
+        <div class="message_date">${message.createdDateStr}</div>
+        <div>|</div>
+        <div class="message_account">
+            <a class="account_link" href="/accounts/${message.account.id}" target="_top">
+                <img class="account_image" src="${message.account.avatar}" />
+                <span class="account_userName">${message.account.userName}</span>
+            </a>
+        </div>
+        <div>:</div>
+        <div class="message_content ${message.type !== 'MESSAGE' ? 'gray-italic' : ''}">
+            ${message.content}
+        </div>
+    `;
 
     msgsContainer.appendChild(messageElement);
     msgsContainer.scrollTop = msgsContainer.scrollHeight;
@@ -69,7 +71,7 @@ function connect(chatId) {
 
 if (chat_id_element != null) {
     // Connect to WebSocket when the page loads
-    window.addEventListener('load', () => { connect(chat_id_element.value); } );
+    window.addEventListener('load', () => { connect(chat_id_element.value); });
 }
 
 

@@ -29,6 +29,16 @@ public class Message {
     @Column(nullable = false)
     private String content;
 
+    @Column
+    private Message_Type type = Message_Type.MESSAGE;
+
     @CreationTimestamp
     private LocalDateTime createdDate;
+
+    public Message(Chat chat, Account account, String content, Message_Type type) {
+        this.chat = chat;
+        this.account = account;
+        this.content = content;
+        this.type = type;
+    }
 }

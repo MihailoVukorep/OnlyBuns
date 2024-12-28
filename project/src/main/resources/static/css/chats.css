@@ -167,3 +167,14 @@ h2 {
     border: 1px dashed var(--var-color-pink-4-trans);
     background-color: transparent;
 }
+
+.message_type_MESSAGE { color: white; }
+.message_type_JOINED { color: green; }
+.message_type_LEFT { color: red; }
+.message_type_CONNECTED { color: darkgreen; }
+.message_type_DISCONNECTED { color: darkred; }
+
+.message_type_JOINED,
+.message_type_LEFT,
+.message_type_CONNECTED,
+.message_type_DISCONNECTED { font-style: italic; }
