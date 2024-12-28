@@ -57,7 +57,13 @@ function connect(chatId) {
     const socket = new SockJS('/ws');
     stompClient = Stomp.over(socket);
 
-    stompClient.connect({}, function() {
+    // Add custom headers to pass user and chat information
+    const headers = {
+        "chatId": chatId.toString(),
+        "userName": user_userName.value
+    };
+
+    stompClient.connect(headers, function() {
         console.log("Connected to WebSocket");
 
         // Subscribe to receive messages for the current chat

@@ -32,6 +32,10 @@ public class Service_Chat {
     @Autowired
     private Repository_Account repository_account;
 
+    public Optional<Chat> findById(Long id) {
+        return repository_chat.findById(id);
+    }
+
     // create chat (user & account id)
     public ResponseEntity<String> get_api_accounts_id_chat(HttpSession session, Long id) {
 

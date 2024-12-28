@@ -60,6 +60,10 @@ public class Service_Account {
     @Autowired
     private Service_Post service_post;
 
+    public Optional<Account> findByUsername(String username) {
+        return repository_account.findByUserName(username);
+    }
+
     public Account eager(Long accountId) {
         Account account = repository_account.findById(accountId)
                 .orElseThrow(() -> new RuntimeException("Account not found"));

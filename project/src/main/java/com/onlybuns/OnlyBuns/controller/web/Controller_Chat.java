@@ -73,15 +73,6 @@ public class Controller_Chat {
         return chats_id(session, model, id);
     }
 
-    @Autowired
-    private Repository_Message repository_message;
-
-    @Autowired
-    private Repository_Chat repository_chat;
-
-    @Autowired
-    private HttpSession httpSession;  // Inject the HttpSession
-
     @MessageMapping("/send/{chatId}")
     @SendTo("/topic/messages/{chatId}")
     public DTO_Get_Message sendMessage(@DestinationVariable Long chatId, DTO_Post_Message dto_post_message) {
