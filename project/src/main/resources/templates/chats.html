@@ -96,29 +96,31 @@
         <div th:if="${chat != null}" id="info_cont">
             <h2>📢 Chat Info:</h2>
 
-            <div id="info_members">
-                <div th:each="account : ${chat.members}" class="info_members_account" th:title="${account.userName}">
-                    <a class="account_link" th:href="@{/accounts/{id}(id=${account.id})}" target="_top">
-                        <img class="account_image" th:src="${account.avatar}" />
-                        <span class="account_userName" th:text="${account.userName}"></span>
-                        <span th:if="${account.isAdmin}" class="account_isAdmin" title="Admin">👑</span>
-                    </a>
-                </div>
-            </div>
-            <div th:if="${chat.isMyChat}" id="chat_controls">
-                <button onclick="addAccount_popup()">➕ Add Account</button>
-
-                <div id="addAccount_popup" class="popup" style="display: none;">
-                    <div id="accounts">
-                        <div th:each="account : ${following}" class="info_members_account" th:title="${account.userName}">
-                            <a class="account_link" th:href="|/chats/${chat.id}/add/${account.id}|" target="_top">
-                                <img class="account_image" th:src="${account.avatar}" />
-                                <span class="account_userName" th:text="${account.userName}"></span>
-                                <span th:if="${account.isAdmin}" class="account_isAdmin" title="Admin">👑</span>
-                            </a>
-                        </div>
+            <div id="info">
+                <div id="info_members">
+                    <div th:each="account : ${chat.members}" class="info_members_account" th:title="${account.userName}">
+                        <a class="account_link" th:href="@{/accounts/{id}(id=${account.id})}" target="_top">
+                            <img class="account_image" th:src="${account.avatar}" />
+                            <span class="account_userName" th:text="${account.userName}"></span>
+                            <span th:if="${account.isAdmin}" class="account_isAdmin" title="Admin">👑</span>
+                        </a>
                     </div>
-                    
+                </div>
+                <div th:if="${chat.isMyChat}" id="chat_controls">
+                    <button id="btn_addAccount" onclick="addAccount_popup()">➕ Add Account</button>
+    
+                    <div id="addAccount_popup" class="popup" style="display: none;">
+                        <div id="accounts">
+                            <div th:each="account : ${following}" class="info_members_account" th:title="${account.userName}">
+                                <a class="account_link" th:href="|/chats/${chat.id}/add/${account.id}|" target="_top">
+                                    <img class="account_image" th:src="${account.avatar}" />
+                                    <span class="account_userName" th:text="${account.userName}"></span>
+                                    <span th:if="${account.isAdmin}" class="account_isAdmin" title="Admin">👑</span>
+                                </a>
+                            </div>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
         </div>

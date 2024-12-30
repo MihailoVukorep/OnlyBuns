@@ -36,8 +36,12 @@
     -webkit-backdrop-filter: blur(6px);
 }
 
+#info {
+    padding: 10px;
+    overflow-y: auto;
+}
+
 #info_members {
-    margin: 10px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -47,6 +51,24 @@
 .info_members_account {
     display: block;
     width: fit-content;
+}
+
+#btn_addAccount {
+    font-family: inherit;
+    font-size: inherit;
+    margin: 8px auto;
+    display: block;
+    width: fit-content;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--var-color-white);
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(48, 25, 52, 1);
+    background: linear-gradient(to bottom, rgb(48, 25, 52), rgba(48, 25, 52, 0.3));
+    transform: scaleX(1) scaleY(1);
+    transition: transform 0.1s ease;
+    text-align: center;
 }
 
 h2 {
