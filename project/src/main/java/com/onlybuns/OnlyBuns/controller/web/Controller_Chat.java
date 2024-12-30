@@ -88,4 +88,10 @@ public class Controller_Chat {
         service_chat.get_api_chats_id_add_id(session, id, account_id);
         return "redirect:/chats/" + id;
     }
+
+    @GetMapping("/chats/{id}/remove/{account_id}")
+    public String chats_id_remove_id(HttpSession session, @PathVariable(name = "id") Long id, @PathVariable(name = "account_id") Long account_id) {
+        service_chat.get_api_chats_id_remove_id(session, id, account_id);
+        return "redirect:/chats/" + id;
+    }
 }

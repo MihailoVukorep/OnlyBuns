@@ -49,8 +49,15 @@
 }
 
 .info_members_account {
-    display: block;
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    justify-content: left;
     width: fit-content;
+}
+
+.account_link_remove {
+    text-decoration: none;
 }
 
 #btn_addAccount {
