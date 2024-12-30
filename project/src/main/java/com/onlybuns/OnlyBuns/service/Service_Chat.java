@@ -69,7 +69,7 @@ public class Service_Chat {
         if (user == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); }
         List<Chat> chats = repository_chat.findByMembersContains(user);
         for (Chat i : chats) {
-            if (i.getId() == id) {
+            if (i.getId().equals(id)) {
                 return new ResponseEntity<>(new DTO_Get_Chat(i, user), HttpStatus.OK);
             }
         }
@@ -115,7 +115,6 @@ public class Service_Chat {
         repository_message.save(message);
         return new ResponseEntity<>(new DTO_Get_Message(message), HttpStatus.OK);
     }
-
     public ResponseEntity<DTO_Get_Message> post_api_chats_id_messages(String userName, Long id, String text) {
 
         Optional<Account> optional_user = repository_account.findByUserName(userName);
@@ -137,4 +136,32 @@ public class Service_Chat {
         repository_message.save(message);
         return new ResponseEntity<>(new DTO_Get_Message(message), HttpStatus.OK);
     }
+
+    // add user to chat
+    public ResponseEntity<String> get_api_chats_id_add_id(HttpSession session, Long id, Long account_id) {
+        Account user = (Account) session.getAttribute("user");
+        if (user == null) { return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED); }
+        List<Chat> chats = repository_chat.findByMembersContains(user);
+        for (Chat i : chats) {
+            if (i.getId().equals(id)) {
+
+                // add account to chat and save chat
+                Optional<Account> optional_account = repository_account.findById(account_id);
+                if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+                Account account = optional_account.get();
+
+                if (i.getMembers().contains(account)) {
+                    return new ResponseEntity<>("Account already added.", HttpStatus.OK);
+                }
+
+                i.getMembers().add(account);
+                repository_chat.save(i);
+
+                return new ResponseEntity<>("Account added.", HttpStatus.OK);
+            }
+        }
+
+        return new ResponseEntity<>("Chat not found.", HttpStatus.OK);
+    }
+
 }

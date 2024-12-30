@@ -15,6 +15,8 @@
     <script src="/js/stomp.min.js"></script>
 
     <script defer type="text/javascript" src="/js/chats.js"></script>
+
+    <link rel="stylesheet" href="/css/popup.css">
 </head>
 
 <body>
@@ -101,6 +103,22 @@
                         <span class="account_userName" th:text="${account.userName}"></span>
                         <span th:if="${account.isAdmin}" class="account_isAdmin" title="Admin">👑</span>
                     </a>
+                </div>
+            </div>
+            <div th:if="${chat.isMyChat}" id="chat_controls">
+                <button onclick="addAccount_popup()">➕ Add Account</button>
+
+                <div id="addAccount_popup" class="popup" style="display: none;">
+                    <div id="accounts">
+                        <div th:each="account : ${following}" class="info_members_account" th:title="${account.userName}">
+                            <a class="account_link" th:href="|/chats/${chat.id}/add/${account.id}|" target="_top">
+                                <img class="account_image" th:src="${account.avatar}" />
+                                <span class="account_userName" th:text="${account.userName}"></span>
+                                <span th:if="${account.isAdmin}" class="account_isAdmin" title="Admin">👑</span>
+                            </a>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>

@@ -44,4 +44,10 @@ public class RestController_Chat {
     public ResponseEntity<DTO_Get_Message> post_api_chats_id_messages(HttpSession session, @PathVariable(name = "id") Long id, @RequestParam(required = true) String text) {
         return service_chat.post_api_chats_id_messages(session, id, text);
     }
+
+    // add person to chat
+    @GetMapping("/api/chats/{id}/add/{account_id}")
+    public ResponseEntity<String> get_api_chats_id_add_id(HttpSession session, @PathVariable(name = "id") Long id, @PathVariable(name = "account_id") Long account_id) {
+        return service_chat.get_api_chats_id_add_id(session, id, account_id);
+    }
 }

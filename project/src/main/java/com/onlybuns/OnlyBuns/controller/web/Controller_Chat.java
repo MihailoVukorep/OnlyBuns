@@ -3,6 +3,7 @@ package com.onlybuns.OnlyBuns.controller.web;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Message;
 import com.onlybuns.OnlyBuns.dto.DTO_Post_Message;
 import com.onlybuns.OnlyBuns.model.Account;
+import com.onlybuns.OnlyBuns.service.Service_Account;
 import com.onlybuns.OnlyBuns.service.Service_Chat;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class Controller_Chat {
     @Autowired
     private Service_Chat service_chat;
 
+    @Autowired
+    private Service_Account service_account;
+
     @GetMapping("/chats")
     public String chats(HttpSession session, Model model) {
         Account user = (Account) session.getAttribute("user");
@@ -38,13 +42,17 @@ public class Controller_Chat {
         Account user = (Account) session.getAttribute("user");
         if (user == null) { return "error/401.html"; }
 
-        // set chats
+        //
         model.addAttribute("user_userName", user.getUserName());
+        model.addAttribute("following", service_account.get_api_accounts_id_following(user.getId()).getBody());
+
+        // set chats
         model.addAttribute("chats", service_chat.get_api_chats(session).getBody());
 
         // current selected chat info / current selected chat messages
         model.addAttribute("chat", service_chat.get_api_chats_id(session, id).getBody());
         model.addAttribute("messages", service_chat.get_api_chats_id_messages(session, id).getBody());
+
         return "chats";
     }
 
@@ -67,10 +75,17 @@ public class Controller_Chat {
         return chats_id(session, model, id);
     }
 
+    // live chat
     @MessageMapping("/send/{chatId}")
     @SendTo("/topic/messages/{chatId}")
     public DTO_Get_Message sendMessage(@DestinationVariable Long chatId, DTO_Post_Message dto_post_message) {
         ResponseEntity<DTO_Get_Message> response = service_chat.post_api_chats_id_messages(dto_post_message.getUserName(), chatId, dto_post_message.getContent());
         return response.getBody();
+    }
+
+    @GetMapping("/chats/{id}/add/{account_id}")
+    public String chats_id_add_id(HttpSession session, @PathVariable(name = "id") Long id, @PathVariable(name = "account_id") Long account_id) {
+        service_chat.get_api_chats_id_add_id(session, id, account_id);
+        return "redirect:/chats/" + id;
     }
 }

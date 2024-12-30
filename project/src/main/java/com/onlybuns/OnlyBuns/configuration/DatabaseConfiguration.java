@@ -2,6 +2,8 @@ package com.onlybuns.OnlyBuns.configuration;
 
 import com.onlybuns.OnlyBuns.model.*;
 import com.onlybuns.OnlyBuns.repository.*;
+import com.onlybuns.OnlyBuns.service.Service_Account;
+import com.onlybuns.OnlyBuns.service.Service_Chat;
 import com.onlybuns.OnlyBuns.service.Service_Email;
 import com.onlybuns.OnlyBuns.service.Service_Trend;
 import jakarta.transaction.Transactional;
@@ -39,6 +41,12 @@ public class DatabaseConfiguration {
 
     @Autowired
     private Service_Trend service_trend;
+
+    @Autowired
+    private Repository_Chat repository_chat;
+
+    @Autowired
+    private Repository_Message repository_message;
 
     private final String LOCATION_NOVI_SAD = "45.25120485988152,19.82688903808594";
     private final String LOCATION_BELGRADE = "44.81423651177903,20.45860290527344";
@@ -113,6 +121,13 @@ public class DatabaseConfiguration {
     }
 
 
+    public void CreateChat(Account user, Account account) {
+        Chat chat = new Chat(user, account);
+        repository_chat.save(chat);
+        repository_message.save(new Message(chat, user, "", Message_Type.JOINED));
+        repository_message.save(new Message(chat, account, "", Message_Type.JOINED));
+    }
+
     public void likePost(Post post, Account account) {
         repository_like.save(new Like(account, post));
         post.incrementLikeCount();
@@ -123,7 +138,6 @@ public class DatabaseConfiguration {
         Follow follow = new Follow(follower, followee, LocalDateTime.now());
         repository_follow.save(follow);
     }
-
 
     private void gen_accounts() {
         String[] firstNames = {"Alice", "Bob", "Charlie", "Daisy", "Ethan", "Fiona", "George", "Hannah", "Ian", "Jenny", "Kevin", "Laura", "Mason", "Nina", "Oliver", "Paula", "Quincy", "Rachel", "Sam", "Tina", "Uma", "Victor", "Wendy", "Xander", "Yvonne", "Zack", "Ella", "Liam", "Sophia", "Noah", "Emma", "James", "Isabella", "Benjamin", "Mia", "Lucas", "Amelia", "Logan", "Harper", "Jacob", "Evelyn", "Michael", "Abigail", "Elijah", "Emily", "Alexander", "Avery", "Daniel", "Scarlett", "Henry", "Sofia"};
@@ -356,6 +370,12 @@ public class DatabaseConfiguration {
         follow(acc_icy, acc_ajzak);
         follow(acc_ajzak, acc_ana);
         follow(acc_ajzak, acc_andjela);
+
+        follow(acc_pera, acc_ajzak);
+        follow(acc_pera, acc_hater);
+        follow(acc_pera, acc_icy);
+
+        CreateChat(acc_pera, acc_ajzak);
 
         // // UNCOMMENT TO SPAM POSTS
         // for (int i = 0; i < 100; i++) {
