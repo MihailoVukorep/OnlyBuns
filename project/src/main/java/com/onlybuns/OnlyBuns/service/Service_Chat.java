@@ -145,6 +145,10 @@ public class Service_Chat {
         for (Chat i : chats) {
             if (i.getId().equals(id)) {
 
+                if (!i.getAdmin().getId().equals(user.getId())) {
+                    return new ResponseEntity<>("You're not the admin of the chat.", HttpStatus.OK);
+                }
+
                 // add account to chat and save chat
                 Optional<Account> optional_account = repository_account.findById(account_id);
                 if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
@@ -170,6 +174,10 @@ public class Service_Chat {
         List<Chat> chats = repository_chat.findByMembersContains(user);
         for (Chat i : chats) {
             if (i.getId().equals(id)) {
+
+                if (!i.getAdmin().getId().equals(user.getId())) {
+                    return new ResponseEntity<>("You're not the admin of the chat.", HttpStatus.OK);
+                }
 
                 // add account to chat and save chat
                 Optional<Account> optional_account = repository_account.findById(account_id);
