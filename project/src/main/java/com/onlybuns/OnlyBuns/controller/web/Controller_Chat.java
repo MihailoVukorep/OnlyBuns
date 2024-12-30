@@ -49,7 +49,9 @@ public class Controller_Chat {
         // set chats
         model.addAttribute("user_userName", user.getUserName());
         model.addAttribute("chats", service_chat.get_api_chats(session).getBody());
-        model.addAttribute("chat_id", id);
+
+        // current selected chat / current selected chat messages
+        model.addAttribute("chat", service_chat.get_api_chats_id_info(session, id).getBody());
         model.addAttribute("messages", service_chat.get_api_chats_id(session, id).getBody());
         return "chats";
     }

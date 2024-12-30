@@ -79,6 +79,18 @@ public class Service_Chat {
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
 
+    public ResponseEntity<DTO_Get_Chat> get_api_chats_id_info(HttpSession session, Long id) {
+        Account user = (Account) session.getAttribute("user");
+        if (user == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); }
+        List<Chat> chats = repository_chat.findByMembersContains(user);
+        for (Chat i : chats) {
+            if (i.getId() == id) {
+                return new ResponseEntity<>(new DTO_Get_Chat(i), HttpStatus.OK);
+            }
+        }
+        return null;
+    }
+
     // send message to chats
     public ResponseEntity<DTO_Get_Message> post_api_chats_id(HttpSession session, Long id, String text) {
 
