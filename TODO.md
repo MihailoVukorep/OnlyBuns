@@ -7,10 +7,9 @@
 - Caching ; /posts cache images ; createpost cache location ; 
 - remove all exceptions -- use web error codes
 ## CHAT:
-- live chat done?
-- send message when user joins/leaves chat
-- chat admin: delete chat / add account / remove account
-- make users be able to leave chat
+- to fix: when user gets kicked out he should stop receiving messages
+- to fix: check the HttpSession when WebSocket connection is being made sending usernames can be hacked :/
+
 ## ADMIN:
 - admin/accounts search needs paging
 - admin analytics
