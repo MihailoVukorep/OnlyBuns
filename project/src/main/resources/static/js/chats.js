@@ -84,11 +84,5 @@ if (chat_id_element != null) {
 const div_popup = document.getElementById("addAccount_popup");
 
 function addAccount_popup() {
-
-    if (div_popup.style.display == "block") {
-        div_popup.style.display = "none";
-    }
-    else {
-        div_popup.style.display = "block";
-    }
+    div_popup.style.display = div_popup.style.display == "block" ? "none" : "block";
 }
