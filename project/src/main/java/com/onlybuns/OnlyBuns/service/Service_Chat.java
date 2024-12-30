@@ -63,8 +63,21 @@ public class Service_Chat {
         return new ResponseEntity<>(dto_chats, HttpStatus.OK);
     }
 
+    // get chat info
+    public ResponseEntity<DTO_Get_Chat> get_api_chats_id(HttpSession session, Long id) {
+        Account user = (Account) session.getAttribute("user");
+        if (user == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); }
+        List<Chat> chats = repository_chat.findByMembersContains(user);
+        for (Chat i : chats) {
+            if (i.getId() == id) {
+                return new ResponseEntity<>(new DTO_Get_Chat(i, user), HttpStatus.OK);
+            }
+        }
+        return null;
+    }
+
     // get chat's messages
-    public ResponseEntity<List<DTO_Get_Message>> get_api_chats_id(HttpSession session, Long id) {
+    public ResponseEntity<List<DTO_Get_Message>> get_api_chats_id_messages(HttpSession session, Long id) {
 
         Account user = (Account) session.getAttribute("user");
         if (user == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); }
@@ -79,20 +92,8 @@ public class Service_Chat {
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
 
-    public ResponseEntity<DTO_Get_Chat> get_api_chats_id_info(HttpSession session, Long id) {
-        Account user = (Account) session.getAttribute("user");
-        if (user == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); }
-        List<Chat> chats = repository_chat.findByMembersContains(user);
-        for (Chat i : chats) {
-            if (i.getId() == id) {
-                return new ResponseEntity<>(new DTO_Get_Chat(i, user), HttpStatus.OK);
-            }
-        }
-        return null;
-    }
-
     // send message to chats
-    public ResponseEntity<DTO_Get_Message> post_api_chats_id(HttpSession session, Long id, String text) {
+    public ResponseEntity<DTO_Get_Message> post_api_chats_id_messages(HttpSession session, Long id, String text) {
 
         Account user = (Account) session.getAttribute("user");
         if (user == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); } // Not logged in.
@@ -115,7 +116,7 @@ public class Service_Chat {
         return new ResponseEntity<>(new DTO_Get_Message(message), HttpStatus.OK);
     }
 
-    public ResponseEntity<DTO_Get_Message> post_api_chats_id(String userName, Long id, String text) {
+    public ResponseEntity<DTO_Get_Message> post_api_chats_id_messages(String userName, Long id, String text) {
 
         Optional<Account> optional_user = repository_account.findByUserName(userName);
         Account user = optional_user.get();

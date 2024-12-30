@@ -27,16 +27,21 @@ public class RestController_Chat {
         return service_chat.get_api_accounts_id_chat(session, id);
     }
 
-    // get messages
+    // get chat info
     @GetMapping("/api/chats/{id}")
-    public ResponseEntity<List<DTO_Get_Message>> get_api_chats_id(HttpSession session, @PathVariable(name = "id") Long id) {
+    public ResponseEntity<DTO_Get_Chat> get_api_chats_id(HttpSession session, @PathVariable(name = "id") Long id) {
         return service_chat.get_api_chats_id(session, id);
     }
 
-    // send message to chat
-    @PostMapping("/api/chats/{id}")
-    public ResponseEntity<DTO_Get_Message> post_api_chats_id(HttpSession session, @PathVariable(name = "id") Long id, @RequestParam(required = true) String text) {
-        return service_chat.post_api_chats_id(session, id, text);
+    // get messages
+    @GetMapping("/api/chats/{id}/messages")
+    public ResponseEntity<List<DTO_Get_Message>> get_api_chats_id_messages(HttpSession session, @PathVariable(name = "id") Long id) {
+        return service_chat.get_api_chats_id_messages(session, id);
     }
 
+    // send message to chat
+    @PostMapping("/api/chats/{id}/messages")
+    public ResponseEntity<DTO_Get_Message> post_api_chats_id_messages(HttpSession session, @PathVariable(name = "id") Long id, @RequestParam(required = true) String text) {
+        return service_chat.post_api_chats_id_messages(session, id, text);
+    }
 }
