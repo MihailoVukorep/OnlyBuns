@@ -28,6 +28,9 @@
 
 
 # OPTIONAL STUFF:
+## fix:
+- refactor all Controler function names to include get_ post_ etc.
+
 ## NEW CSS NEEDED:
 - popup
 - comment form
