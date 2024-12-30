@@ -4,37 +4,59 @@
 
 #map {
     display: block;
-    height: 600px;
-    width: 600px;
+    height: 400px;
+    width: 500px;
     margin: 10px auto 0 auto;
 }
 
+.dataform_box {
+    display: inline-block;
+    vertical-align: top;
+    margin-bottom: 20px;
+}
+
 .dataform {
-    display: block;
+    padding: 10px;
+    margin: 10px;
+}
+
+.dataform_texts {
+    display: flex;
     flex-direction: column;
-    border: 1px solid var(--var-color-border-transwhite);
-    padding: 10px;
-    margin: 0 auto;
-    width: 50vw;
+    gap: 10px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px 2px var(--var-color-pink-4-trans);
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 }
 
-.dataform div {
-    font-size: large;
-    padding: 5px;
-}
 
-.dataform input[type="text"], .dataform input[type="password"], textarea {
+
+.dataform input, .dataform textarea {
+    font-family: inherit;
     color: white;
-    background-color: rgba(64, 68, 75, 0.4);
-    font-size: large;
-    border-style: solid;
-    border-width: 2px;
-    border-color: rgb(64, 68, 75);
-    border-radius: 10px;
+    background-color: transparent;
+    font-size: inherit;
+    border: none;
+    border-bottom: 1px dashed var(--var-color-pink-4-trans);
     display: block;
     padding: 10px;
-    width: calc(100% - 25px);
-    min-width: 500px;
+}
+
+.dataform input {
+    width: 100%;
+    box-sizing: border-box; /* Include padding and border in width calculations */
+}
+
+.dataform input:focus, .dataform textarea:focus {
+  outline: 1px dashed var(--var-color-pink-4-trans); /* Custom outline */
+}
+
+.dataform ::placeholder {
+    color: var(--var-color-pink-4-trans);
+    opacity: 0.4;
 }
 
 textarea {
@@ -66,17 +88,8 @@ button:hover {
     background-color: transparent;
 }
 
-/* Right part: Image container */
-.image-container {
-    flex: 0 0 40%; /* Fixna širina od 40% ekrana */
-    margin-left: 20px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
 #image-preview {
+    padding: 10px;
     border: 5px dotted var(--var-color-border-gray);
     margin-top: 10px;
     text-align: center;
