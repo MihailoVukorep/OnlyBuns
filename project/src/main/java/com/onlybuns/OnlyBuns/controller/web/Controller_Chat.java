@@ -94,4 +94,10 @@ public class Controller_Chat {
         service_chat.get_api_chats_id_remove_id(session, id, account_id);
         return "redirect:/chats/" + id;
     }
+
+    @GetMapping("/chats/{id}/leave")
+    public String chats_id_leave(HttpSession session, @PathVariable(name = "id") Long id) {
+        service_chat.get_api_chats_id_leave(session, id);
+        return "redirect:/chats";
+    }
 }

@@ -60,7 +60,8 @@
     text-decoration: none;
 }
 
-#btn_addAccount {
+.chat_controls_button {
+    text-decoration: none;
     font-family: inherit;
     font-size: inherit;
     margin: 8px auto;
@@ -219,12 +220,14 @@ h2 {
 }
 
 .message_type_MESSAGE { color: white; }
-.message_type_JOINED { color: green; }
-.message_type_LEFT { color: red; }
+.message_type_JOINED, .message_type_ADDED { color: green; }
+.message_type_LEFT, .message_type_REMOVED { color: red; }
 .message_type_CONNECTED { color: darkgreen; }
 .message_type_DISCONNECTED { color: darkred; }
 
 .message_type_JOINED,
 .message_type_LEFT,
+.message_type_ADDED,
+.message_type_REMOVED,
 .message_type_CONNECTED,
 .message_type_DISCONNECTED { font-style: italic; }

@@ -24,6 +24,8 @@ public class DTO_Get_Message {
         switch (type) {
             case JOINED:       this.content = "joined.";       break;
             case LEFT:         this.content = "left.";         break;
+            case ADDED:        this.content = "added.";        break;
+            case REMOVED:      this.content = "removed.";      break;
             case CONNECTED:    this.content = "connected.";    break;
             case DISCONNECTED: this.content = "disconnected."; break;
         }

@@ -109,17 +109,21 @@
                         </a>
                     </div>
                 </div>
-                <div th:if="${chat.isMyChat}" id="chat_controls">
-                    <button id="btn_addAccount" onclick="addAccount_popup()">➕ Add Account</button>
-    
-                    <div id="addAccount_popup" class="popup" style="display: none;">
-                        <div id="accounts">
-                            <div th:each="account : ${following}" class="info_members_account" th:title="${account.userName}">
-                                <a class="account_link" th:href="|/chats/${chat.id}/add/${account.id}|" target="_top">
-                                    <img class="account_image" th:src="${account.avatar}" />
-                                    <span class="account_userName" th:text="${account.userName}"></span>
-                                    <span th:if="${account.isAdmin}" class="account_isAdmin" title="Admin">👑</span>
-                                </a>
+                <div id="chat_controls">
+                    <a class="chat_controls_button" th:href="|/chats/${chat.id}/leave|">🚪🏃‍♀️👋 Leave Chat</a>
+
+                    <div th:if="${chat.isMyChat}" >
+                        <button class="chat_controls_button" onclick="addAccount_popup()">➕ Add Account</button>
+        
+                        <div id="addAccount_popup" class="popup" style="display: none;">
+                            <div id="accounts">
+                                <div th:each="account : ${following}" class="info_members_account" th:title="${account.userName}">
+                                    <a class="account_link" th:href="|/chats/${chat.id}/add/${account.id}|" target="_top">
+                                        <img class="account_image" th:src="${account.avatar}" />
+                                        <span class="account_userName" th:text="${account.userName}"></span>
+                                        <span th:if="${account.isAdmin}" class="account_isAdmin" title="Admin">👑</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
