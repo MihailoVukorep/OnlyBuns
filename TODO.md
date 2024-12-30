@@ -27,13 +27,10 @@
 - when counting things: dont do collection.size() call repository.countSomething (ex. rep.countLikes...) - WHY: since .size() is int it won't overflow on large numbers
 
 
-
-
 # OPTIONAL STUFF:
 ## NEW CSS NEEDED:
 - popup
 - comment form
-- create/edit post
 
 ## look:
 - fix error page navbar
