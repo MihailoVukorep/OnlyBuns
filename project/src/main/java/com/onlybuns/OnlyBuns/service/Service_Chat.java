@@ -59,7 +59,7 @@ public class Service_Chat {
         Account user = (Account) session.getAttribute("user");
         if (user == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); }
         List<Chat> chats = repository_chat.findByMembersContains(user);
-        List<DTO_Get_Chat> dto_chats = chats.stream().map(DTO_Get_Chat::new).toList();
+        List<DTO_Get_Chat> dto_chats = chats.stream().map(i -> new DTO_Get_Chat(i, user)).toList();
         return new ResponseEntity<>(dto_chats, HttpStatus.OK);
     }
 
@@ -85,7 +85,7 @@ public class Service_Chat {
         List<Chat> chats = repository_chat.findByMembersContains(user);
         for (Chat i : chats) {
             if (i.getId() == id) {
-                return new ResponseEntity<>(new DTO_Get_Chat(i), HttpStatus.OK);
+                return new ResponseEntity<>(new DTO_Get_Chat(i, user), HttpStatus.OK);
             }
         }
         return null;
