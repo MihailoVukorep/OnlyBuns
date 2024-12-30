@@ -20,109 +20,116 @@
 </head>
 
 <body>
-    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    <div id="cont">
+        <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-    <input type="hidden" id="user_userName" th:value="${user_userName}" />
+        <input type="hidden" id="user_userName" th:value="${user_userName}" />
 
-    <div id="dm">
-        <div id="chats_cont">
-            <h2>💬 Chats:</h2>
-            <div id="chats">
-                <div th:each="chat : ${chats}" th:classappend="${chat.id == id} ? 'selected'" class="chat">
-                    <a class="chat_button" th:href="@{/chats/{id}(id=${chat.id})}">
-                        <span class="chat_name" th:title="${chat.name}" th:text="${chat.name}"></span>
-                        <span class="chat_createdDate" th:text="${chat.createdDateStr}"
-                            th:title="${chat.createdDateStr}"></span>
-                    </a>
+        <div id="dm">
+            <div id="chats_cont">
+                <h2>💬 Chats:</h2>
+                <div id="chats">
+                    <div th:each="chat : ${chats}" th:classappend="${chat.id == id} ? 'selected'" class="chat">
+                        <a class="chat_button" th:href="@{/chats/{id}(id=${chat.id})}">
+                            <span class="chat_name" th:title="${chat.name}" th:text="${chat.name}"></span>
+                            <span class="chat_createdDate" th:text="${chat.createdDateStr}"
+                                th:title="${chat.createdDateStr}"></span>
+                        </a>
 
-                    <div class="chat_members">
-                        <div th:each="account : ${chat.members}" class="account" th:title="${account.userName}">
+                        <div class="chat_members">
+                            <div th:each="account : ${chat.members}" class="account" th:title="${account.userName}">
+                                <a class="account_link" th:href="@{/accounts/{id}(id=${account.id})}" target="_top">
+                                    <img class="account_image" th:src="${account.avatar}" />
+                                    <span class="account_userName" th:text="${account.userName}"></span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${messages != null}" id="msgs_cont">
+
+                <input type="hidden" id="chat_id" th:value="${chat.id}" />
+
+                <h2>📜 Messages:</h2>
+                <div id="msgs">
+                    <div th:each="message : ${messages}" class="message">
+                        <div class="message_date" th:text="${message.createdDateStr}"></div>
+                        <div>|</div>
+                        <div class="message_account">
+                            <a class="account_link" th:href="@{/accounts/{id}(id=${message.account.id})}" target="_top">
+                                <img class="account_image" th:src="${message.account.avatar}" />
+                                <span class="account_userName" th:text="${message.account.userName}"></span>
+                            </a>
+                        </div>
+                        <div>:</div>
+                        <div class="message_content" th:text="${message.content}"
+                            th:classappend="'message_type_' + ${message.type}">
+                        </div>
+
+                    </div>
+
+                    <script defer>
+                        window.addEventListener('load', () => {
+                            const msgsContainer = document.getElementById("msgs");
+                            requestAnimationFrame(() => {
+                                msgsContainer.scrollTop = msgsContainer.scrollHeight;
+                            });
+                        });
+                    </script>
+                </div>
+                <div>
+                    <form id="msgform" th:onsubmit="'sendMessage(event, ' + ${id} + ')'">
+                        <input id="txt_text" type="text" placeholder="Type your message..." required />
+                        <button type="submit">🚀 Send</button>
+                    </form>
+
+                    <script defer>
+                        let txt_text = document.getElementById("txt_text");
+                        txt_text.focus();
+                        txt_text.select();
+                    </script>
+                </div>
+            </div>
+
+            <div th:if="${chat != null}" id="info_cont">
+                <h2>📢 Chat Info:</h2>
+
+                <div id="info">
+                    <div id="info_members">
+
+                        <div th:each="account : ${chat.members}" class="info_members_account"
+                            th:title="${account.userName}">
+                            <a th:if="${chat.isMyChat}" class="account_link_remove"
+                                th:href="|/chats/${chat.id}/remove/${account.id}|" title="Remove from chat">❌</a>
+
                             <a class="account_link" th:href="@{/accounts/{id}(id=${account.id})}" target="_top">
                                 <img class="account_image" th:src="${account.avatar}" />
                                 <span class="account_userName" th:text="${account.userName}"></span>
+                                <span th:if="${account.isAdmin}" class="account_isAdmin" title="Admin">👑</span>
                             </a>
                         </div>
                     </div>
+                    <div id="chat_controls">
+                        <a class="chat_controls_button" th:href="|/chats/${chat.id}/leave|">🚪🏃‍♀️👋 Leave Chat</a>
 
-                </div>
-            </div>
-        </div>
+                        <div th:if="${chat.isMyChat}">
+                            <button class="chat_controls_button" onclick="addAccount_popup()">➕ Add Account</button>
 
-        <div th:if="${messages != null}" id="msgs_cont">
-
-            <input type="hidden" id="chat_id" th:value="${chat.id}" />
-
-            <h2>📜 Messages:</h2>
-            <div id="msgs">
-                <div th:each="message : ${messages}" class="message">
-                    <div class="message_date" th:text="${message.createdDateStr}"></div>
-                    <div>|</div>
-                    <div class="message_account">
-                        <a class="account_link" th:href="@{/accounts/{id}(id=${message.account.id})}" target="_top">
-                            <img class="account_image" th:src="${message.account.avatar}" />
-                            <span class="account_userName" th:text="${message.account.userName}"></span>
-                        </a>
-                    </div>
-                    <div>:</div>
-                    <div class="message_content" th:text="${message.content}"
-                        th:classappend="'message_type_' + ${message.type}">
-                    </div>
-
-                </div>
-
-                <script defer>
-                    window.addEventListener('load', () => {
-                        const msgsContainer = document.getElementById("msgs");
-                        requestAnimationFrame(() => {
-                            msgsContainer.scrollTop = msgsContainer.scrollHeight;
-                        });
-                    });
-                </script>
-            </div>
-            <div>
-                <form id="msgform" th:onsubmit="'sendMessage(event, ' + ${id} + ')'">
-                    <input id="txt_text" type="text" placeholder="Type your message..." required />
-                    <button type="submit">🚀 Send</button>
-                </form>
-
-                <script defer>
-                    let txt_text = document.getElementById("txt_text");
-                    txt_text.focus();
-                    txt_text.select();
-                </script>
-            </div>
-        </div>
-
-        <div th:if="${chat != null}" id="info_cont">
-            <h2>📢 Chat Info:</h2>
-
-            <div id="info">
-                <div id="info_members">
-                    
-                    <div th:each="account : ${chat.members}" class="info_members_account" th:title="${account.userName}">
-                        <a th:if="${chat.isMyChat}" class="account_link_remove" th:href="|/chats/${chat.id}/remove/${account.id}|" title="Remove from chat">❌</a>
-
-                        <a class="account_link" th:href="@{/accounts/{id}(id=${account.id})}" target="_top">
-                            <img class="account_image" th:src="${account.avatar}" />
-                            <span class="account_userName" th:text="${account.userName}"></span>
-                            <span th:if="${account.isAdmin}" class="account_isAdmin" title="Admin">👑</span>
-                        </a>
-                    </div>
-                </div>
-                <div id="chat_controls">
-                    <a class="chat_controls_button" th:href="|/chats/${chat.id}/leave|">🚪🏃‍♀️👋 Leave Chat</a>
-
-                    <div th:if="${chat.isMyChat}" >
-                        <button class="chat_controls_button" onclick="addAccount_popup()">➕ Add Account</button>
-        
-                        <div id="addAccount_popup" class="popup" style="display: none;">
-                            <div id="accounts">
-                                <div th:each="account : ${following}" class="info_members_account" th:title="${account.userName}">
-                                    <a class="account_link" th:href="|/chats/${chat.id}/add/${account.id}|" target="_top">
-                                        <img class="account_image" th:src="${account.avatar}" />
-                                        <span class="account_userName" th:text="${account.userName}"></span>
-                                        <span th:if="${account.isAdmin}" class="account_isAdmin" title="Admin">👑</span>
-                                    </a>
+                            <div id="addAccount_popup" class="popup" style="display: none;">
+                                <div id="accounts">
+                                    <div th:each="account : ${following}" class="info_members_account"
+                                        th:title="${account.userName}">
+                                        <a class="account_link" th:href="|/chats/${chat.id}/add/${account.id}|"
+                                            target="_top">
+                                            <img class="account_image" th:src="${account.avatar}" />
+                                            <span class="account_userName" th:text="${account.userName}"></span>
+                                            <span th:if="${account.isAdmin}" class="account_isAdmin"
+                                                title="Admin">👑</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
