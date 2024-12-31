@@ -14,6 +14,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +23,9 @@ import java.util.Optional;
 @Service
 @Transactional
 public class Service_Chat {
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     @Autowired
     private Repository_Chat repository_chat;
@@ -136,6 +140,18 @@ public class Service_Chat {
         return new ResponseEntity<>(new DTO_Get_Message(message), HttpStatus.OK);
     }
 
+    public void BroadcastMessage(Message message) {
+
+        repository_message.save(message);
+
+        // Notify clients about the new message
+        messagingTemplate.convertAndSend(
+                "/topic/messages/" + message.getChat().getId(),
+                new DTO_Get_Message(message)
+        );
+    }
+
+
     // add user to chat
     public ResponseEntity<String> get_api_chats_id_add_id(HttpSession session, Long id, Long account_id) {
         Account user = (Account) session.getAttribute("user");
@@ -161,7 +177,7 @@ public class Service_Chat {
 
         chat.getMembers().add(account);
         repository_chat.save(chat);
-        repository_message.save(new Message(chat, account, "", Message_Type.ADDED));
+        BroadcastMessage(new Message(chat, account, "", Message_Type.ADDED));
         return new ResponseEntity<>("Account added to chat.", HttpStatus.OK);
     }
 
@@ -189,7 +205,7 @@ public class Service_Chat {
 
         chat.getMembers().remove(account);
         repository_chat.save(chat);
-        repository_message.save(new Message(chat, account, "", Message_Type.REMOVED));
+        BroadcastMessage(new Message(chat, account, "", Message_Type.REMOVED));
         return new ResponseEntity<>("Account removed from chat.", HttpStatus.OK);
     }
 
@@ -208,7 +224,7 @@ public class Service_Chat {
 
         chat.getMembers().remove(account);
         repository_chat.save(chat);
-        repository_message.save(new Message(chat, user, "", Message_Type.LEFT));
+        BroadcastMessage(new Message(chat, user, "", Message_Type.LEFT));
         return new ResponseEntity<>("Left from chat.", HttpStatus.OK);
     }
 

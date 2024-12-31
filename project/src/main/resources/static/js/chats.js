@@ -34,10 +34,12 @@ function displayMessage(message) {
             </a>
         </div>
         <div>:</div>
-        <div class="message_content ${message.type !== 'MESSAGE' ? 'gray-italic' : ''}">
+        <div class="message_content message_type_${message.type}">
             ${message.content}
         </div>
     `;
+
+    if (message.type != "MESSAGE") { window.location.reload(true); } // wow very secure... -.-
 
     msgsContainer.appendChild(messageElement);
     msgsContainer.scrollTop = msgsContainer.scrollHeight;
