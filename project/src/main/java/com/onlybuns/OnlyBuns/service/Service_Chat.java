@@ -67,13 +67,12 @@ public class Service_Chat {
     public ResponseEntity<DTO_Get_Chat> get_api_chats_id(HttpSession session, Long id) {
         Account user = (Account) session.getAttribute("user");
         if (user == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); }
+
         List<Chat> chats = repository_chat.findByMembersContains(user);
-        for (Chat i : chats) {
-            if (i.getId().equals(id)) {
-                return new ResponseEntity<>(new DTO_Get_Chat(i, user), HttpStatus.OK);
-            }
-        }
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        Optional<Chat> optional_chat = chats.stream().filter(i -> i.getId().equals(id)).findFirst();
+        if (optional_chat.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+        Chat chat = optional_chat.get();
+        return new ResponseEntity<>(new DTO_Get_Chat(chat, user), HttpStatus.OK);
     }
 
     // get chat's messages
@@ -144,11 +143,11 @@ public class Service_Chat {
 
         List<Chat> chats = repository_chat.findByMembersContains(user);
         Optional<Chat> optional_chat = chats.stream().filter(i -> i.getId().equals(id)).findFirst();
-        if (optional_chat.isEmpty()) { return new ResponseEntity<>("Chat not found.", HttpStatus.OK); }
+        if (optional_chat.isEmpty()) { return new ResponseEntity<>("Chat not found.", HttpStatus.NOT_FOUND); }
         Chat chat = optional_chat.get();
 
         if (!chat.getAdmin().getId().equals(user.getId())) {
-            return new ResponseEntity<>("You're not the admin of the chat.", HttpStatus.OK);
+            return new ResponseEntity<>("You're not the admin of the chat.", HttpStatus.FORBIDDEN);
         }
 
         // add account to chat and save chat
@@ -157,7 +156,7 @@ public class Service_Chat {
         Account account = optional_account.get();
 
         if (chat.getMembers().contains(account)) {
-            return new ResponseEntity<>("Account already added to chat.", HttpStatus.OK);
+            return new ResponseEntity<>("Account already added to chat.", HttpStatus.CONFLICT);
         }
 
         chat.getMembers().add(account);
@@ -172,11 +171,11 @@ public class Service_Chat {
 
         List<Chat> chats = repository_chat.findByMembersContains(user);
         Optional<Chat> optional_chat = chats.stream().filter(i -> i.getId().equals(id)).findFirst();
-        if (optional_chat.isEmpty()) { return new ResponseEntity<>("Chat not found.", HttpStatus.OK); }
+        if (optional_chat.isEmpty()) { return new ResponseEntity<>("Chat not found.", HttpStatus.NOT_FOUND); }
         Chat chat = optional_chat.get();
 
         if (!chat.getAdmin().getId().equals(user.getId())) {
-            return new ResponseEntity<>("You're not the admin of the chat.", HttpStatus.OK);
+            return new ResponseEntity<>("You're not the admin of the chat.", HttpStatus.FORBIDDEN);
         }
 
         // add account to chat and save chat
@@ -184,14 +183,14 @@ public class Service_Chat {
         if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         Account account = optional_account.get();
 
-        if (chat.getMembers().contains(account)) {
-            chat.getMembers().remove(account);
-            repository_chat.save(chat);
-            repository_message.save(new Message(chat, account, "", Message_Type.REMOVED));
-            return new ResponseEntity<>("Account removed from chat.", HttpStatus.OK);
+        if (!chat.getMembers().contains(account)) {
+            return new ResponseEntity<>("Can't find account in chat.", HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>("Can't find account in chat.", HttpStatus.OK);
+        chat.getMembers().remove(account);
+        repository_chat.save(chat);
+        repository_message.save(new Message(chat, account, "", Message_Type.REMOVED));
+        return new ResponseEntity<>("Account removed from chat.", HttpStatus.OK);
     }
 
     public ResponseEntity<String> get_api_chats_id_leave(HttpSession session, Long id) {
@@ -200,7 +199,7 @@ public class Service_Chat {
         List<Chat> chats = repository_chat.findByMembersContains(user);
 
         Optional<Chat> optional_chat = chats.stream().filter(i -> i.getId().equals(id)).findFirst();
-        if (optional_chat.isEmpty()) { return new ResponseEntity<>("Chat not found.", HttpStatus.OK); }
+        if (optional_chat.isEmpty()) { return new ResponseEntity<>("Chat not found.", HttpStatus.NOT_FOUND); }
         Chat chat = optional_chat.get();
 
         Optional<Account> optional_account = repository_account.findById(user.getId());
