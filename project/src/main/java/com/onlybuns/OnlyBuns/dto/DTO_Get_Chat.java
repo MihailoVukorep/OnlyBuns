@@ -12,7 +12,7 @@ public class DTO_Get_Chat {
     public Long id;
     public String token;
     public String name;
-    public DTO_Get_Chat_Account admin;
+    public Long adminId;
     public List<DTO_Get_Chat_Account> members;
     public LocalDateTime createdDate;
     public String createdDateStr;
@@ -24,10 +24,10 @@ public class DTO_Get_Chat {
         this.id = chat.getId();
         this.token = chat.getToken();
         this.name = chat.getName();
+        this.adminId = chat.getAdmin().getId();
         this.userToken = chatMember.getToken();
-        this.admin = new DTO_Get_Chat_Account(chat.getAdmin(), true);
-        this.isMyChat = chatMember.getAccount().getId().equals(admin.getId());
-        this.members = chat.getMembers().stream().map(i -> new DTO_Get_Chat_Account(i.getAccount(), i.getAccount().getId().equals(admin.getId()))).toList();
+        this.isMyChat = chatMember.getAccount().getId().equals(adminId);
+        this.members = chat.getMembers().stream().map(i -> new DTO_Get_Chat_Account(i, i.getAccount().getId().equals(adminId))).toList();
         this.createdDate = chat.getCreatedDate();
         this.createdDateStr = this.createdDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }

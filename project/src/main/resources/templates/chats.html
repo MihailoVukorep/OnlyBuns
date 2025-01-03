@@ -108,6 +108,8 @@
                                 <img class="account_image" th:src="${account.avatar}" />
                                 <span class="account_userName" th:text="${account.userName}"></span>
                                 <span th:if="${account.isAdmin}" class="account_isAdmin" title="Admin">👑</span>
+                                <span class="account_joinedDate" th:text="'(' + ${account.joinedDateStr} + ')'"
+                                    th:title="'Joined: ' + ${account.joinedDateStr}"></span>
                             </a>
                         </div>
                     </div>

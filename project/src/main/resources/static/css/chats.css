@@ -167,6 +167,13 @@ h2 {
     font-size: small;
 }
 
+.account_joinedDate {
+    text-decoration: none;
+    font-size: small;
+    margin-left: 10px;
+    color: gray;
+}
+
 .message {
     display: flex;
     flex-direction: row;
