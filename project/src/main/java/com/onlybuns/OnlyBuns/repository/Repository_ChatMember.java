@@ -8,5 +8,7 @@ import java.util.Optional;
 
 public interface Repository_ChatMember extends JpaRepository<ChatMember, Long> {
 
+    Optional<ChatMember> findByToken(String token);
+
     Optional<ChatMember> findByChatAndAccountId(Chat chat, Long accountId);
 }

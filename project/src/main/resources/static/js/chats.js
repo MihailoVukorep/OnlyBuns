@@ -2,7 +2,7 @@ let stompClient = null;
 
 const msgsContainer = document.getElementById("msgs");
 const chat_id_element = document.getElementById("chat_id");
-const user_userName = document.getElementById("user_userName");
+const token_element = document.getElementById("token");
 
 
 function sendMessage(event, chatId) {
@@ -12,8 +12,8 @@ function sendMessage(event, chatId) {
 
     if (content && stompClient) {
         const message = {
-            userName: user_userName.value,
-            content: content
+            token: token_element.value.toString(),
+            content: content.toString()
         };
         stompClient.send(`/app/send/${chatId}`, {}, JSON.stringify(message));
         input.value = "";
@@ -39,7 +39,7 @@ function displayMessage(message) {
         </div>
     `;
 
-    if (message.type != "MESSAGE") { window.location.reload(true); } // wow very secure... -.-
+    //if (message.type != "MESSAGE") { window.location.reload(true); } // wow very secure... -.-
 
     msgsContainer.appendChild(messageElement);
     msgsContainer.scrollTop = msgsContainer.scrollHeight;
@@ -62,7 +62,7 @@ function connect(chatId) {
     // Add custom headers to pass user and chat information
     const headers = {
         "chatId": chatId.toString(),
-        "userName": user_userName.value
+        "token": token_element.value.toString()
     };
 
     stompClient.connect(headers, function() {

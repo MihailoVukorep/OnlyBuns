@@ -1,5 +1,6 @@
 package com.onlybuns.OnlyBuns.controller.web;
 
+import com.onlybuns.OnlyBuns.dto.DTO_Get_Chat;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Message;
 import com.onlybuns.OnlyBuns.dto.DTO_Post_Message;
 import com.onlybuns.OnlyBuns.model.Account;
@@ -43,7 +44,6 @@ public class Controller_Chat {
         if (user == null) { return "error/401.html"; }
 
         //
-        model.addAttribute("user_userName", user.getUserName());
         model.addAttribute("following", service_account.get_api_accounts_id_following(user.getId()).getBody());
 
         // set chats
@@ -79,7 +79,7 @@ public class Controller_Chat {
     @MessageMapping("/send/{chatId}")
     @SendTo("/topic/messages/{chatId}")
     public DTO_Get_Message sendMessage(@DestinationVariable Long chatId, DTO_Post_Message dto_post_message) {
-        ResponseEntity<DTO_Get_Message> response = service_chat.post_api_chats_id_messages(dto_post_message.getUserName(), chatId, dto_post_message.getContent());
+        ResponseEntity<DTO_Get_Message> response = service_chat.post_api_chats_id_messages(dto_post_message.getToken(), chatId, dto_post_message.getContent());
         return response.getBody();
     }
 

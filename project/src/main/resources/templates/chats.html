@@ -23,7 +23,8 @@
     <div id="cont">
         <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-        <input type="hidden" id="user_userName" th:value="${user_userName}" />
+        <input th:if="${chat != null}" type="hidden" id="chat_id" th:value="${chat.id}" />
+        <input th:if="${chat != null}" type="hidden" id="token" th:value="${chat.userToken}" />
 
         <div id="dm">
             <div id="chats_cont">
@@ -50,9 +51,6 @@
             </div>
 
             <div th:if="${messages != null}" id="msgs_cont">
-
-                <input type="hidden" id="chat_id" th:value="${chat.id}" />
-
                 <h2>📜 Messages:</h2>
                 <div id="msgs">
                     <div th:each="message : ${messages}" class="message">

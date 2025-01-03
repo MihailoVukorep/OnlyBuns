@@ -37,10 +37,11 @@ public class Service_Chat {
     @Autowired
     private Repository_ChatMember repository_chatMember;
 
-    public Optional<Chat> findById(Long id) {
-        return repository_chat.findById(id);
-    }
 
+
+    public Optional<ChatMember> findChatByChatAndAccountId(Chat chat, Long account_id) {
+        return repository_chatMember.findByChatAndAccountId(chat, account_id);
+    }
 
     public ChatMember CreateChatMember(Chat chat, Account account) {
         ChatMember accountMember = new ChatMember(chat, account);
@@ -77,7 +78,7 @@ public class Service_Chat {
         Account user = (Account) session.getAttribute("user");
         if (user == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); }
         List<Chat> chats = repository_chat.findByMembersContains(user);
-        List<DTO_Get_Chat> dto_chats = chats.stream().map(i -> new DTO_Get_Chat(i, user)).toList();
+        List<DTO_Get_Chat> dto_chats = chats.stream().map(i -> new DTO_Get_Chat(repository_chatMember.findByChatAndAccountId(i, user.getId()).get())).toList();
         return new ResponseEntity<>(dto_chats, HttpStatus.OK);
     }
 
@@ -90,7 +91,11 @@ public class Service_Chat {
         Optional<Chat> optional_chat = chats.stream().filter(i -> i.getId().equals(id)).findFirst();
         if (optional_chat.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         Chat chat = optional_chat.get();
-        return new ResponseEntity<>(new DTO_Get_Chat(chat, user), HttpStatus.OK);
+
+        Optional<ChatMember> optional_chatMember = repository_chatMember.findByChatAndAccountId(chat, user.getId());
+        if (optional_chatMember.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+
+        return new ResponseEntity<>(new DTO_Get_Chat(optional_chatMember.get()), HttpStatus.OK);
     }
 
     // get chat's messages
@@ -132,23 +137,15 @@ public class Service_Chat {
         repository_message.save(message);
         return new ResponseEntity<>(new DTO_Get_Message(message), HttpStatus.OK);
     }
-    public ResponseEntity<DTO_Get_Message> post_api_chats_id_messages(String userName, Long id, String text) {
+    public ResponseEntity<DTO_Get_Message> post_api_chats_id_messages(String token, Long id, String text) {
 
-        Optional<Account> optional_user = repository_account.findByUserName(userName);
-        Account user = optional_user.get();
-
-        Optional<Chat> optional_chat = repository_chat.findById(id);
-        if (optional_chat.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); } // Can't find chat.
-
-        Chat chat = optional_chat.get();
-        if (chat.getMembers().stream().noneMatch(member -> member.getId().equals(user.getId()))) { return new ResponseEntity<>(null, HttpStatus.FORBIDDEN); } // Not your chat.
-
-        Optional<Account> optional_account = repository_account.findById(id);
-        if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); } // Can't find account.
+        Optional<ChatMember> optional_chatMember = repository_chatMember.findByToken(token);
+        if (optional_chatMember.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+        ChatMember chatMember = optional_chatMember.get();
 
         Message message = new Message();
-        message.setChat(chat);
-        message.setAccount(user);
+        message.setChat(chatMember.getChat());
+        message.setAccount(chatMember.getAccount());
         message.setContent(text);
         repository_message.save(message);
         return new ResponseEntity<>(new DTO_Get_Message(message), HttpStatus.OK);
