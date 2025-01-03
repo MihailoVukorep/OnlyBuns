@@ -12,6 +12,8 @@ import java.util.Optional;
 
 public interface Repository_Chat extends JpaRepository<Chat, Long> {
 
+    boolean existsByToken(String token);
+
     Optional<Chat> findByToken(String token);
 
     @Query("SELECT c FROM Chat c JOIN c.members m WHERE m.account = :account")

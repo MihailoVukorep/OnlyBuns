@@ -40,7 +40,7 @@ function displayMessage(message) {
         </div>
     `;
 
-    if (message.type != "MESSAGE") { window.location.reload(true); } // wow very secure... -.-
+    if (message.type != "MESSAGE") { window.location.reload(true); } // force refresh chat token has changed
 
     msgsContainer.appendChild(messageElement);
     msgsContainer.scrollTop = msgsContainer.scrollHeight;

@@ -36,7 +36,7 @@ public class ChatMember {
     @CreationTimestamp
     private LocalDateTime joinedDate;
 
-    public ChatMember(Chat chat, Account account) {
+    public ChatMember(Chat chat, Account account, String token) {
         this.chat = chat;
         this.account = account;
     }

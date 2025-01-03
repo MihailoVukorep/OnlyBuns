@@ -50,7 +50,13 @@ public class Service_Chat {
     }
 
     public Chat ChangeChatToken(Chat chat) {
-        chat.setToken(UUID.randomUUID().toString());
+
+        String token;
+        do {
+            token = UUID.randomUUID().toString();
+        } while (repository_chat.existsByToken(token));
+
+        chat.setToken(token);
         repository_chat.save(chat);
         return chat;
     }
@@ -60,7 +66,13 @@ public class Service_Chat {
     }
 
     public ChatMember CreateChatMember(Chat chat, Account account) {
-        ChatMember accountMember = new ChatMember(chat, account);
+
+        String token;
+        do {
+            token = UUID.randomUUID().toString();
+        } while (repository_chatMember.existsByToken(token));
+
+        ChatMember accountMember = new ChatMember(chat, account, token);
         repository_chatMember.save(accountMember);
         return accountMember;
     }
@@ -188,8 +200,7 @@ public class Service_Chat {
         Optional<ChatMember> optional_chatMember = repository_chatMember.findByChatAndAccountId(chat, account_id);
         if (optional_chatMember.isPresent()) { return new ResponseEntity<>("Account already added to chat.", HttpStatus.CONFLICT); }
 
-        ChatMember member = new ChatMember(chat, account);
-        repository_chatMember.save(member);
+        CreateChatMember(chat, account);
 
         BroadcastMessage(new Message(chat, account, "", Message_Type.ADDED));
         return new ResponseEntity<>("Account added to chat.", HttpStatus.OK);
