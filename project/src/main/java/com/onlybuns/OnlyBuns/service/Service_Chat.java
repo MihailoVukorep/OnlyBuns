@@ -78,8 +78,15 @@ public class Service_Chat {
     }
 
     public Chat CreateChat(Account user, Account account) {
-        Chat chat = new Chat(user, user.getFirstName() + " & " + account.getUserName());
+
+        String token;
+        do {
+            token = UUID.randomUUID().toString();
+        } while (repository_chat.existsByToken(token));
+
+        Chat chat = new Chat(token, user, user.getFirstName() + " & " + account.getUserName());
         repository_chat.save(chat);
+
         CreateChatMember(chat, user);
         CreateChatMember(chat, account);
         repository_message.save(new Message(chat, user, "", Message_Type.JOINED));

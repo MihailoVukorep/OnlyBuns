@@ -34,7 +34,8 @@ public class Chat {
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ChatMember> members = new ArrayList<>();
 
-    public Chat(Account admin, String name) {
+    public Chat(String token, Account admin, String name) {
+        this.token = token;
         this.admin = admin;
         this.name = name;
     }
