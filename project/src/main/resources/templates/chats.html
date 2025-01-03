@@ -24,7 +24,8 @@
         <div th:replace="~{fragments/navbar :: navbar}"></div>
 
         <input th:if="${chat != null}" type="hidden" id="chat_id" th:value="${chat.id}" />
-        <input th:if="${chat != null}" type="hidden" id="token" th:value="${chat.userToken}" />
+        <input th:if="${chat != null}" type="hidden" id="chatToken" th:value="${chat.token}" />
+        <input th:if="${chat != null}" type="hidden" id="userToken" th:value="${chat.userToken}" />
 
         <div id="dm">
             <div id="chats_cont">

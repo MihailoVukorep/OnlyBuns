@@ -23,7 +23,7 @@ public class ChatMember {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String token;
+    private String token = UUID.randomUUID().toString();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_id", nullable = false)
@@ -39,6 +39,5 @@ public class ChatMember {
     public ChatMember(Chat chat, Account account) {
         this.chat = chat;
         this.account = account;
-        this.token = UUID.randomUUID().toString();
     }
 }

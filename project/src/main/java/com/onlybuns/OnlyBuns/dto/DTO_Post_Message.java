@@ -8,6 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DTO_Post_Message {
-    public String token;
+    public String userToken;
     public String content;
 }

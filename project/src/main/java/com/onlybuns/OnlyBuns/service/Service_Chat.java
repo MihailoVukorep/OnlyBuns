@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -37,7 +38,22 @@ public class Service_Chat {
     @Autowired
     private Repository_ChatMember repository_chatMember;
 
+    public void BroadcastMessage(Message message) {
 
+        repository_message.save(message);
+
+        // Notify clients about the new message
+        messagingTemplate.convertAndSend(
+                "/topic/messages/" + message.getChat().getToken(),
+                new DTO_Get_Message(message)
+        );
+    }
+
+    public Chat ChangeChatToken(Chat chat) {
+        chat.setToken(UUID.randomUUID().toString());
+        repository_chat.save(chat);
+        return chat;
+    }
 
     public Optional<ChatMember> findChatByChatAndAccountId(Chat chat, Long account_id) {
         return repository_chatMember.findByChatAndAccountId(chat, account_id);
@@ -126,9 +142,6 @@ public class Service_Chat {
         Chat chat = optional_chat.get();
         if (chat.getMembers().stream().noneMatch(member -> member.getAccount().getId().equals(user.getId()))) { return new ResponseEntity<>(null, HttpStatus.FORBIDDEN); } // Not your chat.
 
-        Optional<Account> optional_account = repository_account.findById(id);
-        if (optional_account.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); } // Can't find account.
-
         Message message = new Message();
         message.setType(Message_Type.MESSAGE);
         message.setChat(chat);
@@ -137,31 +150,22 @@ public class Service_Chat {
         repository_message.save(message);
         return new ResponseEntity<>(new DTO_Get_Message(message), HttpStatus.OK);
     }
-    public ResponseEntity<DTO_Get_Message> post_api_chats_id_messages(String token, Long id, String text) {
+    public ResponseEntity<DTO_Get_Message> post_api_chats_id_messages(String token, String userToken, String text) {
 
-        Optional<ChatMember> optional_chatMember = repository_chatMember.findByToken(token);
+        Optional<Chat> optional_chat = repository_chat.findByToken(token);
+        if (optional_chat.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+
+        Optional<ChatMember> optional_chatMember = repository_chatMember.findByToken(userToken);
         if (optional_chatMember.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
         ChatMember chatMember = optional_chatMember.get();
 
         Message message = new Message();
-        message.setChat(chatMember.getChat());
+        message.setChat(optional_chat.get());
         message.setAccount(chatMember.getAccount());
         message.setContent(text);
         repository_message.save(message);
         return new ResponseEntity<>(new DTO_Get_Message(message), HttpStatus.OK);
     }
-
-    public void BroadcastMessage(Message message) {
-
-        repository_message.save(message);
-
-        // Notify clients about the new message
-        messagingTemplate.convertAndSend(
-                "/topic/messages/" + message.getChat().getId(),
-                new DTO_Get_Message(message)
-        );
-    }
-
 
     // add user to chat
     public ResponseEntity<String> get_api_chats_id_add_id(HttpSession session, Long id, Long account_id) {
@@ -216,6 +220,9 @@ public class Service_Chat {
         repository_chatMember.delete(member);
 
         BroadcastMessage(new Message(chat, account, "", Message_Type.REMOVED));
+
+        ChangeChatToken(chat); // change chat token when someone gets removed so we nuke lurkers
+
         return new ResponseEntity<>("Account removed from chat.", HttpStatus.OK);
     }
 
@@ -239,6 +246,9 @@ public class Service_Chat {
         repository_chatMember.delete(member);
 
         BroadcastMessage(new Message(chat, user, "", Message_Type.LEFT));
+
+        ChangeChatToken(chat); // change chat token when someone gets removed so we nuke lurkers
+
         return new ResponseEntity<>("Left from chat.", HttpStatus.OK);
     }
 
