@@ -43,10 +43,8 @@ public class DatabaseConfiguration {
     private Service_Trend service_trend;
 
     @Autowired
-    private Repository_Chat repository_chat;
+    private Service_Chat service_chat;
 
-    @Autowired
-    private Repository_Message repository_message;
 
     private final String LOCATION_NOVI_SAD = "45.25120485988152,19.82688903808594";
     private final String LOCATION_BELGRADE = "44.81423651177903,20.45860290527344";
@@ -120,13 +118,6 @@ public class DatabaseConfiguration {
         }
     }
 
-
-    public void CreateChat(Account user, Account account) {
-        Chat chat = new Chat(user, account);
-        repository_chat.save(chat);
-        repository_message.save(new Message(chat, user, "", Message_Type.JOINED));
-        repository_message.save(new Message(chat, account, "", Message_Type.JOINED));
-    }
 
     public void likePost(Post post, Account account) {
         repository_like.save(new Like(account, post));
@@ -375,7 +366,7 @@ public class DatabaseConfiguration {
         follow(acc_pera, acc_hater);
         follow(acc_pera, acc_icy);
 
-        CreateChat(acc_pera, acc_ajzak);
+        service_chat.CreateChat(acc_pera, acc_ajzak);
 
         // // UNCOMMENT TO SPAM POSTS
         // for (int i = 0; i < 100; i++) {

@@ -27,20 +27,20 @@ public class Chat {
     @JoinColumn(name = "admin_id", nullable = false)
     private Account admin;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "chat_members",
-            joinColumns = @JoinColumn(name = "chat_id"),
-            inverseJoinColumns = @JoinColumn(name = "account_id")
-    )
-    private List<Account> members;
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ChatMember> members = new ArrayList<>();
 
-    public Chat(Account sender, Account receiver) {
-        this.admin = sender;
-        this.name = sender.getFirstName() + ", " + receiver.getUserName();
-        this.members = new ArrayList<>();
-        members.add(sender);
-        members.add(receiver);
+    public Chat(Account admin, String name) {
+        this.admin = admin;
+        this.name = name;
+    }
+
+    public void addMember(ChatMember member) {
+        this.members.add(member);
+    }
+
+    public void removeMember(ChatMember member) {
+        this.members.remove(member);
     }
 
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

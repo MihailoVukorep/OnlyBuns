@@ -10,10 +10,6 @@ import java.util.List;
 
 public interface Repository_Chat extends JpaRepository<Chat, Long> {
 
-    // Derived Query Method
-    List<Chat> findByMembersContains(Account account);
-
-//    // Alternative: Custom Query using JPQL
-//    @Query("SELECT c FROM Chat c JOIN c.members m WHERE m = :account")
-//    List<Chat> findAllByAccount(@Param("account") Account account);
+    @Query("SELECT c FROM Chat c JOIN c.members m WHERE m.account = :account")
+    List<Chat> findByMembersContains(@Param("account") Account account);
 }

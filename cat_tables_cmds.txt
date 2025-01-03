@@ -1,4 +1,4 @@
 \l
 \c jpa
 \dt
-SELECT * from chats;
+SELECT * from chat_members;
