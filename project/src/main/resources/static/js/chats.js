@@ -39,7 +39,7 @@ function displayMessage(message) {
         </div>
     `;
 
-    //if (message.type != "MESSAGE") { window.location.reload(true); } // wow very secure... -.-
+    if (message.type != "MESSAGE") { window.location.reload(true); } // wow very secure... -.-
 
     msgsContainer.appendChild(messageElement);
     msgsContainer.scrollTop = msgsContainer.scrollHeight;
