@@ -27,7 +27,7 @@ public class DTO_Get_Chat {
         this.userToken = chatMember.getToken();
         this.admin = new DTO_Get_Chat_Account(chat.getAdmin(), true);
         this.isMyChat = chatMember.getAccount().getId().equals(admin.getId());
-        this.members = chat.getMembers().stream().map(i -> new DTO_Get_Chat_Account(i.getAccount(), i.getId().equals(admin.getId()))).toList();
+        this.members = chat.getMembers().stream().map(i -> new DTO_Get_Chat_Account(i.getAccount(), i.getAccount().getId().equals(admin.getId()))).toList();
         this.createdDate = chat.getCreatedDate();
         this.createdDateStr = this.createdDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
