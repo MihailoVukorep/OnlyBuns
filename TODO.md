@@ -6,9 +6,6 @@
 - OpenAPI
 - Caching ; /posts cache images ; createpost cache location ; 
 - remove all exceptions -- use web error codes
-## CHAT:
-- to fix: when user gets kicked out he should stop receiving messages
-- to fix: check the HttpSession when WebSocket connection is being made sending usernames can be hacked :/
 
 ## ADMIN:
 - admin/accounts search needs paging
@@ -21,15 +18,12 @@
     - currently active users in 24h
 - ADs
 
-# to fix:
-- add all lombok to DTOs
-- use ratelimiter class to limit follow / reply ??
-- when counting things: dont do collection.size() call repository.countSomething (ex. rep.countLikes...) - WHY: since .size() is int it won't overflow on large numbers
-
-
 # OPTIONAL STUFF:
 ## fix:
 - refactor all Controler function names to include get_ post_ etc.
+- add all lombok to DTOs
+- use ratelimiter class to limit follow / reply ??
+- when counting things: dont do collection.size() call repository.countSomething (ex. rep.countLikes...) - WHY: since .size() is int it won't overflow on large numbers
 
 ## NEW CSS NEEDED:
 - popup
