@@ -79,7 +79,7 @@
                     </script>
                 </div>
                 <div>
-                    <form id="msgform" th:onsubmit="'sendMessage(event, ' + ${id} + ')'">
+                    <form id="msgform" th:onsubmit="'sendMessage(event)'">
                         <input id="txt_text" type="text" placeholder="Type your message..." required />
                         <button type="submit">🚀 Send</button>
                     </form>

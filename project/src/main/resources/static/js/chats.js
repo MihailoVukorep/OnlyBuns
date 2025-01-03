@@ -5,7 +5,7 @@ const chat_id_element = document.getElementById("chat_id");
 const token_element = document.getElementById("token");
 
 
-function sendMessage(event, chatId) {
+function sendMessage(event) {
     event.preventDefault();
     const input = document.getElementById("txt_text");
     const content = input.value.trim();
@@ -15,7 +15,7 @@ function sendMessage(event, chatId) {
             token: token_element.value.toString(),
             content: content.toString()
         };
-        stompClient.send(`/app/send/${chatId}`, {}, JSON.stringify(message));
+        stompClient.send(`/app/send/${chat_id_element.value}`, {}, JSON.stringify(message));
         input.value = "";
     }
 }
@@ -55,21 +55,15 @@ function connect_onError() {
 }
 
 
-function connect(chatId) {
+function connect() {
     const socket = new SockJS('/ws');
     stompClient = Stomp.over(socket);
 
-    // Add custom headers to pass user and chat information
-    const headers = {
-        "chatId": chatId.toString(),
-        "token": token_element.value.toString()
-    };
-
-    stompClient.connect(headers, function() {
+    stompClient.connect({}, function() {
         console.log("Connected to WebSocket");
 
         // Subscribe to receive messages for the current chat
-        stompClient.subscribe(`/topic/messages/${chatId}`, connect_onConnect, connect_onError);
+        stompClient.subscribe(`/topic/messages/${chat_id_element.value}`, connect_onConnect, connect_onError);
     });
 
     const msgsContainer = document.getElementById("msgs");
@@ -79,7 +73,7 @@ function connect(chatId) {
 
 if (chat_id_element != null) {
     // Connect to WebSocket when the page loads
-    window.addEventListener('load', () => { connect(chat_id_element.value); });
+    window.addEventListener('load', () => { connect(); });
 }
 
 // adding people
