@@ -2,6 +2,7 @@ package com.onlybuns.OnlyBuns.controller.api;
 
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Account;
 import com.onlybuns.OnlyBuns.service.Service_Admin;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ public class RestController_Admin {
     @Autowired
     private Service_Admin service_admin;
 
+    @Operation(summary = "listing of all account on platform")
     @GetMapping("/api/admin/accounts")
     public ResponseEntity<List<DTO_Get_Account>> get_api_admin_accounts(
             HttpSession session,

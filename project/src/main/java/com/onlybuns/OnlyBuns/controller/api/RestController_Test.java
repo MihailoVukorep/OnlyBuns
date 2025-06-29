@@ -3,6 +3,7 @@ package com.onlybuns.OnlyBuns.controller.api;
 import com.onlybuns.OnlyBuns.service.Service_ScheduleCleanup;
 import com.onlybuns.OnlyBuns.service.Service_Test;
 import com.onlybuns.OnlyBuns.service.Service_Test_Likes;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +23,13 @@ public class RestController_Test {
     @Autowired
     private Service_ScheduleCleanup scheduledTask;
 
+    @Operation(summary = "test image compression")
     @GetMapping("/api/test")
     public ResponseEntity<String> get_api_test() {
         return service_test.get_api_test();
     }
+
+    @Operation(summary = "test account cleanup cron job")
     @GetMapping("/api/test/cleanup")
     public ResponseEntity<String> triggerAccountCleanup() {
         try {

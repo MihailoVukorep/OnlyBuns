@@ -5,6 +5,7 @@ import com.onlybuns.OnlyBuns.dto.DTO_Get_Post;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Trend;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Trend_Counts;
 import com.onlybuns.OnlyBuns.service.Service_Trend;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,26 +20,31 @@ public class RestController_Trend {
     @Autowired
     private Service_Trend service_trend;
 
+    @Operation(summary = "get trends")
     @GetMapping("/api/trends")
     public ResponseEntity<DTO_Get_Trend> get_api_trends(HttpSession session) {
         return service_trend.get_api_trends(session);
     }
 
+    @Operation(summary = "get trends")
     @GetMapping("/api/trends/counts")
     public ResponseEntity<DTO_Get_Trend_Counts> get_api_trends_counts(HttpSession session) {
         return service_trend.get_api_trends_counts(session);
     }
 
+    @Operation(summary = "get top weekly posts")
     @GetMapping("/api/trends/weekly")
     public ResponseEntity<List<DTO_Get_Post>> get_api_trends_weekly(HttpSession session) {
         return service_trend.get_api_trends_weekly(session);
     }
 
+    @Operation(summary = "get top all time posts")
     @GetMapping("/api/trends/top")
     public ResponseEntity<List<DTO_Get_Post>> get_api_trends_top(HttpSession session) {
         return service_trend.get_api_trends_top(session);
     }
 
+    @Operation(summary = "get top likers")
     @GetMapping("/api/trends/likers")
     public ResponseEntity<List<DTO_Get_Account>> get_api_trends_likers(HttpSession session) {
         return service_trend.get_api_trends_likers(session);
