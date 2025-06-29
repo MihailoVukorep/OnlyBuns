@@ -9,6 +9,7 @@ import lombok.*;
 @ToString
 public class DTO_Get_Location {
     public String url;
+    public String name;
     public String coordinates;
     public DTO_Get_Location_Type type;
 }

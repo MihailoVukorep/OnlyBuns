@@ -38,9 +38,9 @@ async function fetch_locations() {
         if (location.type == "POST") { }
 
         switch (location.type) {
-            case "POST": L.marker([lat, lon], { icon: emojiIcon_post }).addTo(markers).bindPopup(`<a href="${location.url}" target="_blank">Post</a>`); break;
-            case "VETERINARIAN": L.marker([lat, lon], { icon: emojiIcon_vet }).addTo(markers).bindPopup(`<a href="${location.url}" target="_blank">Veterinarian</a>`); break;
-            case "SHELTER": L.marker([lat, lon], { icon: emojiIcon_shelter }).addTo(markers).bindPopup(`<a href="${location.url}" target="_blank">Shelter</a>`); break;
+            case "POST": L.marker([lat, lon], { icon: emojiIcon_post }).addTo(markers).bindPopup(`<a href="${location.url}" target="_blank">${location.name}</a>`); break;
+            case "VETERINARIAN": L.marker([lat, lon], { icon: emojiIcon_vet }).addTo(markers).bindPopup(`<a href="${location.url}" target="_blank">${location.name}</a>`); break;
+            case "SHELTER": L.marker([lat, lon], { icon: emojiIcon_shelter }).addTo(markers).bindPopup(`<a href="${location.url}" target="_blank">${location.name}</a>`); break;
         }
     });
 }
