@@ -72,6 +72,12 @@ public class RestController_Post {
         return service_post.get_api_posts_id(id, session);
     }
 
+    @GetMapping(value = "/api/removeCache")
+    public ResponseEntity<String> removeFromCache() {
+        service_post.removeFromCache();
+        return ResponseEntity.ok("Posts/Locations successfully removed from cache!");
+    }
+
     // CREATE POST
     @Operation(summary = "create post")
     @PostMapping("/api/posts")

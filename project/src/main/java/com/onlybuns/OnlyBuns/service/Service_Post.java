@@ -15,6 +15,10 @@ import com.onlybuns.OnlyBuns.util.VarConverter;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import com.onlybuns.OnlyBuns.repository.Repository_Post;
@@ -47,6 +51,8 @@ public class Service_Post {
     @Autowired
     private Repository_Like repository_like;
 
+    private final Logger LOG = LoggerFactory.getLogger(Post.class);
+
     public Optional<Post> findById(Long id) {
         return repository_post.findById(id);
     }
@@ -65,6 +71,11 @@ public class Service_Post {
         return new ResponseEntity<>(getPostsForUser(repository_post.findByParentPostIsNull(varConverter.pageable(page, size, sort)), account), HttpStatus.OK);
     }
 
+    @CacheEvict(cacheNames = {"post"}, allEntries = true)
+    public void removeFromCache(){
+        LOG.info("Posts/Locations removed from cache!");
+    }
+
     // /api/fyp
     public ResponseEntity<Page<DTO_Get_Post>> get_api_fyp(HttpSession session, Integer page, Integer size, String sort) {
         Account sessionAccount = (Account) session.getAttribute("user");
@@ -80,6 +91,7 @@ public class Service_Post {
     }
 
     // /api/posts/{id}
+    @Cacheable(value="post", key="#id")
     public ResponseEntity<DTO_Get_Post> get_api_posts_id(Long id, HttpSession session) {
         Optional<Post> postOptional = repository_post.findById(id);
         if (postOptional.isEmpty()) {
@@ -88,6 +100,7 @@ public class Service_Post {
         Post post = postOptional.get();
 
         Account account = (Account) session.getAttribute("user");
+        LOG.info("Location for post with id: " + id + " successfully cached!");
         return new ResponseEntity<>(getPostForUser(post, account, 0), HttpStatus.OK);
     }
     // /api/posts/{id}/thread

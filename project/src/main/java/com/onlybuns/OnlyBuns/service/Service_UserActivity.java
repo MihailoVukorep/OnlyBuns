@@ -12,7 +12,7 @@ public class Service_UserActivity {
         this.serviceEmail = serviceEmail;
     }
 
-    @Scheduled(cron = "0 40 21 * * *")
+    @Scheduled(cron = "0 22 18 * * *")
     public void scheduleNotificationTask() {
         serviceEmail.sendNotificationsToInactiveUsers();
     }
