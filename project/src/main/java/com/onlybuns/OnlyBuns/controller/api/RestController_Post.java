@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -76,6 +77,12 @@ public class RestController_Post {
     public ResponseEntity<String> removeFromCache() {
         service_post.removeFromCache();
         return ResponseEntity.ok("Posts/Locations successfully removed from cache!");
+    }
+
+    @PostMapping(value="/api/posts/{id}/advertising")
+    public ResponseEntity<String> post_api_advertising_post(@PathVariable(name="id") Long id, HttpSession session){
+        service_post.post_api_send_post_to_advertising_agencies(id, session);
+        return new ResponseEntity<>("Post checked for advertising.", HttpStatus.OK);
     }
 
     // CREATE POST

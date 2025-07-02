@@ -94,3 +94,43 @@ commentText.addEventListener("keydown", function (event) {
     if (event.key == 'Enter') { submitCommentForm(); }
     if (event.key == 'Escape') { hideCommentForm(); }
 }, false);
+
+async function post_submit_advertising(id){
+    const response = await fetch(`/api/posts/${id}/advertising`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(id)
+    });
+
+    const response_text = await response.text();
+
+    if (response.ok) { popup(`✅ ${response_text}`); window.location.reload(); }
+            else             { popup(`❌ ${response_text}`); }
+
+    cancelAdvertising();
+}
+
+currentAdvertisingPostId = null;
+const advertisingModal = document.getElementById("advertisingModal");
+
+function drawAdvertisingButton(button, isAdvertising) {
+    button.textContent = `Advertising ${isAdvertising ? '📰' : '🚫'}`;
+    button.title = isAdvertising ? 'Post for advertising' : 'Non-advertising post';
+}
+
+function showAdvertisingModal(postId, button) {
+    currentAdvertisingPostId = postId;
+    advertisingModal.style.display = "block";
+}
+
+function cancelAdvertising() {
+    advertisingModal.style.display = "none";
+    currentAdvertisingPostId = null;
+}
+
+function submitAdvertising() {
+    post_submit_advertising(currentAdvertisingPostId);
+    cancelAdvertising();
+}

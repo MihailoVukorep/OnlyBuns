@@ -153,6 +153,12 @@
     font-size: small;
 }
 
+.post_advertising{
+    color: var(--var-color-gray);
+    font-size: small;
+    margin-left: 10px;
+}
+
 #postnav {
     padding: 10px;
 }

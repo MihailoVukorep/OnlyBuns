@@ -1,4 +1,4 @@
-<div th:fragment="parentPosts" id="parentPosts">
+<div th:fragment="parentPosts" id="parentPosts" xmlns:th="http://www.w3.org/1999/xhtml">
     <div id="posts" class="parentPosts">
         <div th:each="post : ${posts}" class="post blurred-box">
             <a class="post_body_link" th:href="@{/posts/{id}(id=${post.id})}" target="_top">
@@ -38,6 +38,11 @@
 
                 <span class="post_createdDate" th:text="${post.createdDateStr}"
                     th:title="${post.createdDateStr}"></span>
+
+                <button th:id="post_advertising"
+                        th:text="'Advertising ' + (${post.advertising ? '📰' : '🚫'})"
+                        th:onclick="${post.advertising} ? null : 'showAdvertisingModal(' + ${post.id} + ', this);'" title="Advertising">
+                </button>
             </div>
         </div>
     </div>

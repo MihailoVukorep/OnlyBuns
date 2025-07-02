@@ -65,6 +65,9 @@ public class Post {
     @UpdateTimestamp
     private LocalDateTime updatedDate;
 
+    @Column
+    private Boolean advertising=false;
+
     public Post(String text, Account account) {
         this.text = text;
         this.account = account;
@@ -125,7 +128,6 @@ public class Post {
         return "Post{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", text='" + text + '\'' +
                 ", pictureLocation='" + pictureLocation + '\'' +
                 ", pictureUrl='" + pictureUrl + '\'' +
                 ", location='" + location + '\'' +
@@ -135,6 +137,7 @@ public class Post {
                 ", likes=" + likes.size() +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +
+                ", advertising=" + advertising +
                 '}';
     }
 }

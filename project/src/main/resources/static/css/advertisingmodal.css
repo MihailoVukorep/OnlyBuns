@@ -1,0 +1,20 @@
+#advertisingModal {
+    color: var(--var-color-white);
+    display: none;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    background-color: #000000;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 1000;
+    box-shadow: 0 15px 5px rgba(255, 105, 180, 0.7);
+    overflow: hidden;
+    max-width: 95vw;
+}
+
+#advertising_modal_content {
+    display: flex;
+    flex-direction: column;
+}

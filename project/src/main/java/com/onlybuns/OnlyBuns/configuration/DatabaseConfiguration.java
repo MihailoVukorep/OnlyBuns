@@ -346,7 +346,7 @@ public class DatabaseConfiguration {
                 LOCATION_NOVI_SAD,
                 "/avatars/icy.png",
                 "abrakadabra",
-                false
+                true
         );
 
         // likes

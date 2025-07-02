@@ -27,6 +27,7 @@ public class DTO_Get_Post {
     public Boolean isLiked;
     public Boolean isMyPost;
     public Integer indent;
+    public Boolean advertising;
 
     public DTO_Get_Post(Post post, Boolean isLiked, Boolean isMyPost, Integer indent) {
         this.id = post.getId();
@@ -49,6 +50,7 @@ public class DTO_Get_Post {
         this.isLiked = isLiked;
         this.isMyPost = isMyPost;
         this.indent = indent;
+        this.advertising=post.getAdvertising();
     }
 
     private static int countReplies(Post post) {

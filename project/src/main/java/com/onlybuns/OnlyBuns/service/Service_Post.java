@@ -5,9 +5,9 @@ import com.onlybuns.OnlyBuns.dto.DTO_Put_Post;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Like;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Post;
 import com.onlybuns.OnlyBuns.model.Account;
-import com.onlybuns.OnlyBuns.model.Follow;
 import com.onlybuns.OnlyBuns.model.Like;
 import com.onlybuns.OnlyBuns.model.Post;
+import com.onlybuns.OnlyBuns.messaging.notifier.ISendPostNotifier;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
 import com.onlybuns.OnlyBuns.repository.Repository_Follow;
 import com.onlybuns.OnlyBuns.repository.Repository_Like;
@@ -50,6 +50,9 @@ public class Service_Post {
 
     @Autowired
     private Repository_Like repository_like;
+
+    @Autowired
+    private ISendPostNotifier sendPostNotifier;
 
     private final Logger LOG = LoggerFactory.getLogger(Post.class);
 
@@ -371,5 +374,19 @@ public class Service_Post {
         service_diskWriter.deleteImage(post.getPictureLocation());
 
         return new ResponseEntity<>("Post deleted.", HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> post_api_send_post_to_advertising_agencies(Long id, HttpSession session){
+        var optionalPost = repository_post.findById(id);
+        if(optionalPost.isPresent()){
+            var post = optionalPost.get();
+            post.setAdvertising(true);
+            repository_post.save(post);
+            sendPostNotifier.postSendMessage(post);
+            return new ResponseEntity<>("Post successfully send to advertising agencies.", HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("Post doesn't exist.", HttpStatus.BAD_REQUEST);
+        }
     }
 }
