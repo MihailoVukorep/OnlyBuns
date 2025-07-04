@@ -6,6 +6,7 @@ import com.onlybuns.OnlyBuns.dto.DTO_Get_Like;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Post;
 import com.onlybuns.OnlyBuns.service.Service_Account;
 import com.onlybuns.OnlyBuns.service.Service_Post;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -88,6 +89,7 @@ public class RestController_Post {
     // CREATE POST
     @Operation(summary = "create post")
     @PostMapping("/api/posts")
+    @Timed(value = "create.post.request", description = "Time taken to create a post")
     public ResponseEntity<String> post_api_posts(@RequestParam("title") String title,
                                                  @RequestParam("text") String text,
                                                  @RequestParam("location") String location,
