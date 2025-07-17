@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class RestController_Account {
@@ -52,6 +53,11 @@ public class RestController_Account {
     @GetMapping("/api/accounts/{id}/likes")
     public ResponseEntity<List<DTO_Get_Like>> get_api_accounts_id_likes(@PathVariable(name = "id") Long id) {
         return service_account.get_api_accounts_id_likes(id);
+    }
+
+    @GetMapping("/api/active-users-per-hour")
+    public Map<String, Long> getActiveUsersPerHour() {
+        return service_account.getActiveUsersLast24hPerHour();
     }
 
     @Operation(summary = "login endpoint")

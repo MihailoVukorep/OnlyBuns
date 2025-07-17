@@ -6,6 +6,7 @@ import com.onlybuns.OnlyBuns.service.Service_Account;
 import com.onlybuns.OnlyBuns.service.Service_Chat;
 import com.onlybuns.OnlyBuns.service.Service_Email;
 import com.onlybuns.OnlyBuns.service.Service_Trend;
+import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -48,6 +49,33 @@ public class DatabaseConfiguration {
 
     private final String LOCATION_NOVI_SAD = "45.25120485988152,19.82688903808594";
     private final String LOCATION_BELGRADE = "44.81423651177903,20.45860290527344";
+
+    @PostConstruct
+    public void initUsers() {
+        if (repository_account.count() >= 20) return;
+
+        Role userRole = repository_role.findByName("USER").orElseGet(() -> repository_role.save(new Role("USER")));
+
+        for (int i = 1; i <= 20; i++) {
+            String email = "test+fake" + i + "@gmail.com";
+            if (repository_account.findByEmail(email).isEmpty()) {
+                Account acc = new Account(
+                        email,
+                        "fakeuser" + i,
+                        "123",  // lozinka će se hash-ovati u konstruktoru
+                        "User" + i,
+                        "Test",
+                        "Test Address",
+                        "/avatars/avatar" + i + ".png",
+                        "Test bio " + i,
+                        userRole
+                );
+                repository_account.save(acc);
+            }
+        }
+
+        System.out.println("✅ 20 test korisnika kreirano.");
+    }
 
     public Account CreateAccount(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio, Boolean addAdminRole) {
 

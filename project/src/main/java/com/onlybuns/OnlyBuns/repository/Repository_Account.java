@@ -75,4 +75,13 @@ public interface Repository_Account extends JpaRepository<Account, Long> {
             @Param("minPostCount") Integer minPostCount,
             @Param("maxPostCount") Integer maxPostCount,
             Pageable pageable);
+
+    @Query(value = """
+    SELECT date_trunc('hour', last_activity_date) AS hour, COUNT(*) 
+    FROM accounts 
+    WHERE last_activity_date >= :from 
+    GROUP BY hour 
+    ORDER BY hour
+    """, nativeQuery = true)
+    List<Object[]> countActiveUsersByHour(@Param("from") LocalDateTime from);
 }

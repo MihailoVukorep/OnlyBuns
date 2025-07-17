@@ -3,8 +3,11 @@ package com.onlybuns.OnlyBuns.service;
 import com.onlybuns.OnlyBuns.dto.*;
 import com.onlybuns.OnlyBuns.model.*;
 import com.onlybuns.OnlyBuns.repository.*;
+import com.onlybuns.OnlyBuns.util.ActiveUserMetrics;
 import com.onlybuns.OnlyBuns.util.RateLimiter;
 import com.onlybuns.OnlyBuns.util.VarConverter;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Tags;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -17,6 +20,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.onlybuns.OnlyBuns.util.SimpleBloomFilter;
+
+import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -35,7 +42,11 @@ public class Service_Account {
         // Initialize the Bloom filter with a size of 1000 bits and 5 hash functions
         bloomFilter_userName = new SimpleBloomFilter(1000, 5);
         bloomFilter_email = new SimpleBloomFilter(1000, 5);
+
+        simulateFakeLogins();
     }
+
+    private static final DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter.ofPattern("HH:00");
 
     @Autowired
     private Repository_Account repository_account;
@@ -45,6 +56,9 @@ public class Service_Account {
 
     @Autowired
     private Repository_AccountActivation repository_accountActivation;
+
+    @Autowired
+    private ActiveUserMetrics activeUserMetrics;
 
     @Autowired
     private Repository_Post repository_post;
@@ -59,6 +73,9 @@ public class Service_Account {
 
     @Autowired
     private Service_Post service_post;
+
+    @Autowired
+    private MeterRegistry meterRegistry;
 
     public Optional<Account> findByUsername(String username) {
         return repository_account.findByUserName(username);
@@ -176,6 +193,9 @@ public class Service_Account {
         session.setAttribute("user", account);
         account.setLastActivityDate(LocalDateTime.now());
         repository_account.save(account);
+
+//        meterRegistry.counter("user_login_total", "user", dto_post_accountLogin.email).increment();
+
         return new ResponseEntity<>("Logged in as: " + account.getUserName(), HttpStatus.OK);
     }
     public ResponseEntity<String> post_api_register(DTO_Post_AccountRegister dto_post_accountRegister, HttpSession session) {
@@ -378,6 +398,61 @@ public class Service_Account {
 
         return unactive_acc;
 
+    }
+
+    public void simulateFakeLogins() {
+        List<Account> all = repository_account.findAll();
+        if (all.size() < 20) {
+            throw new RuntimeException("Nema dovoljno korisnika u bazi. Potrebno je najmanje 20.");
+        }
+
+        Map<Integer, Integer> loginSchedule = new HashMap<>();
+        loginSchedule.put(9, 4);
+        loginSchedule.put(11, 2);
+        loginSchedule.put(12, 3);
+        loginSchedule.put(15, 4);
+        loginSchedule.put(16, 2);
+        loginSchedule.put(18, 5);
+
+        LocalDateTime now = LocalDateTime.now().withMinute(0).withSecond(0).withNano(0);
+        int userIndex = 0;
+
+        for (Map.Entry<Integer, Integer> entry : loginSchedule.entrySet()) {
+            int hour = entry.getKey();
+            int count = entry.getValue();
+            LocalDateTime fakeLoginTime = now.withHour(hour);
+
+            for (int i = 0; i < count; i++) {
+                Account acc = all.get(userIndex++);
+                acc.setLastActivityDate(fakeLoginTime);
+                repository_account.save(acc);
+
+                meterRegistry.counter("user_login_total", "user", acc.getEmail()).increment();
+            }
+        }
+        System.out.println("FAKE LOGIN DONE");
+    }
+
+    public Map<String, Long> getActiveUsersLast24hPerHour() {
+        LocalDateTime from = LocalDateTime.now().minusHours(24);
+        List<Object[]> results = repository_account.countActiveUsersByHour(from);
+
+        Map<String, Long> countsByHour = new LinkedHashMap<>();
+        for (int i = 0; i <= 24; i++) {
+            LocalDateTime hour = LocalDateTime.now().minusHours(24 - i).truncatedTo(ChronoUnit.HOURS);
+            String formattedHour = hour.format(HOUR_FORMATTER);
+            countsByHour.put(formattedHour, 0L);
+        }
+
+        for (Object[] row : results) {
+            LocalDateTime hour = ((Timestamp) row[0]).toLocalDateTime().truncatedTo(ChronoUnit.HOURS);
+            String formattedHour = hour.format(HOUR_FORMATTER);
+            Long count = ((Number) row[1]).longValue();
+            countsByHour.put(formattedHour, count);
+        }
+
+        activeUserMetrics.updateHourlyCounts(countsByHour);
+        return countsByHour;
     }
     // TODO: delete account cron job after some time
 }
