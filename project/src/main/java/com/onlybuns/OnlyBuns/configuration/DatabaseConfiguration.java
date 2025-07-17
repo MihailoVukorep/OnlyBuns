@@ -377,6 +377,18 @@ public class DatabaseConfiguration {
                 true
         );
 
+        Account acc_sara = CreateAccount(
+                "sapundzijas@gmail.com",
+                "sara",
+                "123",
+                "Hejter",
+                "McLovin",
+                LOCATION_NOVI_SAD,
+                "/avatars/mclovin.png",
+                "mrzim zeceve",
+                true
+        );
+
         // likes
         likePost(post_dilujem, acc_ajzak);
         likePost(post_dilujem, acc_andjela);

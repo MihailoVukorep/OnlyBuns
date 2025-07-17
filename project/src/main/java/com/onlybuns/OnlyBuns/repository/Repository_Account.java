@@ -84,4 +84,21 @@ public interface Repository_Account extends JpaRepository<Account, Long> {
     ORDER BY hour
     """, nativeQuery = true)
     List<Object[]> countActiveUsersByHour(@Param("from") LocalDateTime from);
+
+    @Query("SELECT a FROM Account a WHERE " +
+            "(COALESCE(:firstName, '') = '' OR LOWER(a.firstName) LIKE LOWER(CONCAT('%', :firstName, '%'))) AND " +
+            "(COALESCE(:lastName, '') = '' OR LOWER(a.lastName) LIKE LOWER(CONCAT('%', :lastName, '%'))) AND " +
+            "(COALESCE(:userName, '') = '' OR LOWER(a.userName) LIKE LOWER(CONCAT('%', :userName, '%'))) AND " +
+            "(COALESCE(:email, '') = '' OR LOWER(a.email) LIKE LOWER(CONCAT('%', :email, '%'))) AND " +
+            "(COALESCE(:address, '') = '' OR LOWER(a.address) LIKE LOWER(CONCAT('%', :address, '%'))) AND " +
+            "((:minPostCount IS NULL OR SIZE(a.posts) >= :minPostCount) AND " +
+            "(:maxPostCount IS NULL OR SIZE(a.posts) <= :maxPostCount))")
+    List<Account> findAllAccountsByAttributesLike(
+            @Param("firstName") String firstName,
+            @Param("lastName") String lastName,
+            @Param("userName") String userName,
+            @Param("email") String email,
+            @Param("address") String address,
+            @Param("minPostCount") Integer minPostCount,
+            @Param("maxPostCount") Integer maxPostCount);
 }

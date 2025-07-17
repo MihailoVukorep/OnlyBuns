@@ -21,3 +21,28 @@
 #thread {
     display: inline;
 }
+
+.pagination-controls {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.pagination-controls form {
+    display: inline-block;
+}
+
+.pagination-controls button {
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.pagination-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-info {
+    margin: 0 15px;
+    font-weight: bold;
+}

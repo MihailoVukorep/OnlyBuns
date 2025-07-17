@@ -5,6 +5,7 @@ import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.service.Service_Admin;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,8 @@ public class Controller_Admin {
 
     @Autowired
     private Service_Admin service_admin;
+
+    final int PAGE_SIZE = 6;
 
     @GetMapping("/admin/manage")
     public String admin_manage(HttpSession session, Model model) {
@@ -37,18 +40,25 @@ public class Controller_Admin {
                                  @RequestParam(required = false) String address,
                                  @RequestParam(required = false) Integer minPostCount,
                                  @RequestParam(required = false) Integer maxPostCount,
-                                 @RequestParam(value = "sort", required = false) String sort) {
+                                 @RequestParam(value = "sort", required = false) String sort,
+                                 @RequestParam(defaultValue = "0") int page) {
         Account user = (Account) session.getAttribute("user");
         if (user == null || !user.isAdmin()) {
             return "error/403.html";
         }
 
-        List<DTO_Get_Account> accounts = service_admin.getFilteredAndSortedAccounts(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount, sort);
+        //List<DTO_Get_Account> accounts = service_admin.getFilteredAndSortedAccounts(session, firstName, lastName, userName, email, address, minPostCount, maxPostCount, sort);
 
-        // Fetch filtered and sorted accounts
+        Page<DTO_Get_Account> accountsPage = service_admin.getPaginatedAccounts(
+                session, firstName, lastName, userName, email, address,
+                minPostCount, maxPostCount, sort, page);
+
+        model.addAttribute("accounts", accountsPage.getContent());
+        model.addAttribute("currentPage", accountsPage.getNumber());
+        model.addAttribute("totalPages", accountsPage.getTotalPages());
+        model.addAttribute("totalItems", accountsPage.getTotalElements());
+
         model.addAttribute("currentSort", sort);
-
-        // Add filter values to the model
         model.addAttribute("firstName", firstName);
         model.addAttribute("lastName", lastName);
         model.addAttribute("userName", userName);
@@ -56,16 +66,6 @@ public class Controller_Admin {
         model.addAttribute("address", address);
         model.addAttribute("minPostCount", minPostCount);
         model.addAttribute("maxPostCount", maxPostCount);
-
-        // paging
-//        model.addAttribute("currentSort", sort);
-//        model.addAttribute("currentPage", page);
-//        model.addAttribute("totalPages", postPage.getTotalPages());
-//        model.addAttribute("pageSize", size);
-//        model.addAttribute("baseUrl", "/admin/accounts");
-
-        model.addAttribute("accounts", accounts);
-
 
         return "admin_accounts.html";
     }

@@ -454,5 +454,15 @@ public class Service_Account {
         activeUserMetrics.updateHourlyCounts(countsByHour);
         return countsByHour;
     }
+
+    // vracam koga prati prosledjeni account
+    public List<Account> getFollowees(Account follower) {
+        return new ArrayList<>(repository_follow.findFolloweesByFollower(follower));
+    }
+
+    // vracam followere prosledjenog accounta
+    public List<Account> getFollowers(Account followee) {
+        return new ArrayList<>(repository_follow.findFollowersByFollowee(followee));
+    }
     // TODO: delete account cron job after some time
 }

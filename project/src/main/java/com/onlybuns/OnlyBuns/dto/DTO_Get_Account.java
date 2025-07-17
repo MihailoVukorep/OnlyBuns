@@ -78,4 +78,26 @@ public class DTO_Get_Account {
         this.isMyAccount = myAccount;
         this.isFollowing = following;
     }
+
+    public DTO_Get_Account(Account account, int followersCount) {
+        this.id = account.getId();
+        this.email = account.getEmail();
+        this.userName = account.getUserName();
+        this.firstName = account.getFirstName();
+        this.lastName = account.getLastName();
+        this.address = account.getAddress();
+        this.avatar = account.getAvatar();
+        this.bio = account.getBio();
+        this.isAdmin = account.isAdmin();
+        this.createdDate = account.getCreatedDate();
+        this.createdDateStr = this.createdDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.updatedDate = account.getUpdatedDate();
+        this.updatedDateStr = this.updatedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.postsCount = account.getPosts().size();
+        this.likesCount = account.getLikes().size();
+        this.followersCount = followersCount;
+        this.followingCount = 0; // or you could fetch this if needed
+        this.isMyAccount = false;
+        this.isFollowing = false;
+    }
 }

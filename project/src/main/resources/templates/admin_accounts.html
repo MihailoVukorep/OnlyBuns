@@ -33,7 +33,7 @@
             <input type="hidden" name="sort" th:value="${currentSort}">
     
             <button type="submit" name="page" th:value="${(currentPage ?: 0) - 1}" th:disabled="${(currentPage ?: 0) == 0}">⬅️ Previous</button>
-            <span th:text="'Page ' + ((currentPage ?: 0) + 1) + ' of ' + (totalPages ?: 1)"></span>
+            <!--<span th:text="'Page ' + ((currentPage ?: 0) + 1) + ' of ' + (totalPages ?: 1)"></span> -->
             <button type="submit" name="page" th:value="${(currentPage ?: 0) + 1}" th:disabled="${(currentPage ?: 0) + 1 == (totalPages ?: 1)}">Next ➡️</button>
 
         </form>
