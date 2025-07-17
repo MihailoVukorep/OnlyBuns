@@ -36,6 +36,13 @@ public class AccountActivation {
         this.token = token;
     }
 
+    public AccountActivation(Account account, AccountActivationStatus status, String token, LocalDateTime createdDate) {
+        this.account = account;
+        this.status = status;
+        this.token = token;
+        this.createdDate = createdDate;
+    }
+
     @Override
     public String toString() {
         return "AccountActivation{" +

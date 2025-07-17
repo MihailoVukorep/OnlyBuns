@@ -1,8 +1,11 @@
 package com.onlybuns.OnlyBuns.service;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.model.AccountActivation;
+import com.onlybuns.OnlyBuns.model.AccountActivationStatus;
 import com.onlybuns.OnlyBuns.repository.*;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -13,6 +16,8 @@ import java.util.Optional;
 
 @Component
 public class Service_ScheduleCleanup {
+
+    private static final Logger logger = LoggerFactory.getLogger(Service_ScheduleCleanup.class);
 
     @Autowired
     private Service_Account service_account;
@@ -29,9 +34,12 @@ public class Service_ScheduleCleanup {
     @Autowired
     private Repository_Post repository_post;
 
+    @Autowired
+    private Repository_ChatMember repository_chatMember;
 
     @Autowired
     private Repository_AccountActivation repository_accountActivation;
+
     @Transactional
     @Scheduled(cron = "0 0 0 L * ?")
     public void deleteUnactivatedAccounts() {
@@ -39,21 +47,36 @@ public class Service_ScheduleCleanup {
         List<Account> unactivatedAccounts = service_account.findUnactivatedAccounts(thresholdDate);
 
         for (Account account : unactivatedAccounts) {
-            //Optional<AccountActivation> opt_accountActivation = repository_accountActivation.findByAccount(account);
+            try {
 
-            repository_follow.deleteByAccountId(account.getId());
+                Optional<AccountActivation> activation = repository_accountActivation.findByAccount(account);
+                if (activation.isPresent() && activation.get().getStatus() == AccountActivationStatus.APPROVED) {
+                    continue;
+                }
 
-            repository_like.deleteByPostAccountId(account.getId());
+                System.out.println("Deleting account - ID: " + account.getId() +
+                        ", Username: " + account.getUserName() +
+                        ", Email: " + account.getEmail() +
+                        ", Created: " + account.getCreatedDate());
 
-            repository_like.deleteByAccountId(account.getId());
+                repository_accountActivation.deleteByAccount(account);
 
-            repository_post.deleteByAccountId(account.getId());
+                try {
+                    repository_chatMember.deleteByAccountId(account.getId());
+                } catch (Exception e) {
+                    logger.warn("Could not clean up chat members for unactivated account {}: {}",
+                            account.getId(), e.getMessage());
+                }
 
-            repository_accountActivation.deleteAccountActivationByAccount_Id(account.getId());
+                repository_account.delete(account);
 
-            repository_account.delete(account);
+            } catch (Exception e) {
+                logger.error("Failed to delete unactivated account ID {}: {}",
+                        account.getId(), e.getMessage());
+            }
         }
 
-        System.out.println("Deleted " + unactivatedAccounts.size() + " unactivated accounts.");
+        logger.info("Account cleanup completed. Deleted {} unactivated accounts.",
+                unactivatedAccounts.size());
     }
 }

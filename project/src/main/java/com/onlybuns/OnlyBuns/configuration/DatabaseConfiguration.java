@@ -501,6 +501,36 @@ public class DatabaseConfiguration {
         repository_post.save(new Post("Rabbit Digestive Health", "What should I do if my bunny isn't eating?", acc_pera));
         repository_post.save(new Post("Rabbits and Teeth", "How can I tell if my bunny's teeth are overgrown?", acc_pera));
 
+        Account acc_to_delete = new Account(
+                "to-be-deleted@test.com",
+                "deleteme",
+                "123",
+                "Delete",
+                "Me",
+                " ",
+                "This account should be deleted by cleanup job",
+                LocalDateTime.now().minusMonths(2)
+        );
+
+        acc_to_delete.setCreatedDate(LocalDateTime.now().minusMonths(2));
+
+        acc_to_delete = repository_account.save(acc_to_delete);
+
+        AccountActivation activation = new AccountActivation(
+                acc_to_delete,
+                AccountActivationStatus.WAITING,  // Not APPROVED
+                "test-token-123",
+                LocalDateTime.now().minusMonths(2)
+        );
+
+        acc_to_delete.setCreatedDate(LocalDateTime.now().minusMonths(2));
+
+        activation.setCreatedDate(LocalDateTime.now().minusMonths(2));
+
+        repository_accountActivation.save(activation);
+        
+        activation.setCreatedDate(LocalDateTime.now().minusMonths(2));
+
         // init users for paging testing
         gen_accounts();
 

@@ -387,7 +387,7 @@ public class Service_Account {
         return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
 
-    public List<Account> findUnactivatedAccounts(LocalDateTime thresholdDate) {
+    public List<Account> findNonActiveAccounts(LocalDateTime thresholdDate) {
         List<Account> all_acc = repository_account.findAll();
         List<Account> unactive_acc = new ArrayList<>();
         for(Account account : all_acc){
@@ -398,6 +398,26 @@ public class Service_Account {
 
         return unactive_acc;
 
+    }
+
+    public List<Account> findUnactivatedAccounts(LocalDateTime thresholdDate) {
+        List<Account> all_acc = repository_account.findAll();
+        List<Account> unactive_acc = new ArrayList<>();
+
+        for (Account account : all_acc) {
+
+            if (account.getCreatedDate().isAfter(thresholdDate)) {
+                continue;
+            }
+
+            Optional<AccountActivation> activation = repository_accountActivation.findByAccount(account);
+
+            if (activation.isEmpty() ||
+                    activation.get().getStatus() != AccountActivationStatus.APPROVED) {
+                unactive_acc.add(account);
+            }
+        }
+        return unactive_acc;
     }
 
     public void simulateFakeLogins() {
