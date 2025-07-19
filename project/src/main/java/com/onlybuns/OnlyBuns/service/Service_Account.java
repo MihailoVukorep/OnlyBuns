@@ -335,12 +335,29 @@ public class Service_Account {
     }
 
     @Transactional
-    public void followTransactional(Account follower, Account followee) {
-        Follow follow = new Follow(follower, followee, LocalDateTime.now());
-        repository_follow.save(follow);
-        repository_account.save(followee);
-    }
+    public synchronized void followTransactional(Account follower, Account followee) {
+        long startTime = System.currentTimeMillis();
 
+        System.out.printf("[%d] %s starting follow at %d%n",
+                Thread.currentThread().getId(),
+                follower.getUserName(),
+                startTime);
+
+        if (!repository_follow.existsByFollowerAndFollowee(follower, followee.getId())) {
+            Follow follow = new Follow(follower, followee, LocalDateTime.now());
+
+            repository_follow.save(follow);
+
+            System.out.printf("[%d] %s completed follow at %d (took %dms)%n",
+                    Thread.currentThread().getId(),
+                    follower.getUserName(),
+                    System.currentTimeMillis(),
+                    System.currentTimeMillis() - startTime);
+            int currentCount = repository_follow.countByFollowee(followee);
+            followee.setFollowerCount(currentCount);
+            repository_account.save(followee);
+        }
+    }
     private final Map<Long, Deque<LocalDateTime>> followRequests = new ConcurrentHashMap<>();
 
     // account's followers / following

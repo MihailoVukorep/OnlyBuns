@@ -14,6 +14,8 @@ import java.util.Set;
 
 public interface Repository_Follow extends JpaRepository<Follow, Long> {
     List<Follow> findAll();
+    int countByFollowee(Account followee);
+    void deleteByFollowee(Account followee);
     @Query("SELECT f.follower FROM Follow f WHERE f.followee = :followee")
     Set<Account> findFollowersByFollowee(@Param("followee") Account followee);
     //followee je acc cije followere dobavljam

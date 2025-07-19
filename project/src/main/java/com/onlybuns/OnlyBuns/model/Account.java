@@ -69,6 +69,9 @@ public class Account {
     @OneToMany(mappedBy = "account", cascade = CascadeType.REFRESH, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Like> likes;
 
+    @Column(name = "follower_count", columnDefinition = "integer default 0")
+    private Integer followerCount = 0;
+
 //    public void follow(Account account) {
 //        this.following.add(account);
 //        account.getFollowers().add(this);
@@ -88,6 +91,14 @@ public class Account {
         this.address = address;
         this.avatar = avatar;
         this.bio = bio;
+    }
+
+    public Account(Long id, String userName, String email, String password) {
+        this.id = id;
+        this.userName = userName;
+        this.email = email;
+        this.password = hashPassword(password);
+        this.followerCount = 0;
     }
 
     public Account(String email, String userName, String password, String firstName, String lastName, String address, String avatar, String bio, Role role) {

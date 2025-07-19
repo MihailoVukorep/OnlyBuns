@@ -5,6 +5,11 @@ import com.onlybuns.OnlyBuns.service.Service_Test;
 import com.onlybuns.OnlyBuns.service.Service_Test_Likes;
 import com.onlybuns.OnlyBuns.util.FollowRateLimiter;
 import io.swagger.v3.oas.annotations.Operation;
+import com.onlybuns.OnlyBuns.model.Account;
+import com.onlybuns.OnlyBuns.repository.Repository_Account;
+import com.onlybuns.OnlyBuns.repository.Repository_Follow;
+import com.onlybuns.OnlyBuns.service.Service_Account;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +18,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.concurrent.*;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @RestController
@@ -30,6 +39,15 @@ public class RestController_Test {
 
     @Autowired
     private FollowRateLimiter followRateLimiter;
+
+    @Autowired
+    private Repository_Follow repository_follow;
+
+    @Autowired
+    private Service_Account service_Account;
+
+    @Autowired
+    private Repository_Account repository_account;
 
     @Operation(summary = "test image compression")
     @GetMapping("/api/test")
@@ -104,6 +122,87 @@ public class RestController_Test {
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
                     .body("Error during test: " + e.getMessage());
+        }
+    }
+
+    @Transactional
+    @GetMapping("/api/test/concurrent-follows")
+    public ResponseEntity<String> testConcurrentFollows() {
+
+        try {
+
+            Account target = repository_account.findById(1L).orElseGet(() ->
+
+                    repository_account.save(
+                            new Account(1L, "target_account", "target@test.com", "targetpass")
+                    ));
+
+            Account follower1 = repository_account.findById(2L).orElseGet(() ->
+
+                    repository_account.save(
+                            new Account(2L, "follower1", "follower1@test.com", "follower1pass")
+                    ));
+
+            Account follower2 = repository_account.findById(3L).orElseGet(() ->
+                    repository_account.save(
+                            new Account(3L, "follower2", "follower2@test.com", "follower2pass")
+                    ));
+
+            repository_follow.deleteByFollowee(target);
+
+            ExecutorService executor = Executors.newFixedThreadPool(2);
+            AtomicInteger successCount = new AtomicInteger(0);
+            AtomicInteger failureCount = new AtomicInteger(0);
+
+            executor.submit(() -> {
+                try {
+                    service_Account.followTransactional(follower1, target);
+                    successCount.incrementAndGet();
+                    Thread.sleep(2000);
+                } catch (Exception e) {
+                    failureCount.incrementAndGet();
+                    System.err.println("Thread 1 failed: " + e.getMessage());
+                }
+            });
+
+            executor.submit(() -> {
+                try {
+                    Thread.sleep(500);
+                    service_Account.followTransactional(follower2, target);
+                    successCount.incrementAndGet();
+                } catch (Exception e) {
+                    failureCount.incrementAndGet();
+                    System.err.println("Thread 2 failed: " + e.getMessage());
+                }
+            });
+            executor.shutdown();
+            boolean finished = executor.awaitTermination(5, TimeUnit.SECONDS);
+            if (!finished) {
+                executor.shutdownNow();
+            }
+
+            int dbCount = repository_follow.countByFollowee(target);
+            boolean relationship1Exists = repository_follow.existsByFollowerAndFollowee(follower1, target.getId());
+            boolean relationship2Exists = repository_follow.existsByFollowerAndFollowee(follower2, target.getId());
+
+            String result = String.format(
+                    "Concurrent Follow Test Results:%n" +
+                            "- Successful operations: %d%n" +
+                            "- Failed operations: %d%n" +
+                            "- Database follower count: %d%n" +
+                            "- Follower1 relationship exists: %b%n" +
+                            "- Follower2 relationship exists: %b%n" +
+                            "- Expected count: 2",
+                    successCount.get(),
+                    failureCount.get(),
+                    dbCount,
+                    relationship1Exists,
+                    relationship2Exists
+            );
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Test failed completely: " + e.getMessage());
         }
     }
     /*@GetMapping("/api/test/conccurent")
