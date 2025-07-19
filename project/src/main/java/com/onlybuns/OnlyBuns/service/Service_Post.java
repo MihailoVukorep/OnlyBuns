@@ -5,6 +5,7 @@ import com.onlybuns.OnlyBuns.dto.DTO_Put_Post;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Like;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Post;
 import com.onlybuns.OnlyBuns.model.Account;
+import com.onlybuns.OnlyBuns.model.Coordinate;
 import com.onlybuns.OnlyBuns.model.Like;
 import com.onlybuns.OnlyBuns.model.Post;
 import com.onlybuns.OnlyBuns.messaging.notifier.ISendPostNotifier;
@@ -54,14 +55,17 @@ public class Service_Post {
     @Autowired
     private ISendPostNotifier sendPostNotifier;
 
-    private final Logger LOG = LoggerFactory.getLogger(Post.class);
-
     public Optional<Post> findById(Long id) {
         return repository_post.findById(id);
     }
 
     @Autowired
     private Service_DiskWriter service_diskWriter;
+
+    @Autowired
+    private Service_Location service_location;
+
+    private final Logger LOG = LoggerFactory.getLogger(Coordinate.class);
 
     private final ConcurrentHashMap<Long, List<Instant>> userCommentTimestamps = new ConcurrentHashMap<>();
     private static final int MAX_COMMENTS_PER_HOUR = 60;
@@ -74,9 +78,9 @@ public class Service_Post {
         return new ResponseEntity<>(getPostsForUser(repository_post.findByParentPostIsNull(varConverter.pageable(page, size, sort)), account), HttpStatus.OK);
     }
 
-    @CacheEvict(cacheNames = {"post"}, allEntries = true)
+    @CacheEvict(cacheNames = {"location"}, allEntries = true)
     public void removeFromCache(){
-        LOG.info("Posts/Locations removed from cache!");
+        LOG.info("Locations removed from cache!");
     }
 
     // /api/fyp
@@ -94,7 +98,6 @@ public class Service_Post {
     }
 
     // /api/posts/{id}
-    @Cacheable(value="post", key="#id")
     public ResponseEntity<DTO_Get_Post> get_api_posts_id(Long id, HttpSession session) {
         Optional<Post> postOptional = repository_post.findById(id);
         if (postOptional.isEmpty()) {
@@ -103,7 +106,6 @@ public class Service_Post {
         Post post = postOptional.get();
 
         Account account = (Account) session.getAttribute("user");
-        LOG.info("Location for post with id: " + id + " successfully cached!");
         return new ResponseEntity<>(getPostForUser(post, account, 0), HttpStatus.OK);
     }
     // /api/posts/{id}/thread
@@ -207,9 +209,16 @@ public class Service_Post {
             return new ResponseEntity<>("All fields are required.", HttpStatus.BAD_REQUEST);
         }
 
+        var coordinates = service_location.resolveCoordinates(location);
+        if (coordinates == null) {
+            return new ResponseEntity<>("Location not found.", HttpStatus.BAD_REQUEST);
+        }
+
         String diskLocation = service_diskWriter.saveImage(imageFile);
         ;
         Post newPost = new Post(title, text, location, diskLocation, sessionAccount);
+        newPost.setLatitude(coordinates.getLat());
+        newPost.setLongitude(coordinates.getLon());
         repository_post.save(newPost);
         System.out.println("Post created: " + newPost);
         return new ResponseEntity<>("Post created successfully.", HttpStatus.OK);

@@ -10,7 +10,7 @@
     <!-- Default cache template -->
     <cache-template name="default">
         <expiry>
-            <ttl unit="seconds">15</ttl>
+            <ttl unit="seconds">30</ttl>
         </expiry>
         <listeners>
             <listener>
@@ -35,9 +35,9 @@
     </cache-template>
 
     <!-- Cache configurations -->
-    <cache alias="post" uses-template="default">
-        <key-type>java.lang.Long</key-type>
-        <value-type>org.springframework.http.ResponseEntity</value-type>
+    <cache alias="location" uses-template="default">
+        <key-type>java.lang.String</key-type>
+        <value-type>com.onlybuns.OnlyBuns.model.Coordinate</value-type>
         <resources>
             <heap>2</heap>
         </resources>

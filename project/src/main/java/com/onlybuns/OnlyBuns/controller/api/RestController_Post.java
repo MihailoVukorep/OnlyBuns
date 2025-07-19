@@ -77,7 +77,7 @@ public class RestController_Post {
     @GetMapping(value = "/api/removeCache")
     public ResponseEntity<String> removeFromCache() {
         service_post.removeFromCache();
-        return ResponseEntity.ok("Posts/Locations successfully removed from cache!");
+        return ResponseEntity.ok("Locations successfully removed from cache!");
     }
 
     @PostMapping(value="/api/posts/{id}/advertising")

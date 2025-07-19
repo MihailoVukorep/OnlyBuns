@@ -36,6 +36,12 @@ public class Post {
     @Column
     private String location;
 
+    @Column
+    private Double latitude;
+
+    @Column
+    private Double longitude;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
