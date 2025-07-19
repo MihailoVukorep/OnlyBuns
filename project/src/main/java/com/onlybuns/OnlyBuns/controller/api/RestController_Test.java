@@ -2,7 +2,6 @@ package com.onlybuns.OnlyBuns.controller.api;
 
 import com.onlybuns.OnlyBuns.service.Service_ScheduleCleanup;
 import com.onlybuns.OnlyBuns.service.Service_Test;
-import com.onlybuns.OnlyBuns.service.Service_Test_Likes;
 import com.onlybuns.OnlyBuns.util.FollowRateLimiter;
 import io.swagger.v3.oas.annotations.Operation;
 import com.onlybuns.OnlyBuns.model.Account;
@@ -30,9 +29,6 @@ public class RestController_Test {
 
     @Autowired
     private Service_Test service_test;
-
-    @Autowired
-    private Service_Test_Likes service_test_likes;
 
     @Autowired
     private Service_ScheduleCleanup scheduledTask;
@@ -205,12 +201,4 @@ public class RestController_Test {
                     .body("Test failed completely: " + e.getMessage());
         }
     }
-    /*@GetMapping("/api/test/conccurent")
-    public ResponseEntity<String> get_api_conccurent_likes() {
-        try {
-            return service_test_likes.get_api_conccurent_likes();
-        } catch (Throwable t) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Došlo je do greške: " + t.getMessage());
-        }
-    }*/
 }

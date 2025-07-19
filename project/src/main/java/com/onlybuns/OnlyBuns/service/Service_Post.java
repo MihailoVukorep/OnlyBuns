@@ -12,6 +12,7 @@ import com.onlybuns.OnlyBuns.messaging.notifier.ISendPostNotifier;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
 import com.onlybuns.OnlyBuns.repository.Repository_Follow;
 import com.onlybuns.OnlyBuns.repository.Repository_Like;
+import com.onlybuns.OnlyBuns.util.RateLimiter;
 import com.onlybuns.OnlyBuns.util.VarConverter;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -50,6 +51,9 @@ public class Service_Post {
     private Repository_Post repository_post;
 
     @Autowired
+    private RateLimiter rateLimiter;
+
+    @Autowired
     private Repository_Like repository_like;
 
     @Autowired
@@ -68,7 +72,7 @@ public class Service_Post {
     private final Logger LOG = LoggerFactory.getLogger(Coordinate.class);
 
     private final ConcurrentHashMap<Long, List<Instant>> userCommentTimestamps = new ConcurrentHashMap<>();
-    private static final int MAX_COMMENTS_PER_HOUR = 60;
+    private static final int MAX_COMMENTS_PER_HOUR = 2;
 
     private final VarConverter varConverter = new VarConverter();
 
@@ -132,6 +136,8 @@ public class Service_Post {
         thread.add(getPostForUser(post, account, indent));
 
         List<Post> replies = post.getReplies();
+        replies.sort(Comparator.comparing(Post::getCreatedDate).reversed());
+
         if (!replies.isEmpty()) {
             for (Post i : replies) {
                 getThreadForUser(thread, i, account, indent + 20);
@@ -225,6 +231,7 @@ public class Service_Post {
     }
 
     // like / unlike post
+    @Transactional
     public ResponseEntity<String> post_api_posts_id_like(Long id, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) {
@@ -243,27 +250,25 @@ public class Service_Post {
         }
         Post post = optional_post.get();
 
-        synchronized (post) {
-            Optional<Like> optional_like = repository_like.findByAccountIdAndPostId(account.getId(), post.getId());
-            if (optional_like.isEmpty()) {
+        Optional<Like> optional_like = repository_like.findByAccountIdAndPostId(account.getId(), post.getId());
+        if (optional_like.isEmpty()) {
 
-                // create new like
-                Like newLike = new Like(account, post);
-                post.getLikes().add(newLike);
-                repository_like.save(newLike);
-                post.incrementLikeCount();
-                repository_post.save(post);
-
-                return new ResponseEntity<>("Post liked.", HttpStatus.OK);
-            }
-
-            Like like = optional_like.get();
-            repository_like.delete(like);
-            post.decrementLikeCount();
+            // create new like
+            Like newLike = new Like(account, post);
+            post.getLikes().add(newLike);
+            repository_like.save(newLike);
+            post.incrementLikeCount();
             repository_post.save(post);
 
-            return new ResponseEntity<>("Post unliked.", HttpStatus.OK);
+            return new ResponseEntity<>("Post liked.", HttpStatus.OK);
         }
+
+        Like like = optional_like.get();
+        repository_like.delete(like);
+        post.decrementLikeCount();
+        repository_post.save(post);
+
+        return new ResponseEntity<>("Post unliked.", HttpStatus.OK);
     }
 
     // get posts likes
@@ -287,7 +292,10 @@ public class Service_Post {
             return new ResponseEntity<>("Can't comment when logged out.", HttpStatus.UNAUTHORIZED);
         }
 
-        if (!canUserComment(sessionAccount.getId())) {
+//        if (!canUserComment(sessionAccount.getId())) {
+//            return new ResponseEntity<>("Comment limit reached. Please wait before commenting again.", HttpStatus.TOO_MANY_REQUESTS);
+//        }
+        if (rateLimiter.isRateLimited(sessionAccount.getId().toString())) {
             return new ResponseEntity<>("Comment limit reached. Please wait before commenting again.", HttpStatus.TOO_MANY_REQUESTS);
         }
 

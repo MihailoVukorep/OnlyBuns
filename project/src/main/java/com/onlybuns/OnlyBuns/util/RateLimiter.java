@@ -1,11 +1,14 @@
 package com.onlybuns.OnlyBuns.util;
 
+import org.springframework.stereotype.Component;
+
 import java.time.Instant;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Component
 public class RateLimiter {
 
     private int maxAttempts = 5;
