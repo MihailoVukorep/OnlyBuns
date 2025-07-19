@@ -6,6 +6,7 @@ import com.onlybuns.OnlyBuns.repository.*;
 import com.onlybuns.OnlyBuns.util.ActiveUserMetrics;
 import com.onlybuns.OnlyBuns.util.RateLimiter;
 import com.onlybuns.OnlyBuns.util.VarConverter;
+import com.onlybuns.OnlyBuns.util.FollowRateLimiter;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Tags;
 import jakarta.annotation.PostConstruct;
@@ -76,6 +77,11 @@ public class Service_Account {
 
     @Autowired
     private MeterRegistry meterRegistry;
+
+    private final Map<Long, RateLimiter> userRateLimiters = new ConcurrentHashMap<>();
+
+    @Autowired
+    private FollowRateLimiter followRateLimiter;
 
     public Optional<Account> findByUsername(String username) {
         return repository_account.findByUserName(username);
@@ -302,7 +308,7 @@ public class Service_Account {
             return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED);
         }
 
-        if (!canFollow(user.getId())) {
+        if (!followRateLimiter.canFollow(user.getId())) {
             return new ResponseEntity<>("Follow limit exceeded. Try again later.", HttpStatus.TOO_MANY_REQUESTS);
         }
 
@@ -336,24 +342,6 @@ public class Service_Account {
     }
 
     private final Map<Long, Deque<LocalDateTime>> followRequests = new ConcurrentHashMap<>();
-
-    public synchronized boolean canFollow(Long userId) {
-        LocalDateTime now = LocalDateTime.now();
-        followRequests.putIfAbsent(userId, new LinkedList<>());
-        Deque<LocalDateTime> requests = followRequests.get(userId);
-
-        //ne racunamo zahteve starije od minut
-        while (!requests.isEmpty() && requests.peekFirst().isBefore(now.minusMinutes(1))) {
-            requests.pollFirst();
-        }
-
-        if (requests.size() >= 50) {
-            return false;
-        }
-
-        requests.addLast(now);
-        return true;
-    }
 
     // account's followers / following
     public ResponseEntity<List<DTO_Get_Account>> get_api_accounts_id_followers(Long id) {

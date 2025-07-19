@@ -528,7 +528,7 @@ public class DatabaseConfiguration {
         activation.setCreatedDate(LocalDateTime.now().minusMonths(2));
 
         repository_accountActivation.save(activation);
-        
+
         activation.setCreatedDate(LocalDateTime.now().minusMonths(2));
 
         // init users for paging testing
