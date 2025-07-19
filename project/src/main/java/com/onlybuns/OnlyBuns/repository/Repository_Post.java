@@ -50,4 +50,30 @@ public interface Repository_Post extends JpaRepository<Post, Long> {
     @Modifying
     @Query("DELETE FROM Post p WHERE p.account.id = :accountId")
     void deleteByAccountId(@Param("accountId") Long accountId);
+
+    @Query("SELECT COUNT(*) FROM Post p " +
+            "WHERE p.createdDate BETWEEN :startDate AND :endDate " +
+            "AND p.parentPost IS NULL")
+    int getNumberOfPosts(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+
+    @Query("SELECT COUNT(*) FROM Post p " +
+            "WHERE p.createdDate BETWEEN :startDate AND :endDate " +
+            "AND p.parentPost IS NOT NULL")
+    int getNumberOfComments(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+
+    @Query("SELECT COUNT(DISTINCT p.account) AS accounts_with_posts FROM Post p " +
+            "WHERE p.parentPost IS NULL")
+    int getNumberOfUsersPosted();
+
+    @Query("SELECT COUNT(*) AS accounts_with_only_replies FROM Account a " +
+            "WHERE EXISTS " +
+            " (SELECT 1 FROM Post p WHERE p.account.id = a.id AND p.parentPost IS NOT NULL) " +
+            "AND NOT EXISTS " +
+            "(SELECT 1 FROM Post p WHERE p.account.id = a.id AND p.parentPost IS NULL)")
+    int getNumberOfUsersCommented();
+
+    @Query("SELECT COUNT(*) AS account_without_posts FROM Account a " +
+            "LEFT JOIN Post p ON a.id = p.account.id " +
+            "WHERE p.id IS NULL")
+    int getNumberOfNoActivityUsers();
 }

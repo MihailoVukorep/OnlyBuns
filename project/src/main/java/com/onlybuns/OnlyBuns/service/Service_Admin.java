@@ -4,8 +4,16 @@ import com.onlybuns.OnlyBuns.dto.DTO_Get_Account;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
 import com.onlybuns.OnlyBuns.repository.Repository_Follow;
+import com.onlybuns.OnlyBuns.repository.Repository_Post;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import java.time.DayOfWeek;
+import com.onlybuns.OnlyBuns.dto.DTO_Get_Analytics;
+import com.onlybuns.OnlyBuns.repository.Repository_Post;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,6 +46,9 @@ public class Service_Admin {
 
     @Autowired
     private Repository_Follow repository_Follow;
+
+    @Autowired
+    private Repository_Post repository_post;
 
     // /admin/accounts
     public Page<DTO_Get_Account> getPaginatedAccounts(
@@ -126,5 +137,45 @@ public class Service_Admin {
             case "email,desc" -> Sort.by(Sort.Direction.DESC, "email");
             default -> Sort.unsorted();
         };
+    }
+
+    public DTO_Get_Analytics getAnalytics()
+    {
+        DTO_Get_Analytics analytics = new DTO_Get_Analytics();
+        LocalDateTime today = LocalDateTime.now(); // danasnji dan sa trenutnim vremenom
+        LocalDate todayDate = LocalDate.now(); // danasnji datum, atStartOfDay() ce ga prebaciti u LocalDateTime u 00:00:00
+
+        // broj postova i komentara u tekucoj nedelji
+        LocalDateTime startOfWeek = todayDate.atStartOfDay().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)); // Prvi dan tekuce nedelje
+        analytics.weeklyPostsCount = repository_post.getNumberOfPosts(startOfWeek, today);
+        analytics.weeklyCommentsCount = repository_post.getNumberOfComments(startOfWeek, today);
+
+        // broj postova i komentara u tekucem mesecu
+        LocalDateTime startOfMonth = todayDate.atStartOfDay().with(TemporalAdjusters.firstDayOfMonth()); // Prvi dan tekuceg meseca
+        analytics.monthlyPostsCount = repository_post.getNumberOfPosts(startOfMonth, today);
+        analytics.monthlyCommentsCount = repository_post.getNumberOfComments(startOfMonth, today);
+
+        // broj postova i komentara u tekucoj godini
+        LocalDateTime startOfYear = today.with(TemporalAdjusters.firstDayOfYear()); // Prvi dan tekuce godine
+        analytics.yearlyPostsCount = repository_post.getNumberOfPosts(startOfYear, today);
+        analytics.yearlyCommentsCount = repository_post.getNumberOfComments(startOfYear, today);
+
+        // izracunavanje procenata za korisnike koji su postovali, komentarisali ili nisu nista
+        int totalNumberOfUsers = repository_account.findAll().size();
+        int numberOfUsersWhoPosted = repository_post.getNumberOfUsersPosted();
+        double usersPostedPercentage = ((double) numberOfUsersWhoPosted / totalNumberOfUsers) * 100;
+
+        int numberOfUsersWhoCommented = repository_post.getNumberOfUsersCommented();
+        double usersCommentedPercentage = ((double) numberOfUsersWhoCommented / totalNumberOfUsers) * 100;
+
+        int numberOfNoActivityUsers = repository_post.getNumberOfNoActivityUsers();
+        double noActivityUsersPercentage = ((double) numberOfNoActivityUsers / totalNumberOfUsers) * 100;
+
+        // zaokruzivanje na dve decimale
+        analytics.usersPostedPercentage = Math.round(usersPostedPercentage*100.0)/100.0;
+        analytics.usersCommentedPercentage = Math.round(usersCommentedPercentage*100.0)/100.0;
+        analytics.noActivityUsersPercentage = Math.round(noActivityUsersPercentage*100.0)/100.0;
+
+        return analytics;
     }
 }

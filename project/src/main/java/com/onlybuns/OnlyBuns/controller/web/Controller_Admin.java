@@ -1,6 +1,7 @@
 package com.onlybuns.OnlyBuns.controller.web;
 
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Account;
+import com.onlybuns.OnlyBuns.dto.DTO_Get_Analytics;
 import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.service.Service_Admin;
 import jakarta.servlet.http.HttpSession;
@@ -76,6 +77,11 @@ public class Controller_Admin {
         if (user == null || !user.isAdmin()) {
             return "error/403.html";
         }
+
+        DTO_Get_Analytics analytics = service_admin.getAnalytics();
+
+        model.addAttribute("analytics", analytics);
+
         return "admin_analytics.html";
     }
 }

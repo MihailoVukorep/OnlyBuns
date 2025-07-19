@@ -11,12 +11,102 @@
     <link rel="stylesheet" href="/css/admin_analytics.css">
     
     <link rel="stylesheet" href="/css/animations/rainbow_h1.css">
+    <link rel="stylesheet" href="/css/animations/titleword.css">
+    <link rel="stylesheet" href="/css/dataform-tiny.css">
+
+    <script defer type="text/javascript" src="/js/admin_analytics.js"></script>
+    <script type="text/javascript" src="/js/iframe_init.js"></script>
+
 </head>
 
 <body>
     <div th:replace="~{fragments/navbar :: navbar}"></div>
 
     <h1>📊 Analytics 🧑‍🔬️</h1>
+
+    <div th:fragment="analytics" id="analytics">
+        <div id="statistics" class="flex-element">
+            <table class="dataform-tiny analytics-table-row">
+                <tr>
+                    <th><span class="title-word title-word-1">7️⃣ Posts this week:</span></th>
+                    <td><span id="weeklyPostsCount" name="weeklyPostsCount" th:text="${analytics.weeklyPostsCount}"></span></td>
+                </tr>
+                <tr>
+                    <th><span class="title-word title-word-2">7️⃣ Comments this week:</span></th>
+                    <td><span id="weeklyCommentsCount" name="weeklyCommentsCount" th:text="${analytics.weeklyCommentsCount}"></span></td>
+                </tr>
+                <tr>
+                    <th><span class="title-word title-word-3">🗓️ Posts this month:</span></th>
+                    <td><span id="monthlyPostsCount" name="monthlyPostsCount" th:text="${analytics.monthlyPostsCount}"></span></td>
+                </tr>
+                <tr>
+                    <th><span class="title-word title-word-4">🗓️ Comments this month:</span></th>
+                    <td><span id="monthlyCommentsCount" name="monthlyCommentsCount" th:text="${analytics.monthlyCommentsCount}"></span></td>
+                </tr>
+                <tr>
+                    <th><span class="title-word title-word-6">⌛ Posts this year:</span></th>
+                    <td><span id="yearlyPostsCount" name="yearlyPostsCount" th:text="${analytics.yearlyPostsCount}"></span></td>
+                </tr>
+                <tr>
+                    <th><span class="title-word title-word-7">⌛ Comments this year:</span></th>
+                    <td><span id="yearlyCommentsCount" name="yearlyCommentsCount" th:text="${analytics.yearlyCommentsCount}"></span></td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="chart" class="flex-element">
+            <div class="chart-container">
+                <svg width="320" height="320">
+                    <!-- Sections -->
+                    <circle id="section1" cx="160" cy="160" r="150" stroke="#ff92ee" stroke-width="15" fill="none" stroke-linecap="round" />
+                    <circle id="section2" cx="160" cy="160" r="150" stroke="#fa6cff" stroke-width="15" fill="none" stroke-linecap="round" />
+                    <circle id="section3" cx="160" cy="160" r="150" stroke="#d81dc4" stroke-width="15" fill="none" stroke-linecap="round" />
+                </svg>
+            </div>
+
+            <div class="legend">
+                <h4 class="legend-item">
+                    User activity:
+                </h4>
+                <div id="legendItem1" class="legend-item">
+                    <span class="legend-color" style="background:#ff92ee"></span>
+                    <span>Posted:</span>
+                    <span th:text="${analytics.usersPostedPercentage}"></span>
+                    <span class="percentage">%</span>
+                </div>
+                <div id="legendItem2" class="legend-item">
+                    <span class="legend-color" style="background:#fa6cff"></span>
+                    <span>Commented:</span>
+                    <span th:text="${analytics.usersCommentedPercentage}"></span>
+                    <span class="percentage">%</span>
+                </div>
+                <div id="legendItem3" class="legend-item">
+                    <span class="legend-color" style="background:#d81dc4"></span>
+                    <span>No activity:</span>
+                    <span th:text="${analytics.noActivityUsersPercentage}"></span>
+                    <span class="percentage">%</span>
+                </div>
+            </div>
+            <!--<svg width="300" height="300">
+                &lt;!&ndash; Background circles &ndash;&gt;
+                <circle cx="150" cy="150" r="60" stroke="#eee" stroke-width="20" fill="none" opacity="0.3" />
+                <circle cx="150" cy="150" r="80" stroke="#eee" stroke-width="20" fill="none" opacity="0.3" />
+                <circle cx="150" cy="150" r="100" stroke="#eee" stroke-width="20" fill="none" opacity="0.3" />
+
+                &lt;!&ndash; Data circles (animated) &ndash;&gt;
+                <circle id="bar1" cx="150" cy="150" r="60" stroke="#ff92ee" stroke-width="20" fill="none" stroke-linecap="round" />
+                <circle id="bar2" cx="150" cy="150" r="80" stroke="#fa6cff" stroke-width="20" fill="none" stroke-linecap="round" />
+                <circle id="bar3" cx="150" cy="150" r="100" stroke="#d81dc4" stroke-width="20" fill="none" stroke-linecap="round" />
+
+                &lt;!&ndash; Labels &ndash;&gt;
+                <text x="150" y="145" class="label" fill="#00bfff">Posted: <span th:text="${analytics.usersPostedPercentage}" /></text>
+                <text x="150" y="165" class="label" fill="#1e90ff">Only commented: <span th:text="${analytics.usersCommentedPercentage}" /></text>
+                <text x="150" y="185" class="label" fill="#007acc">No activity: <span th:text="${analytics.noActivityUsersPercentage}" /></text>
+            </svg>-->
+        </div>
+    </div>
+
+
 
 </body>
 

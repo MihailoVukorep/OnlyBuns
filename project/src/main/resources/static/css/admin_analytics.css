@@ -1,0 +1,74 @@
+#analytics {
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+}
+
+.flex-element {
+    margin: 0px 50px;
+}
+
+.analytics-table-row tr {
+    height: 50px;
+}
+
+.analytics-table-row th {
+    padding-left: 30px;
+}
+
+.hover-shadow{
+    font-weight: bold;
+    text-shadow: 0px 0px 10px 2px var(--var-color-pink-4-trans);
+}
+
+.chart-container {
+    position: relative;
+    width: 320px;
+    height: 320px;
+}
+
+
+.legend {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: -220px 0px 0px 80px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+h4 {
+    margin: 0px;
+}
+
+.chart-container svg {
+    transform: rotate(-90deg);
+}
+
+.analytics-table-row td {
+    padding-right: 30px;
+}
+
+svg {
+    transform: rotate(-90deg); /* So bars start from the top */
+}
+
+#chart{
+    width: min-content;
+    margin-top: 30px;
+}
+
+.percentage{
+    margin-left: -5px;
+}
