@@ -27,9 +27,12 @@ function drawChart(values){
 
 function setSection(id, value, cumulativeOffset, circumference) {
     const circle = document.getElementById(id);
-    const length = (value / 100) * circumference - 15;
-    if(length <= -15){
+    let length = (value / 100) * circumference - 15;
+    if(length < -15){
         circle.style.visibility = 'hidden';
+    }
+    else if(length < 0){
+        length = 0;
     }
     circle.style.strokeDasharray = `${length} ${circumference}`;
     circle.style.strokeDashoffset = -cumulativeOffset;
