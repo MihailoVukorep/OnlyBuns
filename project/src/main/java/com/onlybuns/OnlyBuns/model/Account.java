@@ -42,7 +42,7 @@ public class Account {
     private String address;
 
     @Column
-    private String avatar;
+    private String avatar = "/avatars/default.jpg";
 
     @Column
     private String bio;
@@ -89,7 +89,7 @@ public class Account {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
-        this.avatar = avatar;
+        if (!avatar.isEmpty()) this.avatar = avatar;
         this.bio = bio;
     }
 
@@ -108,7 +108,7 @@ public class Account {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
-        this.avatar = avatar;
+        if (!avatar.isEmpty()) this.avatar = avatar;
         this.bio = bio;
         this.roles.add(role);
     }
@@ -120,7 +120,7 @@ public class Account {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
-        this.avatar = avatar;
+        if (!avatar.isEmpty()) this.avatar = avatar;
         this.bio = bio;
         this.roles.add(role);
         this.createdDate = creation;

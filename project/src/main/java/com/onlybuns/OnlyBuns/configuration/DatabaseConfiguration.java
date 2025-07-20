@@ -66,7 +66,7 @@ public class DatabaseConfiguration {
                         "User" + i,
                         "Test",
                         "Test Address",
-                        "/avatars/avatar" + i + ".png",
+                        "",
                         "Test bio " + i,
                         userRole
                 );
@@ -507,7 +507,7 @@ public class DatabaseConfiguration {
                 "123",
                 "Delete",
                 "Me",
-                " ",
+                "",
                 "This account should be deleted by cleanup job",
                 LocalDateTime.now().minusMonths(2)
         );
