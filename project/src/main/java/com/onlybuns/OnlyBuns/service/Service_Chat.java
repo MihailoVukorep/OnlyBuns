@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -203,13 +205,53 @@ public class Service_Chat {
         if (user == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); }
 
         Optional<Chat> optional_chat = repository_chat.findById(id);
-        if (optional_chat.isEmpty()) { return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); }
+
+        if (optional_chat.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
 
         Chat chat = optional_chat.get();
-        if (chat.getMembers().stream().noneMatch(member -> member.getAccount().getId().equals(user.getId()))) { return new ResponseEntity<>(null, HttpStatus.FORBIDDEN); }
 
-        List<DTO_Get_Message> messages = chat.getMessages().stream().map(DTO_Get_Message::new).toList();
-        return new ResponseEntity<>(messages, HttpStatus.OK);
+        Optional<ChatMember> memberOpt = chat.getMembers().stream()
+                .filter(m -> m.getAccount().getId().equals(user.getId()))
+                .findFirst();
+
+        if (memberOpt.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
+
+        // admin sees everything
+        if (chat.getAdmin().getId().equals(user.getId())) {
+            List<DTO_Get_Message> allMessages = chat.getMessages().stream()
+                    .map(DTO_Get_Message::new)
+                    .toList();
+            return new ResponseEntity<>(allMessages, HttpStatus.OK);
+        }
+
+        LocalDateTime joinTime = memberOpt.get().getJoinedDate();
+        List<Message> allMessages = chat.getMessages();
+
+        // Split messages into before/after join
+        List<Message> messagesAfterJoin = allMessages.stream()
+                .filter(m -> m.getCreatedDate().isAfter(joinTime))
+                .collect(Collectors.toList());
+
+        List<Message> messagesBeforeJoin = allMessages.stream()
+                .filter(m -> m.getCreatedDate().isBefore(joinTime))
+                .sorted(Comparator.comparing(Message::getCreatedDate).reversed()) // Newest first
+                .limit(10) // Take up to 10 most recent before join
+                .sorted(Comparator.comparing(Message::getCreatedDate)) // Re-sort chronologically
+                .collect(Collectors.toList());
+        
+        List<Message> visibleMessages = new ArrayList<>();
+        visibleMessages.addAll(messagesBeforeJoin);
+        visibleMessages.addAll(messagesAfterJoin);
+
+        List<DTO_Get_Message> result = visibleMessages.stream()
+                .map(DTO_Get_Message::new)
+                .toList();
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     // send message to chats
