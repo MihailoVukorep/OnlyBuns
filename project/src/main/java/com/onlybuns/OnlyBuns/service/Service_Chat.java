@@ -14,10 +14,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-
+import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -74,6 +76,7 @@ public class Service_Chat {
 
         ChatMember accountMember = new ChatMember(chat, account, token);
         repository_chatMember.save(accountMember);
+        chat.addMember(accountMember);
         return accountMember;
     }
 
@@ -92,6 +95,66 @@ public class Service_Chat {
         repository_message.save(new Message(chat, user, "", Message_Type.JOINED));
         repository_message.save(new Message(chat, account, "", Message_Type.JOINED));
         return chat;
+    }
+
+    public DTO_Get_Chat CreateGroupChat(Account user, List<Long> accountIds, String chatName) {
+        List<Account> accounts = new ArrayList<>();
+        for(Long id : accountIds){
+            Optional<Account> optional_account = repository_account.findById(id);
+            if (optional_account.isEmpty()) { return null; }
+            Account account = optional_account.get();
+            accounts.add(account);
+        }
+
+        String token;
+
+        do {
+            token = UUID.randomUUID().toString();
+        } while (repository_chat.existsByToken(token));
+
+        List<String> usernames = accounts.stream()
+                .map(a -> a.getUserName())
+                .collect(Collectors.toList());
+
+        usernames.add(0, user.getUserName());
+
+        String finalChatName = (chatName != null && !chatName.isBlank())
+                ? chatName
+                : generateDefaultName(usernames);
+
+        Chat chat = new Chat(token, user, finalChatName);
+        repository_chat.save(chat);
+        CreateChatMember(chat, user);
+        repository_message.save(new Message(chat, user, "", Message_Type.JOINED));
+
+        for(Account account : accounts) {
+            CreateChatMember(chat, account);
+            repository_message.save(new Message(chat, account, "", Message_Type.JOINED));
+        }
+
+        DTO_Get_Chat chatDto = new DTO_Get_Chat(chat.getMembers().get(0));
+        return chatDto;
+    }
+
+    private String generateDefaultName(List<String> participantNames){
+        if (participantNames == null) {
+            return "Untitled chat";
+        }
+
+        String joined = "";
+
+        if (participantNames.size() == 2){
+            joined = participantNames.get(0) + " & " + participantNames.get(1);
+
+        } else {
+            joined = participantNames.stream()
+                    .filter(Objects::nonNull)               // skip nulls
+                    .map(String::trim)                      // remove leading/trailing spaces
+                    .filter(s -> !s.isEmpty())              // skip blanks
+                    .collect(Collectors.joining(", "));     // "Mark, Anna, Joe"
+        }
+
+        return joined.isEmpty() ? "Untitled chat" : joined;
     }
 
     // create chat (user & account id)

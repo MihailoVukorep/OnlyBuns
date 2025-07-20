@@ -392,17 +392,14 @@ public class Service_Account {
         return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
 
-    public List<Account> findNonActiveAccounts(LocalDateTime thresholdDate) {
-        List<Account> all_acc = repository_account.findAll();
-        List<Account> unactive_acc = new ArrayList<>();
-        for(Account account : all_acc){
-            if(account.getLastActivityDate() == null || account.getLastActivityDate().isBefore(thresholdDate)){
-                    unactive_acc.add(account);
-            }
-        }
+    public List<DTO_Get_Account> get_other_api_accounts(Long id) {
+        List<DTO_Get_Account> accounts = repository_account.findAll()
+                .stream()
+                .map(acc -> new DTO_Get_Account(acc, repository_follow))
+                .collect(Collectors.toList());
+        accounts.removeIf(a -> a.getId() == id);
 
-        return unactive_acc;
-
+        return accounts;
     }
 
     public List<Account> findUnactivatedAccounts(LocalDateTime thresholdDate) {

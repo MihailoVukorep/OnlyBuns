@@ -83,3 +83,53 @@ const div_popup = document.getElementById("addAccount_popup");
 function addAccount_popup() {
     div_popup.style.display = div_popup.style.display == "block" ? "none" : "block";
 }
+
+async function createNewChat() {
+    const followersResponse = await fetch("/api/accounts");
+    const json = await followersResponse.json();
+    const followers = [];
+
+    for (let i = 0; i < json.length; i++) {
+        followers.push(json[i]);
+    }
+
+    const followersChecklist = document.getElementById("followersList");
+    const popup = document.getElementById("createChatPopup");
+    const overlay = document.getElementById("overlay");
+    followersChecklist.innerHTML = ""; // Clear previous list
+
+    followers.forEach(follower => {
+        const label = document.createElement("label");
+        label.style.display = "block";
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.name = "userIds";
+        checkbox.value = follower.id;
+        label.appendChild(checkbox);
+        label.appendChild(document.createTextNode(" " + follower.userName));
+        followersChecklist.appendChild(label);
+    });
+    popup.classList.add("show");
+    overlay.classList.add("show");
+
+}
+
+async function submitNewChat(){
+    const formData = new FormData(document.getElementById('createChatForm'));
+
+    const response = await fetch('/api/create-chat', {
+        method: 'POST',
+        body: formData
+    });
+
+    // hide popup form for chat creation
+    const popup = document.getElementById("createChatPopup");
+    const overlay = document.getElementById("overlay");
+    popup.classList.remove("show");
+    overlay.classList.remove("show");
+
+    // redirect to newly created chat
+    const accountId = await response.json();
+    window.location.href = `/chats/${accountId}`;
+
+}

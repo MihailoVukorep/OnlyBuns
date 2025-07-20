@@ -2,9 +2,12 @@ package com.onlybuns.OnlyBuns.controller.api;
 
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Chat;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Message;
+import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.service.Service_Chat;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -157,5 +160,21 @@ public class RestController_Chat {
     @GetMapping("/api/chats/{id}/leave")
     public ResponseEntity<String> get_api_chats_id_leave(HttpSession session, @PathVariable(name = "id") Long id) {
         return service_chat.get_api_chats_id_leave(session, id);
+    }
+
+    @Operation(summary = "create group chat")
+    @PostMapping("/api/create-chat")
+    public ResponseEntity<Long> create_chat(@RequestParam List<Long> userIds,
+                                              @RequestParam(required = false) String chatName,
+                                              HttpSession session) {
+        Account user = (Account) session.getAttribute("user");
+        if (user == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); }
+
+        DTO_Get_Chat chatDto = service_chat.CreateGroupChat(user, userIds, chatName);
+
+        if(chatDto == null){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(chatDto.id, HttpStatus.CREATED);
     }
 }

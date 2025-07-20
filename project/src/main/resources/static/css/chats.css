@@ -225,6 +225,65 @@ h2 {
     background-color: transparent;
 }
 
+#newChat button  {
+    font-family: inherit;
+    font-size: inherit;
+    margin: 30px auto auto auto;
+    display: block;
+    width: fit-content;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--var-color-white);
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(48, 25, 52, 1);
+    background: linear-gradient(to bottom, rgba(48, 25, 52, 1), rgba(48, 25, 52, 0.3));
+    transform: scaleX(1) scaleY(1);
+    transition: transform 0.1s ease;
+}
+
+#newChat button:hover {
+    transform: scaleX(1.1) scaleY(1.1);
+}
+
+#newChat button:active {
+    transform: scaleX(1.2) scaleY(1.2);
+}
+
+.popup {
+    color: var(--var-color-white);
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--var-color-bg-sub1);
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: auto;
+    max-width: 95vw;
+    width: 400px;
+    height: 400px;
+}
+
+.popup.show {
+    display: block !important;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 999;
+}
+
+.overlay.show {
+    display: block;
+}
+
 .message_type_MESSAGE { color: white; }
 .message_type_JOINED, .message_type_ADDED { color: green; }
 .message_type_LEFT, .message_type_REMOVED { color: red; }

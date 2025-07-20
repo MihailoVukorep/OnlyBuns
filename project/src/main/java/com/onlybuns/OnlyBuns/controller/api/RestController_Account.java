@@ -1,10 +1,13 @@
 package com.onlybuns.OnlyBuns.controller.api;
 
 import com.onlybuns.OnlyBuns.dto.*;
+import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.service.Service_Account;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -258,5 +261,14 @@ public class RestController_Account {
     @GetMapping("/api/accounts/{id}/following")
     public ResponseEntity<List<DTO_Get_Account>> get_api_accounts_id_following(@PathVariable(name = "id") Long id) {
         return service_account.get_api_accounts_id_following(id);
+    }
+
+    @Operation(summary = "getting all accounts except logged in user to create a chat")
+    @GetMapping("/api/accounts")
+    public ResponseEntity<List<DTO_Get_Account>> get_other_api_accounts(HttpSession session) {
+        Account user = (Account) session.getAttribute("user");
+        if (user == null) { return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); }
+        List<DTO_Get_Account> accounts = service_account.get_other_api_accounts(user.getId());
+        return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
 }

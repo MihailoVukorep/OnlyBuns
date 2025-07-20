@@ -20,6 +20,19 @@
 </head>
 
 <body>
+    <div id="overlay" class="overlay"></div>
+    <div id="createChatPopup" class="popup">
+        <form id="createChatForm">
+            <div id="createChatFormContent">
+                <input type="text" id="chatName" placeholder="Title (optional)" />
+                <div id="followersList"></div>
+                <div id="createChatFormControls">
+                    <button type="button" onclick="submitNewChat()">Submit</button>
+                    <!--                        <button onclick="hideCommentForm()">Decline</button>-->
+                </div>
+            </div>
+        </form>
+    </div>
     <div id="cont">
         <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -47,6 +60,9 @@
                             </div>
                         </div>
 
+                    </div>
+                    <div id="newChat">
+                        <button id="btnNewChat" onclick="createNewChat()">➕ Start new chat</button>
                     </div>
                 </div>
             </div>
