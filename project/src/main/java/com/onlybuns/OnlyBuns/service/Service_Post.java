@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -71,6 +72,8 @@ public class Service_Post {
 
     private final Logger LOG = LoggerFactory.getLogger(Coordinate.class);
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private final ConcurrentHashMap<Long, List<Instant>> userCommentTimestamps = new ConcurrentHashMap<>();
     private static final int MAX_COMMENTS_PER_HOUR = 2;
 
@@ -80,6 +83,22 @@ public class Service_Post {
     public ResponseEntity<Page<DTO_Get_Post>> get_api_posts(HttpSession session, Integer page, Integer size, String sort) {
         Account account = (Account) session.getAttribute("user");
         return new ResponseEntity<>(getPostsForUser(repository_post.findByParentPostIsNull(varConverter.pageable(page, size, sort)), account), HttpStatus.OK);
+    }
+
+    @org.springframework.transaction.annotation.Transactional
+    public Post save(Post post) {
+        logger.info("> create");
+        Post savedPost = repository_post.save(post);
+        logger.info("< create");
+        return savedPost;
+    }
+
+    public Post findById(long id) {
+
+        logger.info("> findById id:{}", id);
+        Post post = repository_post.findById(id).get();
+        logger.info("< findById id:{}", id);
+        return post;
     }
 
     @CacheEvict(cacheNames = {"location"}, allEntries = true)
@@ -231,7 +250,7 @@ public class Service_Post {
     }
 
     // like / unlike post
-    @Transactional
+    @org.springframework.transaction.annotation.Transactional
     public ResponseEntity<String> post_api_posts_id_like(Long id, HttpSession session) {
         Account sessionAccount = (Account) session.getAttribute("user");
         if (sessionAccount == null) {
@@ -257,16 +276,16 @@ public class Service_Post {
             Like newLike = new Like(account, post);
             post.getLikes().add(newLike);
             repository_like.save(newLike);
-            post.incrementLikeCount();
-            repository_post.save(post);
+            post.setLikesCount(post.getLikesCount()+1);
+            save(post);
 
             return new ResponseEntity<>("Post liked.", HttpStatus.OK);
         }
 
         Like like = optional_like.get();
         repository_like.delete(like);
-        post.decrementLikeCount();
-        repository_post.save(post);
+        post.setLikesCount(post.getLikesCount()+1);
+        save(post);
 
         return new ResponseEntity<>("Post unliked.", HttpStatus.OK);
     }

@@ -137,6 +137,12 @@ public class Account {
         this.createdDate = createdDate;
     }
 
+    public Account( String email, String userName, String password) {
+        this.email = email;
+        this.userName = userName;
+        this.password = password;
+    }
+
     private String hashPassword(String rawPassword) {
         return new BCryptPasswordEncoder().encode(rawPassword);
     }

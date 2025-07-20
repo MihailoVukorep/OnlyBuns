@@ -87,6 +87,12 @@ public class Service_Account {
         return repository_account.findByUserName(username);
     }
 
+    @org.springframework.transaction.annotation.Transactional
+    public Account save(Long id){
+        var savedAccount = repository_account.findById(id).get();
+        return savedAccount;
+    }
+
     public Account eager(Long accountId) {
         Account account = repository_account.findById(accountId)
                 .orElseThrow(() -> new RuntimeException("Account not found"));

@@ -53,9 +53,8 @@ public class Post {
     @JoinColumn(name = "parent_post_id")
     private Post parentPost; // This will reference the parent post (if any)
 
-
     @Version
-    private Long version;
+    private Integer version;
 
     @Column
     private int likesCount = 0;
@@ -85,6 +84,13 @@ public class Post {
     }
 
     public Post(String title, String text, Account account) {
+        this.title = title;
+        this.text = text;
+        this.account = account;
+    }
+
+    public Post(Long id,String title, String text, Account account) {
+        this.id = id;
         this.title = title;
         this.text = text;
         this.account = account;
