@@ -40,6 +40,7 @@
                     th:title="${post.createdDateStr}"></span>
 
                 <button th:id="post_advertising"
+                        th:if="${post.canToggleAdvertising}"
                         th:text="'Ad ' + (${post.advertising ? '📰' : '🚫'})"
                         th:onclick="${post.advertising} ? null : 'showAdvertisingModal(' + ${post.id} + ', this);'" title="Advertising">
                 </button>

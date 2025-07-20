@@ -110,7 +110,7 @@ public class Service_Post {
         Post post = postOptional.get();
 
         Account account = (Account) session.getAttribute("user");
-        return new ResponseEntity<>(getPostForUser(post, account, 0), HttpStatus.OK);
+        return new ResponseEntity<>(getPostForUser(post, account, 0, account.isAdmin()), HttpStatus.OK);
     }
     // /api/posts/{id}/thread
     public ResponseEntity<List<DTO_Get_Post>> get_api_posts_id_thread(Long id, HttpSession session) {
@@ -119,7 +119,7 @@ public class Service_Post {
         Post post = optional_post.get();
         Account account = (Account) session.getAttribute("user");
         List<DTO_Get_Post> thread = new ArrayList<>();
-        getThreadForUser(thread, post, account, 0);
+        getThreadForUser(thread, post, account, 0, account.isAdmin());
         return new ResponseEntity<>(thread, HttpStatus.OK);
     }
 
@@ -131,36 +131,37 @@ public class Service_Post {
         Account sessionAccount = (Account) session.getAttribute("user");
         return new ResponseEntity<>(getPostsForUser(repository_post.findAllByAccount(account, varConverter.pageable(page, size, sort)), sessionAccount), HttpStatus.OK);
     }
-    public void getThreadForUser(List<DTO_Get_Post> thread, Post post, Account account, Integer indent) {
+    public void getThreadForUser(List<DTO_Get_Post> thread, Post post, Account account, Integer indent, Boolean canToggleAdvertising) {
 
-        thread.add(getPostForUser(post, account, indent));
+        thread.add(getPostForUser(post, account, indent, canToggleAdvertising));
 
         List<Post> replies = post.getReplies();
         replies.sort(Comparator.comparing(Post::getCreatedDate).reversed());
 
         if (!replies.isEmpty()) {
             for (Post i : replies) {
-                getThreadForUser(thread, i, account, indent + 20);
+                getThreadForUser(thread, i, account, indent + 20, canToggleAdvertising);
             }
         }
     }
-    public DTO_Get_Post getPostForUser(Post post, Account account, Integer indent) {
+    public DTO_Get_Post getPostForUser(Post post, Account account, Integer indent, Boolean canToggleAdvertising) {
 
         if (account == null) {
-            return new DTO_Get_Post(post, false, false, indent);
+            return new DTO_Get_Post(post, false, false, indent, canToggleAdvertising);
         }
 
         return new DTO_Get_Post(
                 post,
                 repository_like.existsByPostAndAccount(post, account), // liked
                 post.getAccount().getId().equals(account.getId()),  // myPost
-                indent
+                indent,
+                canToggleAdvertising
         );
     }
     public Page<DTO_Get_Post> getPostsForUser(Page<Post> posts, Account account) {
 
         if (account == null) {
-            return posts.map(post -> new DTO_Get_Post(post, false, false, 0));
+            return posts.map(post -> new DTO_Get_Post(post, false, false, 0, account.isAdmin()));
         }
 
         List<Long> postIds = posts.stream().map(Post::getId).collect(Collectors.toList());
@@ -172,13 +173,13 @@ public class Service_Post {
                 .map(like -> like.getPost().getId())
                 .collect(Collectors.toSet());
 
-        return posts.map(post -> new DTO_Get_Post(post, likedPostIds.contains(post.getId()), post.getAccount().getId().equals(account.getId()), 0));
+        return posts.map(post -> new DTO_Get_Post(post, likedPostIds.contains(post.getId()), post.getAccount().getId().equals(account.getId()), 0, account.isAdmin()));
     }
     public List<DTO_Get_Post> getPostsForUser(List<Post> posts, Account account) {
 
         if (account == null) {
             return posts.stream()
-                    .map(post -> new DTO_Get_Post(post, false, false, 0))
+                    .map(post -> new DTO_Get_Post(post, false, false, 0, account.isAdmin()))
                     .collect(Collectors.toList());
         }
 
@@ -191,7 +192,7 @@ public class Service_Post {
                 .collect(Collectors.toSet());
 
         return posts.stream()
-                .map(post -> new DTO_Get_Post(post, likedPostIds.contains(post.getId()), post.getAccount().getId().equals(account.getId()), 0))
+                .map(post -> new DTO_Get_Post(post, likedPostIds.contains(post.getId()), post.getAccount().getId().equals(account.getId()), 0, account.isAdmin()))
                 .collect(Collectors.toList());
     }
 

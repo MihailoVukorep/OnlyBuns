@@ -72,7 +72,7 @@ public class Post {
     private LocalDateTime updatedDate;
 
     @Column
-    private Boolean advertising=false;
+    private Boolean advertising = false;
 
     public Post(String text, Account account) {
         this.text = text;
