@@ -27,6 +27,7 @@
             <div id="createChatFormContent" class="popup-content">
                 <div class="popup-header">
                     <input type="text" id="chatName" name="chatName" placeholder="Title (optional)" />
+                    <input type="text" id="searchUsers" placeholder="Search users..." />
                 </div>
                 <div id="userList" class="popup-body"></div>
                 <span id="validationError" class="chat-participants-validation">Please add at least one user to chat.</span>
@@ -38,6 +39,7 @@
         </form>
     </div>
     <div id="cont">
+
         <div th:replace="~{fragments/navbar :: navbar}"></div>
 
         <input th:if="${chat != null}" type="hidden" id="chat_id" th:value="${chat.id}" />

@@ -124,6 +124,12 @@ public class Service_Chat {
                 ? chatName
                 : generateDefaultName(usernames);
 
+        // proveri da li chat sa istim nazivom i ucesnicima vec postoji; ako da, ne kreiraj dupli chat, nego vrati taj postojeci
+        Chat existingChat = checkIfDuplicateChatExists(user, accountIds, finalChatName);
+        if(existingChat != null){
+            return new DTO_Get_Chat(existingChat.getMembers().get(0));
+        }
+
         Chat chat = new Chat(token, user, finalChatName);
         repository_chat.save(chat);
         CreateChatMember(chat, user);
@@ -136,6 +142,33 @@ public class Service_Chat {
 
         DTO_Get_Chat chatDto = new DTO_Get_Chat(chat.getMembers().get(0));
         return chatDto;
+    }
+
+    private Chat checkIfDuplicateChatExists(Account user, List<Long> accountIds, String chatName){
+        List<Long> newChatMemberIds = new ArrayList<>();
+        newChatMemberIds.add(user.getId());
+        newChatMemberIds.addAll(accountIds);
+
+        // proverava da li postoji chat sa istim nazivom
+        List<Chat> existingChats = repository_chat.findDuplicateChat(chatName);
+
+        if(existingChats != null && existingChats.size() > 0){
+            // ako postoji jedan ili vise chatova sa istim nazivom, proverava i da li se lista clanova poklapa
+            // ako da, vratice prvi kod kojeg se poklapaju i naziv i ucesnici
+            for(Chat existingChat : existingChats){
+                List<Long> existingChatMemberIds = existingChat.getMembers().stream()
+                        .map(ChatMember::accountId)
+                        .collect(Collectors.toList());
+
+                boolean areSameParticipants = new HashSet<>(existingChatMemberIds).equals(new HashSet<>(newChatMemberIds));
+
+                if(areSameParticipants){
+                    return existingChat;
+                }
+            }
+        }
+
+        return null;
     }
 
     private String generateDefaultName(List<String> participantNames){
