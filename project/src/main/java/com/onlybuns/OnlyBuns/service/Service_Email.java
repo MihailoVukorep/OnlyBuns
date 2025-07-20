@@ -100,9 +100,14 @@ public class Service_Email {
     }
 
     private String generateEmailContent(Account account) {
-        long newFollowersCount = repositoryFollow.countNewFollowers(account.getId(), account.getLastActivityDate());
-        long newLikesCount = repositoryAccount.countLikesOnUsersPosts(account.getId(), account.getLastActivityDate());
-        long newPostsCount = repositoryAccount.countOtherUsersPosts(account.getId(), account.getLastActivityDate());
+        LocalDateTime lastActivity = account.getLastActivityDate();
+        if (lastActivity == null) {
+            lastActivity = LocalDateTime.of(1970, 1, 1, 0, 0);
+        }
+
+        long newFollowersCount = repositoryFollow.countNewFollowers(account.getId(), lastActivity);
+        long newLikesCount = repositoryAccount.countLikesOnUsersPosts(account.getId(), lastActivity);
+        long newPostsCount = repositoryAccount.countOtherUsersPosts(account.getId(), lastActivity);
 
         return "Hello " + account.getUserName() + ",\n\n"
                 + "You haven't visited OnlyBuns for a while. Here's what you've missed:\n"
