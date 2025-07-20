@@ -20,7 +20,9 @@
 <body>
     <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-    <div id="pagination-controls">
+    <h1>👥 Accounts 👥</h1>
+
+    <div id="pagination-controls" th:if="${totalPages != 0}" style="padding: 15px 0 0 30px">
         <form action="/admin/accounts" method="get">
             <!-- Preserve current filters and sort options -->
             <input type="hidden" name="firstName" th:value="${firstName}">
@@ -31,17 +33,96 @@
             <input type="hidden" name="minPostCount" th:value="${minPostCount}">
             <input type="hidden" name="maxPostCount" th:value="${maxPostCount}">
             <input type="hidden" name="sort" th:value="${currentSort}">
-    
-            <button type="submit" name="page" th:value="${(currentPage ?: 0) - 1}" th:disabled="${(currentPage ?: 0) == 0}">⬅️ Previous</button>
-            <!--<span th:text="'Page ' + ((currentPage ?: 0) + 1) + ' of ' + (totalPages ?: 1)"></span> -->
-            <button type="submit" name="page" th:value="${(currentPage ?: 0) + 1}" th:disabled="${(currentPage ?: 0) + 1 == (totalPages ?: 1)}">Next ➡️</button>
 
+            <style>
+                #navpage {
+                    display: inline-block;
+                }
+                
+                #navpage_ul {
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .page-item {
+                    display: inline-block;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .page-item button {
+                    background-color: transparent;
+                    border: none;
+                    padding: 0;
+                    margin: 0;
+                    cursor: pointer;
+                }
+
+                .page-item.active {
+                    font-weight: bold;
+                    color: var(--var-color-purple);
+                    border-bottom: 1px solid var(--var-color-purple);
+                }
+
+                .page-item.disabled .page-link {
+                    color: var(--var-color-pink-4-trans);
+                    cursor: not-allowed; /* Prevent pointer */
+                    text-decoration: none; /* Remove underline */
+                    pointer-events: none; /* Disable interaction */
+                }
+
+                .page-link {
+                    font-size: xx-large;
+                    font-weight: bold;
+                    color: var(--var-color-purple);
+                    text-decoration: none
+                }
+            </style>
+
+            <nav id="navpage" aria-label="Page navigation">
+                <ul id="navpage_ul" class="pagination">
+                    <!-- First Page -->
+                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                        <button type="submit" name="page" value="0" class="page-link" th:disabled="${currentPage == 0}">
+                            &#171;
+                        </button>
+                    </li>
+
+                    <!-- Previous Page -->
+                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                        <button type="submit" name="page" th:value="${currentPage - 1}" class="page-link" th:disabled="${currentPage == 0}">
+                            &#60;
+                        </button>
+                    </li>
+
+                    <!-- Page Numbers -->
+                    <li th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+                        class="page-item"
+                        th:classappend="${pageNum == currentPage} ? 'active'">
+                        <button type="submit" name="page" th:value="${pageNum}" class="page-link">
+                            <span th:text="${pageNum + 1}">1</span>
+                        </button>
+                    </li>
+
+                    <!-- Next Page -->
+                    <li class="page-item" th:classappend="${currentPage >= totalPages - 1} ? 'disabled'">
+                        <button type="submit" name="page" th:value="${currentPage + 1}" class="page-link"
+                            th:disabled="${currentPage >= totalPages - 1}">
+                            &#62;
+                        </button>
+                    </li>
+
+                    <!-- Last Page -->
+                    <li class="page-item" th:classappend="${currentPage >= totalPages - 1} ? 'disabled'">
+                        <button type="submit" name="page" th:value="${totalPages - 1}" class="page-link"
+                            th:disabled="${currentPage >= totalPages - 1}">
+                            &#187;
+                        </button>
+                    </li>
+                </ul>
+            </nav>
         </form>
     </div>
-
-    <!-- <span th:replace="~{fragments/navpage :: navpage}"></span> -->
-
-    <h1>👥 Accounts 👥</h1>
 
     <span id="search">
         <form class="dataform-tiny" action="/admin/accounts" method="get">
@@ -88,6 +169,8 @@
         <div id="sort_controls">
             <form action="/admin/accounts" method="GET" id="sortForm">
                 <select id="sortOptions" name="sort" th:value="${currentSort}" onchange="this.form.submit()">
+                    <option value="id,asc" th:selected="${currentSort == 'id,asc'}">Id Ascending</option>
+                    <option value="id,desc" th:selected="${currentSort == 'id,desc'}">Id Descending</option>
                     <option value="follow_count,asc" th:selected="${currentSort == 'follow_count,asc'}">Followers Ascending</option>
                     <option value="follow_count,desc" th:selected="${currentSort == 'follow_count,desc'}">Followers Descending</option>
                     <option value="email,asc" th:selected="${currentSort == 'email,asc'}">Email Ascending</option>

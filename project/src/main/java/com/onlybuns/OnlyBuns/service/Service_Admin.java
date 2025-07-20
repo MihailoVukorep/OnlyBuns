@@ -99,6 +99,8 @@ public class Service_Admin {
     }
     private Comparator<DTO_Get_Account> getComparator(String sortOption) {
         return switch (sortOption) {
+            case "id,asc" -> Comparator.comparingLong(DTO_Get_Account::getId);
+            case "id,desc" -> Comparator.comparingLong(DTO_Get_Account::getId).reversed();
             case "follow_count,asc" -> Comparator.comparingInt(DTO_Get_Account::getFollowersCount);
             case "follow_count,desc" -> Comparator.comparingInt(DTO_Get_Account::getFollowersCount).reversed();
             case "email,asc" -> Comparator.comparing(DTO_Get_Account::getEmail);

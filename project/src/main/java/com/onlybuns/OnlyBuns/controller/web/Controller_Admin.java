@@ -12,6 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -41,8 +44,10 @@ public class Controller_Admin {
                                  @RequestParam(required = false) String address,
                                  @RequestParam(required = false) Integer minPostCount,
                                  @RequestParam(required = false) Integer maxPostCount,
-                                 @RequestParam(value = "sort", required = false) String sort,
-                                 @RequestParam(defaultValue = "0") int page) {
+                                 @RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(value = "size", required = false, defaultValue = "12") Integer size,
+                                 @RequestParam(value = "sort", required = false, defaultValue = "id") String sort
+                                 ) {
         Account user = (Account) session.getAttribute("user");
         if (user == null || !user.isAdmin()) {
             return "error/403.html";
@@ -54,12 +59,34 @@ public class Controller_Admin {
                 session, firstName, lastName, userName, email, address,
                 minPostCount, maxPostCount, sort, page);
 
+        StringBuilder urlBuilder = new StringBuilder("/admin/accounts");
+
+        List<String> queryParams = new ArrayList<>();
+        if (firstName != null && !firstName.isEmpty()) queryParams.add("firstName=" + URLEncoder.encode(firstName, StandardCharsets.UTF_8));
+        if (lastName != null && !lastName.isEmpty()) queryParams.add("lastName=" + URLEncoder.encode(lastName, StandardCharsets.UTF_8));
+        if (userName != null && !userName.isEmpty()) queryParams.add("userName=" + URLEncoder.encode(userName, StandardCharsets.UTF_8));
+        if (email != null && !email.isEmpty()) queryParams.add("email=" + URLEncoder.encode(email, StandardCharsets.UTF_8));
+        if (address != null && !address.isEmpty()) queryParams.add("address=" + URLEncoder.encode(address, StandardCharsets.UTF_8));
+        if (minPostCount != null) queryParams.add("minPostCount=" + minPostCount);
+        if (maxPostCount != null) queryParams.add("maxPostCount=" + maxPostCount);
+
+        queryParams.add("page=" + page);
+        queryParams.add("size=" + size);
+        queryParams.add("sort=id");
+
+        if (!queryParams.isEmpty()) {
+            urlBuilder.append("?").append(String.join("&", queryParams));
+        }
+
+        model.addAttribute("baseUrl", urlBuilder.toString());
+
         model.addAttribute("accounts", accountsPage.getContent());
-        model.addAttribute("currentPage", accountsPage.getNumber());
+        model.addAttribute("currentSort", sort);
+        model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", accountsPage.getTotalPages());
         model.addAttribute("totalItems", accountsPage.getTotalElements());
+        model.addAttribute("pageSize", size);
 
-        model.addAttribute("currentSort", sort);
         model.addAttribute("firstName", firstName);
         model.addAttribute("lastName", lastName);
         model.addAttribute("userName", userName);
