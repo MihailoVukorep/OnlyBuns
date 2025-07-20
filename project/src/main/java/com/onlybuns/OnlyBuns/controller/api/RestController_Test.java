@@ -145,20 +145,16 @@ public class RestController_Test {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error during test execution.")
             }
     )
-    @Transactional
+
     @GetMapping("/api/test/concurrent-follows")
     public ResponseEntity<String> testConcurrentFollows() {
-
         try {
-
             Account target = repository_account.findById(1L).orElseGet(() ->
-
                     repository_account.save(
                             new Account(1L, "target_account", "target@test.com", "targetpass")
                     ));
 
             Account follower1 = repository_account.findById(2L).orElseGet(() ->
-
                     repository_account.save(
                             new Account(2L, "follower1", "follower1@test.com", "follower1pass")
                     ));
@@ -167,8 +163,8 @@ public class RestController_Test {
                     repository_account.save(
                             new Account(3L, "follower2", "follower2@test.com", "follower2pass")
                     ));
-
             repository_follow.deleteByFollowee(target);
+            repository_follow.flush();
 
             ExecutorService executor = Executors.newFixedThreadPool(2);
             AtomicInteger successCount = new AtomicInteger(0);
@@ -201,6 +197,7 @@ public class RestController_Test {
                 executor.shutdownNow();
             }
 
+            repository_follow.flush();
             int dbCount = repository_follow.countByFollowee(target);
             boolean relationship1Exists = repository_follow.existsByFollowerAndFollowee(follower1, target.getId());
             boolean relationship2Exists = repository_follow.existsByFollowerAndFollowee(follower2, target.getId());
@@ -224,5 +221,13 @@ public class RestController_Test {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Test failed completely: " + e.getMessage());
         }
+    }
+
+    @Transactional
+    @GetMapping("/api/test/concurrent-follows/reset")
+    public ResponseEntity<String> resetTestData() {
+        Account target = repository_account.findById(1L).orElseThrow();
+        repository_follow.deleteByFollowee(target);
+        return ResponseEntity.ok("Test data reset - ready for new test");
     }
 }
