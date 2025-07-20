@@ -105,7 +105,7 @@ public class Service_Chat {
         Account account = optional_account.get();
 
         CreateChat(user, account);
-        return new ResponseEntity<>("Chat created.", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Chat created.", HttpStatus.OK);
     }
 
     // get current user's chats
