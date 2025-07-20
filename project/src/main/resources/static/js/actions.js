@@ -57,7 +57,7 @@ async function post_delete(id) {
     const response = await fetch(`/api/posts/${id}`, { method: "DELETE" });
     const response_text = await response.text();
 
-    if (response.ok) { popup(`✅ ${response_text}`); window.location.reload(); }
+    if (response.ok) { popup(`✅ ${response_text}`); window.location.href = '/user'; }
     else             { popup(`❌ ${response_text}`); }
 
 }
