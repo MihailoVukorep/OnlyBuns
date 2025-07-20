@@ -7,14 +7,6 @@ import com.onlybuns.OnlyBuns.dto.DTO_Get_Post;
 import com.onlybuns.OnlyBuns.service.Service_Account;
 import com.onlybuns.OnlyBuns.service.Service_Post;
 import io.micrometer.core.annotation.Timed;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.SchemaProperty;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 import java.util.List;
 
@@ -37,17 +28,17 @@ public class RestController_Post {
     private Service_Account service_account;
 
     // posts
-    @Operation(
+    @io.swagger.v3.oas.annotations.Operation(
             summary = "Retrieve paginated posts",
             description = "Returns a paginated list of posts (only root posts, no replies), optionally sorted.",
             parameters = {
-                    @Parameter(name = "page", description = "Page number (0-based)", required = false),
-                    @Parameter(name = "size", description = "Page size", required = false),
-                    @Parameter(name = "sort", description = "Sort order, e.g. 'createdDate,desc'", required = false)
+                    @io.swagger.v3.oas.annotations.Parameter(name = "page", description = "Page number (0-based)", required = false),
+                    @io.swagger.v3.oas.annotations.Parameter(name = "size", description = "Page size", required = false),
+                    @io.swagger.v3.oas.annotations.Parameter(name = "sort", description = "Sort order, e.g. 'createdDate,desc'", required = false)
             },
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Page of posts retrieved successfully"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized - user session invalid or missing")
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Page of posts retrieved successfully"),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized - user session invalid or missing")
             }
     )
     @GetMapping(value = "/api/posts")
@@ -61,18 +52,18 @@ public class RestController_Post {
         return service_post.get_api_posts(session, page, size, sort);
     }
 
-    @Operation(
+    @io.swagger.v3.oas.annotations.Operation(
             summary = "For You Page for current user",
             description = "Returns a paginated list of posts from accounts followed by the current logged-in user.",
             parameters = {
-                    @Parameter(name = "page", description = "Page number (0-based)", required = false),
-                    @Parameter(name = "size", description = "Page size", required = false),
-                    @Parameter(name = "sort", description = "Sort order, e.g. 'createdDate,desc'", required = false)
+                    @io.swagger.v3.oas.annotations.Parameter(name = "page", description = "Page number (0-based)", required = false),
+                    @io.swagger.v3.oas.annotations.Parameter(name = "size", description = "Page size", required = false),
+                    @io.swagger.v3.oas.annotations.Parameter(name = "sort", description = "Sort order, e.g. 'createdDate,desc'", required = false)
             },
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Page of posts from followed accounts returned successfully"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized - user not logged in"),
-                    @ApiResponse(responseCode = "404", description = "User account not found")
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Page of posts from followed accounts returned successfully"),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized - user not logged in"),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "User account not found")
             }
     )
     @GetMapping(value = "/api/fyp")
@@ -87,18 +78,18 @@ public class RestController_Post {
     }
 
     // account's posts
-    @Operation(
+    @io.swagger.v3.oas.annotations.Operation(
             summary = "Get posts by account ID",
             description = "Returns a paginated list of posts created by the specified account.",
             parameters = {
-                    @Parameter(name = "id", description = "ID of the account", required = true),
-                    @Parameter(name = "page", description = "Page number (0-based)", required = false),
-                    @Parameter(name = "size", description = "Page size", required = false),
-                    @Parameter(name = "sort", description = "Sort order, e.g. 'createdDate,desc'", required = false)
+                    @io.swagger.v3.oas.annotations.Parameter(name = "id", description = "ID of the account", required = true),
+                    @io.swagger.v3.oas.annotations.Parameter(name = "page", description = "Page number (0-based)", required = false),
+                    @io.swagger.v3.oas.annotations.Parameter(name = "size", description = "Page size", required = false),
+                    @io.swagger.v3.oas.annotations.Parameter(name = "sort", description = "Sort order, e.g. 'createdDate,desc'", required = false)
             },
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Posts retrieved successfully"),
-                    @ApiResponse(responseCode = "404", description = "Account not found")
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Posts retrieved successfully"),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Account not found")
             }
     )
     @GetMapping("/api/accounts/{id}/posts")
@@ -113,13 +104,13 @@ public class RestController_Post {
     }
 
     // get single post
-    @Operation(
+    @io.swagger.v3.oas.annotations.Operation(
             summary = "Get single post info by post ID",
             description = "Retrieves detailed information for a single post given its ID. Returns 404 if the post is not found.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Post found and returned",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = DTO_Get_Post.class))),
-                    @ApiResponse(responseCode = "404", description = "Post not found")
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Post found and returned",
+                            content = @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json", schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = DTO_Get_Post.class))),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Post not found")
             }
     )
     @GetMapping("/api/posts/{id}")
@@ -127,12 +118,12 @@ public class RestController_Post {
         return service_post.get_api_posts_id(id, session);
     }
 
-    @Operation(
+    @io.swagger.v3.oas.annotations.Operation(
             summary = "Clear location cache",
             description = "Evicts all cached location entries to force reload fresh data.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Locations successfully removed from cache"),
-                    @ApiResponse(responseCode = "500", description = "Internal server error")
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Locations successfully removed from cache"),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
             }
     )
     @GetMapping(value = "/api/removeCache")
@@ -141,13 +132,13 @@ public class RestController_Post {
         return ResponseEntity.ok("Locations successfully removed from cache!");
     }
 
-    @Operation(
+    @io.swagger.v3.oas.annotations.Operation(
             summary = "Mark post for advertising",
             description = "Marks a post to be sent to advertising agencies and triggers notification.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Post checked for advertising"),
-                    @ApiResponse(responseCode = "400", description = "Post doesn't exist"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized - user not logged in")
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Post checked for advertising"),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Post doesn't exist"),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized - user not logged in")
             }
     )
     @PostMapping(value="/api/posts/{id}/advertising")
@@ -157,11 +148,11 @@ public class RestController_Post {
     }
 
     // CREATE POST
-    @Operation(summary = "Create post", description = "Creates a new post with title, text, location, and optional image upload.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Post created successfully"),
-            @ApiResponse(responseCode = "400", description = "Validation error or location not found"),
-            @ApiResponse(responseCode = "401", description = "Not logged in")
+    @io.swagger.v3.oas.annotations.Operation(summary = "Create post", description = "Creates a new post with title, text, location, and optional image upload.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Post created successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Validation error or location not found"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Not logged in")
     })
     @PostMapping("/api/posts")
     @Timed(value = "create.post.request", description = "Time taken to create a post")
@@ -174,18 +165,18 @@ public class RestController_Post {
     }
 
     // GET REPLIES
-    @Operation(
+    @io.swagger.v3.oas.annotations.Operation(
             summary = "Get post replies thread",
             description = "Returns the list of replies (thread) for a given post ID. " +
                     "Includes nested replies recursively.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "List of post replies",
-                            content = @Content(
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "List of post replies",
+                            content = @io.swagger.v3.oas.annotations.media.Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = DTO_Get_Post.class))
+                                    array = @io.swagger.v3.oas.annotations.media.ArraySchema(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = DTO_Get_Post.class))
                             )
                     ),
-                    @ApiResponse(responseCode = "404", description = "Post not found")
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Post not found")
             }
     )
     @GetMapping("/api/posts/{id}/thread")
@@ -194,22 +185,22 @@ public class RestController_Post {
     }
 
     // POST REPLY
-    @Operation(
+    @io.swagger.v3.oas.annotations.Operation(
             summary = "Reply to a post",
             description = "Adds a reply comment to the post identified by the given ID. Requires user to be logged in and respects rate limiting.",
-            requestBody = @RequestBody(
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Reply content",
                     required = true,
-                    content = @Content(
+                    content = @io.swagger.v3.oas.annotations.media.Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = DTO_Post_Reply.class)
+                            schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = DTO_Post_Reply.class)
                     )
             ),
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Post commented successfully"),
-                    @ApiResponse(responseCode = "401", description = "User not logged in"),
-                    @ApiResponse(responseCode = "404", description = "Original post not found"),
-                    @ApiResponse(responseCode = "429", description = "Comment limit reached, rate limited")
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Post commented successfully"),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "User not logged in"),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Original post not found"),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "429", description = "Comment limit reached, rate limited")
             }
     )
     @PostMapping("/api/posts/{id}/reply")
@@ -218,13 +209,13 @@ public class RestController_Post {
     }
 
     // LIKE POST
-    @Operation(
+    @io.swagger.v3.oas.annotations.Operation(
             summary = "Like or unlike a post",
             description = "Toggles a like for the post identified by the given ID. User must be logged in. If the post is already liked by the user, this will unlike it.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Post liked or unliked successfully"),
-                    @ApiResponse(responseCode = "401", description = "User not logged in"),
-                    @ApiResponse(responseCode = "404", description = "Post or user account not found")
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Post liked or unliked successfully"),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "User not logged in"),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Post or user account not found")
             }
     )
     @PostMapping("/api/posts/{id}/like")
@@ -233,13 +224,13 @@ public class RestController_Post {
     }
 
     // GET LIKES
-    @Operation(
+    @io.swagger.v3.oas.annotations.Operation(
             summary = "Get likes for a post",
             description = "Returns a list of likes for the post identified by the given ID.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "List of likes retrieved successfully",
-                            content = @Content(array = @ArraySchema(schema = @Schema(implementation = DTO_Get_Like.class)))),
-                    @ApiResponse(responseCode = "404", description = "Post not found")
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "List of likes retrieved successfully",
+                            content = @io.swagger.v3.oas.annotations.media.Content(array = @io.swagger.v3.oas.annotations.media.ArraySchema(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = DTO_Get_Like.class)))),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Post not found")
             }
     )
     @GetMapping("/api/posts/{id}/likes")
@@ -248,21 +239,21 @@ public class RestController_Post {
     }
 
     // UPDATE POST
-    @Operation(
+    @io.swagger.v3.oas.annotations.Operation(
             summary = "Update post",
             description = "Updates the post identified by the given ID. Only the owner of the post can update it.",
-            requestBody = @RequestBody(
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     required = true,
-                    content = @Content(
+                    content = @io.swagger.v3.oas.annotations.media.Content(
                             mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
-                            schema = @Schema(implementation = DTO_Put_Post.class)
+                            schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = DTO_Put_Post.class)
                     )
             ),
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Post updated successfully"),
-                    @ApiResponse(responseCode = "401", description = "Not logged in"),
-                    @ApiResponse(responseCode = "403", description = "User does not own this post"),
-                    @ApiResponse(responseCode = "404", description = "Post not found")
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Post updated successfully"),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Not logged in"),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "User does not own this post"),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Post not found")
             }
     )
     @PutMapping("/api/posts/{id}")
@@ -271,14 +262,14 @@ public class RestController_Post {
     }
 
     // DELETE POST
-    @Operation(
+    @io.swagger.v3.oas.annotations.Operation(
             summary = "Delete post",
             description = "Deletes the post with the given ID if the current user is the owner.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Post deleted."),
-                    @ApiResponse(responseCode = "401", description = "Not logged in."),
-                    @ApiResponse(responseCode = "403", description = "You don't own this post."),
-                    @ApiResponse(responseCode = "404", description = "Post not found.")
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Post deleted."),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Not logged in."),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "You don't own this post."),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Post not found.")
             }
     )
     @DeleteMapping("/api/posts/{id}")

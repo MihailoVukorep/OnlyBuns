@@ -5,11 +5,6 @@ import com.onlybuns.OnlyBuns.dto.DTO_Get_Post;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Trend;
 import com.onlybuns.OnlyBuns.dto.DTO_Get_Trend_Counts;
 import com.onlybuns.OnlyBuns.service.Service_Trend;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,17 +19,17 @@ public class RestController_Trend {
     @Autowired
     private Service_Trend service_trend;
 
-    @Operation(
+    @io.swagger.v3.oas.annotations.Operation(
             summary = "Get trends",
             description = "Returns the current trend data including weekly top posts, all-time top posts, and most active likers for the logged-in user.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Trend data retrieved successfully",
-                            content = @Content(
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Trend data retrieved successfully",
+                            content = @io.swagger.v3.oas.annotations.media.Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = DTO_Get_Trend.class)
+                                    schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = DTO_Get_Trend.class)
                             )
                     ),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized - user not logged in")
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized - user not logged in")
             }
     )
     @GetMapping("/api/trends")
@@ -42,17 +37,17 @@ public class RestController_Trend {
         return service_trend.get_api_trends(session);
     }
 
-    @Operation(
+    @io.swagger.v3.oas.annotations.Operation(
             summary = "Get trend counts",
             description = "Returns summary counts of the current trends for the logged-in user.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Trend counts retrieved successfully",
-                            content = @Content(
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Trend counts retrieved successfully",
+                            content = @io.swagger.v3.oas.annotations.media.Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = DTO_Get_Trend_Counts.class)
+                                    schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = DTO_Get_Trend_Counts.class)
                             )
                     ),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized - user not logged in")
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized - user not logged in")
             }
     )
     @GetMapping("/api/trends/counts")
@@ -60,17 +55,17 @@ public class RestController_Trend {
         return service_trend.get_api_trends_counts(session);
     }
 
-    @Operation(
+    @io.swagger.v3.oas.annotations.Operation(
             summary = "Get top weekly posts",
             description = "Retrieve the top weekly posts based on current trends for the logged-in user.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Top weekly posts retrieved successfully",
-                            content = @Content(
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Top weekly posts retrieved successfully",
+                            content = @io.swagger.v3.oas.annotations.media.Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = DTO_Get_Post.class))
+                                    array = @io.swagger.v3.oas.annotations.media.ArraySchema(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = DTO_Get_Post.class))
                             )
                     ),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized - user not logged in")
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized - user not logged in")
             }
     )
     @GetMapping("/api/trends/weekly")
@@ -78,17 +73,17 @@ public class RestController_Trend {
         return service_trend.get_api_trends_weekly(session);
     }
 
-    @Operation(
+    @io.swagger.v3.oas.annotations.Operation(
             summary = "Get top all-time posts",
             description = "Retrieve the top all-time posts based on current trends for the logged-in user.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Top all-time posts retrieved successfully",
-                            content = @Content(
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Top all-time posts retrieved successfully",
+                            content = @io.swagger.v3.oas.annotations.media.Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = DTO_Get_Post.class))
+                                    array = @io.swagger.v3.oas.annotations.media.ArraySchema(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = DTO_Get_Post.class))
                             )
                     ),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized - user not logged in")
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized - user not logged in")
             }
     )
     @GetMapping("/api/trends/top")
@@ -96,17 +91,17 @@ public class RestController_Trend {
         return service_trend.get_api_trends_top(session);
     }
 
-    @Operation(
+    @io.swagger.v3.oas.annotations.Operation(
             summary = "Get top likers",
             description = "Retrieve the list of top likers based on current trends for the logged-in user.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Top likers retrieved successfully",
-                            content = @Content(
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Top likers retrieved successfully",
+                            content = @io.swagger.v3.oas.annotations.media.Content(
                                     mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = DTO_Get_Account.class))
+                                    array = @io.swagger.v3.oas.annotations.media.ArraySchema(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = DTO_Get_Account.class))
                             )
                     ),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized - user not logged in")
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized - user not logged in")
             }
     )
     @GetMapping("/api/trends/likers")
