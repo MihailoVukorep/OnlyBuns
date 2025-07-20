@@ -161,7 +161,7 @@ public class Service_Post {
     public Page<DTO_Get_Post> getPostsForUser(Page<Post> posts, Account account) {
 
         if (account == null) {
-            return posts.map(post -> new DTO_Get_Post(post, false, false, 0, account.isAdmin()));
+            return posts.map(post -> new DTO_Get_Post(post, false, false, 0, false));
         }
 
         List<Long> postIds = posts.stream().map(Post::getId).collect(Collectors.toList());
@@ -179,7 +179,7 @@ public class Service_Post {
 
         if (account == null) {
             return posts.stream()
-                    .map(post -> new DTO_Get_Post(post, false, false, 0, account.isAdmin()))
+                    .map(post -> new DTO_Get_Post(post, false, false, 0, false))
                     .collect(Collectors.toList());
         }
 
