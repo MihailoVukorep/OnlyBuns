@@ -84,30 +84,39 @@ function addAccount_popup() {
     div_popup.style.display = div_popup.style.display == "block" ? "none" : "block";
 }
 
-async function createNewChat() {
-    const followersResponse = await fetch("/api/accounts");
-    const json = await followersResponse.json();
-    const followers = [];
-
-    for (let i = 0; i < json.length; i++) {
-        followers.push(json[i]);
-    }
-
-    const followersChecklist = document.getElementById("followersList");
+function hideChatCreationPopup(){
+    // hide popup form for chat creation
     const popup = document.getElementById("createChatPopup");
     const overlay = document.getElementById("overlay");
-    followersChecklist.innerHTML = ""; // Clear previous list
+    popup.classList.remove("show");
+    overlay.classList.remove("show");
+}
 
-    followers.forEach(follower => {
+async function createNewChat() {
+    const accountsResponse = await fetch("/api/accounts");
+    const json = await accountsResponse.json();
+    const otherAccounts = [];
+
+    for (let i = 0; i < json.length; i++) {
+        otherAccounts.push(json[i]);
+    }
+
+    const accountsChecklist = document.getElementById("userList");
+    const popup = document.getElementById("createChatPopup");
+    const overlay = document.getElementById("overlay");
+
+    accountsChecklist.innerHTML = ""; // Clear previous list
+
+    otherAccounts.forEach(account => {
         const label = document.createElement("label");
         label.style.display = "block";
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.name = "userIds";
-        checkbox.value = follower.id;
+        checkbox.value = account.id;
         label.appendChild(checkbox);
-        label.appendChild(document.createTextNode(" " + follower.userName));
-        followersChecklist.appendChild(label);
+        label.appendChild(document.createTextNode(" " + account.userName));
+        accountsChecklist.appendChild(label);
     });
     popup.classList.add("show");
     overlay.classList.add("show");
@@ -115,6 +124,20 @@ async function createNewChat() {
 }
 
 async function submitNewChat(){
+    // proveravamo da li je barem jedan korisnik selektovan za chat
+    const selected = document.querySelectorAll('input[name="userIds"]:checked');
+    const validationError = document.getElementById('validationError');
+
+    if (selected.length === 0) {
+        const validationError = document.getElementById('validationError');
+        validationError.classList.add('show-error');
+        return;
+    }
+
+    else{
+        validationError.classList.remove('show-error');
+    }
+
     const formData = new FormData(document.getElementById('createChatForm'));
 
     const response = await fetch('/api/create-chat', {
@@ -129,7 +152,7 @@ async function submitNewChat(){
     overlay.classList.remove("show");
 
     // redirect to newly created chat
-    const accountId = await response.json();
-    window.location.href = `/chats/${accountId}`;
+    const chatId = await response.json();
+    window.location.href = `/chats/${chatId}`;
 
 }

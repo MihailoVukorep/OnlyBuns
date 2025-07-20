@@ -8,6 +8,7 @@
 
     <title>OnlyBuns - Chat</title>
     <link rel="stylesheet" href="/css/chats.css">
+    <link rel="stylesheet" href="/css/dataform.css">
 
     <link rel="stylesheet" href="/css/animations/rainbow_h1.css">
 
@@ -21,14 +22,17 @@
 
 <body>
     <div id="overlay" class="overlay"></div>
-    <div id="createChatPopup" class="popup">
-        <form id="createChatForm">
-            <div id="createChatFormContent">
-                <input type="text" id="chatName" placeholder="Title (optional)" />
-                <div id="followersList"></div>
-                <div id="createChatFormControls">
+    <div id="createChatPopup" class="chat-popup">
+        <form id="createChatForm" class="dataform">
+            <div id="createChatFormContent" class="popup-content">
+                <div class="popup-header">
+                    <input type="text" id="chatName" name="chatName" placeholder="Title (optional)" />
+                </div>
+                <div id="userList" class="popup-body"></div>
+                <span id="validationError" class="chat-participants-validation">Please add at least one user to chat.</span>
+                <div id="createChatFormControls" class="popup-footer">
                     <button type="button" onclick="submitNewChat()">Submit</button>
-                    <!--                        <button onclick="hideCommentForm()">Decline</button>-->
+                    <button onclick="hideChatCreationPopup()">Decline</button>
                 </div>
             </div>
         </form>
