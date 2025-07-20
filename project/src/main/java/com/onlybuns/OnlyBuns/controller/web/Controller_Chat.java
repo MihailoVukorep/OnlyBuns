@@ -58,9 +58,7 @@ public class Controller_Chat {
     @GetMapping("/accounts/{id}/chat")
     public String accounts_id_chat(HttpSession session, Model model, @PathVariable(name = "id") Long id) {
         Account user = (Account) session.getAttribute("user");
-        if (user == null || !user.isAdmin()) {
-            return "error/403.html";
-        }
+        if (user == null) { return "error/401.html"; }
 
         service_chat.get_api_accounts_id_chat(session, id);
         return "redirect:/chats";
