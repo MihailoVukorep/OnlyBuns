@@ -221,7 +221,6 @@ public class Service_Post {
         }
 
         String diskLocation = service_diskWriter.saveImage(imageFile);
-        ;
         Post newPost = new Post(title, text, location, diskLocation, sessionAccount);
         newPost.setLatitude(coordinates.getLat());
         newPost.setLongitude(coordinates.getLon());
