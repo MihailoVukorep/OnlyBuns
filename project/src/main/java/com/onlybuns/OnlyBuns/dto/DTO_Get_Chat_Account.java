@@ -18,16 +18,16 @@ public class DTO_Get_Chat_Account {
     public Long id;
     public String userName;
     public String avatar;
-    public Boolean isAdmin;
+    public Boolean isGroupAdmin;
     public LocalDateTime joinedDate;
     public String joinedDateStr;
 
-    public DTO_Get_Chat_Account(ChatMember chatMember, Boolean isAdmin) {
+    public DTO_Get_Chat_Account(ChatMember chatMember, Boolean isGroupAdmin) {
         Account account = chatMember.getAccount();
         this.id = account.getId();
         this.userName = account.getUserName();
         this.avatar = account.getAvatar();
-        this.isAdmin = isAdmin;
+        this.isGroupAdmin = isGroupAdmin;
         this.joinedDate = chatMember.getJoinedDate();
         this.joinedDateStr = this.joinedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
