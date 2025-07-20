@@ -8,6 +8,7 @@ import com.onlybuns.OnlyBuns.model.Account;
 import com.onlybuns.OnlyBuns.repository.Repository_Account;
 import com.onlybuns.OnlyBuns.repository.Repository_Follow;
 import com.onlybuns.OnlyBuns.service.Service_Account;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,13 +46,26 @@ public class RestController_Test {
     @Autowired
     private Repository_Account repository_account;
 
-    @Operation(summary = "test image compression")
+    @Operation(
+            summary = "Test image compression",
+            description = "Endpoint to test image compression functionality.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Test executed successfully.")
+            }
+    )
     @GetMapping("/api/test")
     public ResponseEntity<String> get_api_test() {
         return service_test.get_api_test();
     }
 
-    @Operation(summary = "test account cleanup cron job")
+    @Operation(
+            summary = "Test account cleanup cron job",
+            description = "Manually triggers the scheduled account cleanup task that deletes unactivated accounts.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Account cleanup task executed successfully."),
+                    @ApiResponse(responseCode = "500", description = "Error executing account cleanup task.")
+            }
+    )
     @GetMapping("/api/test/cleanup")
     public ResponseEntity<String> triggerAccountCleanup() {
         try {
@@ -63,7 +77,14 @@ public class RestController_Test {
         }
     }
 
-    @Operation(summary = "Test follow rate limiting with 51 accounts")
+    @Operation(
+            summary = "Test follow rate limiting with 51 accounts",
+            description = "Simulates following 55 accounts, waits 60 seconds, then attempts to follow 51 more to test rate limiting and reset behavior.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Test completed successfully."),
+                    @ApiResponse(responseCode = "500", description = "Internal server error during test execution.")
+            }
+    )
     @GetMapping("/api/test/follow/bot-test")
     public ResponseEntity<String> testFollowRateLimitWithWait() {
         try {
@@ -121,6 +142,14 @@ public class RestController_Test {
         }
     }
 
+    @Operation(
+            summary = "Test concurrent follow operations",
+            description = "Simulates two accounts concurrently following the same target account to test transactional behavior and concurrency handling.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Test completed successfully, returns detailed result summary."),
+                    @ApiResponse(responseCode = "500", description = "Internal server error during test execution.")
+            }
+    )
     @Transactional
     @GetMapping("/api/test/concurrent-follows")
     public ResponseEntity<String> testConcurrentFollows() {
