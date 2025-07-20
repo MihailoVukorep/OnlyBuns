@@ -394,16 +394,25 @@ public class Service_Post {
     }
 
     public ResponseEntity<String> post_api_send_post_to_advertising_agencies(Long id, HttpSession session){
-        var optionalPost = repository_post.findById(id);
-        if(optionalPost.isPresent()){
-            var post = optionalPost.get();
-            post.setAdvertising(true);
-            repository_post.save(post);
-            sendPostNotifier.postSendMessage(post);
-            return new ResponseEntity<>("Post successfully send to advertising agencies.", HttpStatus.OK);
+
+        Account sessionAccount = (Account) session.getAttribute("user");
+        if (sessionAccount == null) {
+            return new ResponseEntity<>("Not logged in.", HttpStatus.UNAUTHORIZED);
         }
-        else{
-            return new ResponseEntity<>("Post doesn't exist.", HttpStatus.BAD_REQUEST);
+
+        if (!sessionAccount.isAdmin()) {
+            return new ResponseEntity<>("Not admin.", HttpStatus.FORBIDDEN);
         }
+
+        Optional<Post> optional_post = repository_post.findById(id);
+        if (optional_post.isEmpty()) {
+            return new ResponseEntity<>("Can't find post.", HttpStatus.NOT_FOUND);
+        }
+
+        Post post = optional_post.get();
+        post.setAdvertising(true);
+        repository_post.save(post);
+        sendPostNotifier.postSendMessage(post);
+        return new ResponseEntity<>("Post successfully send to advertising agencies.", HttpStatus.OK);
     }
 }

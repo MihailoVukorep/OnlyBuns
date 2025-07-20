@@ -133,18 +133,30 @@ public class RestController_Post {
     }
 
     @io.swagger.v3.oas.annotations.Operation(
-            summary = "Mark post for advertising",
-            description = "Marks a post to be sent to advertising agencies and triggers notification.",
+            summary = "Send post to advertising agencies",
+            description = "Marks a post as ready for advertising and sends a notification to external advertising agencies. Only accessible by logged-in admin users.",
             responses = {
-                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Post checked for advertising"),
-                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Post doesn't exist"),
-                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized - user not logged in")
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                            responseCode = "200",
+                            description = "Post successfully marked for advertising and notification sent."
+                    ),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized – user is not logged in."
+                    ),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                            responseCode = "403",
+                            description = "Forbidden – user does not have admin privileges."
+                    ),
+                    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                            responseCode = "404",
+                            description = "Not Found – post with the given ID does not exist."
+                    )
             }
     )
     @PostMapping(value="/api/posts/{id}/advertising")
     public ResponseEntity<String> post_api_advertising_post(@PathVariable(name="id") Long id, HttpSession session){
-        service_post.post_api_send_post_to_advertising_agencies(id, session);
-        return new ResponseEntity<>("Post checked for advertising.", HttpStatus.OK);
+        return service_post.post_api_send_post_to_advertising_agencies(id, session);
     }
 
     // CREATE POST
