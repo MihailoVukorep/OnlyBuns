@@ -18,4 +18,7 @@ public interface Repository_Chat extends JpaRepository<Chat, Long> {
 
     @Query("SELECT c FROM Chat c JOIN c.members m WHERE m.account = :account")
     List<Chat> findByMembersContains(@Param("account") Account account);
+
+    @Query("SELECT c FROM Chat c WHERE  c.name = :chatName")
+    List<Chat> findDuplicateChat(@Param("chatName") String chatName);
 }

@@ -5,6 +5,9 @@ const chat_id_element = document.getElementById("chat_id");
 const chatToken_element = document.getElementById("chatToken");
 const userToken_element = document.getElementById("userToken");
 
+let allOtherAccounts = [];
+const selectedUserIds = new Set();
+let sortedIds = [];
 
 function sendMessage(event) {
     event.preventDefault();
@@ -94,65 +97,90 @@ function hideChatCreationPopup(){
 
 async function createNewChat() {
     const accountsResponse = await fetch("/api/accounts");
-    const json = await accountsResponse.json();
-    const otherAccounts = [];
+    allOtherAccounts = await accountsResponse.json();
 
-    for (let i = 0; i < json.length; i++) {
-        otherAccounts.push(json[i]);
-    }
+    renderUsersChecklist(allOtherAccounts);
 
-    const accountsChecklist = document.getElementById("userList");
     const popup = document.getElementById("createChatPopup");
     const overlay = document.getElementById("overlay");
+    popup.classList.add("show");
+    overlay.classList.add("show");
 
-    accountsChecklist.innerHTML = ""; // Clear previous list
+    // Attach search listener
+    const searchInput = document.getElementById("searchUsers");
+    searchInput.value = "";
+    searchInput.oninput = () => {
+        const term = searchInput.value.trim().toLowerCase();
+        const filtered = allOtherAccounts.filter(f =>
+            f.userName.toLowerCase().includes(term)
+        );
+        renderUsersChecklist(filtered);
+    };
+}
+
+function renderUsersChecklist(otherAccounts){
+    const container = document.getElementById("userList");
+    container.innerHTML = "";
 
     otherAccounts.forEach(account => {
         const label = document.createElement("label");
         label.style.display = "block";
+
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.name = "userIds";
         checkbox.value = account.id;
+
+        // Restore checked state
+        if (selectedUserIds.has(account.id)) {
+            checkbox.checked = true;
+        }
+
+        // Track state changes
+        checkbox.addEventListener("change", () => {
+            if (checkbox.checked) {
+                selectedUserIds.add(account.id);
+                sortedIds = [...selectedUserIds].sort();
+            } else {
+                selectedUserIds.delete(account.id);
+                sortedIds = [...selectedUserIds].sort();
+            }
+        });
+
         label.appendChild(checkbox);
         label.appendChild(document.createTextNode(" " + account.userName));
-        accountsChecklist.appendChild(label);
+        container.appendChild(label);
     });
-    popup.classList.add("show");
-    overlay.classList.add("show");
-
 }
 
 async function submitNewChat(){
     // proveravamo da li je barem jedan korisnik selektovan za chat
-    const selected = document.querySelectorAll('input[name="userIds"]:checked');
-    const validationError = document.getElementById('validationError');
-
-    if (selected.length === 0) {
+    if (selectedUserIds.size === 0) {
         const validationError = document.getElementById('validationError');
         validationError.classList.add('show-error');
         return;
     }
 
-    else{
-        validationError.classList.remove('show-error');
-    }
+    const form = document.getElementById("createChatForm");
+    const chatName = form.chatName.value;
 
-    const formData = new FormData(document.getElementById('createChatForm'));
+    const formData = new FormData();
+    formData.append("chatName", chatName);
+    sortedIds.forEach(id => formData.append("userIds", id));
 
     const response = await fetch('/api/create-chat', {
         method: 'POST',
         body: formData
     });
 
+    if (response.ok) {
+        // redirect to newly created chat
+        const chatId = await response.json();
+        window.location.href = `/chats/${chatId}`;
+    } else {
+        alert("Failed to create chat.");
+    }
+
     // hide popup form for chat creation
-    const popup = document.getElementById("createChatPopup");
-    const overlay = document.getElementById("overlay");
-    popup.classList.remove("show");
-    overlay.classList.remove("show");
-
-    // redirect to newly created chat
-    const chatId = await response.json();
-    window.location.href = `/chats/${chatId}`;
-
+    hideChatCreationPopup();
 }

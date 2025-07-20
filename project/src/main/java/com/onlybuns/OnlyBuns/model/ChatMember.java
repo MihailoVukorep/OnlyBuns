@@ -40,4 +40,8 @@ public class ChatMember {
         this.chat = chat;
         this.account = account;
     }
+
+    public Long accountId() {
+        return account.getId();
+    }
 }
